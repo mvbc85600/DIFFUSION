@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>Partenaires</title>
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    html,
+    body {
+
+      margin: 0;
+
+      width: 100%;
+
+      height: 100%;
+
+      overflow: hidden;
+
+      background: #000;
+
+      color: #fff;
+
+      font-family: Arial, sans-serif;
+
+    }
+
+
+    /* =================================
+       TITRE
+       ================================= */
+
+    h1 {
+
+      text-align: center;
+
+      font-size: 50px;
+
+      margin-top: 40px;
+
+      letter-spacing: 4px;
+
+      color: #ffcc00;
+
+      text-shadow:
+        0 0 15px #ffcc00;
+
+    }
+
+
+    /* =================================
+       CARROUSEL
+       ================================= */
+
+    .carousel {
+
+      position: relative;
+
+      width: 80%;
+
+      margin: 80px auto;
+
+      height: 260px;
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      perspective: 1000px;
+
+    }
+
+
+    .carousel img {
+
+      position: absolute;
+
+      max-height: 200px;
+
+      width: auto;
+
+      max-width: 300px;
+
+      padding: 10px;
+
+      background: #111;
+
+      border: 2px solid #ffcc00;
+
+      border-radius: 12px;
+
+      box-shadow:
+        0 0 15px #ffcc00;
+
+      transition:
+        transform 0.6s ease,
+        opacity 0.6s ease;
+
+    }
+
+
+    /* =================================
+       LOGO CENTRAL
+       ================================= */
+
+    .center {
+
+      transform:
+        translateX(0)
+        scale(1.4);
+
+      z-index: 5;
+
+      opacity: 1;
+
+      box-shadow:
+        0 0 20px #ffcc00,
+        0 0 40px #ffcc00,
+        0 0 60px #ffcc00 inset;
+
+    }
+
+
+    /* =================================
+       GAUCHE
+       ================================= */
+
+    .left1 {
+
+      transform:
+        translateX(-180px)
+        scale(0.9);
+
+      opacity: 0.7;
+
+      z-index: 4;
+
+    }
+
+
+    .left2 {
+
+      transform:
+        translateX(-340px)
+        scale(0.6);
+
+      opacity: 0.4;
+
+      z-index: 3;
+
+    }
+
+
+    /* =================================
+       DROITE
+       ================================= */
+
+    .right1 {
+
+      transform:
+        translateX(180px)
+        scale(0.9);
+
+      opacity: 0.7;
+
+      z-index: 4;
+
+    }
+
+
+    .right2 {
+
+      transform:
+        translateX(340px)
+        scale(0.6);
+
+      opacity: 0.4;
+
+      z-index: 3;
+
+    }
+
+
+    /* =================================
+       CACHÉS
+       ================================= */
+
+    .hidden {
+
+      opacity: 0;
+
+      transform:
+        scale(0.3);
+
+      z-index: 1;
+
+    }
+
+
+    /* =================================
+       ADAPTATION ÉCRAN
+       ================================= */
+
+    @media (max-width: 800px) {
+
+      h1 {
+
+        font-size: 32px;
+
+      }
+
+      .left1 {
+
+        transform:
+          translateX(-120px)
+          scale(0.8);
+
+      }
+
+      .right1 {
+
+        transform:
+          translateX(120px)
+          scale(0.8);
+
+      }
+
+      .left2 {
+
+        transform:
+          translateX(-220px)
+          scale(0.5);
+
+      }
+
+      .right2 {
+
+        transform:
+          translateX(220px)
+          scale(0.5);
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <h1>
+    🤝 NOS PARTENAIRES
+  </h1>
+
+
+  <div
+    class="carousel"
+    id="carousel">
+
+
+    <img src="partenaires/Z1.png" alt="Partenaire 1">
+
+    <img src="partenaires/Z2.png" alt="Partenaire 2">
+
+    <img src="partenaires/Z3.png" alt="Partenaire 3">
+
+    <img src="partenaires/Z4.png" alt="Partenaire 4">
+
+    <img src="partenaires/Z5.png" alt="Partenaire 5">
+
+    <img src="partenaires/Z6.png" alt="Partenaire 6">
+
+    <img src="partenaires/Z7.png" alt="Partenaire 7">
+
+    <img src="partenaires/Z8.png" alt="Partenaire 8">
+
+
+  </div>
+
+
+  <script>
+
+    window.onload = function () {
+
+
+      const logos =
+        document.querySelectorAll(
+          "#carousel img"
+        );
+
+
+      let index = 0;
+
+
+      if (
+        !logos ||
+        logos.length === 0
+      ) {
+
+        console.log(
+          "Aucun logo trouvé"
+        );
+
+        return;
+
+      }
+
+
+      function updateCarousel() {
+
+
+        const total =
+          logos.length;
+
+
+        for (
+          let i = 0;
+          i < total;
+          i++
+        ) {
+
+          logos[i].className =
+            "hidden";
+
+        }
+
+
+        const center =
+          index % total;
+
+
+        const left1 =
+          (index - 1 + total) % total;
+
+
+        const left2 =
+          (index - 2 + total) % total;
+
+
+        const right1 =
+          (index + 1) % total;
+
+
+        const right2 =
+          (index + 2) % total;
+
+
+        logos[center].className =
+          "center";
+
+
+        logos[left1].className =
+          "left1";
+
+
+        logos[left2].className =
+          "left2";
+
+
+        logos[right1].className =
+          "right1";
+
+
+        logos[right2].className =
+          "right2";
+
+      }
+
+
+      updateCarousel();
+
+
+      setInterval(
+
+        function () {
+
+          index =
+            (index + 1)
+            % logos.length;
+
+          updateCarousel();
+
+        },
+
+        2500
+
+      );
+
+    };
+
+  </script>
+
+
+</body>
+
+</html>
