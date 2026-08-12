@@ -1,181 +1,278 @@
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
-
-  <title>Diffusion</title>
+import { initializeApp }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 
-  <style>
+import {
 
-    * {
-      box-sizing: border-box;
+  getAuth,
+
+  signInWithEmailAndPassword,
+
+  onAuthStateChanged,
+
+  signOut
+
+} from
+  "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+import {
+
+  getDatabase,
+
+  ref,
+
+  set,
+
+  onValue
+
+} from
+  "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+
+
+// ==========================================
+// CONFIGURATION FIREBASE
+// ==========================================
+
+const firebaseConfig = {
+
+  apiKey: "TON_API_KEY",
+
+  authDomain:
+    "TON_PROJET.firebaseapp.com",
+
+  databaseURL:
+    "TON_DATABASE_URL",
+
+  projectId:
+    "TON_PROJET",
+
+  storageBucket:
+    "TON_STORAGE_BUCKET",
+
+  messagingSenderId:
+    "TON_MESSAGING_SENDER_ID",
+
+  appId:
+    "TON_APP_ID"
+
+};
+
+
+
+// ==========================================
+// INITIALISATION
+// ==========================================
+
+const app =
+  initializeApp(firebaseConfig);
+
+
+const auth =
+  getAuth(app);
+
+
+const db =
+  getDatabase(app);
+
+
+
+// ==========================================
+// ÉLÉMENTS HTML
+// ==========================================
+
+const login =
+  document.getElementById("login");
+
+
+const admin =
+  document.getElementById("admin");
+
+
+const email =
+  document.getElementById("email");
+
+
+const password =
+  document.getElementById("password");
+
+
+const loginButton =
+  document.getElementById("loginButton");
+
+
+const loginError =
+  document.getElementById("loginError");
+
+
+const logoutButton =
+  document.getElementById("logoutButton");
+
+
+const currentScene =
+  document.getElementById("currentScene");
+
+
+
+// ==========================================
+// CONNEXION
+// ==========================================
+
+loginButton.addEventListener(
+  "click",
+  async () => {
+
+    loginError.textContent = "";
+
+    try {
+
+      await signInWithEmailAndPassword(
+
+        auth,
+
+        email.value,
+
+        password.value
+
+      );
+
     }
 
+    catch (error) {
 
-    html,
-    body {
+      console.error(error);
 
-      margin: 0;
-
-      width: 100%;
-
-      height: 100%;
-
-      background: black;
-
-      overflow: hidden;
-
-      font-family: Arial, sans-serif;
+      loginError.textContent =
+        "Email ou mot de passe incorrect.";
 
     }
 
-
-    #diffusion {
-
-      position: relative;
-
-      width: 100vw;
-
-      height: 100vh;
-
-    }
+  }
+);
 
 
-    #video {
 
-      position: absolute;
+// ==========================================
+// ÉTAT DE CONNEXION
+// ==========================================
 
-      width: 100%;
+onAuthStateChanged(
+  auth,
+  (user) => {
 
-      height: 100%;
+    if (user) {
 
-      object-fit: contain;
+      login.style.display = "none";
 
-      display: none;
+      admin.style.display = "block";
 
     }
 
+    else {
 
-    #message {
+      login.style.display = "flex";
 
-      position: absolute;
-
-      inset: 0;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      color: white;
-
-      font-size: 50px;
-
-      text-align: center;
+      admin.style.display = "none";
 
     }
 
-
-    #slideshow {
-
-      position: absolute;
-
-      inset: 0;
-
-      display: none;
-
-      background: black;
-
-    }
+  }
+);
 
 
-    #slideshow img {
 
-      width: 100%;
+// ==========================================
+// DÉCONNEXION
+// ==========================================
 
-      height: 100%;
+logoutButton.addEventListener(
+  "click",
+  async () => {
 
-      object-fit: contain;
+    await signOut(auth);
 
-    }
-
-
-    .fade {
-
-      animation: fade 1s ease;
-
-    }
+  }
+);
 
 
-    @keyframes fade {
 
-      from {
+// ==========================================
+// DIFFUSER UNE SCÈNE
+// ==========================================
 
-        opacity: 0;
+window.diffuser =
+  function(scene) {
+
+    const diffusionRef =
+      ref(db, "diffusion");
+
+
+    set(
+      diffusionRef,
+      {
+
+        scene: scene,
+
+        timestamp:
+          Date.now()
 
       }
 
-      to {
+    )
 
-        opacity: 1;
+    .then(() => {
 
-      }
+      console.log(
+        "Scène diffusée :",
+        scene
+      );
+
+    })
+
+    .catch((error) => {
+
+      console.error(error);
+
+      alert(
+        "Impossible de diffuser la scène."
+      );
+
+    });
+
+  };
+
+
+
+// ==========================================
+// AFFICHER LA SCÈNE ACTUELLE
+// ==========================================
+
+const diffusionRef =
+  ref(db, "diffusion");
+
+
+onValue(
+  diffusionRef,
+  (snapshot) => {
+
+    const data =
+      snapshot.val();
+
+
+    if (data && data.scene) {
+
+      currentScene.textContent =
+        data.scene;
 
     }
 
-  </style>
+    else {
 
-</head>
+      currentScene.textContent =
+        "Aucune";
 
+    }
 
-<body>
-
-
-  <div id="diffusion">
-
-
-    <video
-      id="video"
-      autoplay
-      playsinline>
-    </video>
-
-
-    <div id="slideshow">
-
-      <img
-        id="slideImage"
-        src=""
-        alt="">
-
-    </div>
-
-
-    <div id="message">
-
-      En attente de diffusion...
-
-    </div>
-
-
-  </div>
-
-
-
-  <script
-    type="module"
-    src="diffusion.js">
-  </script>
-
-
-</body>
-
-</html>
+  }
+);
