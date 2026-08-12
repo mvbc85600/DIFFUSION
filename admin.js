@@ -1,34 +1,13 @@
-import { initializeApp }
-  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
-
-  getAuth,
-
-  signInWithEmailAndPassword,
-
-  onAuthStateChanged,
-
-  signOut
-
-} from
-  "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-
-import {
-
   getDatabase,
-
   ref,
-
   set,
-
   onValue
-
-} from
-  "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 
 // ==========================================
@@ -48,59 +27,62 @@ const firebaseConfig = {
 };
 
 
+// ==========================================
+// MOT DE PASSE
+// ==========================================
+
+const MOT_DE_PASSE = "Mvbc85600@";
+
 
 // ==========================================
-// INITIALISATION
+// INITIALISATION FIREBASE
 // ==========================================
 
 const app =
   initializeApp(firebaseConfig);
 
-
-const auth =
-  getAuth(app);
-
-
 const db =
   getDatabase(app);
 
 
-
 // ==========================================
-// ÉLÉMENTS HTML
+// ÉLÉMENTS
 // ==========================================
 
 const login =
   document.getElementById("login");
 
-
 const admin =
   document.getElementById("admin");
-
-
-const email =
-  document.getElementById("email");
-
 
 const password =
   document.getElementById("password");
 
-
 const loginButton =
   document.getElementById("loginButton");
-
 
 const loginError =
   document.getElementById("loginError");
 
-
 const logoutButton =
   document.getElementById("logoutButton");
-
 
 const currentScene =
   document.getElementById("currentScene");
 
+
+// ==========================================
+// VÉRIFIER SI DÉJÀ CONNECTÉ
+// ==========================================
+
+if (
+  sessionStorage.getItem("adminConnecte")
+  === "true"
+) {
+
+  afficherAdmin();
+
+}
 
 
 // ==========================================
@@ -109,30 +91,19 @@ const currentScene =
 
 loginButton.addEventListener(
   "click",
-  async () => {
+  verifierMotDePasse
+);
 
-    loginError.textContent = "";
 
-    try {
+// Permet aussi de valider avec ENTER
 
-      await signInWithEmailAndPassword(
+password.addEventListener(
+  "keydown",
+  (event) => {
 
-        auth,
+    if (event.key === "Enter") {
 
-        email.value,
-
-        password.value
-
-      );
-
-    }
-
-    catch (error) {
-
-      console.error(error);
-
-      loginError.textContent =
-        "Email ou mot de passe incorrect.";
+      verifierMotDePasse();
 
     }
 
@@ -140,34 +111,48 @@ loginButton.addEventListener(
 );
 
 
+function verifierMotDePasse() {
 
-// ==========================================
-// ÉTAT DE CONNEXION
-// ==========================================
+  if (
+    password.value === MOT_DE_PASSE
+  ) {
 
-onAuthStateChanged(
-  auth,
-  (user) => {
+    sessionStorage.setItem(
+      "adminConnecte",
+      "true"
+    );
 
-    if (user) {
+    afficherAdmin();
 
-      login.style.display = "none";
-
-      admin.style.display = "block";
-
-    }
-
-    else {
-
-      login.style.display = "flex";
-
-      admin.style.display = "none";
-
-    }
+    password.value = "";
 
   }
-);
 
+  else {
+
+    loginError.textContent =
+      "Mot de passe incorrect.";
+
+    password.value = "";
+
+  }
+
+}
+
+
+// ==========================================
+// AFFICHER LA RÉGIE
+// ==========================================
+
+function afficherAdmin() {
+
+  login.style.display =
+    "none";
+
+  admin.style.display =
+    "block";
+
+}
 
 
 // ==========================================
@@ -176,13 +161,20 @@ onAuthStateChanged(
 
 logoutButton.addEventListener(
   "click",
-  async () => {
+  () => {
 
-    await signOut(auth);
+    sessionStorage.removeItem(
+      "adminConnecte"
+    );
+
+    admin.style.display =
+      "none";
+
+    login.style.display =
+      "flex";
 
   }
 );
-
 
 
 // ==========================================
@@ -192,12 +184,13 @@ logoutButton.addEventListener(
 window.diffuser =
   function(scene) {
 
-    const diffusionRef =
-      ref(db, "diffusion");
-
-
     set(
-      diffusionRef,
+
+      ref(
+        db,
+        "diffusion"
+      ),
+
       {
 
         scene: scene,
@@ -223,7 +216,7 @@ window.diffuser =
       console.error(error);
 
       alert(
-        "Impossible de diffuser la scène."
+        "Erreur lors de la diffusion."
       );
 
     });
@@ -231,24 +224,26 @@ window.diffuser =
   };
 
 
-
 // ==========================================
 // AFFICHER LA SCÈNE ACTUELLE
 // ==========================================
 
-const diffusionRef =
-  ref(db, "diffusion");
-
-
 onValue(
-  diffusionRef,
+
+  ref(
+    db,
+    "diffusion"
+  ),
+
   (snapshot) => {
 
     const data =
       snapshot.val();
 
-
-    if (data && data.scene) {
+    if (
+      data &&
+      data.scene
+    ) {
 
       currentScene.textContent =
         data.scene;
@@ -263,4 +258,5 @@ onValue(
     }
 
   }
+
 );
