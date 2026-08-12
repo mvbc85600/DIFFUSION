@@ -9,7 +9,8 @@
     name="viewport"
     content="width=device-width, initial-scale=1.0">
 
-  <title>Administration</title>
+  <title>Régie MVBC</title>
+
 
   <style>
 
@@ -17,16 +18,25 @@
       box-sizing: border-box;
     }
 
+
     body {
+
       margin: 0;
+
+      padding: 0;
+
       background: #111;
-      color: white;
+
+      color: #fff;
+
       font-family: Arial, sans-serif;
+
     }
 
-    /* ==============================
+
+    /* ==========================================
        CONNEXION
-       ============================== */
+       ========================================== */
 
     #login {
 
@@ -34,13 +44,14 @@
 
       display: flex;
 
-      justify-content: center;
-
       align-items: center;
+
+      justify-content: center;
 
       padding: 20px;
 
     }
+
 
     .login-box {
 
@@ -54,7 +65,11 @@
 
       border-radius: 15px;
 
+      box-shadow:
+        0 10px 40px rgba(0,0,0,0.5);
+
     }
+
 
     .login-box h1 {
 
@@ -64,6 +79,7 @@
 
     }
 
+
     input {
 
       width: 100%;
@@ -72,13 +88,14 @@
 
       margin-bottom: 15px;
 
-      border: 0;
+      border: none;
 
       border-radius: 8px;
 
       font-size: 16px;
 
     }
+
 
     #loginButton {
 
@@ -88,9 +105,9 @@
 
       background: #2563eb;
 
-      color: white;
+      color: #fff;
 
-      border: 0;
+      border: none;
 
       border-radius: 8px;
 
@@ -100,47 +117,65 @@
 
     }
 
+
+    #loginButton:hover {
+
+      background: #1d4ed8;
+
+    }
+
+
     #loginError {
+
+      margin-top: 15px;
 
       color: #ff5555;
 
       text-align: center;
 
-      margin-top: 15px;
-
     }
 
-    /* ==============================
-       RÉGIE
-       ============================== */
+
+    /* ==========================================
+       ADMINISTRATION
+       ========================================== */
 
     #admin {
 
       display: none;
 
-      padding: 20px;
-
-      max-width: 1000px;
+      max-width: 1100px;
 
       margin: auto;
 
+      padding: 20px;
+
     }
+
 
     .header {
 
       display: flex;
 
-      justify-content: space-between;
-
       align-items: center;
 
-      margin-bottom: 30px;
+      justify-content: space-between;
+
+      gap: 20px;
+
+      margin-bottom: 25px;
 
     }
+
 
     .header h1 {
+
       margin: 0;
+
+      font-size: 30px;
+
     }
+
 
     #logoutButton {
 
@@ -150,7 +185,7 @@
 
       color: white;
 
-      border: 0;
+      border: none;
 
       border-radius: 8px;
 
@@ -158,27 +193,38 @@
 
     }
 
+
+    /* ==========================================
+       STATUT
+       ========================================== */
+
     .status {
 
       background: #222;
 
       padding: 15px;
 
-      border-radius: 10px;
-
       margin-bottom: 25px;
+
+      border-radius: 10px;
 
       text-align: center;
 
     }
 
-    #currentScene {
 
-      font-weight: bold;
+    #currentScene {
 
       color: #4ade80;
 
+      font-weight: bold;
+
     }
+
+
+    /* ==========================================
+       BOUTONS
+       ========================================== */
 
     .scene-grid {
 
@@ -191,46 +237,151 @@
 
     }
 
+
     .scene-button {
 
-      min-height: 100px;
+      min-height: 110px;
+
+      padding: 15px;
+
+      border: none;
+
+      border-radius: 12px;
 
       background: #333;
 
       color: white;
 
-      font-size: 18px;
+      font-size: 17px;
 
-      padding: 15px;
-
-      border: 0;
-
-      border-radius: 10px;
+      font-weight: bold;
 
       cursor: pointer;
 
+      transition:
+        transform 0.15s,
+        background 0.15s;
+
     }
+
 
     .scene-button:hover {
 
       background: #444;
 
-      transform: scale(1.02);
+      transform: scale(1.03);
 
     }
+
+
+    .scene-button:active {
+
+      transform: scale(0.98);
+
+    }
+
+
+    /* ==========================================
+       COULEURS
+       ========================================== */
 
     .video {
+
       background: #1d4ed8;
+
     }
+
+
+    .video:hover {
+
+      background: #2563eb;
+
+    }
+
+
+    .page {
+
+      background: #15803d;
+
+    }
+
+
+    .page:hover {
+
+      background: #16a34a;
+
+    }
+
 
     .photos {
-      background: #15803d;
+
+      background: #9333ea;
+
     }
 
+
+    .photos:hover {
+
+      background: #a855f7;
+
+    }
+
+
     .black {
+
       background: #000;
 
-      border: 1px solid #444;
+      border:
+        1px solid #444;
+
+    }
+
+
+    /* ==========================================
+       MOBILE
+       ========================================== */
+
+    @media (max-width: 600px) {
+
+      #admin {
+
+        padding: 12px;
+
+      }
+
+
+      .header {
+
+        align-items: flex-start;
+
+      }
+
+
+      .header h1 {
+
+        font-size: 24px;
+
+      }
+
+
+      .scene-grid {
+
+        grid-template-columns:
+          repeat(2, 1fr);
+
+        gap: 10px;
+
+      }
+
+
+      .scene-button {
+
+        min-height: 90px;
+
+        font-size: 14px;
+
+      }
+
     }
 
   </style>
@@ -241,48 +392,73 @@
 <body>
 
 
-  <!-- =================================
+  <!-- ==========================================
        CONNEXION
-       ================================= -->
+       ========================================== -->
 
   <div id="login">
 
+
     <div class="login-box">
 
-      <h1>🔐 Administration</h1>
+
+      <h1>
+        🔐 Régie MVBC
+      </h1>
+
 
       <input
         type="password"
         id="password"
-        placeholder="Mot de passe">
+        placeholder="Mot de passe"
+        autocomplete="current-password">
 
-      <button id="loginButton">
+
+      <button
+        id="loginButton">
+
         Se connecter
+
       </button>
 
+
       <div id="loginError"></div>
+
 
     </div>
 
   </div>
 
 
-  <!-- =================================
-       RÉGIE
-       ================================= -->
+  <!-- ==========================================
+       ADMINISTRATION
+       ========================================== -->
 
   <div id="admin">
 
+
     <div class="header">
 
-      <h1>🎬 Régie</h1>
 
-      <button id="logoutButton">
+      <h1>
+        🎬 Régie de diffusion
+      </h1>
+
+
+      <button
+        id="logoutButton">
+
         Déconnexion
+
       </button>
+
 
     </div>
 
+
+    <!-- ========================================
+         SCÈNE ACTUELLE
+         ======================================== -->
 
     <div class="status">
 
@@ -295,17 +471,26 @@
     </div>
 
 
+    <!-- ========================================
+         BOUTONS DE DIFFUSION
+         ======================================== -->
+
     <div class="scene-grid">
+
+
+      <!-- VIDÉO 1 -->
 
       <button
         class="scene-button video"
-        onclick="diffuser('Défense.mp4')">
+        onclick="diffuser('video1')">
 
         🎬<br>
-        DEFENSE
+        VIDÉO 1
 
       </button>
 
+
+      <!-- VIDÉO 2 -->
 
       <button
         class="scene-button video"
@@ -317,15 +502,7 @@
       </button>
 
 
-      <button
-        class="scene-button video"
-        onclick="diffuser('video3')">
-
-        🎬<br>
-        VIDÉO 3
-
-      </button>
-
+      <!-- DIAPORAMA -->
 
       <button
         class="scene-button photos"
@@ -337,45 +514,79 @@
       </button>
 
 
-      <button
-        class="scene-button"
-        onclick="diffuser('page1')">
+      <!-- PARTENAIRES -->
 
-        📄<br>
-        PAGE 1
+      <button
+        class="scene-button page"
+        onclick="diffuser('partenaires')">
+
+        🤝<br>
+        PARTENAIRES
 
       </button>
 
 
-      <button
-        class="scene-button"
-        onclick="diffuser('page2')">
+      <!-- ÉVÉNEMENTS -->
 
-        📄<br>
-        PAGE 2
+      <button
+        class="scene-button page"
+        onclick="diffuser('evenements')">
+
+        📅<br>
+        ÉVÉNEMENTS
 
       </button>
 
 
+      <!-- VIDÉOS MVBC -->
+
       <button
-        class="scene-button video"
-        onclick="diffuser('video4')">
+        class="scene-button page"
+        onclick="diffuser('videomvbc')">
 
         🎬<br>
-        VIDÉO 4
+        VIDÉOS MVBC
 
       </button>
 
+
+      <!-- MATCH DU SOIR -->
 
       <button
-        class="scene-button video"
-        onclick="diffuser('video5')">
+        class="scene-button page"
+        onclick="diffuser('matchdusoir')">
 
-        🎬<br>
-        VIDÉO 5
+        🏀<br>
+        MATCH DU SOIR
 
       </button>
 
+
+      <!-- CLASSEMENT -->
+
+      <button
+        class="scene-button page"
+        onclick="diffuser('classementnm2')">
+
+        🏆<br>
+        CLASSEMENT NM2
+
+      </button>
+
+
+      <!-- NOS ÉQUIPES -->
+
+      <button
+        class="scene-button page"
+        onclick="diffuser('nosequipes')">
+
+        👥<br>
+        NOS ÉQUIPES
+
+      </button>
+
+
+      <!-- MESSAGE -->
 
       <button
         class="scene-button"
@@ -387,6 +598,8 @@
       </button>
 
 
+      <!-- ÉCRAN NOIR -->
+
       <button
         class="scene-button black"
         onclick="diffuser('black')">
@@ -396,12 +609,305 @@
 
       </button>
 
+
     </div>
+
 
   </div>
 
 
-  <script type="module" src="admin.js"></script>
+  <!-- ==========================================
+       JAVASCRIPT
+       ========================================== -->
+
+  <script type="module">
+
+    import {
+      initializeApp
+    } from
+      "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+
+    import {
+      getDatabase,
+      ref,
+      set
+    } from
+      "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+
+    // ========================================
+    // FIREBASE
+    // ========================================
+
+    const firebaseConfig = {
+
+      apiKey:
+        "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+
+      authDomain:
+        "diffusion-b9afa.firebaseapp.com",
+
+      databaseURL:
+        "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
+
+      projectId:
+        "diffusion-b9afa",
+
+      storageBucket:
+        "diffusion-b9afa.firebasestorage.app",
+
+      messagingSenderId:
+        "674799570797",
+
+      appId:
+        "1:674799570797:web:0d8b7a2a892f604eb7d464"
+
+    };
+
+
+    const app =
+      initializeApp(
+        firebaseConfig
+      );
+
+
+    const db =
+      getDatabase(app);
+
+
+    // ========================================
+    // MOT DE PASSE
+    // ========================================
+
+    const MOT_DE_PASSE =
+      "Mvbc85600@";
+
+
+    // ========================================
+    // ÉLÉMENTS
+    // ========================================
+
+    const login =
+      document.getElementById("login");
+
+    const admin =
+      document.getElementById("admin");
+
+    const password =
+      document.getElementById("password");
+
+    const loginButton =
+      document.getElementById("loginButton");
+
+    const loginError =
+      document.getElementById("loginError");
+
+    const logoutButton =
+      document.getElementById("logoutButton");
+
+    const currentScene =
+      document.getElementById("currentScene");
+
+
+    // ========================================
+    // CONNEXION AUTOMATIQUE
+    // ========================================
+
+    if (
+      sessionStorage.getItem(
+        "adminConnecte"
+      ) === "true"
+    ) {
+
+      afficherAdmin();
+
+    }
+
+
+    // ========================================
+    // CONNEXION
+    // ========================================
+
+    loginButton.addEventListener(
+      "click",
+      verifierMotDePasse
+    );
+
+
+    // ========================================
+    // ENTER
+    // ========================================
+
+    password.addEventListener(
+      "keydown",
+      (event) => {
+
+        if (
+          event.key === "Enter"
+        ) {
+
+          verifierMotDePasse();
+
+        }
+
+      }
+    );
+
+
+    // ========================================
+    // VÉRIFIER MOT DE PASSE
+    // ========================================
+
+    function verifierMotDePasse() {
+
+
+      if (
+        password.value ===
+        MOT_DE_PASSE
+      ) {
+
+
+        sessionStorage.setItem(
+          "adminConnecte",
+          "true"
+        );
+
+
+        afficherAdmin();
+
+
+        password.value = "";
+
+
+        loginError.textContent =
+          "";
+
+      }
+
+      else {
+
+
+        loginError.textContent =
+          "Mot de passe incorrect.";
+
+
+        password.value =
+          "";
+
+      }
+
+    }
+
+
+    // ========================================
+    // AFFICHER ADMIN
+    // ========================================
+
+    function afficherAdmin() {
+
+      login.style.display =
+        "none";
+
+      admin.style.display =
+        "block";
+
+    }
+
+
+    // ========================================
+    // DÉCONNEXION
+    // ========================================
+
+    logoutButton.addEventListener(
+      "click",
+      () => {
+
+        sessionStorage.removeItem(
+          "adminConnecte"
+        );
+
+
+        admin.style.display =
+          "none";
+
+
+        login.style.display =
+          "flex";
+
+      }
+    );
+
+
+    // ========================================
+    // DIFFUSER
+    // ========================================
+
+    window.diffuser =
+      function(scene) {
+
+
+        console.log(
+          "Commande envoyée :",
+          scene
+        );
+
+
+        set(
+
+          ref(
+            db,
+            "diffusion"
+          ),
+
+          {
+
+            scene:
+              scene,
+
+            timestamp:
+              Date.now()
+
+          }
+
+        )
+
+        .then(() => {
+
+
+          console.log(
+            "Diffusion réussie :",
+            scene
+          );
+
+
+          currentScene.textContent =
+            scene;
+
+
+        })
+
+        .catch((error) => {
+
+
+          console.error(
+            "Erreur Firebase :",
+            error
+          );
+
+
+          alert(
+            "Erreur de diffusion : " +
+            error.message
+          );
+
+        });
+
+      };
+
+
+  </script>
+
 
 </body>
 
