@@ -37,25 +37,13 @@ import {
 
 const firebaseConfig = {
 
-  apiKey: "TON_API_KEY",
-
-  authDomain:
-    "TON_PROJET.firebaseapp.com",
-
-  databaseURL:
-    "TON_DATABASE_URL",
-
-  projectId:
-    "TON_PROJET",
-
-  storageBucket:
-    "TON_STORAGE_BUCKET",
-
-  messagingSenderId:
-    "TON_MESSAGING_SENDER_ID",
-
-  appId:
-    "TON_APP_ID"
+ apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+  authDomain: "diffusion-b9afa.firebaseapp.com",
+  databaseURL: "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "diffusion-b9afa",
+  storageBucket: "diffusion-b9afa.firebasestorage.app",
+  messagingSenderId: "674799570797",
+  appId: "1:674799570797:web:0d8b7a2a892f604eb7d464"
 
 };
 
