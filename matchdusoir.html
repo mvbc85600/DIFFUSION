@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+<title>Match du soir - MVBC</title>
+
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+
+    margin: 0;
+    padding: 0;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background: #050505;
+
+    color: white;
+
+}
+
+
+/* =====================================================
+   FOND
+===================================================== */
+
+body {
+
+    position: relative;
+
+    background:
+
+        radial-gradient(
+            circle at 20% 50%,
+            rgba(0, 90, 255, 0.30),
+            transparent 35%
+        ),
+
+        radial-gradient(
+            circle at 80% 50%,
+            rgba(255, 100, 0, 0.30),
+            transparent 35%
+        ),
+
+        linear-gradient(
+            90deg,
+            #020611,
+            #080808,
+            #110703
+        );
+
+}
+
+
+/* =====================================================
+   LUMIÈRES D'ARRIÈRE-PLAN
+===================================================== */
+
+body::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 600px;
+    height: 600px;
+
+    left: -250px;
+    top: 25%;
+
+    background: rgba(0, 100, 255, 0.25);
+
+    filter: blur(100px);
+
+    border-radius: 50%;
+
+    animation: blueGlow 4s infinite alternate;
+
+}
+
+
+body::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 600px;
+    height: 600px;
+
+    right: -250px;
+    top: 25%;
+
+    background: rgba(255, 100, 0, 0.25);
+
+    filter: blur(100px);
+
+    border-radius: 50%;
+
+    animation: orangeGlow 4s infinite alternate;
+
+}
+
+
+@keyframes blueGlow {
+
+    from {
+        transform: scale(0.9);
+        opacity: 0.5;
+    }
+
+    to {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+
+}
+
+
+@keyframes orangeGlow {
+
+    from {
+        transform: scale(0.9);
+        opacity: 0.5;
+    }
+
+    to {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+
+}
+
+
+/* =====================================================
+   CONTENEUR PRINCIPAL
+===================================================== */
+
+.container {
+
+    position: relative;
+
+    z-index: 5;
+
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    padding-top: 50px;
+
+}
+
+
+/* =====================================================
+   PETIT TITRE
+===================================================== */
+
+.subtitle {
+
+    font-size: 20px;
+
+    letter-spacing: 8px;
+
+    font-weight: bold;
+
+    color: #ffffff;
+
+    opacity: 0;
+
+    animation: subtitleIn 1s ease forwards;
+
+    animation-delay: 0.2s;
+
+}
+
+
+@keyframes subtitleIn {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(-30px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+
+/* =====================================================
+   GRAND TITRE
+===================================================== */
+
+.title {
+
+    margin-top: 10px;
+
+    font-size: clamp(
+        55px,
+        8vw,
+        110px
+    );
+
+    font-weight: 900;
+
+    font-style: italic;
+
+    letter-spacing: 5px;
+
+    text-transform: uppercase;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ffffff,
+            #aee7ff,
+            #ffffff,
+            #ffb36b,
+            #ffffff
+        );
+
+    background-size: 300% auto;
+
+    -webkit-background-clip: text;
+
+    background-clip: text;
+
+    color: transparent;
+
+    animation:
+        titleIn 1.2s ease forwards,
+        titleShine 5s linear infinite;
+
+    opacity: 0;
+
+    text-shadow:
+        0 0 20px rgba(255,255,255,0.25);
+
+}
+
+
+@keyframes titleIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            scale(0.7)
+            translateY(-30px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            scale(1)
+            translateY(0);
+
+    }
+
+}
+
+
+@keyframes titleShine {
+
+    0% {
+        background-position: 0% center;
+    }
+
+    100% {
+        background-position: 300% center;
+    }
+
+}
+
+
+/* =====================================================
+   LIGNE SOUS LE TITRE
+===================================================== */
+
+.title-line {
+
+    width: 500px;
+
+    max-width: 70%;
+
+    height: 3px;
+
+    margin-top: 20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #00aaff,
+            white,
+            #ff6600,
+            transparent
+        );
+
+    box-shadow:
+        0 0 15px #00aaff,
+        0 0 15px #ff6600;
+
+    transform: scaleX(0);
+
+    animation:
+        lineIn 1s ease forwards;
+
+    animation-delay: 1s;
+
+}
+
+
+@keyframes lineIn {
+
+    to {
+
+        transform: scaleX(1);
+
+    }
+
+}
+
+
+/* =====================================================
+   ZONE DES ÉQUIPES
+===================================================== */
+
+.teams {
+
+    position: relative;
+
+    width: 100%;
+
+    max-width: 1500px;
+
+    flex: 1;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 100px;
+
+}
+
+
+/* =====================================================
+   ÉQUIPE
+===================================================== */
+
+.team {
+
+    position: relative;
+
+    width: 340px;
+
+    height: 340px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+/* =====================================================
+   CADRE LOGO
+===================================================== */
+
+.logo-box {
+
+    position: relative;
+
+    width: 290px;
+
+    height: 290px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,0.08),
+            rgba(0,0,0,0.8)
+        );
+
+    overflow: visible;
+
+}
+
+
+/* =====================================================
+   CERCLE EXTÉRIEUR
+===================================================== */
+
+.logo-box::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -12px;
+
+    border-radius: 50%;
+
+    border: 3px solid;
+
+    animation:
+        rotateRing 5s linear infinite;
+
+}
+
+
+.team-left .logo-box::before {
+
+    border-color: #008cff;
+
+    box-shadow:
+        0 0 15px #008cff,
+        0 0 35px #008cff,
+        inset 0 0 20px #008cff;
+
+}
+
+
+.team-right .logo-box::before {
+
+    border-color: #ff6500;
+
+    box-shadow:
+        0 0 15px #ff6500,
+        0 0 35px #ff6500,
+        inset 0 0 20px #ff6500;
+
+}
+
+
+@keyframes rotateRing {
+
+    from {
+
+        transform:
+            rotate(0deg);
+
+    }
+
+    to {
+
+        transform:
+            rotate(360deg);
+
+    }
+
+}
+
+
+/* =====================================================
+   SECOND ANNEAU
+===================================================== */
+
+.logo-box::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -28px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(255,255,255,0.15);
+
+    animation:
+        pulseRing 2s ease-in-out infinite;
+
+}
+
+
+@keyframes pulseRing {
+
+    0%,
+    100% {
+
+        transform: scale(0.95);
+
+        opacity: 0.3;
+
+    }
+
+    50% {
+
+        transform: scale(1.05);
+
+        opacity: 0.8;
+
+    }
+
+}
+
+
+/* =====================================================
+   LOGOS
+===================================================== */
+
+.logo {
+
+    position: relative;
+
+    z-index: 5;
+
+    width: 220px;
+
+    height: 220px;
+
+    object-fit: contain;
+
+    opacity: 0;
+
+}
+
+
+/* =====================================================
+   ANIMATION LOGO GAUCHE
+===================================================== */
+
+.team-left .logo {
+
+    animation:
+        logoLeftIn 1.2s
+        cubic-bezier(.17,.67,.3,1.3)
+        forwards;
+
+    animation-delay: 1.3s;
+
+}
+
+
+@keyframes logoLeftIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateX(-500px)
+            rotate(-30deg)
+            scale(0.3);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateX(0)
+            rotate(0deg)
+            scale(1);
+
+    }
+
+}
+
+
+/* =====================================================
+   ANIMATION LOGO DROIT
+===================================================== */
+
+.team-right .logo {
+
+    animation:
+        logoRightIn 1.2s
+        cubic-bezier(.17,.67,.3,1.3)
+        forwards;
+
+    animation-delay: 1.3s;
+
+}
+
+
+@keyframes logoRightIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateX(500px)
+            rotate(30deg)
+            scale(0.3);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateX(0)
+            rotate(0deg)
+            scale(1);
+
+    }
+
+}
+
+
+/* =====================================================
+   LUEUR AUTOUR DU LOGO
+===================================================== */
+
+.team-left .logo-box {
+
+    animation:
+        bluePulse 2.5s ease-in-out infinite;
+
+}
+
+
+.team-right .logo-box {
+
+    animation:
+        orangePulse 2.5s ease-in-out infinite;
+
+}
+
+
+@keyframes bluePulse {
+
+    0%,
+    100% {
+
+        filter:
+            drop-shadow(
+                0 0 15px #008cff
+            );
+
+    }
+
+    50% {
+
+        filter:
+            drop-shadow(
+                0 0 50px #008cff
+            );
+
+    }
+
+}
+
+
+@keyframes orangePulse {
+
+    0%,
+    100% {
+
+        filter:
+            drop-shadow(
+                0 0 15px #ff6500
+            );
+
+    }
+
+    50% {
+
+        filter:
+            drop-shadow(
+                0 0 50px #ff6500
+            );
+
+    }
+
+}
+
+
+/* =====================================================
+   VS CENTRAL
+===================================================== */
+
+.vs {
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%)
+        scale(0);
+
+    z-index: 20;
+
+    font-size: 90px;
+
+    font-weight: 1000;
+
+    font-style: italic;
+
+    color: white;
+
+    text-shadow:
+
+        0 0 10px #fff,
+
+        0 0 30px #00aaff,
+
+        0 0 50px #ff6500;
+
+    animation:
+        vsAppear 0.8s
+        cubic-bezier(.17,.67,.3,1.4)
+        forwards;
+
+    animation-delay: 2.3s;
+
+}
+
+
+@keyframes vsAppear {
+
+    from {
+
+        transform:
+            translate(-50%, -50%)
+            scale(0)
+            rotate(-20deg);
+
+        opacity: 0;
+
+    }
+
+    to {
+
+        transform:
+            translate(-50%, -50%)
+            scale(1)
+            rotate(0deg);
+
+        opacity: 1;
+
+    }
+
+}
+
+
+/* =====================================================
+   NOMS DES ÉQUIPES
+===================================================== */
+
+.team-name {
+
+    position: absolute;
+
+    bottom: -35px;
+
+    font-size: 25px;
+
+    font-weight: 900;
+
+    letter-spacing: 4px;
+
+    opacity: 0;
+
+    animation:
+        nameIn 0.8s ease forwards;
+
+    animation-delay: 2.5s;
+
+}
+
+
+.team-left .team-name {
+
+    color: #36aaff;
+
+    text-shadow:
+        0 0 15px #008cff;
+
+}
+
+
+.team-right .team-name {
+
+    color: #ff914d;
+
+    text-shadow:
+        0 0 15px #ff6500;
+
+}
+
+
+@keyframes nameIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(20px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* =====================================================
+   INFORMATIONS DU MATCH
+===================================================== */
+
+.match-info {
+
+    position: absolute;
+
+    bottom: 45px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    z-index: 30;
+
+    text-align: center;
+
+    opacity: 0;
+
+    animation:
+        infoIn 1s ease forwards;
+
+    animation-delay: 2.8s;
+
+}
+
+
+.match-date {
+
+    font-size: 20px;
+
+    letter-spacing: 5px;
+
+    font-weight: bold;
+
+}
+
+
+.match-time {
+
+    margin-top: 5px;
+
+    font-size: 40px;
+
+    font-weight: 900;
+
+    letter-spacing: 4px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #00aaff,
+            white,
+            #ff6500
+        );
+
+    -webkit-background-clip: text;
+
+    background-clip: text;
+
+    color: transparent;
+
+}
+
+
+@keyframes infoIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateX(-50%)
+            translateY(30px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateX(-50%)
+            translateY(0);
+
+    }
+
+}
+
+
+/* =====================================================
+   PARTICULES
+===================================================== */
+
+.particle {
+
+    position: absolute;
+
+    width: 5px;
+
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    opacity: 0;
+
+    animation:
+        particleFloat
+        var(--duration)
+        linear
+        infinite;
+
+}
+
+
+@keyframes particleFloat {
+
+    0% {
+
+        transform:
+            translateY(100vh)
+            translateX(0);
+
+        opacity: 0;
+
+    }
+
+    20% {
+
+        opacity: 0.8;
+
+    }
+
+    80% {
+
+        opacity: 0.8;
+
+    }
+
+    100% {
+
+        transform:
+            translateY(-20vh)
+            translateX(var(--move));
+
+        opacity: 0;
+
+    }
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .teams {
+
+        gap: 30px;
+
+    }
+
+    .team {
+
+        width: 250px;
+        height: 250px;
+
+    }
+
+    .logo-box {
+
+        width: 210px;
+        height: 210px;
+
+    }
+
+    .logo {
+
+        width: 160px;
+        height: 160px;
+
+    }
+
+    .vs {
+
+        font-size: 60px;
+
+    }
+
+    .team-name {
+
+        font-size: 18px;
+
+    }
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     PARTICULES
+===================================================== -->
+
+<div
+    class="particle"
+    style="
+        left:5%;
+        --duration:8s;
+        --move:80px;
+    ">
+</div>
+
+<div
+    class="particle"
+    style="
+        left:15%;
+        --duration:11s;
+        --move:-100px;
+    ">
+</div>
+
+<div
+    class="particle"
+    style="
+        left:25%;
+        --duration:9s;
+        --move:120px;
+    ">
+</div>
+
+<div
+    class="particle"
+    style="
+        left:40%;
+        --duration:13s;
+        --move:-80px;
+    ">
+</div>
+
+<div
+    class="particle"
+    style="
+        left:55%;
+        --duration:10s;
+        --move:100px;
+    ">
+</div>
+
+<div
+    class="particle"
+    style="
+        left:70%;
+        --duration:12s;
+        --move:-120px;
+    ">
+</div>
+
+<div
+    class="particle"
+    style="
+        left:82%;
+        --duration:9s;
+        --move:80px;
+    ">
+</div>
+
+<div
+    class="particle"
+    style="
+        left:95%;
+        --duration:11s;
+        --move:-70px;
+    ">
+</div>
+
+
+<!-- =====================================================
+     CONTENU
+===================================================== -->
+
+<div class="container">
+
+
+    <!-- PETIT TITRE -->
+
+    <div class="subtitle">
+
+        CHAMPIONNAT NM2
+
+    </div>
+
+
+    <!-- GRAND TITRE -->
+
+    <div class="title">
+
+        MATCH DU SOIR
+
+    </div>
+
+
+    <!-- LIGNE -->
+
+    <div class="title-line"></div>
+
+
+    <!-- =================================================
+         ÉQUIPES
+    ================================================== -->
+
+    <div class="teams">
+
+
+        <!-- ==============================
+             ÉQUIPE GAUCHE
+        =============================== -->
+
+        <div class="team team-left">
+
+
+            <div class="logo-box">
+
+                <img
+                    class="logo"
+                    src="logos/mvbc.png"
+                    alt="Logo MVBC">
+
+            </div>
+
+
+            <div class="team-name">
+
+                MVBC
+
+            </div>
+
+
+        </div>
+
+
+        <!-- ==============================
+             VS
+        =============================== -->
+
+        <div class="vs">
+
+            VS
+
+        </div>
+
+
+        <!-- ==============================
+             ÉQUIPE DROITE
+        =============================== -->
+
+        <div class="team team-right">
+
+
+            <div class="logo-box">
+
+                <img
+                    class="logo"
+                    src="logos/adversaire.png"
+                    alt="Logo adversaire">
+
+            </div>
+
+
+            <div class="team-name">
+
+                ADVERSAIRE
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =================================================
+         INFORMATIONS
+    ================================================== -->
+
+    <div class="match-info">
+
+
+        <div class="match-date">
+
+            SAMEDI 23 NOVEMBRE
+
+        </div>
+
+
+        <div class="match-time">
+
+            20H00
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>
