@@ -7,9 +7,9 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 
-// ==========================================
+// ==================================================
 // CONFIGURATION FIREBASE
-// ==========================================
+// ==================================================
 
 const firebaseConfig = {
 
@@ -30,84 +30,122 @@ const firebaseConfig = {
 };
 
 
-// ==========================================
+// ==================================================
 // INITIALISATION FIREBASE
-// ==========================================
+// ==================================================
 
 const app = initializeApp(firebaseConfig);
 
 const db = getDatabase(app);
 
 
-// ==========================================
-// ÉLÉMENTS HTML
-// ==========================================
+// ==================================================
+// RÉCUPÉRATION DES ÉLÉMENTS HTML
+// ==================================================
 
-const video = document.getElementById("video");
+const video =
+  document.getElementById("video");
 
-const message = document.getElementById("message");
+const message =
+  document.getElementById("message");
 
-const slideshow = document.getElementById("slideshow");
+const slideshow =
+  document.getElementById("slideshow");
 
-const slideImage = document.getElementById("slideImage");
+const slideImage =
+  document.getElementById("slideImage");
 
-const partenairesFrame =
-  document.getElementById("partenairesFrame");
+const pageFrame =
+  document.getElementById("pageFrame");
 
 
-// ==========================================
+// ==================================================
 // DIAPORAMA
-// ==========================================
+// ==================================================
 
 let slideTimer = null;
 
 let currentSlide = 0;
 
+
 const slides = [
+
   "photos/photo1.jpg",
+
   "photos/photo2.jpg",
+
   "photos/photo3.jpg"
+
 ];
 
 
-// ==========================================
+// ==================================================
 // ÉCOUTE FIREBASE
-// ==========================================
+// ==================================================
 
-const diffusionRef = ref(db, "diffusion");
+const diffusionRef =
+  ref(db, "diffusion");
+
 
 onValue(
+
   diffusionRef,
+
   (snapshot) => {
 
-    const data = snapshot.val();
+    const data =
+      snapshot.val();
 
-    if (!data || !data.scene) {
+
+    if (
+      !data ||
+      !data.scene
+    ) {
+
       return;
+
     }
+
 
     console.log(
       "Nouvelle scène :",
       data.scene
     );
 
-    afficherScene(data.scene);
+
+    afficherScene(
+      data.scene
+    );
 
   }
+
 );
 
 
-// ==========================================
+// ==================================================
 // AFFICHER UNE SCÈNE
-// ==========================================
+// ==================================================
 
 function afficherScene(scene) {
 
+
+  console.log(
+    "Affichage de la scène :",
+    scene
+  );
+
+
+  // ----------------------------------------------
   // Arrêter le diaporama
+  // ----------------------------------------------
+
   arreterDiaporama();
 
 
-  // Arrêter la vidéo
+  // ----------------------------------------------
+  // Arrêter complètement la vidéo
+  // ----------------------------------------------
+
   video.pause();
 
   video.removeAttribute("src");
@@ -115,34 +153,45 @@ function afficherScene(scene) {
   video.load();
 
 
+  // ----------------------------------------------
   // Cacher tous les éléments
-  video.style.display = "none";
+  // ----------------------------------------------
 
-  slideshow.style.display = "none";
+  video.style.display =
+    "none";
 
-  message.style.display = "none";
+  slideshow.style.display =
+    "none";
 
-  partenairesFrame.style.display = "none";
+  message.style.display =
+    "none";
+
+  pageFrame.style.display =
+    "none";
 
 
-  // ========================================
+  // ----------------------------------------------
   // VIDÉO 1
-  // ========================================
+  // ----------------------------------------------
 
-  if (scene === "video1") {
+  if (
+    scene === "video1"
+  ) {
 
     afficherVideo(
-      "video/Défense.mp4"
+      "video/defense.mp4"
     );
 
   }
 
 
-  // ========================================
+  // ----------------------------------------------
   // VIDÉO 2
-  // ========================================
+  // ----------------------------------------------
 
-  else if (scene === "video2") {
+  else if (
+    scene === "video2"
+  ) {
 
     afficherVideo(
       "videos/video2.mp4"
@@ -151,72 +200,116 @@ function afficherScene(scene) {
   }
 
 
-  // ========================================
-  // VIDÉO 3
-  // ========================================
-
-  else if (scene === "video3") {
-
-    afficherVideo(
-      "videos/video3.mp4"
-    );
-
-  }
-
-
-  // ========================================
-  // VIDÉO 4
-  // ========================================
-
-  else if (scene === "video4") {
-
-    afficherVideo(
-      "videos/video4.mp4"
-    );
-
-  }
-
-
-  // ========================================
-  // VIDÉO 5
-  // ========================================
-
-  else if (scene === "video5") {
-
-    afficherVideo(
-      "videos/video5.mp4"
-    );
-
-  }
-
-
-  // ========================================
+  // ----------------------------------------------
   // DIAPORAMA
-  // ========================================
+  // ----------------------------------------------
 
-  else if (scene === "photos") {
+  else if (
+    scene === "photos"
+  ) {
 
     lancerDiaporama();
 
   }
 
 
-  // ========================================
-  // PAGE 1 = PARTENAIRES
-  // ========================================
+  // ----------------------------------------------
+  // PARTENAIRES
+  // ----------------------------------------------
 
-  else if (scene === "page1") {
+  else if (
+    scene === "partenaires"
+  ) {
 
-    afficherPartenaires();
+    afficherPage(
+      "partenaires.html"
+    );
 
   }
 
 
-  // ========================================
-  // PAGE 2
-  // ========================================
+  // ----------------------------------------------
+  // ÉVÉNEMENTS
+  // ----------------------------------------------
 
-  else if (scene === "page2") {
+  else if (
+    scene === "evenements"
+  ) {
+
+    afficherPage(
+      "evenements.html"
+    );
+
+  }
+
+
+  // ----------------------------------------------
+  // VIDÉOS MVBC
+  // ----------------------------------------------
+
+  else if (
+    scene === "videomvbc"
+  ) {
+
+    afficherPage(
+      "videomvbc.html"
+    );
+
+  }
+
+
+  // ----------------------------------------------
+  // MATCH DU SOIR
+  // ----------------------------------------------
+
+  else if (
+    scene === "matchdusoir"
+  ) {
+
+    afficherPage(
+      "matchdusoir.html"
+    );
+
+  }
+
+
+  // ----------------------------------------------
+  // CLASSEMENT NM2
+  // ----------------------------------------------
+
+  else if (
+    scene === "classementnm2"
+  ) {
+
+    afficherPage(
+      "classementnm2.html"
+    );
+
+  }
+
+
+  // ----------------------------------------------
+  // NOS ÉQUIPES
+  // ----------------------------------------------
+
+  else if (
+    scene === "nosequipes"
+  ) {
+
+    afficherPage(
+      "nosequipes.html"
+    );
+
+  }
+
+
+  // ----------------------------------------------
+  // PAGE 2
+  // ----------------------------------------------
+
+  else if (
+    scene === "page2"
+  ) {
 
     afficherMessage(
       "PAGE 2"
@@ -225,11 +318,13 @@ function afficherScene(scene) {
   }
 
 
-  // ========================================
+  // ----------------------------------------------
   // MESSAGE
-  // ========================================
+  // ----------------------------------------------
 
-  else if (scene === "message") {
+  else if (
+    scene === "message"
+  ) {
 
     afficherMessage(
       "Bienvenue"
@@ -238,64 +333,85 @@ function afficherScene(scene) {
   }
 
 
-  // ========================================
+  // ----------------------------------------------
   // ÉCRAN NOIR
-  // ========================================
+  // ----------------------------------------------
 
-  else if (scene === "black") {
+  else if (
+    scene === "black"
+  ) {
 
     document.body.style.background =
-      "black";
+      "#000";
 
   }
 
 }
 
 
-// ==========================================
+// ==================================================
 // AFFICHER UNE VIDÉO
-// ==========================================
+// ==================================================
 
 function afficherVideo(source) {
 
-  document.body.style.background =
-    "black";
 
+  document.body.style.background =
+    "#000";
+
+
+  // Afficher la vidéo
 
   video.style.display =
     "block";
 
 
-  video.classList.remove("fade");
+  // Transition
+
+  video.classList.remove(
+    "fade"
+  );
 
   void video.offsetWidth;
 
-  video.classList.add("fade");
+  video.classList.add(
+    "fade"
+  );
 
 
-  video.src = source;
+  // Définir la vidéo
 
-  video.currentTime = 0;
+  video.src =
+    source;
 
+
+  video.currentTime =
+    0;
+
+
+  console.log(
+    "Lecture vidéo :",
+    source
+  );
+
+
+  // Lecture automatique
 
   video.play()
+
     .then(() => {
 
       console.log(
-        "Lecture vidéo :",
-        source
+        "Vidéo démarrée"
       );
 
     })
+
     .catch((error) => {
 
       console.error(
-        "Erreur de lecture vidéo :",
+        "Impossible de démarrer la vidéo :",
         error
-      );
-
-      afficherMessage(
-        "Impossible de lire la vidéo."
       );
 
     });
@@ -303,50 +419,59 @@ function afficherVideo(source) {
 }
 
 
-// ==========================================
-// AFFICHER PARTENAIRES
-// ==========================================
+// ==================================================
+// AFFICHER UNE PAGE HTML
+// ==================================================
 
-function afficherPartenaires() {
+function afficherPage(page) {
+
 
   document.body.style.background =
-    "black";
+    "#000";
 
 
-  partenairesFrame.style.display =
+  // Afficher l'iframe
+
+  pageFrame.style.display =
     "block";
 
 
-  partenairesFrame.classList.remove(
+  // Transition
+
+  pageFrame.classList.remove(
     "fade"
   );
 
-  void partenairesFrame.offsetWidth;
+  void pageFrame.offsetWidth;
 
-  partenairesFrame.classList.add(
+  pageFrame.classList.add(
     "fade"
   );
 
 
-  partenairesFrame.src =
-    "partenaires.html";
+  // Charger la page
+
+  pageFrame.src =
+    page;
 
 
   console.log(
-    "Affichage de partenaires.html"
+    "Page diffusée :",
+    page
   );
 
 }
 
 
-// ==========================================
+// ==================================================
 // AFFICHER UN MESSAGE
-// ==========================================
+// ==================================================
 
 function afficherMessage(text) {
 
+
   document.body.style.background =
-    "black";
+    "#000";
 
 
   message.textContent =
@@ -370,59 +495,64 @@ function afficherMessage(text) {
 }
 
 
-// ==========================================
-// LANCER DIAPORAMA
-// ==========================================
+// ==================================================
+// LANCER LE DIAPORAMA
+// ==================================================
 
 function lancerDiaporama() {
 
+
   document.body.style.background =
-    "black";
+    "#000";
 
 
   slideshow.style.display =
     "block";
 
 
-  currentSlide = 0;
+  currentSlide =
+    0;
 
 
   afficherSlide();
 
 
-  slideTimer = setInterval(
+  slideTimer =
+    setInterval(
 
-    () => {
+      () => {
 
-      currentSlide++;
-
-
-      if (
-        currentSlide >=
-        slides.length
-      ) {
-
-        currentSlide = 0;
-
-      }
+        currentSlide++;
 
 
-      afficherSlide();
+        if (
+          currentSlide >=
+          slides.length
+        ) {
 
-    },
+          currentSlide =
+            0;
 
-    5000
+        }
 
-  );
+
+        afficherSlide();
+
+      },
+
+      5000
+
+    );
 
 }
 
 
-// ==========================================
+// ==================================================
 // AFFICHER UNE PHOTO
-// ==========================================
+// ==================================================
 
 function afficherSlide() {
+
 
   slideImage.classList.remove(
     "fade"
@@ -440,22 +570,33 @@ function afficherSlide() {
   slideImage.src =
     slides[currentSlide];
 
+
+  console.log(
+    "Photo affichée :",
+    slides[currentSlide]
+  );
+
 }
 
 
-// ==========================================
-// ARRÊTER DIAPORAMA
-// ==========================================
+// ==================================================
+// ARRÊTER LE DIAPORAMA
+// ==================================================
 
 function arreterDiaporama() {
 
-  if (slideTimer !== null) {
+
+  if (
+    slideTimer !== null
+  ) {
 
     clearInterval(
       slideTimer
     );
 
-    slideTimer = null;
+
+    slideTimer =
+      null;
 
   }
 
