@@ -161,7 +161,7 @@ function afficherScene(scene) {
   if (scene === "video1") {
 
     afficherVideo(
-      "videos/video1.mp4"
+      "video/Défense.mp4"
     );
 
   }
