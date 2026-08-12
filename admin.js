@@ -16,12 +16,18 @@ import {
 
 const firebaseConfig = {
 
- apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+  apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+
   authDomain: "diffusion-b9afa.firebaseapp.com",
+
   databaseURL: "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
+
   projectId: "diffusion-b9afa",
+
   storageBucket: "diffusion-b9afa.firebasestorage.app",
+
   messagingSenderId: "674799570797",
+
   appId: "1:674799570797:web:0d8b7a2a892f604eb7d464"
 
 };
@@ -38,47 +44,35 @@ const MOT_DE_PASSE = "Mvbc85600@";
 // INITIALISATION FIREBASE
 // ==========================================
 
-const app =
-  initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-const db =
-  getDatabase(app);
+const db = getDatabase(app);
 
 
 // ==========================================
-// ÉLÉMENTS
+// ÉLÉMENTS HTML
 // ==========================================
 
-const login =
-  document.getElementById("login");
+const login = document.getElementById("login");
 
-const admin =
-  document.getElementById("admin");
+const admin = document.getElementById("admin");
 
-const password =
-  document.getElementById("password");
+const password = document.getElementById("password");
 
-const loginButton =
-  document.getElementById("loginButton");
+const loginButton = document.getElementById("loginButton");
 
-const loginError =
-  document.getElementById("loginError");
+const loginError = document.getElementById("loginError");
 
-const logoutButton =
-  document.getElementById("logoutButton");
+const logoutButton = document.getElementById("logoutButton");
 
-const currentScene =
-  document.getElementById("currentScene");
+const currentScene = document.getElementById("currentScene");
 
 
 // ==========================================
 // VÉRIFIER SI DÉJÀ CONNECTÉ
 // ==========================================
 
-if (
-  sessionStorage.getItem("adminConnecte")
-  === "true"
-) {
+if (sessionStorage.getItem("adminConnecte") === "true") {
 
   afficherAdmin();
 
@@ -86,7 +80,7 @@ if (
 
 
 // ==========================================
-// CONNEXION
+// BOUTON CONNEXION
 // ==========================================
 
 loginButton.addEventListener(
@@ -95,7 +89,9 @@ loginButton.addEventListener(
 );
 
 
-// Permet aussi de valider avec ENTER
+// ==========================================
+// TOUCHE ENTRÉE
+// ==========================================
 
 password.addEventListener(
   "keydown",
@@ -111,11 +107,13 @@ password.addEventListener(
 );
 
 
+// ==========================================
+// VÉRIFICATION DU MOT DE PASSE
+// ==========================================
+
 function verifierMotDePasse() {
 
-  if (
-    password.value === MOT_DE_PASSE
-  ) {
+  if (password.value === MOT_DE_PASSE) {
 
     sessionStorage.setItem(
       "adminConnecte",
@@ -125,6 +123,8 @@ function verifierMotDePasse() {
     afficherAdmin();
 
     password.value = "";
+
+    loginError.textContent = "";
 
   }
 
@@ -146,11 +146,9 @@ function verifierMotDePasse() {
 
 function afficherAdmin() {
 
-  login.style.display =
-    "none";
+  login.style.display = "none";
 
-  admin.style.display =
-    "block";
+  admin.style.display = "block";
 
 }
 
@@ -167,11 +165,9 @@ logoutButton.addEventListener(
       "adminConnecte"
     );
 
-    admin.style.display =
-      "none";
+    admin.style.display = "none";
 
-    login.style.display =
-      "flex";
+    login.style.display = "flex";
 
   }
 );
@@ -181,47 +177,40 @@ logoutButton.addEventListener(
 // DIFFUSER UNE SCÈNE
 // ==========================================
 
-window.diffuser =
-  function(scene) {
+window.diffuser = function(scene) {
 
-    set(
+  set(
+    ref(
+      db,
+      "diffusion"
+    ),
+    {
+      scene: scene,
+      timestamp: Date.now()
+    }
+  )
 
-      ref(
-        db,
-        "diffusion"
-      ),
+  .then(() => {
 
-      {
+    console.log(
+      "Scène diffusée :",
+      scene
+    );
 
-        scene: scene,
+  })
 
-        timestamp:
-          Date.now()
+  .catch((error) => {
 
-      }
+    console.error(error);
 
-    )
+    alert(
+      "Erreur lors de la diffusion : " +
+      error.message
+    );
 
-    .then(() => {
+  });
 
-      console.log(
-        "Scène diffusée :",
-        scene
-      );
-
-    })
-
-    .catch((error) => {
-
-      console.error(error);
-
-      alert(
-        "Erreur lors de la diffusion."
-      );
-
-    });
-
-  };
+};
 
 
 // ==========================================
@@ -229,21 +218,15 @@ window.diffuser =
 // ==========================================
 
 onValue(
-
   ref(
     db,
     "diffusion"
   ),
-
   (snapshot) => {
 
-    const data =
-      snapshot.val();
+    const data = snapshot.val();
 
-    if (
-      data &&
-      data.scene
-    ) {
+    if (data && data.scene) {
 
       currentScene.textContent =
         data.scene;
@@ -258,5 +241,4 @@ onValue(
     }
 
   }
-
 );
