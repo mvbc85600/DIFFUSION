@@ -1,18 +1,10 @@
-import { initializeApp }
-  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
-
   getDatabase,
-
   ref,
-
   onValue
-
-} from
-  "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 
 // ==========================================
@@ -21,113 +13,88 @@ import {
 
 const firebaseConfig = {
 
- apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+  apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+
   authDomain: "diffusion-b9afa.firebaseapp.com",
+
   databaseURL: "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
+
   projectId: "diffusion-b9afa",
+
   storageBucket: "diffusion-b9afa.firebasestorage.app",
+
   messagingSenderId: "674799570797",
+
   appId: "1:674799570797:web:0d8b7a2a892f604eb7d464"
 
 };
 
 
-
 // ==========================================
-// FIREBASE
+// INITIALISATION FIREBASE
 // ==========================================
 
-const app =
-  initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-
-const db =
-  getDatabase(app);
-
+const db = getDatabase(app);
 
 
 // ==========================================
-// ÉLÉMENTS
+// ÉLÉMENTS HTML
 // ==========================================
 
-const video =
-  document.getElementById("video");
+const video = document.getElementById("video");
 
+const message = document.getElementById("message");
 
-const message =
-  document.getElementById("message");
+const slideshow = document.getElementById("slideshow");
 
+const slideImage = document.getElementById("slideImage");
 
-const slideshow =
-  document.getElementById("slideshow");
-
-
-const slideImage =
-  document.getElementById("slideImage");
-
+const partenairesFrame =
+  document.getElementById("partenairesFrame");
 
 
 // ==========================================
-// ÉTAT DU DIAPORAMA
+// DIAPORAMA
 // ==========================================
 
 let slideTimer = null;
 
-
 let currentSlide = 0;
 
-
 const slides = [
-
   "photos/photo1.jpg",
-
   "photos/photo2.jpg",
-
   "photos/photo3.jpg"
-
 ];
-
 
 
 // ==========================================
 // ÉCOUTE FIREBASE
 // ==========================================
 
-const diffusionRef =
-  ref(db, "diffusion");
-
+const diffusionRef = ref(db, "diffusion");
 
 onValue(
-
   diffusionRef,
-
   (snapshot) => {
 
-    const data =
-      snapshot.val();
-
+    const data = snapshot.val();
 
     if (!data || !data.scene) {
-
       return;
-
     }
-
 
     console.log(
       "Nouvelle scène :",
       data.scene
     );
 
-
-    afficherScene(
-      data.scene
-    );
+    afficherScene(data.scene);
 
   }
-
 );
-
 
 
 // ==========================================
@@ -136,22 +103,26 @@ onValue(
 
 function afficherScene(scene) {
 
-
   // Arrêter le diaporama
-
   arreterDiaporama();
 
 
+  // Arrêter la vidéo
+  video.pause();
+
+  video.removeAttribute("src");
+
+  video.load();
+
+
   // Cacher tous les éléments
+  video.style.display = "none";
 
-  video.style.display =
-    "none";
+  slideshow.style.display = "none";
 
-  slideshow.style.display =
-    "none";
+  message.style.display = "none";
 
-  message.style.display =
-    "none";
+  partenairesFrame.style.display = "none";
 
 
   // ========================================
@@ -231,14 +202,12 @@ function afficherScene(scene) {
 
 
   // ========================================
-  // PAGE 1
+  // PAGE 1 = PARTENAIRES
   // ========================================
 
   else if (scene === "page1") {
 
-    afficherMessage(
-      "PAGE 1"
-    );
+    afficherPartenaires();
 
   }
 
@@ -270,12 +239,10 @@ function afficherScene(scene) {
 
 
   // ========================================
-  // NOIR
+  // ÉCRAN NOIR
   // ========================================
 
   else if (scene === "black") {
-
-    // Tout reste caché
 
     document.body.style.background =
       "black";
@@ -285,61 +252,102 @@ function afficherScene(scene) {
 }
 
 
-
 // ==========================================
-// AFFICHER VIDÉO
+// AFFICHER UNE VIDÉO
 // ==========================================
 
 function afficherVideo(source) {
+
+  document.body.style.background =
+    "black";
+
 
   video.style.display =
     "block";
 
 
-  video.classList.remove(
-    "fade"
-  );
-
-
-  // Force le redémarrage de l'animation
+  video.classList.remove("fade");
 
   void video.offsetWidth;
 
-
-  video.classList.add(
-    "fade"
-  );
+  video.classList.add("fade");
 
 
-  video.src =
-    source;
+  video.src = source;
 
-
-  video.currentTime =
-    0;
+  video.currentTime = 0;
 
 
   video.play()
-    .catch(
-      (error) => {
+    .then(() => {
 
-        console.log(
-          "Lecture automatique bloquée :",
-          error
-        );
+      console.log(
+        "Lecture vidéo :",
+        source
+      );
 
-      }
-    );
+    })
+    .catch((error) => {
+
+      console.error(
+        "Erreur de lecture vidéo :",
+        error
+      );
+
+      afficherMessage(
+        "Impossible de lire la vidéo."
+      );
+
+    });
 
 }
 
 
+// ==========================================
+// AFFICHER PARTENAIRES
+// ==========================================
+
+function afficherPartenaires() {
+
+  document.body.style.background =
+    "black";
+
+
+  partenairesFrame.style.display =
+    "block";
+
+
+  partenairesFrame.classList.remove(
+    "fade"
+  );
+
+  void partenairesFrame.offsetWidth;
+
+  partenairesFrame.classList.add(
+    "fade"
+  );
+
+
+  partenairesFrame.src =
+    "partenaires.html";
+
+
+  console.log(
+    "Affichage de partenaires.html"
+  );
+
+}
+
 
 // ==========================================
-// AFFICHER MESSAGE
+// AFFICHER UN MESSAGE
 // ==========================================
 
 function afficherMessage(text) {
+
+  document.body.style.background =
+    "black";
+
 
   message.textContent =
     text;
@@ -353,9 +361,7 @@ function afficherMessage(text) {
     "fade"
   );
 
-
   void message.offsetWidth;
-
 
   message.classList.add(
     "fade"
@@ -364,52 +370,52 @@ function afficherMessage(text) {
 }
 
 
-
 // ==========================================
-// DIAPORAMA
+// LANCER DIAPORAMA
 // ==========================================
 
 function lancerDiaporama() {
+
+  document.body.style.background =
+    "black";
+
 
   slideshow.style.display =
     "block";
 
 
-  currentSlide =
-    0;
+  currentSlide = 0;
 
 
   afficherSlide();
 
 
-  slideTimer =
-    setInterval(
+  slideTimer = setInterval(
 
-      () => {
+    () => {
 
-        currentSlide++;
-
-        if (
-          currentSlide >=
-          slides.length
-        ) {
-
-          currentSlide =
-            0;
-
-        }
+      currentSlide++;
 
 
-        afficherSlide();
+      if (
+        currentSlide >=
+        slides.length
+      ) {
 
-      },
+        currentSlide = 0;
 
-      5000
+      }
 
-    );
+
+      afficherSlide();
+
+    },
+
+    5000
+
+  );
 
 }
-
 
 
 // ==========================================
@@ -437,21 +443,19 @@ function afficherSlide() {
 }
 
 
-
 // ==========================================
 // ARRÊTER DIAPORAMA
 // ==========================================
 
 function arreterDiaporama() {
 
-  if (slideTimer) {
+  if (slideTimer !== null) {
 
     clearInterval(
       slideTimer
     );
 
-    slideTimer =
-      null;
+    slideTimer = null;
 
   }
 
