@@ -1,50 +1,453 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Diffusion</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>Administration</title>
+
 
   <style>
-    html, body {
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+
       margin: 0;
-      width: 100%;
-      height: 100%;
-      background: black;
-      overflow: hidden;
-      font-family: Arial, sans-serif;
-    }
-    
 
-    #video {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
+      background: #111;
 
-    #message {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       color: white;
-      font-size: 30px;
+
+      font-family: Arial, sans-serif;
+
     }
+
+
+    /* ==============================
+       CONNEXION
+       ============================== */
+
+    #login {
+
+      min-height: 100vh;
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      padding: 20px;
+
+    }
+
+
+    .login-box {
+
+      width: 100%;
+
+      max-width: 400px;
+
+      background: #222;
+
+      padding: 30px;
+
+      border-radius: 15px;
+
+    }
+
+
+    .login-box h1 {
+
+      text-align: center;
+
+      margin-bottom: 30px;
+
+    }
+
+
+    input {
+
+      width: 100%;
+
+      padding: 15px;
+
+      margin-bottom: 15px;
+
+      border: 0;
+
+      border-radius: 8px;
+
+      font-size: 16px;
+
+    }
+
+
+    button {
+
+      border: 0;
+
+      border-radius: 10px;
+
+      cursor: pointer;
+
+    }
+
+
+    #loginButton {
+
+      width: 100%;
+
+      padding: 15px;
+
+      background: #2563eb;
+
+      color: white;
+
+      font-size: 18px;
+
+    }
+
+
+    #loginError {
+
+      color: #ff5555;
+
+      text-align: center;
+
+      margin-top: 15px;
+
+    }
+
+
+    /* ==============================
+       ADMINISTRATION
+       ============================== */
+
+    #admin {
+
+      display: none;
+
+      padding: 20px;
+
+      max-width: 1000px;
+
+      margin: auto;
+
+    }
+
+
+    .header {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      margin-bottom: 30px;
+
+    }
+
+
+    .header h1 {
+
+      margin: 0;
+
+    }
+
+
+    #logoutButton {
+
+      padding: 10px 15px;
+
+      background: #444;
+
+      color: white;
+
+    }
+
+
+    .status {
+
+      background: #222;
+
+      padding: 15px;
+
+      border-radius: 10px;
+
+      margin-bottom: 25px;
+
+      text-align: center;
+
+    }
+
+
+    #currentScene {
+
+      font-weight: bold;
+
+      color: #4ade80;
+
+    }
+
+
+    .scene-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(auto-fit, minmax(180px, 1fr));
+
+      gap: 15px;
+
+    }
+
+
+    .scene-button {
+
+      min-height: 100px;
+
+      background: #333;
+
+      color: white;
+
+      font-size: 18px;
+
+      padding: 15px;
+
+      transition: 0.2s;
+
+    }
+
+
+    .scene-button:hover {
+
+      background: #444;
+
+      transform: scale(1.02);
+
+    }
+
+
+    .video {
+
+      background: #1d4ed8;
+
+    }
+
+
+    .photos {
+
+      background: #15803d;
+
+    }
+
+
+    .black {
+
+      background: #000;
+
+      border: 1px solid #444;
+
+    }
+
   </style>
+
 </head>
+
 
 <body>
 
-  <div id="message">Connexion à la régie...</div>
 
-  <video
-    id="video"
-    autoplay
-    playsinline>
-  </video>
+  <!-- =================================
+       CONNEXION
+       ================================= -->
 
-  <script type="module" src="script.js"></script>
+  <div id="login">
+
+    <div class="login-box">
+
+      <h1>🔐 Administration</h1>
+
+
+      <input
+        type="email"
+        id="email"
+        placeholder="Adresse email">
+
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Mot de passe">
+
+
+      <button id="loginButton">
+        Se connecter
+      </button>
+
+
+      <div id="loginError"></div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =================================
+       RÉGIE
+       ================================= -->
+
+  <div id="admin">
+
+    <div class="header">
+
+      <h1>🎬 Régie</h1>
+
+      <button id="logoutButton">
+        Déconnexion
+      </button>
+
+    </div>
+
+
+    <div class="status">
+
+      Scène actuellement diffusée :
+
+      <span id="currentScene">
+        Aucune
+      </span>
+
+    </div>
+
+
+    <div class="scene-grid">
+
+
+      <button
+        class="scene-button video"
+        onclick="diffuser('video1')">
+
+        🎬<br>
+        VIDÉO 1
+
+      </button>
+
+
+      <button
+        class="scene-button video"
+        onclick="diffuser('video2')">
+
+        🎬<br>
+        VIDÉO 2
+
+      </button>
+
+
+      <button
+        class="scene-button video"
+        onclick="diffuser('video3')">
+
+        🎬<br>
+        VIDÉO 3
+
+      </button>
+
+
+      <button
+        class="scene-button photos"
+        onclick="diffuser('photos')">
+
+        🖼️<br>
+        DIAPORAMA
+
+      </button>
+
+
+      <button
+        class="scene-button"
+        onclick="diffuser('page1')">
+
+        📄<br>
+        PAGE 1
+
+      </button>
+
+
+      <button
+        class="scene-button"
+        onclick="diffuser('page2')">
+
+        📄<br>
+        PAGE 2
+
+      </button>
+
+
+      <button
+        class="scene-button video"
+        onclick="diffuser('video4')">
+
+        🎬<br>
+        VIDÉO 4
+
+      </button>
+
+
+      <button
+        class="scene-button video"
+        onclick="diffuser('video5')">
+
+        🎬<br>
+        VIDÉO 5
+
+      </button>
+
+
+      <button
+        class="scene-button"
+        onclick="diffuser('message')">
+
+        📝<br>
+        MESSAGE
+
+      </button>
+
+
+      <button
+        class="scene-button black"
+        onclick="diffuser('black')">
+
+        ⬛<br>
+        ÉCRAN NOIR
+
+      </button>
+
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =================================
+       JAVASCRIPT
+       ================================= -->
+
+  <script type="module" src="admin.js"></script>
+
 
 </body>
+
 </html>
