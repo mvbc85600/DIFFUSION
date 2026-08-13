@@ -475,8 +475,9 @@ from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 
+
 /* =====================================================
-   FIREBASE CONFIG
+   CONFIGURATION FIREBASE
 ===================================================== */
 
 const firebaseConfig = {
@@ -505,6 +506,11 @@ const firebaseConfig = {
 };
 
 
+
+/* =====================================================
+   INITIALISATION
+===================================================== */
+
 const app =
     initializeApp(
         firebaseConfig
@@ -513,6 +519,7 @@ const app =
 
 const db =
     getDatabase(app);
+
 
 
 /* =====================================================
@@ -570,8 +577,9 @@ const infos =
     );
 
 
+
 /* =====================================================
-   FIREBASE
+   REFERENCE FIREBASE
 ===================================================== */
 
 const matchRef =
@@ -580,6 +588,11 @@ const matchRef =
         "matchdusoir"
     );
 
+
+
+/* =====================================================
+   ECOUTE EN TEMPS REEL
+===================================================== */
 
 onValue(
 
@@ -593,14 +606,19 @@ onValue(
 
         if (!data) {
 
+            console.log(
+                "Aucun match enregistré."
+            );
+
             return;
 
         }
 
 
-        /* -----------------------------------------
-           TEXTE
-        ----------------------------------------- */
+
+        /* =================================================
+           TEXTES
+        ================================================= */
 
         championnat.textContent =
             data.championnat ||
@@ -627,29 +645,83 @@ onValue(
             "";
 
 
-        /* -----------------------------------------
-           LOGOS
-        ----------------------------------------- */
+
+        /* =================================================
+           LOGO ÉQUIPE 1
+           
+           Exemple Firebase :
+           
+           logo1:
+           "logos/mvbc.png"
+        ================================================= */
 
         if (data.logo1) {
 
             logo1.src =
                 data.logo1;
 
+            logo1.onerror =
+                () => {
+
+                    console.error(
+                        "Impossible de charger le logo 1 :",
+                        data.logo1
+                    );
+
+                    logo1.style.opacity =
+                        "0.3";
+
+                };
+
+            logo1.onload =
+                () => {
+
+                    logo1.style.opacity =
+                        "1";
+
+                };
+
         }
 
+
+
+        /* =================================================
+           LOGO ÉQUIPE 2
+        ================================================= */
 
         if (data.logo2) {
 
             logo2.src =
                 data.logo2;
 
+            logo2.onerror =
+                () => {
+
+                    console.error(
+                        "Impossible de charger le logo 2 :",
+                        data.logo2
+                    );
+
+                    logo2.style.opacity =
+                        "0.3";
+
+                };
+
+            logo2.onload =
+                () => {
+
+                    logo2.style.opacity =
+                        "1";
+
+                };
+
         }
 
 
-        /* -----------------------------------------
-           RELANCER ANIMATION
-        ----------------------------------------- */
+
+        /* =================================================
+           RESET DES ANIMATIONS
+        ================================================= */
 
         team1.classList.remove(
             "active"
@@ -664,18 +736,26 @@ onValue(
         );
 
 
+        /*
+           Force le navigateur à
+           recalculer l'animation.
+        */
+
         void team1.offsetWidth;
 
+
+
+        /* =================================================
+           LANCEMENT DES ANIMATIONS
+        ================================================= */
 
         team1.classList.add(
             "active"
         );
 
-
         team2.classList.add(
             "active"
         );
-
 
         infos.classList.add(
             "active"
