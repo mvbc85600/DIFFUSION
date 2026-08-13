@@ -423,13 +423,13 @@ body {
     </div>
 
     <div class="tabs">
-        <button class="tab-button active" onclick="openTab(event, 'regie')">
+        <button class="tab-button active" data-tab="regie">
             🎬 Régie
         </button>
-        <button class="tab-button" onclick="openTab(event, 'matchdusoir')">
+        <button class="tab-button" data-tab="matchdusoir">
             ⚽ Match du Soir
         </button>
-        <button class="tab-button" onclick="openTab(event, 'message')">
+        <button class="tab-button" data-tab="message">
             📝 Message
         </button>
     </div>
@@ -720,25 +720,27 @@ const messageStatus = document.getElementById("messageStatus");
 /* =====================================================
    ONGLETS
 ===================================================== */
-function openTab(event, tabName) {
-    // Masquer tous les contenus d'onglets
-    const tabContents = document.querySelectorAll('.tab-content');
-    tabContents.forEach(content => {
-        content.classList.remove('active');
+// Sélectionner tous les boutons d'onglets
+const tabButtons = document.querySelectorAll('.tab-button');
+
+// Ajouter un écouteur d'événement à chaque bouton
+tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        // Désactiver tous les boutons d'onglets
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+
+        // Masquer tous les contenus d'onglets
+        const tabContents = document.querySelectorAll('.tab-content');
+        tabContents.forEach(content => content.classList.remove('active'));
+
+        // Activer le bouton cliqué
+        button.classList.add('active');
+
+        // Afficher le contenu de l'onglet correspondant
+        const tabId = button.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
     });
-
-    // Désactiver tous les boutons d'onglets
-    const tabButtons = document.querySelectorAll('.tab-button');
-    tabButtons.forEach(button => {
-        button.classList.remove('active');
-    });
-
-    // Afficher le contenu de l'onglet sélectionné
-    document.getElementById(tabName).classList.add('active');
-
-    // Activer le bouton de l'onglet sélectionné
-    event.currentTarget.classList.add('active');
-}
+});
 
 /* =====================================================
    CONNEXION
@@ -886,7 +888,7 @@ saveMatchButton.addEventListener("click", async () => {
             titreMatch: titreMatch.value.trim(),
             equipe1: matchEquipe1.value.trim(),
             logo1: logoEquipe1.value,
-            equipe2: matchEquipe2.value.trim(),
+            équipe2: matchEquipe2.value.trim(),
             logo2: logoEquipe2.value,
             date: matchDate.value.trim(),
             heure: matchHeure.value.trim(),
