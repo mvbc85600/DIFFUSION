@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Gestion du Match</title>
+    <title>Régie - MVBC</title>
     <style>
         /* =====================================================
            RESET ET STYLES DE BASE
@@ -12,17 +12,114 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
             background-color: #121212;
             color: #ffffff;
-            padding: 20px;
             line-height: 1.6;
         }
 
-        .container {
+        /* =====================================================
+           EN-TÊTE AVEC ONGLETS
+        ===================================================== */
+        .header {
+            background-color: #1e1e1e;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #333;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            background-color: #2d2d2d;
+            color: #cccccc;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-button:hover {
+            background-color: #3a3a3a;
+        }
+
+        .tab-button.active {
+            background-color: #4CAF50;
+            color: #ffffff;
+        }
+
+        /* =====================================================
+           CONTENU PRINCIPAL
+        ===================================================== */
+        .main-content {
+            padding: 20px;
+        }
+
+        /* =====================================================
+           RÉGIE (PAGE PAR DÉFAUT)
+        ===================================================== */
+        .regie {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .regie-button {
+            background-color: #252526;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 150px;
+        }
+
+        .regie-button:hover {
+            background-color: #2d2d2d;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .regie-button i {
+            font-size: 40px;
+            margin-bottom: 10px;
+            color: #4CAF50;
+        }
+
+        .regie-button span {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* =====================================================
+           ONGLETS D'ADMINISTRATION
+        ===================================================== */
+        .tab-content {
+            display: none;
             max-width: 800px;
             margin: 0 auto;
             background-color: #1e1e1e;
@@ -31,16 +128,10 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
         }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #ffffff;
-            font-size: 28px;
+        .tab-content.active {
+            display: block;
         }
 
-        /* =====================================================
-           GROUPES DE FORMULAIRE
-        ===================================================== */
         .form-group {
             margin-bottom: 20px;
         }
@@ -71,9 +162,28 @@
             cursor: pointer;
         }
 
-        /* =====================================================
-           BOUTONS
-        ===================================================== */
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #333;
+            border-radius: 8px;
+            background-color: #252526;
+        }
+
+        .section h2 {
+            margin-bottom: 15px;
+            color: #ffffff;
+            font-size: 20px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .colors-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
         .button-group {
             display: flex;
             justify-content: center;
@@ -110,37 +220,24 @@
         }
 
         /* =====================================================
-           SECTIONS THÉMATIQUES
-        ===================================================== */
-        .section {
-            margin-bottom: 30px;
-            padding: 20px;
-            border: 1px solid #333;
-            border-radius: 8px;
-            background-color: #252526;
-        }
-
-        .section h2 {
-            margin-bottom: 15px;
-            color: #ffffff;
-            font-size: 20px;
-            border-bottom: 1px solid #333;
-            padding-bottom: 10px;
-        }
-
-        /* =====================================================
-           GRID POUR LES COULEURS
-        ===================================================== */
-        .colors-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        /* =====================================================
            RESPONSIVE
         ===================================================== */
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .tabs {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .regie {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
             .colors-grid {
                 grid-template-columns: 1fr;
             }
@@ -154,98 +251,218 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>⚙️ Administration - Match du Soir</h1>
-
-        <!-- =================================================
-             SECTION : INFORMATIONS GÉNÉRALES
-        ================================================= -->
-        <div class="section">
-            <h2>📌 Informations générales</h2>
-
-            <div class="form-group">
-                <label for="championnat">Championnat :</label>
-                <input type="text" id="championnat" placeholder="Ex: LIGUE 1, PREMIER LEAGUE, etc.">
-            </div>
-
-            <div class="form-group">
-                <label for="titreMatch">Titre du match :</label>
-                <select id="titreMatch">
-                    <option value="MATCH DU SOIR">MATCH DU SOIR</option>
-                    <option value="PROCHAIN MATCH">PROCHAIN MATCH</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="date">Date :</label>
-                <input type="text" id="date" placeholder="Ex: SAMEDI, DIMANCHE, etc.">
-            </div>
-
-            <div class="form-group">
-                <label for="heure">Heure :</label>
-                <input type="text" id="heure" placeholder="Ex: 20H00, 21H30, etc.">
-            </div>
-        </div>
-
-        <!-- =================================================
-             SECTION : ÉQUIPES
-        ================================================= -->
-        <div class="section">
-            <h2>⚽ Équipes</h2>
-
-            <div class="form-group">
-                <label for="equipe1">Équipe 1 (à gauche) :</label>
-                <input type="text" id="equipe1" placeholder="Ex: PSG">
-            </div>
-
-            <div class="form-group">
-                <label for="logo1">URL du logo de l'équipe 1 :</label>
-                <input type="url" id="logo1" placeholder="Ex: https://exemple.com/logo-psg.png">
-            </div>
-
-            <div class="form-group">
-                <label for="equipe2">Équipe 2 (à droite) :</label>
-                <input type="text" id="equipe2" placeholder="Ex: OM">
-            </div>
-
-            <div class="form-group">
-                <label for="logo2">URL du logo de l'équipe 2 :</label>
-                <input type="url" id="logo2" placeholder="Ex: https://exemple.com/logo-om.png">
-            </div>
-        </div>
-
-        <!-- =================================================
-             SECTION : COULEURS DES HALOS
-        ================================================= -->
-        <div class="section">
-            <h2>🎨 Couleurs des halos</h2>
-
-            <div class="colors-grid">
-                <div class="form-group">
-                    <label for="haloCouleur1">Couleur halo équipe 1 (gauche) :</label>
-                    <input type="color" id="haloCouleur1" value="#008cff">
-                </div>
-
-                <div class="form-group">
-                    <label for="haloCouleur2">Couleur halo équipe 2 (droite) :</label>
-                    <input type="color" id="haloCouleur2" value="#ff6500">
-                </div>
-            </div>
-        </div>
-
-        <!-- =================================================
-             BOUTONS D'ACTION
-        ================================================= -->
-        <div class="button-group">
-            <button class="save" onclick="saveMatchData()">💾 Sauvegarder</button>
-            <button class="reset" onclick="resetForm()">🔄 Réinitialiser</button>
+    <!-- =====================================================
+         EN-TÊTE AVEC ONGLETS
+    ===================================================== -->
+    <div class="header">
+        <div class="logo">MVBC 🎬 Régie</div>
+        <div class="tabs">
+            <button class="tab-button active" onclick="openTab('regie')">
+                <i class="fas fa-tv"></i> Régie
+            </button>
+            <button class="tab-button" onclick="openTab('matchdusoir')">
+                <i class="fas fa-futbol"></i> Match du Soir
+            </button>
+            <button class="tab-button" onclick="openTab('message')">
+                <i class="fas fa-comment"></i> Message
+            </button>
+            <!-- Ajoute d'autres onglets ici si nécessaire -->
         </div>
     </div>
 
     <!-- =====================================================
-         SCRIPT FIREBASE
+         CONTENU PRINCIPAL
+    ===================================================== -->
+    <div class="main-content">
+        <!-- =================================================
+             RÉGIE (PAGE PAR DÉFAUT)
+        ================================================= -->
+        <div id="regie" class="tab-content active">
+            <div class="regie">
+                <!-- Boutons de la régie (à adapter selon tes besoins) -->
+                <a href="matchdusoir.html" class="regie-button">
+                    <i class="fas fa-futbol"></i>
+                    <span>Match du Soir</span>
+                </a>
+                <a href="message.html" class="regie-button">
+                    <i class="fas fa-comment"></i>
+                    <span>Message</span>
+                </a>
+                <a href="classement.html" class="regie-button">
+                    <i class="fas fa-trophy"></i>
+                    <span>Classement</span>
+                </a>
+                <a href="statistiques.html" class="regie-button">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Statistiques</span>
+                </a>
+                <a href="publicite.html" class="regie-button">
+                    <i class="fas fa-ad"></i>
+                    <span>Publicité</span>
+                </a>
+                <a href="replay.html" class="regie-button">
+                    <i class="fas fa-redo"></i>
+                    <span>Replay</span>
+                </a>
+                <!-- Ajoute d'autres boutons ici -->
+            </div>
+        </div>
+
+        <!-- =================================================
+             ONGLET : ADMINISTRATION MATCH DU SOIR
+        ================================================= -->
+        <div id="matchdusoir" class="tab-content">
+            <h1>⚙️ Administration - Match du Soir</h1>
+
+            <div class="section">
+                <h2>📌 Informations générales</h2>
+
+                <div class="form-group">
+                    <label for="championnat">Championnat :</label>
+                    <input type="text" id="championnat" placeholder="Ex: LIGUE 1, PREMIER LEAGUE, etc.">
+                </div>
+
+                <div class="form-group">
+                    <label for="titreMatch">Titre du match :</label>
+                    <select id="titreMatch">
+                        <option value="MATCH DU SOIR">MATCH DU SOIR</option>
+                        <option value="PROCHAIN MATCH">PROCHAIN MATCH</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Date :</label>
+                    <input type="text" id="date" placeholder="Ex: SAMEDI, DIMANCHE, etc.">
+                </div>
+
+                <div class="form-group">
+                    <label for="heure">Heure :</label>
+                    <input type="text" id="heure" placeholder="Ex: 20H00, 21H30, etc.">
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>⚽ Équipes</h2>
+
+                <div class="form-group">
+                    <label for="equipe1">Équipe 1 (à gauche) :</label>
+                    <input type="text" id="equipe1" placeholder="Ex: PSG">
+                </div>
+
+                <div class="form-group">
+                    <label for="logo1">URL du logo de l'équipe 1 :</label>
+                    <input type="url" id="logo1" placeholder="Ex: https://exemple.com/logo-psg.png">
+                </div>
+
+                <div class="form-group">
+                    <label for="equipe2">Équipe 2 (à droite) :</label>
+                    <input type="text" id="equipe2" placeholder="Ex: OM">
+                </div>
+
+                <div class="form-group">
+                    <label for="logo2">URL du logo de l'équipe 2 :</label>
+                    <input type="url" id="logo2" placeholder="Ex: https://exemple.com/logo-om.png">
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🎨 Couleurs des halos</h2>
+
+                <div class="colors-grid">
+                    <div class="form-group">
+                        <label for="haloCouleur1">Couleur halo équipe 1 (gauche) :</label>
+                        <input type="color" id="haloCouleur1" value="#008cff">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="haloCouleur2">Couleur halo équipe 2 (droite) :</label>
+                        <input type="color" id="haloCouleur2" value="#ff6500">
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="save" onclick="saveMatchData()">
+                    <i class="fas fa-save"></i> Sauvegarder
+                </button>
+                <button class="reset" onclick="resetMatchForm()">
+                    <i class="fas fa-undo"></i> Réinitialiser
+                </button>
+            </div>
+        </div>
+
+        <!-- =================================================
+             ONGLET : ADMINISTRATION MESSAGE
+        ================================================= -->
+        <div id="message" class="tab-content">
+            <h1>⚙️ Administration - Message</h1>
+
+            <div class="section">
+                <h2>📝 Contenu du message</h2>
+
+                <div class="form-group">
+                    <label for="messageTitre">Titre du message :</label>
+                    <input type="text" id="messageTitre" placeholder="Ex: Annonce importante">
+                </div>
+
+                <div class="form-group">
+                    <label for="messageContenu">Contenu du message :</label>
+                    <textarea id="messageContenu" rows="5" placeholder="Ex: Le match est reporté à demain..." style="width: 100%; padding: 12px; border: 1px solid #333; border-radius: 5px; background-color: #2d2d2d; color: #ffffff; font-size: 16px;"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="messageCouleur">Couleur du texte :</label>
+                    <input type="color" id="messageCouleur" value="#ffffff">
+                </div>
+
+                <div class="form-group">
+                    <label for="messageFond">Couleur de fond :</label>
+                    <input type="color" id="messageFond" value="#1e1e1e">
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="save" onclick="saveMessageData()">
+                    <i class="fas fa-save"></i> Sauvegarder
+                </button>
+                <button class="reset" onclick="resetMessageForm()">
+                    <i class="fas fa-undo"></i> Réinitialiser
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         SCRIPT POUR LES ONGLETS
+    ===================================================== -->
+    <script>
+        // Fonction pour basculer entre les onglets
+        function openTab(tabName) {
+            // Masquer tous les contenus d'onglets
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Désactiver tous les boutons d'onglets
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Afficher le contenu de l'onglet sélectionné
+            document.getElementById(tabName).classList.add('active');
+
+            // Activer le bouton de l'onglet sélectionné
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+
+    <!-- =====================================================
+         SCRIPT FIREBASE POUR LES ADMINISTRATIONS
     ===================================================== -->
     <script type="module">
         // Import des modules Firebase
@@ -266,9 +483,14 @@
         // Initialisation Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        const matchRef = ref(db, "matchdusoir");
 
-        // Charger les données existantes depuis Firebase
+        // Références Firebase
+        const matchRef = ref(db, "matchdusoir");
+        const messageRef = ref(db, "message");
+
+        // =====================================================
+        // CHARGEMENT DES DONNÉES POUR MATCH DU SOIR
+        // =====================================================
         onValue(matchRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
@@ -285,7 +507,7 @@
             }
         });
 
-        // Sauvegarder les données dans Firebase
+        // Sauvegarder les données du match du soir
         function saveMatchData() {
             const matchData = {
                 championnat: document.getElementById("championnat").value,
@@ -294,7 +516,7 @@
                 heure: document.getElementById("heure").value,
                 equipe1: document.getElementById("equipe1").value,
                 logo1: document.getElementById("logo1").value,
-                equipe2: document.getElementById("equipe2").value,
+                équipe2: document.getElementById("equipe2").value,
                 logo2: document.getElementById("logo2").value,
                 haloCouleur1: document.getElementById("haloCouleur1").value,
                 haloCouleur2: document.getElementById("haloCouleur2").value
@@ -302,7 +524,7 @@
 
             set(matchRef, matchData)
                 .then(() => {
-                    alert("✅ Données sauvegardées avec succès !");
+                    alert("✅ Données du match sauvegardées avec succès !");
                 })
                 .catch((error) => {
                     console.error("❌ Erreur lors de la sauvegarde :", error);
@@ -310,9 +532,9 @@
                 });
         }
 
-        // Réinitialiser le formulaire
-        function resetForm() {
-            if (confirm("⚠️ Voulez-vous vraiment réinitialiser le formulaire ?")) {
+        // Réinitialiser le formulaire du match du soir
+        function resetMatchForm() {
+            if (confirm("⚠️ Voulez-vous vraiment réinitialiser le formulaire du match du soir ?")) {
                 document.getElementById("championnat").value = "";
                 document.getElementById("titreMatch").value = "MATCH DU SOIR";
                 document.getElementById("date").value = "";
@@ -323,6 +545,48 @@
                 document.getElementById("logo2").value = "";
                 document.getElementById("haloCouleur1").value = "#008cff";
                 document.getElementById("haloCouleur2").value = "#ff6500";
+            }
+        }
+
+        // =====================================================
+        // CHARGEMENT DES DONNÉES POUR LE MESSAGE
+        // =====================================================
+        onValue(messageRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                document.getElementById("messageTitre").value = data.titre || "";
+                document.getElementById("messageContenu").value = data.contenu || "";
+                document.getElementById("messageCouleur").value = data.couleur || "#ffffff";
+                document.getElementById("messageFond").value = data.fond || "#1e1e1e";
+            }
+        });
+
+        // Sauvegarder les données du message
+        function saveMessageData() {
+            const messageData = {
+                titre: document.getElementById("messageTitre").value,
+                contenu: document.getElementById("messageContenu").value,
+                couleur: document.getElementById("messageCouleur").value,
+                fond: document.getElementById("messageFond").value
+            };
+
+            set(messageRef, messageData)
+                .then(() => {
+                    alert("✅ Données du message sauvegardées avec succès !");
+                })
+                .catch((error) => {
+                    console.error("❌ Erreur lors de la sauvegarde :", error);
+                    alert("❌ Erreur lors de la sauvegarde. Veuillez réessayer.");
+                });
+        }
+
+        // Réinitialiser le formulaire du message
+        function resetMessageForm() {
+            if (confirm("⚠️ Voulez-vous vraiment réinitialiser le formulaire du message ?")) {
+                document.getElementById("messageTitre").value = "";
+                document.getElementById("messageContenu").value = "";
+                document.getElementById("messageCouleur").value = "#ffffff";
+                document.getElementById("messageFond").value = "#1e1e1e";
             }
         }
     </script>
