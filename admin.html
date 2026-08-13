@@ -5,45 +5,27 @@
 
 <meta charset="UTF-8">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
 <title>Régie MVBC</title>
 
-
 <style>
-
-/* =====================================================
-   GLOBAL
-===================================================== */
 
 * {
     box-sizing: border-box;
 }
 
-
 body {
-
     margin: 0;
-
-    padding: 0;
-
     background: #111;
-
     color: white;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
+    font-family: Arial, sans-serif;
 }
 
-
-/* =====================================================
+/* =========================
    CONNEXION
-===================================================== */
+========================= */
 
 #login {
 
@@ -56,14 +38,11 @@ body {
     justify-content: center;
 
     padding: 20px;
-
 }
-
 
 .login-box {
 
     width: 100%;
-
     max-width: 400px;
 
     background: #222;
@@ -75,20 +54,14 @@ body {
     box-shadow:
         0 10px 40px
         rgba(0,0,0,0.5);
-
 }
-
 
 .login-box h1 {
 
     text-align: center;
 
     margin-top: 0;
-
-    margin-bottom: 30px;
-
 }
-
 
 .login-box input {
 
@@ -103,9 +76,7 @@ body {
     border-radius: 8px;
 
     font-size: 16px;
-
 }
-
 
 #loginButton {
 
@@ -113,42 +84,32 @@ body {
 
     padding: 15px;
 
-    background: #2563eb;
-
-    color: white;
-
     border: none;
 
     border-radius: 8px;
 
+    background: #2563eb;
+
+    color: white;
+
     font-size: 18px;
 
     cursor: pointer;
-
 }
-
-
-#loginButton:hover {
-
-    background: #1d4ed8;
-
-}
-
 
 #loginError {
 
     margin-top: 15px;
 
-    color: #ff5555;
-
     text-align: center;
 
+    color: #ff5555;
 }
 
 
-/* =====================================================
+/* =========================
    ADMIN
-===================================================== */
+========================= */
 
 #admin {
 
@@ -159,37 +120,23 @@ body {
     margin: auto;
 
     padding: 20px;
-
 }
-
-
-/* =====================================================
-   HEADER
-===================================================== */
 
 .header {
 
     display: flex;
 
-    align-items: center;
-
     justify-content: space-between;
 
-    gap: 20px;
+    align-items: center;
 
     margin-bottom: 25px;
-
 }
-
 
 .header h1 {
 
     margin: 0;
-
-    font-size: 30px;
-
 }
-
 
 #logoutButton {
 
@@ -197,27 +144,19 @@ body {
 
     background: #444;
 
-    color: white;
-
     border: none;
 
     border-radius: 8px;
 
+    color: white;
+
     cursor: pointer;
-
 }
 
 
-#logoutButton:hover {
-
-    background: #555;
-
-}
-
-
-/* =====================================================
+/* =========================
    STATUT
-===================================================== */
+========================= */
 
 .status {
 
@@ -225,27 +164,24 @@ body {
 
     padding: 15px;
 
-    margin-bottom: 25px;
-
     border-radius: 10px;
 
+    margin-bottom: 25px;
+
     text-align: center;
-
 }
-
 
 #currentScene {
 
     color: #4ade80;
 
     font-weight: bold;
-
 }
 
 
-/* =====================================================
-   BOUTONS DE DIFFUSION
-===================================================== */
+/* =========================
+   BOUTONS
+========================= */
 
 .scene-grid {
 
@@ -258,112 +194,58 @@ body {
         );
 
     gap: 15px;
-
 }
-
 
 .scene-button {
 
-    min-height: 110px;
-
-    padding: 15px;
+    min-height: 100px;
 
     border: none;
 
     border-radius: 12px;
 
-    background: #333;
-
     color: white;
 
-    font-size: 17px;
+    font-size: 16px;
 
     font-weight: bold;
 
     cursor: pointer;
 
-    transition:
-        transform 0.15s,
-        background 0.15s;
-
+    transition: 0.2s;
 }
-
 
 .scene-button:hover {
 
-    background: #444;
-
     transform: scale(1.03);
-
 }
-
-
-.scene-button:active {
-
-    transform: scale(0.98);
-
-}
-
-
-/* =====================================================
-   COULEURS BOUTONS
-===================================================== */
 
 .video {
 
     background: #1d4ed8;
-
 }
-
-
-.video:hover {
-
-    background: #2563eb;
-
-}
-
 
 .page {
 
     background: #15803d;
-
 }
-
-
-.page:hover {
-
-    background: #16a34a;
-
-}
-
 
 .photos {
 
     background: #9333ea;
-
 }
-
-
-.photos:hover {
-
-    background: #a855f7;
-
-}
-
 
 .black {
 
-    background: #000;
+    background: black;
 
-    border:
-        1px solid #444;
-
+    border: 1px solid #444;
 }
 
 
-/* =====================================================
-   ÉDITEUR MATCH DU SOIR
-===================================================== */
+/* =========================
+   MATCH DU SOIR
+========================= */
 
 .match-editor {
 
@@ -374,155 +256,73 @@ body {
     background: #222;
 
     border-radius: 15px;
-
-    box-shadow:
-        0 10px 30px
-        rgba(0,0,0,0.3);
-
 }
-
 
 .match-editor h2 {
 
     margin-top: 0;
 
-    margin-bottom: 10px;
-
-    font-size: 26px;
-
+    font-size: 28px;
 }
 
-
-.match-description {
+.description {
 
     color: #aaa;
 
-    margin-bottom: 25px;
-
     line-height: 1.5;
 
+    margin-bottom: 25px;
 }
 
 
-/* =====================================================
-   CHAMPS
-===================================================== */
+/* =========================
+   FORMULAIRE
+========================= */
 
 .form-group {
 
     margin-bottom: 20px;
-
 }
-
 
 .form-group label {
 
     display: block;
 
-    margin-bottom: 7px;
+    margin-bottom: 8px;
 
     font-weight: bold;
-
-    color: #ddd;
-
 }
 
-
-.form-group input[type="text"] {
+.form-group input,
+.form-group select {
 
     width: 100%;
 
     padding: 13px;
 
-    border: none;
-
-    border-radius: 8px;
-
     background: #333;
 
     color: white;
+
+    border: none;
+
+    border-radius: 8px;
 
     font-size: 16px;
-
-    outline: none;
-
 }
 
 
-.form-group input[type="text"]:focus {
-
-    box-shadow:
-        0 0 0 2px #2563eb;
-
-}
-
-
-/* =====================================================
-   INPUT FICHIER
-===================================================== */
-
-.file-input {
-
-    width: 100%;
-
-    padding: 12px;
-
-    background: #333;
-
-    border-radius: 8px;
-
-    color: white;
-
-}
-
-
-.file-input::file-selector-button {
-
-    background: #2563eb;
-
-    color: white;
-
-    border: none;
-
-    padding: 10px 15px;
-
-    border-radius: 7px;
-
-    cursor: pointer;
-
-    margin-right: 10px;
-
-}
-
-
-/* =====================================================
-   APERÇU LOGOS
-===================================================== */
-
-.logo-preview-container {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 20px;
-
-    margin-top: 12px;
-
-    padding: 15px;
-
-    background: #151515;
-
-    border-radius: 10px;
-
-}
-
+/* =========================
+   APERCU LOGOS
+========================= */
 
 .logo-preview {
 
-    width: 100px;
+    margin-top: 10px;
 
-    height: 100px;
+    width: 120px;
+
+    height: 120px;
 
     object-fit: contain;
 
@@ -530,30 +330,19 @@ body {
 
     border-radius: 10px;
 
-    border:
-        1px solid #444;
+    padding: 10px;
 
+    border: 1px solid #444;
 }
 
 
-.logo-preview-text {
-
-    color: #aaa;
-
-    font-size: 14px;
-
-}
-
-
-/* =====================================================
-   BOUTON ENREGISTRER
-===================================================== */
+/* =========================
+   SAUVEGARDE
+========================= */
 
 #saveMatchButton {
 
     width: 100%;
-
-    margin-top: 10px;
 
     padding: 17px;
 
@@ -570,140 +359,58 @@ body {
     font-weight: bold;
 
     cursor: pointer;
-
 }
-
 
 #saveMatchButton:hover {
 
     background: #22c55e;
-
 }
-
-
-#saveMatchButton:disabled {
-
-    background: #555;
-
-    cursor: wait;
-
-}
-
-
-/* =====================================================
-   STATUT SAUVEGARDE
-===================================================== */
 
 #matchStatus {
 
     margin-top: 15px;
 
-    padding: 12px;
-
     text-align: center;
 
+    padding: 12px;
+
     border-radius: 8px;
-
-    min-height: 20px;
-
 }
-
 
 .success {
 
-    background:
-        rgba(22,163,74,0.2);
-
     color: #4ade80;
-
 }
-
 
 .error {
 
-    background:
-        rgba(220,38,38,0.2);
-
     color: #f87171;
-
 }
 
 
-/* =====================================================
-   SÉPARATEUR
-===================================================== */
-
-.separator {
-
-    height: 1px;
-
-    background: #444;
-
-    margin: 30px 0;
-
-}
-
-
-/* =====================================================
+/* =========================
    MOBILE
-===================================================== */
+========================= */
 
-@media (max-width: 600px) {
-
+@media(max-width:600px) {
 
     #admin {
-
         padding: 12px;
-
     }
-
-
-    .header {
-
-        align-items: flex-start;
-
-    }
-
-
-    .header h1 {
-
-        font-size: 24px;
-
-    }
-
 
     .scene-grid {
 
         grid-template-columns:
-            repeat(2, 1fr);
+            repeat(2,1fr);
 
         gap: 10px;
-
     }
-
 
     .scene-button {
 
-        min-height: 90px;
+        min-height: 85px;
 
-        font-size: 14px;
-
-    }
-
-
-    .match-editor {
-
-        padding: 18px;
-
-    }
-
-
-    .logo-preview {
-
-        width: 80px;
-
-        height: 80px;
-
+        font-size: 13px;
     }
 
 }
@@ -722,32 +429,22 @@ body {
 
 <div id="login">
 
-
     <div class="login-box">
 
-
-        <h1>
-            🔐 Régie MVBC
-        </h1>
-
+        <h1>🔐 Régie MVBC</h1>
 
         <input
             type="password"
             id="password"
-            placeholder="Mot de passe"
-            autocomplete="current-password">
+            placeholder="Mot de passe">
 
-
-        <button
-            id="loginButton">
+        <button id="loginButton">
 
             Se connecter
 
         </button>
 
-
         <div id="loginError"></div>
-
 
     </div>
 
@@ -756,41 +453,32 @@ body {
 
 
 <!-- =====================================================
-     ADMINISTRATION
+     ADMIN
 ===================================================== -->
 
 <div id="admin">
 
 
-    <!-- HEADER -->
-
     <div class="header">
-
 
         <h1>
             🎬 Régie de diffusion
         </h1>
 
-
-        <button
-            id="logoutButton">
+        <button id="logoutButton">
 
             Déconnexion
 
         </button>
 
-
     </div>
 
 
-
-    <!-- =================================================
-         STATUT
-    ================================================== -->
+    <!-- STATUT -->
 
     <div class="status">
 
-        Scène actuellement diffusée :
+        Scène actuelle :
 
         <span id="currentScene">
             Aucune
@@ -799,15 +487,12 @@ body {
     </div>
 
 
-
     <!-- =================================================
-         BOUTONS DIFFUSION
+         BOUTONS DE DIFFUSION
     ================================================== -->
 
     <div class="scene-grid">
 
-
-        <!-- VIDÉO 1 -->
 
         <button
             class="scene-button video"
@@ -819,8 +504,6 @@ body {
         </button>
 
 
-        <!-- VIDÉO 2 -->
-
         <button
             class="scene-button video"
             onclick="diffuser('video2')">
@@ -830,8 +513,6 @@ body {
 
         </button>
 
-
-        <!-- DIAPORAMA -->
 
         <button
             class="scene-button photos"
@@ -843,8 +524,6 @@ body {
         </button>
 
 
-        <!-- PARTENAIRES -->
-
         <button
             class="scene-button page"
             onclick="diffuser('partenaires')">
@@ -854,8 +533,6 @@ body {
 
         </button>
 
-
-        <!-- ÉVÉNEMENTS -->
 
         <button
             class="scene-button page"
@@ -867,8 +544,6 @@ body {
         </button>
 
 
-        <!-- VIDÉOS MVBC -->
-
         <button
             class="scene-button page"
             onclick="diffuser('videomvbc')">
@@ -878,8 +553,6 @@ body {
 
         </button>
 
-
-        <!-- MATCH DU SOIR -->
 
         <button
             class="scene-button page"
@@ -891,8 +564,6 @@ body {
         </button>
 
 
-        <!-- CLASSEMENT -->
-
         <button
             class="scene-button page"
             onclick="diffuser('classementnm2')">
@@ -902,8 +573,6 @@ body {
 
         </button>
 
-
-        <!-- NOS ÉQUIPES -->
 
         <button
             class="scene-button page"
@@ -915,8 +584,6 @@ body {
         </button>
 
 
-        <!-- MESSAGE -->
-
         <button
             class="scene-button"
             onclick="diffuser('message')">
@@ -926,8 +593,6 @@ body {
 
         </button>
 
-
-        <!-- NOIR -->
 
         <button
             class="scene-button black"
@@ -944,44 +609,38 @@ body {
 
 
     <!-- =================================================
-         ÉDITEUR MATCH DU SOIR
+         MATCH DU SOIR
     ================================================== -->
 
     <div class="match-editor">
 
 
         <h2>
-            🏀 Match du soir
+            🏀 MATCH DU SOIR
         </h2>
 
 
-        <div class="match-description">
+        <div class="description">
 
-            Configure ici les informations qui apparaîtront
-            sur la page <strong>matchdusoir.html</strong>.
+            Configure ici le match qui apparaîtra
+            sur <strong>matchdusoir.html</strong>.
 
             <br><br>
 
-            Les modifications sont enregistrées dans
-            Firebase et seront automatiquement récupérées
-            par l'écran de diffusion.
+            Les logos sont directement chargés depuis
+            ton dossier <strong>logos/</strong> sur GitHub.
+            Firebase ne stocke donc aucune image.
 
         </div>
 
 
-
-        <!-- =============================================
-             CHAMPIONNAT
-        ============================================== -->
+        <!-- CHAMPIONNAT -->
 
         <div class="form-group">
 
-            <label for="matchChampionnat">
-
+            <label>
                 🏆 Championnat
-
             </label>
-
 
             <input
                 type="text"
@@ -991,19 +650,13 @@ body {
         </div>
 
 
-
-        <!-- =============================================
-             ÉQUIPE 1
-        ============================================== -->
+        <!-- EQUIPE 1 -->
 
         <div class="form-group">
 
-            <label for="matchEquipe1">
-
-                🔵 Nom équipe 1
-
+            <label>
+                🔵 Équipe 1
             </label>
-
 
             <input
                 type="text"
@@ -1013,65 +666,55 @@ body {
         </div>
 
 
-
-        <!-- =============================================
-             LOGO 1
-        ============================================== -->
+        <!-- LOGO 1 -->
 
         <div class="form-group">
 
-            <label for="logoEquipe1">
-
+            <label>
                 🖼️ Logo équipe 1
-
             </label>
 
+            <select id="logoEquipe1">
 
-            <input
-                class="file-input"
-                type="file"
-                id="logoEquipe1"
-                accept="image/*">
+                <option value="">
+                    -- Choisir un logo --
+                </option>
 
+                <option value="logos/mvbc.png">
+                    MVBC
+                </option>
 
-            <div class="logo-preview-container">
+                <option value="logos/equipe2.png">
+                    Équipe 2
+                </option>
 
+                <option value="logos/equipe3.png">
+                    Équipe 3
+                </option>
 
-                <img
-                    id="logoPreview1"
-                    class="logo-preview"
-                    src=""
-                    alt="Aperçu logo équipe 1">
+                <option value="logos/equipe4.png">
+                    Équipe 4
+                </option>
 
-
-                <div class="logo-preview-text">
-
-                    Logo actuel de l'équipe 1.
-                    <br><br>
-                    Choisis une nouvelle image
-                    si tu souhaites le remplacer.
-
-                </div>
+            </select>
 
 
-            </div>
+            <img
+                id="logoPreview1"
+                class="logo-preview"
+                src=""
+                alt="Logo équipe 1">
 
         </div>
 
 
-
-        <!-- =============================================
-             ÉQUIPE 2
-        ============================================== -->
+        <!-- EQUIPE 2 -->
 
         <div class="form-group">
 
-            <label for="matchEquipe2">
-
-                🟠 Nom équipe 2
-
+            <label>
+                🟠 Équipe 2
             </label>
-
 
             <input
                 type="text"
@@ -1081,65 +724,55 @@ body {
         </div>
 
 
-
-        <!-- =============================================
-             LOGO 2
-        ============================================== -->
+        <!-- LOGO 2 -->
 
         <div class="form-group">
 
-            <label for="logoEquipe2">
-
+            <label>
                 🖼️ Logo équipe 2
-
             </label>
 
+            <select id="logoEquipe2">
 
-            <input
-                class="file-input"
-                type="file"
-                id="logoEquipe2"
-                accept="image/*">
+                <option value="">
+                    -- Choisir un logo --
+                </option>
 
+                <option value="logos/mvbc.png">
+                    MVBC
+                </option>
 
-            <div class="logo-preview-container">
+                <option value="logos/equipe2.png">
+                    Équipe 2
+                </option>
 
+                <option value="logos/equipe3.png">
+                    Équipe 3
+                </option>
 
-                <img
-                    id="logoPreview2"
-                    class="logo-preview"
-                    src=""
-                    alt="Aperçu logo équipe 2">
+                <option value="logos/equipe4.png">
+                    Équipe 4
+                </option>
 
-
-                <div class="logo-preview-text">
-
-                    Logo actuel de l'équipe 2.
-                    <br><br>
-                    Choisis une nouvelle image
-                    si tu souhaites le remplacer.
-
-                </div>
+            </select>
 
 
-            </div>
+            <img
+                id="logoPreview2"
+                class="logo-preview"
+                src=""
+                alt="Logo équipe 2">
 
         </div>
 
 
-
-        <!-- =============================================
-             DATE
-        ============================================== -->
+        <!-- DATE -->
 
         <div class="form-group">
 
-            <label for="matchDate">
-
-                📅 Date du match
-
+            <label>
+                📅 Date
             </label>
-
 
             <input
                 type="text"
@@ -1149,19 +782,13 @@ body {
         </div>
 
 
-
-        <!-- =============================================
-             HEURE
-        ============================================== -->
+        <!-- HEURE -->
 
         <div class="form-group">
 
-            <label for="matchHeure">
-
+            <label>
                 ⏰ Heure
-
             </label>
-
 
             <input
                 type="text"
@@ -1171,27 +798,16 @@ body {
         </div>
 
 
+        <!-- SAUVEGARDE -->
 
-        <div class="separator"></div>
-
-
-
-        <!-- =============================================
-             SAUVEGARDER
-        ============================================== -->
-
-        <button
-            id="saveMatchButton">
+        <button id="saveMatchButton">
 
             💾 ENREGISTRER LE MATCH
 
         </button>
 
 
-        <div
-            id="matchStatus">
-
-        </div>
+        <div id="matchStatus"></div>
 
 
     </div>
@@ -1202,15 +818,10 @@ body {
 
 
 <!-- =====================================================
-     JAVASCRIPT
+     FIREBASE
 ===================================================== -->
 
 <script type="module">
-
-
-/* =====================================================
-   FIREBASE APP
-===================================================== */
 
 import {
 
@@ -1221,19 +832,11 @@ from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 
-
-/* =====================================================
-   FIREBASE DATABASE
-===================================================== */
-
 import {
 
     getDatabase,
-
     ref,
-
     set,
-
     onValue
 
 }
@@ -1241,29 +844,8 @@ from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 
-
 /* =====================================================
-   FIREBASE STORAGE
-===================================================== */
-
-import {
-
-    getStorage,
-
-    ref as storageRef,
-
-    uploadBytes,
-
-    getDownloadURL
-
-}
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
-
-
-
-/* =====================================================
-   CONFIGURATION FIREBASE
+   CONFIGURATION
 ===================================================== */
 
 const firebaseConfig = {
@@ -1292,28 +874,12 @@ const firebaseConfig = {
 };
 
 
-
-/* =====================================================
-   INITIALISATION
-===================================================== */
-
 const app =
-    initializeApp(
-        firebaseConfig
-    );
+    initializeApp(firebaseConfig);
 
 
 const db =
-    getDatabase(
-        app
-    );
-
-
-const storage =
-    getStorage(
-        app
-    );
-
+    getDatabase(app);
 
 
 /* =====================================================
@@ -1324,117 +890,83 @@ const MOT_DE_PASSE =
     "Mvbc85600@";
 
 
-
 /* =====================================================
-   ÉLÉMENTS CONNEXION
+   ELEMENTS
 ===================================================== */
 
 const login =
-    document.getElementById(
-        "login"
-    );
-
+    document.getElementById("login");
 
 const admin =
-    document.getElementById(
-        "admin"
-    );
-
+    document.getElementById("admin");
 
 const password =
-    document.getElementById(
-        "password"
-    );
-
+    document.getElementById("password");
 
 const loginButton =
-    document.getElementById(
-        "loginButton"
-    );
-
+    document.getElementById("loginButton");
 
 const loginError =
-    document.getElementById(
-        "loginError"
-    );
-
+    document.getElementById("loginError");
 
 const logoutButton =
-    document.getElementById(
-        "logoutButton"
-    );
-
+    document.getElementById("logoutButton");
 
 const currentScene =
-    document.getElementById(
-        "currentScene"
-    );
+    document.getElementById("currentScene");
 
 
-
-/* =====================================================
-   ÉLÉMENTS MATCH
-===================================================== */
+/* MATCH */
 
 const matchChampionnat =
     document.getElementById(
         "matchChampionnat"
     );
 
-
 const matchEquipe1 =
     document.getElementById(
         "matchEquipe1"
     );
-
 
 const matchEquipe2 =
     document.getElementById(
         "matchEquipe2"
     );
 
-
-const matchDate =
-    document.getElementById(
-        "matchDate"
-    );
-
-
-const matchHeure =
-    document.getElementById(
-        "matchHeure"
-    );
-
-
 const logoEquipe1 =
     document.getElementById(
         "logoEquipe1"
     );
-
 
 const logoEquipe2 =
     document.getElementById(
         "logoEquipe2"
     );
 
-
 const logoPreview1 =
     document.getElementById(
         "logoPreview1"
     );
-
 
 const logoPreview2 =
     document.getElementById(
         "logoPreview2"
     );
 
+const matchDate =
+    document.getElementById(
+        "matchDate"
+    );
+
+const matchHeure =
+    document.getElementById(
+        "matchHeure"
+    );
 
 const saveMatchButton =
     document.getElementById(
         "saveMatchButton"
     );
-
 
 const matchStatus =
     document.getElementById(
@@ -1442,29 +974,14 @@ const matchStatus =
     );
 
 
-
 /* =====================================================
-   RÉFÉRENCE MATCH FIREBASE
-===================================================== */
-
-const matchRef =
-    ref(
-        db,
-        "matchdusoir"
-    );
-
-
-
-/* =====================================================
-   VÉRIFIER CONNEXION
+   CONNEXION
 ===================================================== */
 
 if (
-
     sessionStorage.getItem(
         "adminConnecte"
     ) === "true"
-
 ) {
 
     afficherAdmin();
@@ -1472,31 +989,15 @@ if (
 }
 
 
-
-/* =====================================================
-   BOUTON CONNEXION
-===================================================== */
-
 loginButton.addEventListener(
-
     "click",
-
     verifierMotDePasse
-
 );
 
 
-
-/* =====================================================
-   TOUCHE ENTER
-===================================================== */
-
 password.addEventListener(
-
     "keydown",
-
     (event) => {
-
 
         if (
             event.key === "Enter"
@@ -1507,40 +1008,23 @@ password.addEventListener(
         }
 
     }
-
 );
 
 
-
-/* =====================================================
-   VÉRIFICATION MOT DE PASSE
-===================================================== */
-
 function verifierMotDePasse() {
 
-
     if (
-
-        password.value ===
-        MOT_DE_PASSE
-
+        password.value === MOT_DE_PASSE
     ) {
 
-
         sessionStorage.setItem(
-
             "adminConnecte",
-
             "true"
-
         );
-
 
         afficherAdmin();
 
-
         password.value = "";
-
 
         loginError.textContent = "";
 
@@ -1548,10 +1032,8 @@ function verifierMotDePasse() {
 
     else {
 
-
         loginError.textContent =
             "Mot de passe incorrect.";
-
 
         password.value = "";
 
@@ -1560,17 +1042,10 @@ function verifierMotDePasse() {
 }
 
 
-
-/* =====================================================
-   AFFICHER ADMIN
-===================================================== */
-
 function afficherAdmin() {
-
 
     login.style.display =
         "none";
-
 
     admin.style.display =
         "block";
@@ -1578,114 +1053,82 @@ function afficherAdmin() {
 }
 
 
-
-/* =====================================================
-   DÉCONNEXION
-===================================================== */
-
 logoutButton.addEventListener(
-
     "click",
-
     () => {
-
 
         sessionStorage.removeItem(
             "adminConnecte"
         );
 
-
         admin.style.display =
             "none";
-
 
         login.style.display =
             "flex";
 
     }
-
 );
 
 
-
 /* =====================================================
-   DIFFUSER UNE SCÈNE
+   DIFFUSION
 ===================================================== */
 
 window.diffuser =
-    function(scene) {
+function(scene) {
 
+    set(
 
-        console.log(
-            "Commande de diffusion :",
-            scene
+        ref(
+            db,
+            "diffusion"
+        ),
+
+        {
+
+            scene: scene,
+
+            timestamp: Date.now()
+
+        }
+
+    )
+
+    .then(() => {
+
+        currentScene.textContent =
+            scene;
+
+    })
+
+    .catch((error) => {
+
+        console.error(error);
+
+        alert(
+            "Erreur de diffusion : " +
+            error.message
         );
 
+    });
 
-        set(
-
-            ref(
-                db,
-                "diffusion"
-            ),
-
-            {
-
-                scene:
-                    scene,
-
-                timestamp:
-                    Date.now()
-
-            }
-
-        )
-
-        .then(
-
-            () => {
-
-
-                console.log(
-                    "Diffusion réussie :",
-                    scene
-                );
-
-
-                currentScene.textContent =
-                    scene;
-
-
-            }
-
-        )
-
-        .catch(
-
-            (error) => {
-
-
-                console.error(
-                    "Erreur Firebase :",
-                    error
-                );
-
-
-                alert(
-                    "Erreur de diffusion : " +
-                    error.message
-                );
-
-            }
-
-        );
-
-    };
-
+};
 
 
 /* =====================================================
-   CHARGER LES DONNÉES DU MATCH
+   MATCH FIREBASE
+===================================================== */
+
+const matchRef =
+    ref(
+        db,
+        "matchdusoir"
+    );
+
+
+/* =====================================================
+   CHARGER MATCH
 ===================================================== */
 
 onValue(
@@ -1694,23 +1137,15 @@ onValue(
 
     (snapshot) => {
 
-
         const data =
             snapshot.val();
 
-
         if (!data) {
-
             return;
-
         }
 
 
-        /* CHAMPIONNAT */
-
-        if (
-            data.championnat
-        ) {
+        if (data.championnat) {
 
             matchChampionnat.value =
                 data.championnat;
@@ -1718,11 +1153,7 @@ onValue(
         }
 
 
-        /* ÉQUIPE 1 */
-
-        if (
-            data.equipe1
-        ) {
+        if (data.equipe1) {
 
             matchEquipe1.value =
                 data.equipe1;
@@ -1730,11 +1161,7 @@ onValue(
         }
 
 
-        /* ÉQUIPE 2 */
-
-        if (
-            data.equipe2
-        ) {
+        if (data.equipe2) {
 
             matchEquipe2.value =
                 data.equipe2;
@@ -1742,35 +1169,10 @@ onValue(
         }
 
 
-        /* DATE */
+        if (data.logo1) {
 
-        if (
-            data.date
-        ) {
-
-            matchDate.value =
-                data.date;
-
-        }
-
-
-        /* HEURE */
-
-        if (
-            data.heure
-        ) {
-
-            matchHeure.value =
-                data.heure;
-
-        }
-
-
-        /* LOGO 1 */
-
-        if (
-            data.logo1
-        ) {
+            logoEquipe1.value =
+                data.logo1;
 
             logoPreview1.src =
                 data.logo1;
@@ -1778,177 +1180,81 @@ onValue(
         }
 
 
-        /* LOGO 2 */
+        if (data.logo2) {
 
-        if (
-            data.logo2
-        ) {
+            logoEquipe2.value =
+                data.logo2;
 
             logoPreview2.src =
                 data.logo2;
 
         }
 
+
+        if (data.date) {
+
+            matchDate.value =
+                data.date;
+
+        }
+
+
+        if (data.heure) {
+
+            matchHeure.value =
+                data.heure;
+
+        }
+
     }
 
 );
 
 
-
 /* =====================================================
-   APERÇU LOGO 1
+   APERCU LOGO 1
 ===================================================== */
 
 logoEquipe1.addEventListener(
-
     "change",
-
     () => {
 
+        if (
+            logoEquipe1.value
+        ) {
 
-        const file =
-            logoEquipe1.files[0];
-
-
-        if (!file) {
-
-            return;
+            logoPreview1.src =
+                logoEquipe1.value;
 
         }
 
-
-        const reader =
-            new FileReader();
-
-
-        reader.onload =
-            function(event) {
-
-
-                logoPreview1.src =
-                    event.target.result;
-
-            };
-
-
-        reader.readAsDataURL(
-            file
-        );
-
     }
-
 );
 
 
-
 /* =====================================================
-   APERÇU LOGO 2
+   APERCU LOGO 2
 ===================================================== */
 
 logoEquipe2.addEventListener(
-
     "change",
-
     () => {
 
+        if (
+            logoEquipe2.value
+        ) {
 
-        const file =
-            logoEquipe2.files[0];
-
-
-        if (!file) {
-
-            return;
+            logoPreview2.src =
+                logoEquipe2.value;
 
         }
 
-
-        const reader =
-            new FileReader();
-
-
-        reader.onload =
-            function(event) {
-
-
-                logoPreview2.src =
-                    event.target.result;
-
-            };
-
-
-        reader.readAsDataURL(
-            file
-        );
-
     }
-
 );
 
 
-
 /* =====================================================
-   UPLOAD LOGO
-===================================================== */
-
-async function envoyerLogo(
-
-    file,
-
-    nomFichier
-
-) {
-
-
-    if (!file) {
-
-        return null;
-
-    }
-
-
-    console.log(
-        "Envoi du logo :",
-        nomFichier
-    );
-
-
-    const fichierRef =
-        storageRef(
-
-            storage,
-
-            "matchdusoir/" +
-            nomFichier +
-            "_" +
-            Date.now()
-
-        );
-
-
-    await uploadBytes(
-
-        fichierRef,
-
-        file
-
-    );
-
-
-    const url =
-        await getDownloadURL(
-            fichierRef
-        );
-
-
-    return url;
-
-}
-
-
-
-/* =====================================================
-   ENREGISTRER LE MATCH
+   ENREGISTRER MATCH
 ===================================================== */
 
 saveMatchButton.addEventListener(
@@ -1957,191 +1263,42 @@ saveMatchButton.addEventListener(
 
     async () => {
 
-
         try {
-
-
-            /* -----------------------------------------
-               DÉSACTIVER LE BOUTON
-            ----------------------------------------- */
 
             saveMatchButton.disabled =
                 true;
-
 
             saveMatchButton.textContent =
                 "⏳ ENREGISTREMENT...";
 
 
-            matchStatus.className =
-                "";
-
-
-            matchStatus.textContent =
-                "Enregistrement des informations...";
-
-
-
-            /* -----------------------------------------
-               RÉCUPÉRER LES LOGOS EXISTANTS
-            ----------------------------------------- */
-
-            let logo1Url =
-                null;
-
-
-            let logo2Url =
-                null;
-
-
-            /*
-               On récupère les valeurs actuelles
-               dans Firebase afin de conserver
-               le logo existant si aucun nouveau
-               logo n'est sélectionné.
-            */
-
-            const snapshot =
-                await new Promise(
-
-                    (resolve) => {
-
-
-                        onValue(
-
-                            matchRef,
-
-                            resolve,
-
-                            {
-
-                                onlyOnce:
-                                    true
-
-                            }
-
-                        );
-
-                    }
-
-                );
-
-
-            const anciennesDonnees =
-                snapshot.val() || {};
-
-
-            logo1Url =
-                anciennesDonnees.logo1 ||
-                "";
-
-
-            logo2Url =
-                anciennesDonnees.logo2 ||
-                "";
-
-
-
-            /* -----------------------------------------
-               ENVOYER NOUVEAU LOGO 1
-            ----------------------------------------- */
-
-            if (
-                logoEquipe1.files.length > 0
-            ) {
-
-
-                matchStatus.textContent =
-                    "⏳ Envoi du logo équipe 1...";
-
-
-                logo1Url =
-                    await envoyerLogo(
-
-                        logoEquipe1.files[0],
-
-                        "equipe1"
-
-                    );
-
-            }
-
-
-
-            /* -----------------------------------------
-               ENVOYER NOUVEAU LOGO 2
-            ----------------------------------------- */
-
-            if (
-                logoEquipe2.files.length > 0
-            ) {
-
-
-                matchStatus.textContent =
-                    "⏳ Envoi du logo équipe 2...";
-
-
-                logo2Url =
-                    await envoyerLogo(
-
-                        logoEquipe2.files[0],
-
-                        "equipe2"
-
-                    );
-
-            }
-
-
-
-            /* -----------------------------------------
-               DONNÉES À ENREGISTRER
-            ----------------------------------------- */
-
             const donneesMatch = {
-
 
                 championnat:
                     matchChampionnat.value.trim(),
 
-
                 equipe1:
                     matchEquipe1.value.trim(),
 
+                logo1:
+                    logoEquipe1.value,
 
                 equipe2:
                     matchEquipe2.value.trim(),
 
+                logo2:
+                    logoEquipe2.value,
 
                 date:
                     matchDate.value.trim(),
 
-
                 heure:
                     matchHeure.value.trim(),
-
-
-                logo1:
-                    logo1Url,
-
-
-                logo2:
-                    logo2Url,
-
 
                 timestamp:
                     Date.now()
 
             };
-
-
-
-            /* -----------------------------------------
-               ENREGISTREMENT FIREBASE
-            ----------------------------------------- */
-
-            matchStatus.textContent =
-                "⏳ Enregistrement dans Firebase...";
 
 
             await set(
@@ -2153,72 +1310,42 @@ saveMatchButton.addEventListener(
             );
 
 
-
-            /* -----------------------------------------
-               SUCCÈS
-            ----------------------------------------- */
-
             matchStatus.className =
                 "success";
 
-
             matchStatus.textContent =
-                "✅ Match enregistré avec succès !";
+                "✅ Match enregistré !";
 
 
             saveMatchButton.textContent =
-                "✅ MATCH ENREGISTRÉ";
+                "✅ ENREGISTRÉ";
 
 
-            /* Réinitialiser les champs fichiers */
+            setTimeout(() => {
 
-            logoEquipe1.value = "";
+                saveMatchButton.disabled =
+                    false;
 
-            logoEquipe2.value = "";
+                saveMatchButton.textContent =
+                    "💾 ENREGISTRER LE MATCH";
 
-
-            /* Revenir au texte normal après 2 secondes */
-
-            setTimeout(
-
-                () => {
-
-                    saveMatchButton.disabled =
-                        false;
-
-                    saveMatchButton.textContent =
-                        "💾 ENREGISTRER LE MATCH";
-
-                },
-
-                2000
-
-            );
+            }, 2000);
 
         }
 
+        catch(error) {
 
-        catch (error) {
-
-
-            console.error(
-                "Erreur :",
-                error
-            );
-
+            console.error(error);
 
             matchStatus.className =
                 "error";
-
 
             matchStatus.textContent =
                 "❌ Erreur : " +
                 error.message;
 
-
             saveMatchButton.disabled =
                 false;
-
 
             saveMatchButton.textContent =
                 "💾 ENREGISTRER LE MATCH";
@@ -2230,7 +1357,6 @@ saveMatchButton.addEventListener(
 );
 
 </script>
-
 
 </body>
 
