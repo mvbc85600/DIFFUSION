@@ -1,594 +1,1588 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Régie - MVBC</title>
-    <style>
-        /* =====================================================
-           RESET ET STYLES DE BASE
-        ===================================================== */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
 
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            line-height: 1.6;
-        }
+<meta charset="UTF-8">
 
-        /* =====================================================
-           EN-TÊTE AVEC ONGLETS
-        ===================================================== */
-        .header {
-            background-color: #1e1e1e;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #333;
-        }
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #4CAF50;
-        }
+<title>Régie MVBC</title>
 
-        .tabs {
-            display: flex;
-            gap: 10px;
-        }
+<style>
 
-        .tab-button {
-            padding: 10px 20px;
-            background-color: #2d2d2d;
-            color: #cccccc;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+* {
+    box-sizing: border-box;
+}
+      
 
-        .tab-button:hover {
-            background-color: #3a3a3a;
-        }
+body {
+    margin: 0;
+    background: #111;
+    color: white;
+    font-family: Arial, sans-serif;
+}
 
-        .tab-button.active {
-            background-color: #4CAF50;
-            color: #ffffff;
-        }
+/* =========================
+   CONNEXION
+========================= */
 
-        /* =====================================================
-           CONTENU PRINCIPAL
-        ===================================================== */
-        .main-content {
-            padding: 20px;
-        }
+#login {
 
-        /* =====================================================
-           RÉGIE (PAGE PAR DÉFAUT)
-        ===================================================== */
-        .regie {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+    min-height: 100vh;
 
-        .regie-button {
-            background-color: #252526;
-            border: 1px solid #333;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            color: #ffffff;
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 150px;
-        }
+    display: flex;
 
-        .regie-button:hover {
-            background-color: #2d2d2d;
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
+    align-items: center;
 
-        .regie-button i {
-            font-size: 40px;
-            margin-bottom: 10px;
-            color: #4CAF50;
-        }
+    justify-content: center;
 
-        .regie-button span {
-            font-size: 16px;
-            font-weight: bold;
-        }
+    padding: 20px;
+}
 
-        /* =====================================================
-           ONGLETS D'ADMINISTRATION
-        ===================================================== */
-        .tab-content {
-            display: none;
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #1e1e1e;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        }
+.login-box {
 
-        .tab-content.active {
-            display: block;
-        }
+    width: 100%;
+    max-width: 400px;
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+    background: #222;
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #cccccc;
-        }
+    padding: 30px;
 
-        .form-group input[type="text"],
-        .form-group input[type="url"],
-        .form-group input[type="color"],
-        .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #333;
-            border-radius: 5px;
-            background-color: #2d2d2d;
-            color: #ffffff;
-            font-size: 16px;
-        }
+    border-radius: 15px;
 
-        .form-group input[type="color"] {
-            height: 50px;
-            padding: 5px;
-            cursor: pointer;
-        }
+    box-shadow:
+        0 10px 40px
+        rgba(0,0,0,0.5);
+}
 
-        .section {
-            margin-bottom: 30px;
-            padding: 20px;
-            border: 1px solid #333;
-            border-radius: 8px;
-            background-color: #252526;
-        }
+.login-box h1 {
 
-        .section h2 {
-            margin-bottom: 15px;
-            color: #ffffff;
-            font-size: 20px;
-            border-bottom: 1px solid #333;
-            padding-bottom: 10px;
-        }
+    text-align: center;
 
-        .colors-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
+    margin-top: 0;
+}
 
-        .button-group {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-        }
+.login-box input {
 
-        button {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+    width: 100%;
 
-        button.save {
-            background-color: #4CAF50;
-            color: #ffffff;
-        }
+    padding: 15px;
 
-        button.save:hover {
-            background-color: #45a049;
-        }
+    margin-bottom: 15px;
 
-        button.reset {
-            background-color: #f44336;
-            color: #ffffff;
-        }
+    border: none;
 
-        button.reset:hover {
-            background-color: #d32f2f;
-        }
+    border-radius: 8px;
 
-        /* =====================================================
-           RESPONSIVE
-        ===================================================== */
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                gap: 15px;
-            }
+    font-size: 16px;
+}
 
-            .tabs {
-                width: 100%;
-                justify-content: center;
-                flex-wrap: wrap;
-            }
+#loginButton {
 
-            .regie {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            }
+    width: 100%;
 
-            .colors-grid {
-                grid-template-columns: 1fr;
-            }
+    padding: 15px;
 
-            .button-group {
-                flex-direction: column;
-            }
+    border: none;
 
-            button {
-                width: 100%;
-            }
-        }
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    border-radius: 8px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 18px;
+
+    cursor: pointer;
+}
+
+#loginError {
+
+    margin-top: 15px;
+
+    text-align: center;
+
+    color: #ff5555;
+}
+
+
+/* =========================
+   ADMIN
+========================= */
+
+#admin {
+
+    display: none;
+
+    max-width: 1200px;
+
+    margin: auto;
+
+    padding: 20px;
+}
+
+.header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+}
+
+.header h1 {
+
+    margin: 0;
+}
+
+#logoutButton {
+
+    padding: 10px 15px;
+
+    background: #444;
+
+    border: none;
+
+    border-radius: 8px;
+
+    color: white;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   STATUT
+========================= */
+
+.status {
+
+    background: #222;
+
+    padding: 15px;
+
+    border-radius: 10px;
+
+    margin-bottom: 25px;
+
+    text-align: center;
+}
+
+#currentScene {
+
+    color: #4ade80;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   BOUTONS
+========================= */
+
+.scene-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(180px, 1fr)
+        );
+
+    gap: 15px;
+}
+
+.scene-button {
+
+    min-height: 100px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.scene-button:hover {
+
+    transform: scale(1.03);
+}
+
+.video {
+
+    background: #1d4ed8;
+}
+
+.page {
+
+    background: #15803d;
+}
+
+.photos {
+
+    background: #9333ea;
+}
+
+.black {
+
+    background: black;
+
+    border: 1px solid #444;
+}
+
+
+/* =========================
+   MATCH DU SOIR
+========================= */
+
+.match-editor {
+
+    margin-top: 40px;
+
+    padding: 25px;
+
+    background: #222;
+
+    border-radius: 15px;
+}
+
+.match-editor h2 {
+
+    margin-top: 0;
+
+    font-size: 28px;
+}
+
+.description {
+
+    color: #aaa;
+
+    line-height: 1.5;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================
+   FORMULAIRE
+========================= */
+
+.form-group {
+
+    margin-bottom: 20px;
+}
+
+.form-group label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+
+    width: 100%;
+
+    padding: 13px;
+
+    background: #333;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+}
+
+
+/* =========================
+   APERCU LOGOS
+========================= */
+
+.logo-preview {
+
+    margin-top: 10px;
+
+    width: 120px;
+
+    height: 120px;
+
+    object-fit: contain;
+
+    background: #000;
+
+    border-radius: 10px;
+
+    padding: 10px;
+
+    border: 1px solid #444;
+}
+
+
+/* =========================
+   SAUVEGARDE
+========================= */
+
+#saveMatchButton {
+
+    width: 100%;
+
+    padding: 17px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #16a34a;
+
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+#saveMatchButton:hover {
+
+    background: #22c55e;
+}
+
+#matchStatus {
+
+    margin-top: 15px;
+
+    text-align: center;
+
+    padding: 12px;
+
+    border-radius: 8px;
+}
+
+.success {
+
+    color: #4ade80;
+}
+
+.error {
+
+    color: #f87171;
+}
+
+
+/* =========================
+   HALOS DES ÉQUIPES
+========================= */
+
+.halo-editor {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #181818;
+    border: 1px solid #333;
+    border-radius: 12px;
+}
+
+.halo-editor h3 {
+    margin: 0 0 8px 0;
+    font-size: 22px;
+}
+
+.halo-description {
+    color: #aaa;
+    line-height: 1.5;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.halo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.halo-team {
+    padding: 18px;
+    background: #222;
+    border-radius: 10px;
+    border: 1px solid #3a3a3a;
+}
+
+.halo-team label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: bold;
+}
+
+.color-control {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.color-control select {
+    flex: 1;
+    width: 100%;
+    padding: 13px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.halo-color-preview {
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #008cff;
+    box-shadow: 0 0 10px currentColor, 0 0 25px currentColor;
+}
+
+.halo-team-2 .halo-color-preview {
+    background: #ff6500;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px) {
+
+    #admin {
+        padding: 12px;
+    }
+
+    .scene-grid {
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+        gap: 10px;
+    }
+
+    .scene-button {
+
+        min-height: 85px;
+
+        font-size: 13px;
+    }
+
+    .halo-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+</style>
+
 </head>
+
+
 <body>
-    <!-- =====================================================
-         EN-TÊTE AVEC ONGLETS
-    ===================================================== -->
+
+
+<!-- =====================================================
+     CONNEXION
+===================================================== -->
+
+<div id="login">
+
+    <div class="login-box">
+
+        <h1>🔐 Régie MVBC</h1>
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Mot de passe">
+
+        <button id="loginButton">
+
+            Se connecter
+
+        </button>
+
+        <div id="loginError"></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     ADMIN
+===================================================== -->
+
+<div id="admin">
+
+
     <div class="header">
-        <div class="logo">MVBC 🎬 Régie</div>
-        <div class="tabs">
-            <button class="tab-button active" onclick="openTab('regie')">
-                <i class="fas fa-tv"></i> Régie
-            </button>
-            <button class="tab-button" onclick="openTab('matchdusoir')">
-                <i class="fas fa-futbol"></i> Match du Soir
-            </button>
-            <button class="tab-button" onclick="openTab('message')">
-                <i class="fas fa-comment"></i> Message
-            </button>
-            <!-- Ajoute d'autres onglets ici si nécessaire -->
-        </div>
+
+        <h1>
+            🎬 Régie de diffusion
+        </h1>
+
+        <button id="logoutButton">
+
+            Déconnexion
+
+        </button>
+
     </div>
 
-    <!-- =====================================================
-         CONTENU PRINCIPAL
-    ===================================================== -->
-    <div class="main-content">
-        <!-- =================================================
-             RÉGIE (PAGE PAR DÉFAUT)
-        ================================================= -->
-        <div id="regie" class="tab-content active">
-            <div class="regie">
-                <!-- Boutons de la régie (à adapter selon tes besoins) -->
-                <a href="matchdusoir.html" class="regie-button">
-                    <i class="fas fa-futbol"></i>
-                    <span>Match du Soir</span>
-                </a>
-                <a href="message.html" class="regie-button">
-                    <i class="fas fa-comment"></i>
-                    <span>Message</span>
-                </a>
-                <a href="classement.html" class="regie-button">
-                    <i class="fas fa-trophy"></i>
-                    <span>Classement</span>
-                </a>
-                <a href="statistiques.html" class="regie-button">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>Statistiques</span>
-                </a>
-                <a href="publicite.html" class="regie-button">
-                    <i class="fas fa-ad"></i>
-                    <span>Publicité</span>
-                </a>
-                <a href="replay.html" class="regie-button">
-                    <i class="fas fa-redo"></i>
-                    <span>Replay</span>
-                </a>
-                <!-- Ajoute d'autres boutons ici -->
-            </div>
-        </div>
 
-        <!-- =================================================
-             ONGLET : ADMINISTRATION MATCH DU SOIR
-        ================================================= -->
-        <div id="matchdusoir" class="tab-content">
-            <h1>⚙️ Administration - Match du Soir</h1>
+    <!-- STATUT -->
 
-            <div class="section">
-                <h2>📌 Informations générales</h2>
+    <div class="status">
 
-                <div class="form-group">
-                    <label for="championnat">Championnat :</label>
-                    <input type="text" id="championnat" placeholder="Ex: LIGUE 1, PREMIER LEAGUE, etc.">
-                </div>
+        Scène actuelle :
 
-                <div class="form-group">
-                    <label for="titreMatch">Titre du match :</label>
-                    <select id="titreMatch">
-                        <option value="MATCH DU SOIR">MATCH DU SOIR</option>
-                        <option value="PROCHAIN MATCH">PROCHAIN MATCH</option>
-                    </select>
-                </div>
+        <span id="currentScene">
+            Aucune
+        </span>
 
-                <div class="form-group">
-                    <label for="date">Date :</label>
-                    <input type="text" id="date" placeholder="Ex: SAMEDI, DIMANCHE, etc.">
-                </div>
-
-                <div class="form-group">
-                    <label for="heure">Heure :</label>
-                    <input type="text" id="heure" placeholder="Ex: 20H00, 21H30, etc.">
-                </div>
-            </div>
-
-            <div class="section">
-                <h2>⚽ Équipes</h2>
-
-                <div class="form-group">
-                    <label for="equipe1">Équipe 1 (à gauche) :</label>
-                    <input type="text" id="equipe1" placeholder="Ex: PSG">
-                </div>
-
-                <div class="form-group">
-                    <label for="logo1">URL du logo de l'équipe 1 :</label>
-                    <input type="url" id="logo1" placeholder="Ex: https://exemple.com/logo-psg.png">
-                </div>
-
-                <div class="form-group">
-                    <label for="equipe2">Équipe 2 (à droite) :</label>
-                    <input type="text" id="equipe2" placeholder="Ex: OM">
-                </div>
-
-                <div class="form-group">
-                    <label for="logo2">URL du logo de l'équipe 2 :</label>
-                    <input type="url" id="logo2" placeholder="Ex: https://exemple.com/logo-om.png">
-                </div>
-            </div>
-
-            <div class="section">
-                <h2>🎨 Couleurs des halos</h2>
-
-                <div class="colors-grid">
-                    <div class="form-group">
-                        <label for="haloCouleur1">Couleur halo équipe 1 (gauche) :</label>
-                        <input type="color" id="haloCouleur1" value="#008cff">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="haloCouleur2">Couleur halo équipe 2 (droite) :</label>
-                        <input type="color" id="haloCouleur2" value="#ff6500">
-                    </div>
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button class="save" onclick="saveMatchData()">
-                    <i class="fas fa-save"></i> Sauvegarder
-                </button>
-                <button class="reset" onclick="resetMatchForm()">
-                    <i class="fas fa-undo"></i> Réinitialiser
-                </button>
-            </div>
-        </div>
-
-        <!-- =================================================
-             ONGLET : ADMINISTRATION MESSAGE
-        ================================================= -->
-        <div id="message" class="tab-content">
-            <h1>⚙️ Administration - Message</h1>
-
-            <div class="section">
-                <h2>📝 Contenu du message</h2>
-
-                <div class="form-group">
-                    <label for="messageTitre">Titre du message :</label>
-                    <input type="text" id="messageTitre" placeholder="Ex: Annonce importante">
-                </div>
-
-                <div class="form-group">
-                    <label for="messageContenu">Contenu du message :</label>
-                    <textarea id="messageContenu" rows="5" placeholder="Ex: Le match est reporté à demain..." style="width: 100%; padding: 12px; border: 1px solid #333; border-radius: 5px; background-color: #2d2d2d; color: #ffffff; font-size: 16px;"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="messageCouleur">Couleur du texte :</label>
-                    <input type="color" id="messageCouleur" value="#ffffff">
-                </div>
-
-                <div class="form-group">
-                    <label for="messageFond">Couleur de fond :</label>
-                    <input type="color" id="messageFond" value="#1e1e1e">
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button class="save" onclick="saveMessageData()">
-                    <i class="fas fa-save"></i> Sauvegarder
-                </button>
-                <button class="reset" onclick="resetMessageForm()">
-                    <i class="fas fa-undo"></i> Réinitialiser
-                </button>
-            </div>
-        </div>
     </div>
 
-    <!-- =====================================================
-         SCRIPT POUR LES ONGLETS
-    ===================================================== -->
-    <script>
-        // Fonction pour basculer entre les onglets
-        function openTab(tabName) {
-            // Masquer tous les contenus d'onglets
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(content => {
-                content.classList.remove('active');
-            });
 
-            // Désactiver tous les boutons d'onglets
-            const tabButtons = document.querySelectorAll('.tab-button');
-            tabButtons.forEach(button => {
-                button.classList.remove('active');
-            });
+    <!-- =================================================
+         BOUTONS DE DIFFUSION
+    ================================================== -->
 
-            // Afficher le contenu de l'onglet sélectionné
-            document.getElementById(tabName).classList.add('active');
+    <div class="scene-grid">
 
-            // Activer le bouton de l'onglet sélectionné
-            event.currentTarget.classList.add('active');
+
+        <button
+            class="scene-button video"
+            onclick="diffuser('video1')">
+
+            🎬<br>
+            VIDÉO 1
+
+        </button>
+
+
+        <button
+            class="scene-button video"
+            onclick="diffuser('video2')">
+
+            🎬<br>
+            VIDÉO 2
+
+        </button>
+
+
+        <button
+            class="scene-button photos"
+            onclick="diffuser('photos')">
+
+            🖼️<br>
+            DIAPORAMA
+
+        </button>
+
+
+        <button
+            class="scene-button page"
+            onclick="diffuser('partenaires')">
+
+            🤝<br>
+            PARTENAIRES
+
+        </button>
+
+
+        <button
+            class="scene-button page"
+            onclick="diffuser('evenements')">
+
+            📅<br>
+            ÉVÉNEMENTS
+
+        </button>
+
+
+        <button
+            class="scene-button page"
+            onclick="diffuser('videomvbc')">
+
+            🎥<br>
+            VIDÉOS MVBC
+
+        </button>
+
+
+        <button
+            class="scene-button page"
+            onclick="diffuser('matchdusoir')">
+
+            🏀<br>
+            MATCH DU SOIR
+
+        </button>
+
+
+        <button
+            class="scene-button page"
+            onclick="diffuser('classementnm2')">
+
+            🏆<br>
+            CLASSEMENT NM2
+
+        </button>
+
+
+        <button
+            class="scene-button page"
+            onclick="diffuser('nosequipes')">
+
+            👥<br>
+            NOS ÉQUIPES
+
+        </button>
+
+
+        <button
+            class="scene-button"
+            onclick="diffuser('message')">
+
+            📝<br>
+            MESSAGE
+
+        </button>
+
+
+        <button
+            class="scene-button black"
+            onclick="diffuser('black')">
+
+            ⬛<br>
+            ÉCRAN NOIR
+
+        </button>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         MATCH DU SOIR
+    ================================================== -->
+
+    <div class="match-editor">
+
+
+        <h2>
+            🏀 MATCH DU SOIR
+        </h2>
+
+
+        <div class="description">
+
+            Configure ici le match qui apparaîtra
+            sur <strong>matchdusoir.html</strong>.
+
+            <br><br>
+
+            Les logos sont directement chargés depuis
+            ton dossier <strong>logos/</strong> sur GitHub.
+            Firebase ne stocke donc aucune image.
+
+        </div>
+
+
+        <!-- CHAMPIONNAT -->
+
+        <div class="form-group">
+
+            <label>
+                🏆 Championnat
+            </label>
+
+            <input
+                type="text"
+                id="matchChampionnat"
+                placeholder="Ex : CHAMPIONNAT NM2">
+
+        </div>
+
+
+        <!-- EQUIPE 1 -->
+
+        <div class="form-group">
+
+            <label>
+                🔵 Équipe 1
+            </label>
+
+            <input
+                type="text"
+                id="matchEquipe1"
+                placeholder="Ex : MVBC">
+
+        </div>
+
+
+        <!-- LOGO 1 -->
+
+        <div class="form-group">
+
+            <label>
+                🖼️ Logo équipe 1
+            </label>
+
+            <select id="logoEquipe1">
+
+                <option value="">
+                    -- Choisir un logo --
+                </option>
+
+                <option value="logos/mvbc.png">
+                    MVBC
+                </option>
+
+                <option value="logos/nantesbh.png">
+                    Nantes BH
+                </option>
+
+                <option value="logos/equipe3.png">
+                    Équipe 3
+                </option>
+
+                <option value="logos/equipe4.png">
+                    Équipe 4
+                </option>
+
+            </select>
+
+
+            <img
+                id="logoPreview1"
+                class="logo-preview"
+                src=""
+                alt="Logo équipe 1">
+
+        </div>
+
+
+        <!-- EQUIPE 2 -->
+
+        <div class="form-group">
+
+            <label>
+                🟠 Équipe 2
+            </label>
+
+            <input
+                type="text"
+                id="matchEquipe2"
+                placeholder="Ex : TOULOUSE">
+
+        </div>
+
+
+        <!-- LOGO 2 -->
+
+        <div class="form-group">
+
+            <label>
+                🖼️ Logo équipe 2
+            </label>
+
+            <select id="logoEquipe2">
+
+                <option value="">
+                    -- Choisir un logo --
+                </option>
+
+                <option value="logos/mvbc.png">
+                    MVBC
+                </option>
+
+                <option value="logos/nantesbh.png">
+                    Nantes BH
+                </option>
+
+                <option value="logos/equipe3.png">
+                    Équipe 3
+                </option>
+
+                <option value="logos/equipe4.png">
+                    Équipe 4
+                </option>
+
+            </select>
+
+
+            <img
+                id="logoPreview2"
+                class="logo-preview"
+                src=""
+                alt="Logo équipe 2">
+
+        </div>
+
+
+        <!-- =================================================
+             COULEURS DES HALOS
+        ================================================== -->
+
+        <div class="halo-editor">
+
+            <h3>✨ Couleurs des halos</h3>
+
+            <p class="halo-description">
+                Choisis indépendamment la couleur du halo lumineux
+                de chaque équipe sur <strong>matchdusoir.html</strong>.
+            </p>
+
+            <div class="halo-grid">
+
+                <div class="halo-team halo-team-1">
+                    <label for="haloCouleur1">🔵 Halo équipe 1</label>
+
+                    <div class="color-control">
+                        <span id="haloPreview1" class="halo-color-preview"></span>
+
+                        <select id="haloCouleur1">
+                            <option value="yellow">🟡 Jaune</option>
+                            <option value="black">⚫ Noir</option>
+                            <option value="blue" selected>🔵 Bleu</option>
+                            <option value="orange">🟠 Orange</option>
+                            <option value="red">🔴 Rouge</option>
+                            <option value="pink">🩷 Rose</option>
+                            <option value="green">🟢 Vert</option>
+                            <option value="white">⚪ Blanc</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="halo-team halo-team-2">
+                    <label for="haloCouleur2">🟠 Halo équipe 2</label>
+
+                    <div class="color-control">
+                        <span id="haloPreview2" class="halo-color-preview"></span>
+
+                        <select id="haloCouleur2">
+                            <option value="yellow">🟡 Jaune</option>
+                            <option value="black">⚫ Noir</option>
+                            <option value="blue">🔵 Bleu</option>
+                            <option value="orange" selected>🟠 Orange</option>
+                            <option value="red">🔴 Rouge</option>
+                            <option value="pink">🩷 Rose</option>
+                            <option value="green">🟢 Vert</option>
+                            <option value="white">⚪ Blanc</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- DATE -->
+
+        <div class="form-group">
+
+            <label>
+                📅 Date
+            </label>
+
+            <input
+                type="text"
+                id="matchDate"
+                placeholder="Ex : SAMEDI 23 NOVEMBRE">
+
+        </div>
+
+
+        <!-- HEURE -->
+
+        <div class="form-group">
+
+            <label>
+                ⏰ Heure
+            </label>
+
+            <input
+                type="text"
+                id="matchHeure"
+                placeholder="Ex : 20H00">
+
+        </div>
+
+
+        <!-- SAUVEGARDE -->
+
+        <button id="saveMatchButton">
+
+            💾 ENREGISTRER LE MATCH
+
+        </button>
+
+
+        <div id="matchStatus"></div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
+
+<script type="module">
+
+import {
+
+    initializeApp
+
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+
+import {
+
+    getDatabase,
+    ref,
+    set,
+    onValue
+
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+
+/* =====================================================
+   CONFIGURATION
+===================================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+
+    authDomain:
+        "diffusion-b9afa.firebaseapp.com",
+
+    databaseURL:
+        "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
+
+    projectId:
+        "diffusion-b9afa",
+
+    storageBucket:
+        "diffusion-b9afa.firebasestorage.app",
+
+    messagingSenderId:
+        "674799570797",
+
+    appId:
+        "1:674799570797:web:0d8b7a2a892f604eb7d464"
+
+};
+
+
+const app =
+    initializeApp(firebaseConfig);
+
+
+const db =
+    getDatabase(app);
+
+
+/* =====================================================
+   MOT DE PASSE
+===================================================== */
+
+const MOT_DE_PASSE =
+    "Mvbc85600@";
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const login =
+    document.getElementById("login");
+
+const admin =
+    document.getElementById("admin");
+
+const password =
+    document.getElementById("password");
+
+const loginButton =
+    document.getElementById("loginButton");
+
+const loginError =
+    document.getElementById("loginError");
+
+const logoutButton =
+    document.getElementById("logoutButton");
+
+const currentScene =
+    document.getElementById("currentScene");
+
+
+/* MATCH */
+
+const matchChampionnat =
+    document.getElementById(
+        "matchChampionnat"
+    );
+
+const matchEquipe1 =
+    document.getElementById(
+        "matchEquipe1"
+    );
+
+const matchEquipe2 =
+    document.getElementById(
+        "matchEquipe2"
+    );
+
+const logoEquipe1 =
+    document.getElementById(
+        "logoEquipe1"
+    );
+
+const logoEquipe2 =
+    document.getElementById(
+        "logoEquipe2"
+    );
+
+const logoPreview1 =
+    document.getElementById(
+        "logoPreview1"
+    );
+
+const logoPreview2 =
+    document.getElementById(
+        "logoPreview2"
+    );
+
+const matchDate =
+    document.getElementById(
+        "matchDate"
+    );
+
+const matchHeure =
+    document.getElementById(
+        "matchHeure"
+    );
+
+const haloCouleur1 =
+    document.getElementById("haloCouleur1");
+
+const haloCouleur2 =
+    document.getElementById("haloCouleur2");
+
+const haloPreview1 =
+    document.getElementById("haloPreview1");
+
+const haloPreview2 =
+    document.getElementById("haloPreview2");
+
+
+const saveMatchButton =
+    document.getElementById(
+        "saveMatchButton"
+    );
+
+const matchStatus =
+    document.getElementById(
+        "matchStatus"
+    );
+
+
+/* =====================================================
+   CONNEXION
+===================================================== */
+
+if (
+    sessionStorage.getItem(
+        "adminConnecte"
+    ) === "true"
+) {
+
+    afficherAdmin();
+
+}
+
+
+loginButton.addEventListener(
+    "click",
+    verifierMotDePasse
+);
+
+
+password.addEventListener(
+    "keydown",
+    (event) => {
+
+        if (
+            event.key === "Enter"
+        ) {
+
+            verifierMotDePasse();
+
         }
-    </script>
 
-    <!-- =====================================================
-         SCRIPT FIREBASE POUR LES ADMINISTRATIONS
-    ===================================================== -->
-    <script type="module">
-        // Import des modules Firebase
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    }
+);
 
-        // Configuration Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
-            authDomain: "diffusion-b9afa.firebaseapp.com",
-            databaseURL: "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "diffusion-b9afa",
-            storageBucket: "diffusion-b9afa.firebasestorage.app",
-            messagingSenderId: "674799570797",
-            appId: "1:674799570797:web:0d8b7a2a892f604eb7d464"
-        };
 
-        // Initialisation Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+function verifierMotDePasse() {
 
-        // Références Firebase
-        const matchRef = ref(db, "matchdusoir");
-        const messageRef = ref(db, "message");
+    if (
+        password.value === MOT_DE_PASSE
+    ) {
 
-        // =====================================================
-        // CHARGEMENT DES DONNÉES POUR MATCH DU SOIR
-        // =====================================================
-        onValue(matchRef, (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                document.getElementById("championnat").value = data.championnat || "";
-                document.getElementById("titreMatch").value = data.titreMatch || "MATCH DU SOIR";
-                document.getElementById("date").value = data.date || "";
-                document.getElementById("heure").value = data.heure || "";
-                document.getElementById("equipe1").value = data.equipe1 || "";
-                document.getElementById("logo1").value = data.logo1 || "";
-                document.getElementById("equipe2").value = data.equipe2 || "";
-                document.getElementById("logo2").value = data.logo2 || "";
-                document.getElementById("haloCouleur1").value = data.haloCouleur1 || "#008cff";
-                document.getElementById("haloCouleur2").value = data.haloCouleur2 || "#ff6500";
-            }
-        });
+        sessionStorage.setItem(
+            "adminConnecte",
+            "true"
+        );
 
-        // Sauvegarder les données du match du soir
-        function saveMatchData() {
-            const matchData = {
-                championnat: document.getElementById("championnat").value,
-                titreMatch: document.getElementById("titreMatch").value,
-                date: document.getElementById("date").value,
-                heure: document.getElementById("heure").value,
-                equipe1: document.getElementById("equipe1").value,
-                logo1: document.getElementById("logo1").value,
-                équipe2: document.getElementById("equipe2").value,
-                logo2: document.getElementById("logo2").value,
-                haloCouleur1: document.getElementById("haloCouleur1").value,
-                haloCouleur2: document.getElementById("haloCouleur2").value
+        afficherAdmin();
+
+        password.value = "";
+
+        loginError.textContent = "";
+
+    }
+
+    else {
+
+        loginError.textContent =
+            "Mot de passe incorrect.";
+
+        password.value = "";
+
+    }
+
+}
+
+
+function afficherAdmin() {
+
+    login.style.display =
+        "none";
+
+    admin.style.display =
+        "block";
+
+}
+
+
+logoutButton.addEventListener(
+    "click",
+    () => {
+
+        sessionStorage.removeItem(
+            "adminConnecte"
+        );
+
+        admin.style.display =
+            "none";
+
+        login.style.display =
+            "flex";
+
+    }
+);
+
+
+/* =====================================================
+   DIFFUSION
+===================================================== */
+
+window.diffuser =
+function(scene) {
+
+    set(
+
+        ref(
+            db,
+            "diffusion"
+        ),
+
+        {
+
+            scene: scene,
+
+            timestamp: Date.now()
+
+        }
+
+    )
+
+    .then(() => {
+
+        currentScene.textContent =
+            scene;
+
+    })
+
+    .catch((error) => {
+
+        console.error(error);
+
+        alert(
+            "Erreur de diffusion : " +
+            error.message
+        );
+
+    });
+
+};
+
+
+/* =====================================================
+   MATCH FIREBASE
+===================================================== */
+
+const matchRef =
+    ref(
+        db,
+        "matchdusoir"
+    );
+
+
+/* =====================================================
+   CHARGER MATCH
+===================================================== */
+
+onValue(
+
+    matchRef,
+
+    (snapshot) => {
+
+        const data =
+            snapshot.val();
+
+        if (!data) {
+            return;
+        }
+
+
+        if (data.championnat) {
+
+            matchChampionnat.value =
+                data.championnat;
+
+        }
+
+
+        if (data.equipe1) {
+
+            matchEquipe1.value =
+                data.equipe1;
+
+        }
+
+
+        if (data.equipe2) {
+
+            matchEquipe2.value =
+                data.equipe2;
+
+        }
+
+
+        if (data.logo1) {
+
+            logoEquipe1.value =
+                data.logo1;
+
+            logoPreview1.src =
+                data.logo1;
+
+        }
+
+
+        if (data.logo2) {
+
+            logoEquipe2.value =
+                data.logo2;
+
+            logoPreview2.src =
+                data.logo2;
+
+        }
+
+
+        if (data.date) {
+
+            matchDate.value =
+                data.date;
+
+        }
+
+
+        if (data.heure) {
+
+            matchHeure.value =
+                data.heure;
+
+        }
+
+        if (data.haloCouleur1) {
+            haloCouleur1.value = data.haloCouleur1;
+        }
+
+        if (data.haloCouleur2) {
+            haloCouleur2.value = data.haloCouleur2;
+        }
+
+        mettreAJourApercuHalos();
+
+    }
+
+);
+
+
+/* =====================================================
+   COULEURS DES HALOS
+===================================================== */
+
+const COULEURS_HALO = {
+    yellow: "#ffd400",
+    black: "#000000",
+    blue: "#008cff",
+    orange: "#ff6500",
+    red: "#ff3030",
+    pink: "#ff4fa3",
+    green: "#22c55e",
+    white: "#ffffff"
+};
+
+function mettreAJourApercuHalo(select, preview) {
+
+    const couleur =
+        COULEURS_HALO[select.value] || "#ffffff";
+
+    preview.style.background = couleur;
+    preview.style.color = couleur;
+
+    preview.style.boxShadow =
+        "0 0 10px " + couleur + ", 0 0 25px " + couleur;
+
+    preview.style.border =
+        select.value === "black"
+            ? "1px solid #777"
+            : "none";
+}
+
+function mettreAJourApercuHalos() {
+
+    mettreAJourApercuHalo(
+        haloCouleur1,
+        haloPreview1
+    );
+
+    mettreAJourApercuHalo(
+        haloCouleur2,
+        haloPreview2
+    );
+}
+
+haloCouleur1.addEventListener(
+    "change",
+    mettreAJourApercuHalos
+);
+
+haloCouleur2.addEventListener(
+    "change",
+    mettreAJourApercuHalos
+);
+
+mettreAJourApercuHalos();
+
+
+/* =====================================================
+   APERCU LOGO 1
+===================================================== */
+
+logoEquipe1.addEventListener(
+    "change",
+    () => {
+
+        if (
+            logoEquipe1.value
+        ) {
+
+            logoPreview1.src =
+                logoEquipe1.value;
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   APERCU LOGO 2
+===================================================== */
+
+logoEquipe2.addEventListener(
+    "change",
+    () => {
+
+        if (
+            logoEquipe2.value
+        ) {
+
+            logoPreview2.src =
+                logoEquipe2.value;
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ENREGISTRER MATCH
+===================================================== */
+
+saveMatchButton.addEventListener(
+
+    "click",
+
+    async () => {
+
+        try {
+
+            saveMatchButton.disabled =
+                true;
+
+            saveMatchButton.textContent =
+                "⏳ ENREGISTREMENT...";
+
+
+            const donneesMatch = {
+
+                championnat:
+                    matchChampionnat.value.trim(),
+
+                equipe1:
+                    matchEquipe1.value.trim(),
+
+                logo1:
+                    logoEquipe1.value,
+
+                equipe2:
+                    matchEquipe2.value.trim(),
+
+                logo2:
+                    logoEquipe2.value,
+
+                date:
+                    matchDate.value.trim(),
+
+                heure:
+                    matchHeure.value.trim(),
+
+                haloCouleur1:
+                    haloCouleur1.value,
+
+                haloCouleur2:
+                    haloCouleur2.value,
+
+                timestamp:
+                    Date.now()
+
             };
 
-            set(matchRef, matchData)
-                .then(() => {
-                    alert("✅ Données du match sauvegardées avec succès !");
-                })
-                .catch((error) => {
-                    console.error("❌ Erreur lors de la sauvegarde :", error);
-                    alert("❌ Erreur lors de la sauvegarde. Veuillez réessayer.");
-                });
+
+            await set(
+
+                matchRef,
+
+                donneesMatch
+
+            );
+
+
+            matchStatus.className =
+                "success";
+
+            matchStatus.textContent =
+                "✅ Match enregistré !";
+
+
+            saveMatchButton.textContent =
+                "✅ ENREGISTRÉ";
+
+
+            setTimeout(() => {
+
+                saveMatchButton.disabled =
+                    false;
+
+                saveMatchButton.textContent =
+                    "💾 ENREGISTRER LE MATCH";
+
+            }, 2000);
+
         }
 
-        // Réinitialiser le formulaire du match du soir
-        function resetMatchForm() {
-            if (confirm("⚠️ Voulez-vous vraiment réinitialiser le formulaire du match du soir ?")) {
-                document.getElementById("championnat").value = "";
-                document.getElementById("titreMatch").value = "MATCH DU SOIR";
-                document.getElementById("date").value = "";
-                document.getElementById("heure").value = "";
-                document.getElementById("equipe1").value = "";
-                document.getElementById("logo1").value = "";
-                document.getElementById("equipe2").value = "";
-                document.getElementById("logo2").value = "";
-                document.getElementById("haloCouleur1").value = "#008cff";
-                document.getElementById("haloCouleur2").value = "#ff6500";
-            }
+        catch(error) {
+
+            console.error(error);
+
+            matchStatus.className =
+                "error";
+
+            matchStatus.textContent =
+                "❌ Erreur : " +
+                error.message;
+
+            saveMatchButton.disabled =
+                false;
+
+            saveMatchButton.textContent =
+                "💾 ENREGISTRER LE MATCH";
+
         }
 
-        // =====================================================
-        // CHARGEMENT DES DONNÉES POUR LE MESSAGE
-        // =====================================================
-        onValue(messageRef, (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                document.getElementById("messageTitre").value = data.titre || "";
-                document.getElementById("messageContenu").value = data.contenu || "";
-                document.getElementById("messageCouleur").value = data.couleur || "#ffffff";
-                document.getElementById("messageFond").value = data.fond || "#1e1e1e";
-            }
-        });
+    }
 
-        // Sauvegarder les données du message
-        function saveMessageData() {
-            const messageData = {
-                titre: document.getElementById("messageTitre").value,
-                contenu: document.getElementById("messageContenu").value,
-                couleur: document.getElementById("messageCouleur").value,
-                fond: document.getElementById("messageFond").value
-            };
+);
 
-            set(messageRef, messageData)
-                .then(() => {
-                    alert("✅ Données du message sauvegardées avec succès !");
-                })
-                .catch((error) => {
-                    console.error("❌ Erreur lors de la sauvegarde :", error);
-                    alert("❌ Erreur lors de la sauvegarde. Veuillez réessayer.");
-                });
-        }
+</script>
 
-        // Réinitialiser le formulaire du message
-        function resetMessageForm() {
-            if (confirm("⚠️ Voulez-vous vraiment réinitialiser le formulaire du message ?")) {
-                document.getElementById("messageTitre").value = "";
-                document.getElementById("messageContenu").value = "";
-                document.getElementById("messageCouleur").value = "#ffffff";
-                document.getElementById("messageFond").value = "#1e1e1e";
-            }
-        }
-    </script>
 </body>
+
 </html>
