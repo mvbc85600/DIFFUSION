@@ -423,13 +423,13 @@ body {
     </div>
 
     <div class="tabs">
-        <button class="tab-button active" onclick="openTab('regie')">
+        <button class="tab-button active" onclick="openTab(event, 'regie')">
             🎬 Régie
         </button>
-        <button class="tab-button" onclick="openTab('matchdusoir')">
+        <button class="tab-button" onclick="openTab(event, 'matchdusoir')">
             ⚽ Match du Soir
         </button>
-        <button class="tab-button" onclick="openTab('message')">
+        <button class="tab-button" onclick="openTab(event, 'message')">
             📝 Message
         </button>
     </div>
@@ -494,12 +494,6 @@ body {
                 Firebase ne stocke donc aucune image.
             </div>
 
-            <!-- CHAMPIONNAT -->
-            <div class="form-group">
-                <label>🏆 Championnat</label>
-                <input type="text" id="matchChampionnat" placeholder="Ex : CHAMPIONNAT NM2">
-            </div>
-
             <!-- TITRE DU MATCH -->
             <div class="form-group">
                 <label>📌 Titre du match</label>
@@ -507,6 +501,12 @@ body {
                     <option value="MATCH DU SOIR">MATCH DU SOIR</option>
                     <option value="PROCHAIN MATCH">PROCHAIN MATCH</option>
                 </select>
+            </div>
+
+            <!-- CHAMPIONNAT -->
+            <div class="form-group">
+                <label>🏆 Championnat</label>
+                <input type="text" id="matchChampionnat" placeholder="Ex : CHAMPIONNAT NM2">
             </div>
 
             <!-- EQUIPE 1 -->
@@ -720,8 +720,8 @@ const messageStatus = document.getElementById("messageStatus");
 /* =====================================================
    ONGLETS
 ===================================================== */
-function openTab(tabName) {
-    // Masquer tous les onglets
+function openTab(event, tabName) {
+    // Masquer tous les contenus d'onglets
     const tabContents = document.querySelectorAll('.tab-content');
     tabContents.forEach(content => {
         content.classList.remove('active');
@@ -733,8 +733,10 @@ function openTab(tabName) {
         button.classList.remove('active');
     });
 
-    // Afficher l'onglet sélectionné
+    // Afficher le contenu de l'onglet sélectionné
     document.getElementById(tabName).classList.add('active');
+
+    // Activer le bouton de l'onglet sélectionné
     event.currentTarget.classList.add('active');
 }
 
@@ -817,7 +819,7 @@ function mettreAJourApercuHalo(select, preview) {
     const couleur = COULEURS_HALO[select.value] || "#ffffff";
     preview.style.background = couleur;
     preview.style.color = couleur;
-    preview.style.boxShadow = "0 0 10px " + couleur + ", 0 0 25px " + couleur;
+    preview.style.boxShadow = `0 0 10px ${couleur}, 0 0 25px ${couleur}`;
     preview.style.border = select.value === "black" ? "1px solid #777" : "none";
 }
 
