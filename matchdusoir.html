@@ -2,7 +2,6 @@
 <html lang="fr">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -120,8 +119,8 @@ body::after {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    padding-top: 50px;
+    justify-content: center; /* Centré verticalement */
+    padding-top: 0; /* Suppression du padding-top */
 }
 
 /* =====================================================
@@ -135,6 +134,7 @@ body::after {
     opacity: 0;
     animation: subtitleIn 1s ease forwards;
     animation-delay: 0.2s;
+    margin-bottom: 30px; /* Espacement sous le titre "CHAMPIONNAT" */
 }
 
 @keyframes subtitleIn {
@@ -145,40 +145,6 @@ body::after {
     to {
         opacity: 1;
         transform: translateY(0);
-    }
-}
-
-
-
-/* =====================================================
-   LIGNE SOUS LE TITRE
-===================================================== */
-.match-title-line {
-    width: 500px;
-    max-width: 70%;
-    height: 3px;
-    margin-top: 20px;
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            var(--halo-couleur-1),
-            white,
-            var(--halo-couleur-2),
-            transparent
-        );
-    box-shadow:
-        0 0 15px var(--halo-couleur-1),
-        0 0 15px var(--halo-couleur-2);
-    transform: scaleX(0);
-    animation:
-        lineIn 1s ease forwards;
-    animation-delay: 1s;
-}
-
-@keyframes lineIn {
-    to {
-        transform: scaleX(1);
     }
 }
 
@@ -313,7 +279,7 @@ body::after {
         logoLeftIn 1.2s
         cubic-bezier(.17,.67,.3,1.3)
         forwards;
-    animation-delay: 1.3s;
+    animation-delay: 0.5s; /* Ajustement du délai */
 }
 
 @keyframes logoLeftIn {
@@ -341,7 +307,7 @@ body::after {
         logoRightIn 1.2s
         cubic-bezier(.17,.67,.3,1.3)
         forwards;
-    animation-delay: 1.3s;
+    animation-delay: 0.5s; /* Ajustement du délai */
 }
 
 @keyframes logoRightIn {
@@ -429,7 +395,7 @@ body::after {
         vsAppear 0.8s
         cubic-bezier(.17,.67,.3,1.4)
         forwards;
-    animation-delay: 2.3s;
+    animation-delay: 1.5s; /* Ajustement du délai */
 }
 
 @keyframes vsAppear {
@@ -461,7 +427,7 @@ body::after {
     opacity: 0;
     animation:
         nameIn 0.8s ease forwards;
-    animation-delay: 2.5s;
+    animation-delay: 1.7s; /* Ajustement du délai */
 }
 
 .team-left .team-name {
@@ -503,7 +469,7 @@ body::after {
     opacity: 0;
     animation:
         infoIn 1s ease forwards;
-    animation-delay: 2.8s;
+    animation-delay: 2s; /* Ajustement du délai */
 }
 
 .match-date {
@@ -686,9 +652,6 @@ body::after {
         CHAMPIONNAT
     </div>
 
-   
-    <div class="match-title-line"></div>
-
     <div class="teams">
         <div id="team1" class="team team-left">
             <div class="logo-box">
@@ -760,8 +723,6 @@ const heure = document.getElementById("heure");
 const team1 = document.getElementById("team1");
 const team2 = document.getElementById("team2");
 const infos = document.getElementById("infos");
-const title = document.querySelector(".match-title");
-const titleLine = document.querySelector(".match-title-line");
 const vs = document.querySelector(".vs");
 const root = document.documentElement;
 
@@ -769,14 +730,10 @@ const root = document.documentElement;
    FONCTION POUR CONVERTIR UNE COULEUR HEX EN RGB
 ===================================================== */
 function hexToRgb(hex) {
-    // Supprime le # si présent
     hex = hex.replace('#', '');
-
-    // Parse les composantes rouge, vert, bleu
     const r = parseInt(hex.substring(0, 2), 16);
     const g = parseInt(hex.substring(2, 4), 16);
     const b = parseInt(hex.substring(4, 6), 16);
-
     return `${r}, ${g}, ${b}`;
 }
 
@@ -786,8 +743,6 @@ function hexToRgb(hex) {
 function restartAnimations() {
     const animatedElements = [
         championnat,
-        title,
-        titleLine,
         logo1,
         logo2,
         team1.querySelector(".team-name"),
@@ -796,16 +751,13 @@ function restartAnimations() {
         vs
     ];
 
-    // Coupe temporairement les animations.
     animatedElements.forEach(element => {
         if (!element) return;
         element.style.animation = "none";
     });
 
-    // Force le navigateur à recalculer les styles.
     void document.body.offsetWidth;
 
-    // Réactive les animations définies dans le CSS.
     animatedElements.forEach(element => {
         if (!element) return;
         element.style.animation = "";
@@ -843,11 +795,8 @@ onValue(matchRef, (snapshot) => {
     const haloCouleur1 = data.haloCouleur1 || "#008cff";
     const haloCouleur2 = data.haloCouleur2 || "#ff6500";
 
-    // Met à jour les variables CSS
     root.style.setProperty('--halo-couleur-1', haloCouleur1);
     root.style.setProperty('--halo-couleur-2', haloCouleur2);
-
-    // Met à jour les variables RGB pour les gradients (ex: rgba(r, g, b, alpha))
     root.style.setProperty('--halo-couleur-1-rgb', hexToRgb(haloCouleur1));
     root.style.setProperty('--halo-couleur-2-rgb', hexToRgb(haloCouleur2));
 
