@@ -472,7 +472,7 @@ body {
             <button class="scene-button page" onclick="diffuser('nosequipes')">
                 👥<br>NOS ÉQUIPES
             </button>
-            <button class="scene-button" onclick="diffuser('message')">
+            <button class="scene-button" onclick="diffuserMessage()">
                 📝<br>MESSAGE
             </button>
             <button class="scene-button black" onclick="diffuser('black')">
@@ -795,6 +795,39 @@ window.diffuser = function(scene) {
         console.error(error);
         alert("Erreur de diffusion : " + error.message);
     });
+};
+
+// Fonction spécialisée pour le message
+window.diffuserMessage = function() {
+    // Sauvegarder les données du message dans Firebase
+    const donneesMessage = {
+        titre: messageTitre.value.trim(),
+        contenu: messageContenu.value.trim(),
+        couleur: messageCouleur.value,
+        fond: messageFond.value,
+        timestamp: Date.now()
+    };
+
+    // Sauvegarder dans Firebase
+    set(ref(db, "message"), donneesMessage)
+        .then(() => {
+            // Diffuser la scène "message"
+            set(ref(db, "diffusion"), {
+                scene: "message",
+                timestamp: Date.now()
+            })
+            .then(() => {
+                currentScene.textContent = "message";
+            })
+            .catch((error) => {
+                console.error(error);
+                alert("Erreur de diffusion : " + error.message);
+            });
+        })
+        .catch((error) => {
+            console.error(error);
+            alert("Erreur lors de l'enregistrement du message : " + error.message);
+        });
 };
 
 /* =====================================================
