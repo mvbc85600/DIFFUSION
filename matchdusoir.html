@@ -2,7 +2,6 @@
 <html lang="fr">
 
 <head>
-    
 
 <meta charset="UTF-8">
 
@@ -14,10 +13,6 @@
 
 
 <style>
-
-/* =====================================================
-   RESET
-===================================================== */
 
 * {
     box-sizing: border-box;
@@ -43,10 +38,6 @@ body {
 
 }
 
-
-/* =====================================================
-   FOND
-===================================================== */
 
 body {
 
@@ -75,10 +66,6 @@ body {
 
 }
 
-
-/* =====================================================
-   LUMIÈRES D'ARRIÈRE-PLAN
-===================================================== */
 
 body::before {
 
@@ -156,10 +143,6 @@ body::after {
 }
 
 
-/* =====================================================
-   CONTENEUR PRINCIPAL
-===================================================== */
-
 .container {
 
     position: relative;
@@ -182,10 +165,6 @@ body::after {
 }
 
 
-/* =====================================================
-   PETIT TITRE
-===================================================== */
-
 .subtitle {
 
     font-size: 20px;
@@ -193,8 +172,6 @@ body::after {
     letter-spacing: 8px;
 
     font-weight: bold;
-
-    color: #ffffff;
 
     opacity: 0;
 
@@ -208,27 +185,17 @@ body::after {
 @keyframes subtitleIn {
 
     from {
-
         opacity: 0;
-
         transform: translateY(-30px);
-
     }
 
     to {
-
         opacity: 1;
-
         transform: translateY(0);
-
     }
 
 }
 
-
-/* =====================================================
-   GRAND TITRE
-===================================================== */
 
 .title {
 
@@ -274,9 +241,6 @@ body::after {
 
     opacity: 0;
 
-    text-shadow:
-        0 0 20px rgba(255,255,255,0.25);
-
 }
 
 
@@ -318,10 +282,6 @@ body::after {
 }
 
 
-/* =====================================================
-   LIGNE SOUS LE TITRE
-===================================================== */
-
 .title-line {
 
     width: 500px;
@@ -359,17 +319,11 @@ body::after {
 @keyframes lineIn {
 
     to {
-
         transform: scaleX(1);
-
     }
 
 }
 
-
-/* =====================================================
-   ZONE DES ÉQUIPES
-===================================================== */
 
 .teams {
 
@@ -392,10 +346,6 @@ body::after {
 }
 
 
-/* =====================================================
-   ÉQUIPE
-===================================================== */
-
 .team {
 
     position: relative;
@@ -412,10 +362,6 @@ body::after {
 
 }
 
-
-/* =====================================================
-   CADRE LOGO
-===================================================== */
 
 .logo-box {
 
@@ -440,14 +386,8 @@ body::after {
             rgba(0,0,0,0.8)
         );
 
-    overflow: visible;
-
 }
 
-
-/* =====================================================
-   CERCLE EXTÉRIEUR
-===================================================== */
 
 .logo-box::before {
 
@@ -473,8 +413,7 @@ body::after {
 
     box-shadow:
         0 0 15px #008cff,
-        0 0 35px #008cff,
-        inset 0 0 20px #008cff;
+        0 0 35px #008cff;
 
 }
 
@@ -485,8 +424,7 @@ body::after {
 
     box-shadow:
         0 0 15px #ff6500,
-        0 0 35px #ff6500,
-        inset 0 0 20px #ff6500;
+        0 0 35px #ff6500;
 
 }
 
@@ -494,25 +432,15 @@ body::after {
 @keyframes rotateRing {
 
     from {
-
-        transform:
-            rotate(0deg);
-
+        transform: rotate(0deg);
     }
 
     to {
-
-        transform:
-            rotate(360deg);
-
+        transform: rotate(360deg);
     }
 
 }
 
-
-/* =====================================================
-   SECOND ANNEAU
-===================================================== */
 
 .logo-box::after {
 
@@ -554,10 +482,6 @@ body::after {
 }
 
 
-/* =====================================================
-   LOGOS
-===================================================== */
-
 .logo {
 
     position: relative;
@@ -574,10 +498,6 @@ body::after {
 
 }
 
-
-/* =====================================================
-   ANIMATION LOGO GAUCHE
-===================================================== */
 
 .team-left .logo {
 
@@ -618,10 +538,6 @@ body::after {
 }
 
 
-/* =====================================================
-   ANIMATION LOGO DROIT
-===================================================== */
-
 .team-right .logo {
 
     animation:
@@ -661,10 +577,6 @@ body::after {
 }
 
 
-/* =====================================================
-   LUEUR AUTOUR DU LOGO
-===================================================== */
-
 .team-left .logo-box {
 
     animation:
@@ -685,21 +597,17 @@ body::after {
 
     0%,
     100% {
-
         filter:
             drop-shadow(
                 0 0 15px #008cff
             );
-
     }
 
     50% {
-
         filter:
             drop-shadow(
                 0 0 50px #008cff
             );
-
     }
 
 }
@@ -709,29 +617,21 @@ body::after {
 
     0%,
     100% {
-
         filter:
             drop-shadow(
                 0 0 15px #ff6500
             );
-
     }
 
     50% {
-
         filter:
             drop-shadow(
                 0 0 50px #ff6500
             );
-
     }
 
 }
 
-
-/* =====================================================
-   VS CENTRAL
-===================================================== */
 
 .vs {
 
@@ -800,10 +700,6 @@ body::after {
 }
 
 
-/* =====================================================
-   NOMS DES ÉQUIPES
-===================================================== */
-
 .team-name {
 
     position: absolute;
@@ -868,10 +764,6 @@ body::after {
 
 }
 
-
-/* =====================================================
-   INFORMATIONS DU MATCH
-===================================================== */
 
 .match-info {
 
@@ -961,10 +853,6 @@ body::after {
 }
 
 
-/* =====================================================
-   PARTICULES
-===================================================== */
-
 .particle {
 
     position: absolute;
@@ -1001,15 +889,11 @@ body::after {
     }
 
     20% {
-
         opacity: 0.8;
-
     }
 
     80% {
-
         opacity: 0.8;
-
     }
 
     100% {
@@ -1025,16 +909,10 @@ body::after {
 }
 
 
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
 @media (max-width: 900px) {
 
     .teams {
-
         gap: 30px;
-
     }
 
     .team {
@@ -1059,19 +937,14 @@ body::after {
     }
 
     .vs {
-
         font-size: 60px;
-
     }
 
     .team-name {
-
         font-size: 18px;
-
     }
 
 }
-
 
 </style>
 
@@ -1081,181 +954,72 @@ body::after {
 <body>
 
 
-<!-- =====================================================
-     PARTICULES
-===================================================== -->
-
-<div
-    class="particle"
-    style="
-        left:5%;
-        --duration:8s;
-        --move:80px;
-    ">
-</div>
-
-<div
-    class="particle"
-    style="
-        left:15%;
-        --duration:11s;
-        --move:-100px;
-    ">
-</div>
-
-<div
-    class="particle"
-    style="
-        left:25%;
-        --duration:9s;
-        --move:120px;
-    ">
-</div>
-
-<div
-    class="particle"
-    style="
-        left:40%;
-        --duration:13s;
-        --move:-80px;
-    ">
-</div>
-
-<div
-    class="particle"
-    style="
-        left:55%;
-        --duration:10s;
-        --move:100px;
-    ">
-</div>
-
-<div
-    class="particle"
-    style="
-        left:70%;
-        --duration:12s;
-        --move:-120px;
-    ">
-</div>
-
-<div
-    class="particle"
-    style="
-        left:82%;
-        --duration:9s;
-        --move:80px;
-    ">
-</div>
-
-<div
-    class="particle"
-    style="
-        left:95%;
-        --duration:11s;
-        --move:-70px;
-    ">
-</div>
-
-
-<!-- =====================================================
-     CONTENU
-===================================================== -->
-
 <div class="container">
 
 
-    <!-- PETIT TITRE -->
-
-    <div class="subtitle">
-
+    <div class="subtitle" id="championnat">
         CHAMPIONNAT NM2
-
     </div>
 
-
-    <!-- GRAND TITRE -->
 
     <div class="title">
-
         MATCH DU SOIR
-
     </div>
 
-
-    <!-- LIGNE -->
 
     <div class="title-line"></div>
 
 
-    <!-- =================================================
-         ÉQUIPES
-    ================================================== -->
-
     <div class="teams">
 
 
-        <!-- ==============================
-             ÉQUIPE GAUCHE
-        =============================== -->
-
         <div class="team team-left">
-
 
             <div class="logo-box">
 
                 <img
+                    id="logo1"
                     class="logo"
-                    src="logos/mvbc.png"
-                    alt="Logo MVBC">
+                    src=""
+                    alt="Logo équipe 1">
 
             </div>
 
-
-            <div class="team-name">
+            <div
+                id="equipe1"
+                class="team-name">
 
                 MVBC
 
             </div>
 
-
         </div>
 
-
-        <!-- ==============================
-             VS
-        =============================== -->
 
         <div class="vs">
-
             VS
-
         </div>
 
 
-        <!-- ==============================
-             ÉQUIPE DROITE
-        =============================== -->
-
         <div class="team team-right">
-
 
             <div class="logo-box">
 
                 <img
+                    id="logo2"
                     class="logo"
-                    src="logos/adversaire.png"
-                    alt="Logo adversaire">
+                    src=""
+                    alt="Logo équipe 2">
 
             </div>
 
-
-            <div class="team-name">
+            <div
+                id="equipe2"
+                class="team-name">
 
                 ADVERSAIRE
 
             </div>
-
 
         </div>
 
@@ -1263,31 +1027,178 @@ body::after {
     </div>
 
 
-    <!-- =================================================
-         INFORMATIONS
-    ================================================== -->
-
     <div class="match-info">
 
-
-        <div class="match-date">
+        <div
+            id="date"
+            class="match-date">
 
             SAMEDI 23 NOVEMBRE
 
         </div>
 
 
-        <div class="match-time">
+        <div
+            id="heure"
+            class="match-time">
 
             20H00
 
         </div>
 
-
     </div>
 
 
 </div>
+
+
+<script type="module">
+
+
+import {
+    initializeApp
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+
+import {
+    getDatabase,
+    ref,
+    onValue
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+
+    authDomain:
+        "diffusion-b9afa.firebaseapp.com",
+
+    databaseURL:
+        "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
+
+    projectId:
+        "diffusion-b9afa",
+
+    storageBucket:
+        "diffusion-b9afa.firebasestorage.app",
+
+    messagingSenderId:
+        "674799570797",
+
+    appId:
+        "1:674799570797:web:0d8b7a2a892f604eb7d464"
+
+};
+
+
+const app =
+    initializeApp(firebaseConfig);
+
+
+const db =
+    getDatabase(app);
+
+
+
+const matchRef =
+    ref(db, "matchdusoir");
+
+
+
+onValue(
+
+    matchRef,
+
+    (snapshot) => {
+
+        const data =
+            snapshot.val();
+
+
+        if (!data) {
+            return;
+        }
+
+
+        if (data.championnat) {
+
+            document.getElementById(
+                "championnat"
+            ).textContent =
+                data.championnat;
+
+        }
+
+
+        if (data.equipe1) {
+
+            document.getElementById(
+                "equipe1"
+            ).textContent =
+                data.equipe1;
+
+        }
+
+
+        if (data.equipe2) {
+
+            document.getElementById(
+                "equipe2"
+            ).textContent =
+                data.equipe2;
+
+        }
+
+
+        if (data.date) {
+
+            document.getElementById(
+                "date"
+            ).textContent =
+                data.date;
+
+        }
+
+
+        if (data.heure) {
+
+            document.getElementById(
+                "heure"
+            ).textContent =
+                data.heure;
+
+        }
+
+
+        if (data.logo1) {
+
+            document.getElementById(
+                "logo1"
+            ).src =
+                data.logo1;
+
+        }
+
+
+        if (data.logo2) {
+
+            document.getElementById(
+                "logo2"
+            ).src =
+                data.logo2;
+
+        }
+
+    }
+
+);
+
+</script>
 
 
 </body>
