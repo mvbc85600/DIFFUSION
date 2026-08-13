@@ -390,6 +390,82 @@ body {
 
 
 /* =========================
+   HALOS DES ÉQUIPES
+========================= */
+
+.halo-editor {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #181818;
+    border: 1px solid #333;
+    border-radius: 12px;
+}
+
+.halo-editor h3 {
+    margin: 0 0 8px 0;
+    font-size: 22px;
+}
+
+.halo-description {
+    color: #aaa;
+    line-height: 1.5;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.halo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.halo-team {
+    padding: 18px;
+    background: #222;
+    border-radius: 10px;
+    border: 1px solid #3a3a3a;
+}
+
+.halo-team label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: bold;
+}
+
+.color-control {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.color-control select {
+    flex: 1;
+    width: 100%;
+    padding: 13px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.halo-color-preview {
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #008cff;
+    box-shadow: 0 0 10px currentColor, 0 0 25px currentColor;
+}
+
+.halo-team-2 .halo-color-preview {
+    background: #ff6500;
+}
+
+
+/* =========================
    MOBILE
 ========================= */
 
@@ -412,6 +488,10 @@ body {
         min-height: 85px;
 
         font-size: 13px;
+    }
+
+    .halo-grid {
+        grid-template-columns: 1fr;
     }
 
 }
@@ -767,6 +847,63 @@ body {
         </div>
 
 
+        <!-- =================================================
+             COULEURS DES HALOS
+        ================================================== -->
+
+        <div class="halo-editor">
+
+            <h3>✨ Couleurs des halos</h3>
+
+            <p class="halo-description">
+                Choisis indépendamment la couleur du halo lumineux
+                de chaque équipe sur <strong>matchdusoir.html</strong>.
+            </p>
+
+            <div class="halo-grid">
+
+                <div class="halo-team halo-team-1">
+                    <label for="haloCouleur1">🔵 Halo équipe 1</label>
+
+                    <div class="color-control">
+                        <span id="haloPreview1" class="halo-color-preview"></span>
+
+                        <select id="haloCouleur1">
+                            <option value="yellow">🟡 Jaune</option>
+                            <option value="black">⚫ Noir</option>
+                            <option value="blue" selected>🔵 Bleu</option>
+                            <option value="orange">🟠 Orange</option>
+                            <option value="red">🔴 Rouge</option>
+                            <option value="pink">🩷 Rose</option>
+                            <option value="green">🟢 Vert</option>
+                            <option value="white">⚪ Blanc</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="halo-team halo-team-2">
+                    <label for="haloCouleur2">🟠 Halo équipe 2</label>
+
+                    <div class="color-control">
+                        <span id="haloPreview2" class="halo-color-preview"></span>
+
+                        <select id="haloCouleur2">
+                            <option value="yellow">🟡 Jaune</option>
+                            <option value="black">⚫ Noir</option>
+                            <option value="blue">🔵 Bleu</option>
+                            <option value="orange" selected>🟠 Orange</option>
+                            <option value="red">🔴 Rouge</option>
+                            <option value="pink">🩷 Rose</option>
+                            <option value="green">🟢 Vert</option>
+                            <option value="white">⚪ Blanc</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
         <!-- DATE -->
 
         <div class="form-group">
@@ -963,6 +1100,19 @@ const matchHeure =
     document.getElementById(
         "matchHeure"
     );
+
+const haloCouleur1 =
+    document.getElementById("haloCouleur1");
+
+const haloCouleur2 =
+    document.getElementById("haloCouleur2");
+
+const haloPreview1 =
+    document.getElementById("haloPreview1");
+
+const haloPreview2 =
+    document.getElementById("haloPreview2");
+
 
 const saveMatchButton =
     document.getElementById(
@@ -1207,9 +1357,77 @@ onValue(
 
         }
 
+        if (data.haloCouleur1) {
+            haloCouleur1.value = data.haloCouleur1;
+        }
+
+        if (data.haloCouleur2) {
+            haloCouleur2.value = data.haloCouleur2;
+        }
+
+        mettreAJourApercuHalos();
+
     }
 
 );
+
+
+/* =====================================================
+   COULEURS DES HALOS
+===================================================== */
+
+const COULEURS_HALO = {
+    yellow: "#ffd400",
+    black: "#000000",
+    blue: "#008cff",
+    orange: "#ff6500",
+    red: "#ff3030",
+    pink: "#ff4fa3",
+    green: "#22c55e",
+    white: "#ffffff"
+};
+
+function mettreAJourApercuHalo(select, preview) {
+
+    const couleur =
+        COULEURS_HALO[select.value] || "#ffffff";
+
+    preview.style.background = couleur;
+    preview.style.color = couleur;
+
+    preview.style.boxShadow =
+        "0 0 10px " + couleur + ", 0 0 25px " + couleur;
+
+    preview.style.border =
+        select.value === "black"
+            ? "1px solid #777"
+            : "none";
+}
+
+function mettreAJourApercuHalos() {
+
+    mettreAJourApercuHalo(
+        haloCouleur1,
+        haloPreview1
+    );
+
+    mettreAJourApercuHalo(
+        haloCouleur2,
+        haloPreview2
+    );
+}
+
+haloCouleur1.addEventListener(
+    "change",
+    mettreAJourApercuHalos
+);
+
+haloCouleur2.addEventListener(
+    "change",
+    mettreAJourApercuHalos
+);
+
+mettreAJourApercuHalos();
 
 
 /* =====================================================
@@ -1295,6 +1513,12 @@ saveMatchButton.addEventListener(
 
                 heure:
                     matchHeure.value.trim(),
+
+                haloCouleur1:
+                    haloCouleur1.value,
+
+                haloCouleur2:
+                    haloCouleur2.value,
 
                 timestamp:
                     Date.now()
