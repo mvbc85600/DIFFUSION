@@ -4,10 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Régie MVBC</title>
 
 <style>
@@ -15,7 +12,6 @@
 * {
     box-sizing: border-box;
 }
-      
 
 body {
     margin: 0;
@@ -29,365 +25,263 @@ body {
 ========================= */
 
 #login {
-
     min-height: 100vh;
-
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     padding: 20px;
 }
 
 .login-box {
-
     width: 100%;
     max-width: 400px;
-
     background: #222;
-
     padding: 30px;
-
     border-radius: 15px;
-
     box-shadow:
         0 10px 40px
         rgba(0,0,0,0.5);
 }
 
 .login-box h1 {
-
     text-align: center;
-
     margin-top: 0;
 }
 
 .login-box input {
-
     width: 100%;
-
     padding: 15px;
-
     margin-bottom: 15px;
-
     border: none;
-
     border-radius: 8px;
-
     font-size: 16px;
 }
 
 #loginButton {
-
     width: 100%;
-
     padding: 15px;
-
     border: none;
-
     border-radius: 8px;
-
     background: #2563eb;
-
     color: white;
-
     font-size: 18px;
-
     cursor: pointer;
 }
 
 #loginError {
-
     margin-top: 15px;
-
     text-align: center;
-
     color: #ff5555;
 }
-
 
 /* =========================
    ADMIN
 ========================= */
 
 #admin {
-
     display: none;
-
     max-width: 1200px;
-
     margin: auto;
-
     padding: 20px;
 }
 
-.header {
-
+/* =========================
+   ONGLETS
+========================= */
+.tabs {
     display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    margin-bottom: 25px;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
-.header h1 {
-
-    margin: 0;
-}
-
-#logoutButton {
-
+.tab-button {
     padding: 10px 15px;
-
-    background: #444;
-
+    background: #222;
     border: none;
-
     border-radius: 8px;
-
     color: white;
-
     cursor: pointer;
+    transition: all 0.2s;
+    font-size: 14px;
 }
 
+.tab-button:hover {
+    background: #333;
+}
+
+.tab-button.active {
+    background: #16a34a;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
 
 /* =========================
    STATUT
 ========================= */
 
 .status {
-
     background: #222;
-
     padding: 15px;
-
     border-radius: 10px;
-
     margin-bottom: 25px;
-
     text-align: center;
 }
 
 #currentScene {
-
     color: #4ade80;
-
     font-weight: bold;
 }
 
-
 /* =========================
-   BOUTONS
+   BOUTONS DE DIFFUSION
 ========================= */
 
 .scene-grid {
-
     display: grid;
-
-    grid-template-columns:
-        repeat(
-            auto-fit,
-            minmax(180px, 1fr)
-        );
-
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 15px;
 }
 
 .scene-button {
-
     min-height: 100px;
-
     border: none;
-
     border-radius: 12px;
-
     color: white;
-
     font-size: 16px;
-
     font-weight: bold;
-
     cursor: pointer;
-
     transition: 0.2s;
 }
 
 .scene-button:hover {
-
     transform: scale(1.03);
 }
 
 .video {
-
     background: #1d4ed8;
 }
 
 .page {
-
     background: #15803d;
 }
 
 .photos {
-
     background: #9333ea;
 }
 
 .black {
-
     background: black;
-
     border: 1px solid #444;
 }
-
 
 /* =========================
    MATCH DU SOIR
 ========================= */
 
 .match-editor {
-
-    margin-top: 40px;
-
+    margin-top: 20px;
     padding: 25px;
-
     background: #222;
-
     border-radius: 15px;
 }
 
 .match-editor h2 {
-
     margin-top: 0;
-
     font-size: 28px;
 }
 
 .description {
-
     color: #aaa;
-
     line-height: 1.5;
-
     margin-bottom: 25px;
 }
-
 
 /* =========================
    FORMULAIRE
 ========================= */
 
 .form-group {
-
     margin-bottom: 20px;
 }
 
 .form-group label {
-
     display: block;
-
     margin-bottom: 8px;
-
     font-weight: bold;
 }
 
 .form-group input,
-.form-group select {
-
+.form-group select,
+.form-group textarea {
     width: 100%;
-
     padding: 13px;
-
     background: #333;
-
     color: white;
-
     border: none;
-
     border-radius: 8px;
-
     font-size: 16px;
 }
-
 
 /* =========================
    APERCU LOGOS
 ========================= */
 
 .logo-preview {
-
     margin-top: 10px;
-
     width: 120px;
-
     height: 120px;
-
     object-fit: contain;
-
     background: #000;
-
     border-radius: 10px;
-
     padding: 10px;
-
     border: 1px solid #444;
 }
-
 
 /* =========================
    SAUVEGARDE
 ========================= */
 
-#saveMatchButton {
-
+#saveMatchButton,
+#saveMessageButton {
     width: 100%;
-
     padding: 17px;
-
     border: none;
-
     border-radius: 10px;
-
     background: #16a34a;
-
     color: white;
-
     font-size: 18px;
-
     font-weight: bold;
-
     cursor: pointer;
 }
 
-#saveMatchButton:hover {
-
+#saveMatchButton:hover,
+#saveMessageButton:hover {
     background: #22c55e;
 }
 
-#matchStatus {
-
+#matchStatus,
+#messageStatus {
     margin-top: 15px;
-
     text-align: center;
-
     padding: 12px;
-
     border-radius: 8px;
 }
 
 .success {
-
     color: #4ade80;
 }
 
 .error {
-
     color: #f87171;
 }
-
 
 /* =========================
    HALOS DES ÉQUIPES
@@ -464,29 +358,22 @@ body {
     background: #ff6500;
 }
 
-
 /* =========================
    MOBILE
 ========================= */
 
 @media(max-width:600px) {
-
     #admin {
         padding: 12px;
     }
 
     .scene-grid {
-
-        grid-template-columns:
-            repeat(2,1fr);
-
+        grid-template-columns: repeat(2,1fr);
         gap: 10px;
     }
 
     .scene-button {
-
         min-height: 85px;
-
         font-size: 13px;
     }
 
@@ -494,888 +381,427 @@ body {
         grid-template-columns: 1fr;
     }
 
+    .tabs {
+        justify-content: center;
+    }
 }
 
 </style>
-
 </head>
 
-
 <body>
-
 
 <!-- =====================================================
      CONNEXION
 ===================================================== -->
 
 <div id="login">
-
     <div class="login-box">
-
         <h1>🔐 Régie MVBC</h1>
-
         <input
             type="password"
             id="password"
             placeholder="Mot de passe">
-
         <button id="loginButton">
-
             Se connecter
-
         </button>
-
         <div id="loginError"></div>
-
     </div>
-
 </div>
-
-
 
 <!-- =====================================================
      ADMIN
 ===================================================== -->
 
 <div id="admin">
-
-
+    <!-- =================================================
+         EN-TÊTE AVEC ONGLETS
+    ================================================== -->
     <div class="header">
-
-        <h1>
-            🎬 Régie de diffusion
-        </h1>
-
-        <button id="logoutButton">
-
-            Déconnexion
-
-        </button>
-
+        <h1>🎬 Régie de diffusion</h1>
+        <button id="logoutButton">Déconnexion</button>
     </div>
 
+    <div class="tabs">
+        <button class="tab-button active" onclick="openTab('regie')">
+            🎬 Régie
+        </button>
+        <button class="tab-button" onclick="openTab('matchdusoir')">
+            ⚽ Match du Soir
+        </button>
+        <button class="tab-button" onclick="openTab('message')">
+            📝 Message
+        </button>
+    </div>
 
     <!-- STATUT -->
-
     <div class="status">
-
         Scène actuelle :
-
-        <span id="currentScene">
-            Aucune
-        </span>
-
+        <span id="currentScene">Aucune</span>
     </div>
 
-
     <!-- =================================================
-         BOUTONS DE DIFFUSION
+         ONGLET : RÉGIE (BOUTONS DE DIFFUSION)
     ================================================== -->
-
-    <div class="scene-grid">
-
-
-        <button
-            class="scene-button video"
-            onclick="diffuser('video1')">
-
-            🎬<br>
-            VIDÉO 1
-
-        </button>
-
-
-        <button
-            class="scene-button video"
-            onclick="diffuser('video2')">
-
-            🎬<br>
-            VIDÉO 2
-
-        </button>
-
-
-        <button
-            class="scene-button photos"
-            onclick="diffuser('photos')">
-
-            🖼️<br>
-            DIAPORAMA
-
-        </button>
-
-
-        <button
-            class="scene-button page"
-            onclick="diffuser('partenaires')">
-
-            🤝<br>
-            PARTENAIRES
-
-        </button>
-
-
-        <button
-            class="scene-button page"
-            onclick="diffuser('evenements')">
-
-            📅<br>
-            ÉVÉNEMENTS
-
-        </button>
-
-
-        <button
-            class="scene-button page"
-            onclick="diffuser('videomvbc')">
-
-            🎥<br>
-            VIDÉOS MVBC
-
-        </button>
-
-
-        <button
-            class="scene-button page"
-            onclick="diffuser('matchdusoir')">
-
-            🏀<br>
-            MATCH DU SOIR
-
-        </button>
-
-
-        <button
-            class="scene-button page"
-            onclick="diffuser('classementnm2')">
-
-            🏆<br>
-            CLASSEMENT NM2
-
-        </button>
-
-
-        <button
-            class="scene-button page"
-            onclick="diffuser('nosequipes')">
-
-            👥<br>
-            NOS ÉQUIPES
-
-        </button>
-
-
-        <button
-            class="scene-button"
-            onclick="diffuser('message')">
-
-            📝<br>
-            MESSAGE
-
-        </button>
-
-
-        <button
-            class="scene-button black"
-            onclick="diffuser('black')">
-
-            ⬛<br>
-            ÉCRAN NOIR
-
-        </button>
-
-
+    <div id="regie" class="tab-content active">
+        <div class="scene-grid">
+            <button class="scene-button video" onclick="diffuser('video1')">
+                🎬<br>VIDÉO 1
+            </button>
+            <button class="scene-button video" onclick="diffuser('video2')">
+                🎬<br>VIDÉO 2
+            </button>
+            <button class="scene-button photos" onclick="diffuser('photos')">
+                🖼️<br>DIAPORAMA
+            </button>
+            <button class="scene-button page" onclick="diffuser('partenaires')">
+                🤝<br>PARTENAIRES
+            </button>
+            <button class="scene-button page" onclick="diffuser('evenements')">
+                📅<br>ÉVÉNEMENTS
+            </button>
+            <button class="scene-button page" onclick="diffuser('videomvbc')">
+                🎥<br>VIDÉOS MVBC
+            </button>
+            <button class="scene-button page" onclick="diffuser('matchdusoir')">
+                🏀<br>MATCH DU SOIR
+            </button>
+            <button class="scene-button page" onclick="diffuser('classementnm2')">
+                🏆<br>CLASSEMENT NM2
+            </button>
+            <button class="scene-button page" onclick="diffuser('nosequipes')">
+                👥<br>NOS ÉQUIPES
+            </button>
+            <button class="scene-button" onclick="diffuser('message')">
+                📝<br>MESSAGE
+            </button>
+            <button class="scene-button black" onclick="diffuser('black')">
+                ⬛<br>ÉCRAN NOIR
+            </button>
+        </div>
     </div>
 
-
-
     <!-- =================================================
-         MATCH DU SOIR
+         ONGLET : MATCH DU SOIR
     ================================================== -->
-
-    <div class="match-editor">
-
-
-        <h2>
-            🏀 MATCH DU SOIR
-        </h2>
-
-
-        <div class="description">
-
-            Configure ici le match qui apparaîtra
-            sur <strong>matchdusoir.html</strong>.
-
-            <br><br>
-
-            Les logos sont directement chargés depuis
-            ton dossier <strong>logos/</strong> sur GitHub.
-            Firebase ne stocke donc aucune image.
-
-        </div>
-
-
-        <!-- CHAMPIONNAT -->
-
-        <div class="form-group">
-
-            <label>
-                🏆 Championnat
-            </label>
-
-            <input
-                type="text"
-                id="matchChampionnat"
-                placeholder="Ex : CHAMPIONNAT NM2">
-
-        </div>
-
-
-        <!-- EQUIPE 1 -->
-
-        <div class="form-group">
-
-            <label>
-                🔵 Équipe 1
-            </label>
-
-            <input
-                type="text"
-                id="matchEquipe1"
-                placeholder="Ex : MVBC">
-
-        </div>
-
-
-        <!-- LOGO 1 -->
-
-        <div class="form-group">
-
-            <label>
-                🖼️ Logo équipe 1
-            </label>
-
-            <select id="logoEquipe1">
-
-                <option value="">
-                    -- Choisir un logo --
-                </option>
-
-                <option value="logos/mvbc.png">
-                    MVBC
-                </option>
-
-                <option value="logos/nantesbh.png">
-                    Nantes BH
-                </option>
-
-                <option value="logos/equipe3.png">
-                    Équipe 3
-                </option>
-
-                <option value="logos/equipe4.png">
-                    Équipe 4
-                </option>
-
-            </select>
-
-
-            <img
-                id="logoPreview1"
-                class="logo-preview"
-                src=""
-                alt="Logo équipe 1">
-
-        </div>
-
-
-        <!-- EQUIPE 2 -->
-
-        <div class="form-group">
-
-            <label>
-                🟠 Équipe 2
-            </label>
-
-            <input
-                type="text"
-                id="matchEquipe2"
-                placeholder="Ex : TOULOUSE">
-
-        </div>
-
-
-        <!-- LOGO 2 -->
-
-        <div class="form-group">
-
-            <label>
-                🖼️ Logo équipe 2
-            </label>
-
-            <select id="logoEquipe2">
-
-                <option value="">
-                    -- Choisir un logo --
-                </option>
-
-                <option value="logos/mvbc.png">
-                    MVBC
-                </option>
-
-                <option value="logos/nantesbh.png">
-                    Nantes BH
-                </option>
-
-                <option value="logos/equipe3.png">
-                    Équipe 3
-                </option>
-
-                <option value="logos/equipe4.png">
-                    Équipe 4
-                </option>
-
-            </select>
-
-
-            <img
-                id="logoPreview2"
-                class="logo-preview"
-                src=""
-                alt="Logo équipe 2">
-
-        </div>
-
-
-        <!-- =================================================
-             COULEURS DES HALOS
-        ================================================== -->
-
-        <div class="halo-editor">
-
-            <h3>✨ Couleurs des halos</h3>
-
-            <p class="halo-description">
-                Choisis indépendamment la couleur du halo lumineux
-                de chaque équipe sur <strong>matchdusoir.html</strong>.
-            </p>
-
-            <div class="halo-grid">
-
-                <div class="halo-team halo-team-1">
-                    <label for="haloCouleur1">🔵 Halo équipe 1</label>
-
-                    <div class="color-control">
-                        <span id="haloPreview1" class="halo-color-preview"></span>
-
-                        <select id="haloCouleur1">
-                            <option value="yellow">🟡 Jaune</option>
-                            <option value="black">⚫ Noir</option>
-                            <option value="blue" selected>🔵 Bleu</option>
-                            <option value="orange">🟠 Orange</option>
-                            <option value="red">🔴 Rouge</option>
-                            <option value="pink">🩷 Rose</option>
-                            <option value="green">🟢 Vert</option>
-                            <option value="white">⚪ Blanc</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="halo-team halo-team-2">
-                    <label for="haloCouleur2">🟠 Halo équipe 2</label>
-
-                    <div class="color-control">
-                        <span id="haloPreview2" class="halo-color-preview"></span>
-
-                        <select id="haloCouleur2">
-                            <option value="yellow">🟡 Jaune</option>
-                            <option value="black">⚫ Noir</option>
-                            <option value="blue">🔵 Bleu</option>
-                            <option value="orange" selected>🟠 Orange</option>
-                            <option value="red">🔴 Rouge</option>
-                            <option value="pink">🩷 Rose</option>
-                            <option value="green">🟢 Vert</option>
-                            <option value="white">⚪ Blanc</option>
-                        </select>
-                    </div>
-                </div>
-
+    <div id="matchdusoir" class="tab-content">
+        <div class="match-editor">
+            <h2>🏀 MATCH DU SOIR</h2>
+            <div class="description">
+                Configure ici le match qui apparaîtra sur <strong>matchdusoir.html</strong>.
+                <br><br>
+                Les logos sont directement chargés depuis ton dossier <strong>logos/</strong> sur GitHub.
+                Firebase ne stocke donc aucune image.
             </div>
+
+            <!-- CHAMPIONNAT -->
+            <div class="form-group">
+                <label>🏆 Championnat</label>
+                <input type="text" id="matchChampionnat" placeholder="Ex : CHAMPIONNAT NM2">
+            </div>
+
+            <!-- TITRE DU MATCH -->
+            <div class="form-group">
+                <label>📌 Titre du match</label>
+                <select id="titreMatch">
+                    <option value="MATCH DU SOIR">MATCH DU SOIR</option>
+                    <option value="PROCHAIN MATCH">PROCHAIN MATCH</option>
+                </select>
+            </div>
+
+            <!-- EQUIPE 1 -->
+            <div class="form-group">
+                <label>🔵 Équipe 1</label>
+                <input type="text" id="matchEquipe1" placeholder="Ex : MVBC">
+            </div>
+
+            <!-- LOGO 1 -->
+            <div class="form-group">
+                <label>🖼️ Logo équipe 1</label>
+                <select id="logoEquipe1">
+                    <option value="">-- Choisir un logo --</option>
+                    <option value="logos/mvbc.png">MVBC</option>
+                    <option value="logos/nantesbh.png">Nantes BH</option>
+                    <option value="logos/equipe3.png">Équipe 3</option>
+                    <option value="logos/equipe4.png">Équipe 4</option>
+                </select>
+                <img id="logoPreview1" class="logo-preview" src="" alt="Logo équipe 1">
+            </div>
+
+            <!-- EQUIPE 2 -->
+            <div class="form-group">
+                <label>🟠 Équipe 2</label>
+                <input type="text" id="matchEquipe2" placeholder="Ex : TOULOUSE">
+            </div>
+
+            <!-- LOGO 2 -->
+            <div class="form-group">
+                <label>🖼️ Logo équipe 2</label>
+                <select id="logoEquipe2">
+                    <option value="">-- Choisir un logo --</option>
+                    <option value="logos/mvbc.png">MVBC</option>
+                    <option value="logos/nantesbh.png">Nantes BH</option>
+                    <option value="logos/equipe3.png">Équipe 3</option>
+                    <option value="logos/equipe4.png">Équipe 4</option>
+                </select>
+                <img id="logoPreview2" class="logo-preview" src="" alt="Logo équipe 2">
+            </div>
+
+            <!-- COULEURS DES HALOS -->
+            <div class="halo-editor">
+                <h3>✨ Couleurs des halos</h3>
+                <p class="halo-description">
+                    Choisis indépendamment la couleur du halo lumineux de chaque équipe sur <strong>matchdusoir.html</strong>.
+                </p>
+                <div class="halo-grid">
+                    <div class="halo-team halo-team-1">
+                        <label for="haloCouleur1">🔵 Halo équipe 1</label>
+                        <div class="color-control">
+                            <span id="haloPreview1" class="halo-color-preview"></span>
+                            <select id="haloCouleur1">
+                                <option value="yellow">🟡 Jaune</option>
+                                <option value="black">⚫ Noir</option>
+                                <option value="blue" selected>🔵 Bleu</option>
+                                <option value="orange">🟠 Orange</option>
+                                <option value="red">🔴 Rouge</option>
+                                <option value="pink">🩷 Rose</option>
+                                <option value="green">🟢 Vert</option>
+                                <option value="white">⚪ Blanc</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="halo-team halo-team-2">
+                        <label for="haloCouleur2">🟠 Halo équipe 2</label>
+                        <div class="color-control">
+                            <span id="haloPreview2" class="halo-color-preview"></span>
+                            <select id="haloCouleur2">
+                                <option value="yellow">🟡 Jaune</option>
+                                <option value="black">⚫ Noir</option>
+                                <option value="blue">🔵 Bleu</option>
+                                <option value="orange" selected>🟠 Orange</option>
+                                <option value="red">🔴 Rouge</option>
+                                <option value="pink">🩷 Rose</option>
+                                <option value="green">🟢 Vert</option>
+                                <option value="white">⚪ Blanc</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DATE -->
+            <div class="form-group">
+                <label>📅 Date</label>
+                <input type="text" id="matchDate" placeholder="Ex : SAMEDI 23 NOVEMBRE">
+            </div>
+
+            <!-- HEURE -->
+            <div class="form-group">
+                <label>⏰ Heure</label>
+                <input type="text" id="matchHeure" placeholder="Ex : 20H00">
+            </div>
+
+            <!-- SAUVEGARDE -->
+            <button id="saveMatchButton">
+                💾 ENREGISTRER LE MATCH
+            </button>
+            <div id="matchStatus"></div>
         </div>
-
-
-        <!-- DATE -->
-
-        <div class="form-group">
-
-            <label>
-                📅 Date
-            </label>
-
-            <input
-                type="text"
-                id="matchDate"
-                placeholder="Ex : SAMEDI 23 NOVEMBRE">
-
-        </div>
-
-
-        <!-- HEURE -->
-
-        <div class="form-group">
-
-            <label>
-                ⏰ Heure
-            </label>
-
-            <input
-                type="text"
-                id="matchHeure"
-                placeholder="Ex : 20H00">
-
-        </div>
-
-
-        <!-- SAUVEGARDE -->
-
-        <button id="saveMatchButton">
-
-            💾 ENREGISTRER LE MATCH
-
-        </button>
-
-
-        <div id="matchStatus"></div>
-
-
     </div>
 
+    <!-- =================================================
+         ONGLET : MESSAGE
+    ================================================== -->
+    <div id="message" class="tab-content">
+        <div class="match-editor">
+            <h2>📝 MESSAGE</h2>
+            <div class="description">
+                Configure ici le message qui apparaîtra sur <strong>message.html</strong>.
+            </div>
 
+            <!-- TITRE DU MESSAGE -->
+            <div class="form-group">
+                <label>📌 Titre du message</label>
+                <input type="text" id="messageTitre" placeholder="Ex : Annonce importante">
+            </div>
+
+            <!-- CONTENU DU MESSAGE -->
+            <div class="form-group">
+                <label>📄 Contenu du message</label>
+                <textarea id="messageContenu" rows="5" placeholder="Ex : Le match est reporté à demain..."></textarea>
+            </div>
+
+            <!-- COULEUR DU TEXTE -->
+            <div class="form-group">
+                <label>🎨 Couleur du texte</label>
+                <input type="color" id="messageCouleur" value="#ffffff">
+            </div>
+
+            <!-- COULEUR DE FOND -->
+            <div class="form-group">
+                <label>🖌️ Couleur de fond</label>
+                <input type="color" id="messageFond" value="#1e1e1e">
+            </div>
+
+            <!-- SAUVEGARDE -->
+            <button id="saveMessageButton">
+                💾 ENREGISTRER LE MESSAGE
+            </button>
+            <div id="messageStatus"></div>
+        </div>
+    </div>
 </div>
-
-
 
 <!-- =====================================================
      FIREBASE
 ===================================================== -->
-
 <script type="module">
-
-import {
-
-    initializeApp
-
-}
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-
-import {
-
-    getDatabase,
-    ref,
-    set,
-    onValue
-
-}
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 /* =====================================================
    CONFIGURATION
 ===================================================== */
-
 const firebaseConfig = {
-
-    apiKey:
-        "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
-
-    authDomain:
-        "diffusion-b9afa.firebaseapp.com",
-
-    databaseURL:
-        "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
-
-    projectId:
-        "diffusion-b9afa",
-
-    storageBucket:
-        "diffusion-b9afa.firebasestorage.app",
-
-    messagingSenderId:
-        "674799570797",
-
-    appId:
-        "1:674799570797:web:0d8b7a2a892f604eb7d464"
-
+    apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+    authDomain: "diffusion-b9afa.firebaseapp.com",
+    databaseURL: "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "diffusion-b9afa",
+    storageBucket: "diffusion-b9afa.firebasestorage.app",
+    messagingSenderId: "674799570797",
+    appId: "1:674799570797:web:0d8b7a2a892f604eb7d464"
 };
 
-
-const app =
-    initializeApp(firebaseConfig);
-
-
-const db =
-    getDatabase(app);
-
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
 /* =====================================================
    MOT DE PASSE
 ===================================================== */
-
-const MOT_DE_PASSE =
-    "Mvbc85600@";
-
+const MOT_DE_PASSE = "Mvbc85600@";
 
 /* =====================================================
    ELEMENTS
 ===================================================== */
-
-const login =
-    document.getElementById("login");
-
-const admin =
-    document.getElementById("admin");
-
-const password =
-    document.getElementById("password");
-
-const loginButton =
-    document.getElementById("loginButton");
-
-const loginError =
-    document.getElementById("loginError");
-
-const logoutButton =
-    document.getElementById("logoutButton");
-
-const currentScene =
-    document.getElementById("currentScene");
-
+const login = document.getElementById("login");
+const admin = document.getElementById("admin");
+const password = document.getElementById("password");
+const loginButton = document.getElementById("loginButton");
+const loginError = document.getElementById("loginError");
+const logoutButton = document.getElementById("logoutButton");
+const currentScene = document.getElementById("currentScene");
 
 /* MATCH */
+const matchChampionnat = document.getElementById("matchChampionnat");
+const titreMatch = document.getElementById("titreMatch");
+const matchEquipe1 = document.getElementById("matchEquipe1");
+const matchEquipe2 = document.getElementById("matchEquipe2");
+const logoEquipe1 = document.getElementById("logoEquipe1");
+const logoEquipe2 = document.getElementById("logoEquipe2");
+const logoPreview1 = document.getElementById("logoPreview1");
+const logoPreview2 = document.getElementById("logoPreview2");
+const matchDate = document.getElementById("matchDate");
+const matchHeure = document.getElementById("matchHeure");
+const haloCouleur1 = document.getElementById("haloCouleur1");
+const haloCouleur2 = document.getElementById("haloCouleur2");
+const haloPreview1 = document.getElementById("haloPreview1");
+const haloPreview2 = document.getElementById("haloPreview2");
+const saveMatchButton = document.getElementById("saveMatchButton");
+const matchStatus = document.getElementById("matchStatus");
 
-const matchChampionnat =
-    document.getElementById(
-        "matchChampionnat"
-    );
+/* MESSAGE */
+const messageTitre = document.getElementById("messageTitre");
+const messageContenu = document.getElementById("messageContenu");
+const messageCouleur = document.getElementById("messageCouleur");
+const messageFond = document.getElementById("messageFond");
+const saveMessageButton = document.getElementById("saveMessageButton");
+const messageStatus = document.getElementById("messageStatus");
 
-const matchEquipe1 =
-    document.getElementById(
-        "matchEquipe1"
-    );
+/* =====================================================
+   ONGLETS
+===================================================== */
+function openTab(tabName) {
+    // Masquer tous les onglets
+    const tabContents = document.querySelectorAll('.tab-content');
+    tabContents.forEach(content => {
+        content.classList.remove('active');
+    });
 
-const matchEquipe2 =
-    document.getElementById(
-        "matchEquipe2"
-    );
+    // Désactiver tous les boutons d'onglets
+    const tabButtons = document.querySelectorAll('.tab-button');
+    tabButtons.forEach(button => {
+        button.classList.remove('active');
+    });
 
-const logoEquipe1 =
-    document.getElementById(
-        "logoEquipe1"
-    );
-
-const logoEquipe2 =
-    document.getElementById(
-        "logoEquipe2"
-    );
-
-const logoPreview1 =
-    document.getElementById(
-        "logoPreview1"
-    );
-
-const logoPreview2 =
-    document.getElementById(
-        "logoPreview2"
-    );
-
-const matchDate =
-    document.getElementById(
-        "matchDate"
-    );
-
-const matchHeure =
-    document.getElementById(
-        "matchHeure"
-    );
-
-const haloCouleur1 =
-    document.getElementById("haloCouleur1");
-
-const haloCouleur2 =
-    document.getElementById("haloCouleur2");
-
-const haloPreview1 =
-    document.getElementById("haloPreview1");
-
-const haloPreview2 =
-    document.getElementById("haloPreview2");
-
-
-const saveMatchButton =
-    document.getElementById(
-        "saveMatchButton"
-    );
-
-const matchStatus =
-    document.getElementById(
-        "matchStatus"
-    );
-
+    // Afficher l'onglet sélectionné
+    document.getElementById(tabName).classList.add('active');
+    event.currentTarget.classList.add('active');
+}
 
 /* =====================================================
    CONNEXION
 ===================================================== */
-
-if (
-    sessionStorage.getItem(
-        "adminConnecte"
-    ) === "true"
-) {
-
+if (sessionStorage.getItem("adminConnecte") === "true") {
     afficherAdmin();
-
 }
 
-
-loginButton.addEventListener(
-    "click",
-    verifierMotDePasse
-);
-
-
-password.addEventListener(
-    "keydown",
-    (event) => {
-
-        if (
-            event.key === "Enter"
-        ) {
-
-            verifierMotDePasse();
-
-        }
-
+loginButton.addEventListener("click", verifierMotDePasse);
+password.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        verifierMotDePasse();
     }
-);
-
+});
 
 function verifierMotDePasse() {
-
-    if (
-        password.value === MOT_DE_PASSE
-    ) {
-
-        sessionStorage.setItem(
-            "adminConnecte",
-            "true"
-        );
-
+    if (password.value === MOT_DE_PASSE) {
+        sessionStorage.setItem("adminConnecte", "true");
         afficherAdmin();
-
         password.value = "";
-
         loginError.textContent = "";
-
     }
-
     else {
-
-        loginError.textContent =
-            "Mot de passe incorrect.";
-
+        loginError.textContent = "Mot de passe incorrect.";
         password.value = "";
-
     }
-
 }
-
 
 function afficherAdmin() {
-
-    login.style.display =
-        "none";
-
-    admin.style.display =
-        "block";
-
+    login.style.display = "none";
+    admin.style.display = "block";
 }
 
-
-logoutButton.addEventListener(
-    "click",
-    () => {
-
-        sessionStorage.removeItem(
-            "adminConnecte"
-        );
-
-        admin.style.display =
-            "none";
-
-        login.style.display =
-            "flex";
-
-    }
-);
-
+logoutButton.addEventListener("click", () => {
+    sessionStorage.removeItem("adminConnecte");
+    admin.style.display = "none";
+    login.style.display = "flex";
+});
 
 /* =====================================================
    DIFFUSION
 ===================================================== */
-
-window.diffuser =
-function(scene) {
-
-    set(
-
-        ref(
-            db,
-            "diffusion"
-        ),
-
-        {
-
-            scene: scene,
-
-            timestamp: Date.now()
-
-        }
-
-    )
-
-    .then(() => {
-
-        currentScene.textContent =
-            scene;
-
+window.diffuser = function(scene) {
+    set(ref(db, "diffusion"), {
+        scene: scene,
+        timestamp: Date.now()
     })
-
+    .then(() => {
+        currentScene.textContent = scene;
+    })
     .catch((error) => {
-
         console.error(error);
-
-        alert(
-            "Erreur de diffusion : " +
-            error.message
-        );
-
+        alert("Erreur de diffusion : " + error.message);
     });
-
 };
 
-
 /* =====================================================
-   MATCH FIREBASE
+   REFERENCES FIREBASE
 ===================================================== */
-
-const matchRef =
-    ref(
-        db,
-        "matchdusoir"
-    );
-
-
-/* =====================================================
-   CHARGER MATCH
-===================================================== */
-
-onValue(
-
-    matchRef,
-
-    (snapshot) => {
-
-        const data =
-            snapshot.val();
-
-        if (!data) {
-            return;
-        }
-
-
-        if (data.championnat) {
-
-            matchChampionnat.value =
-                data.championnat;
-
-        }
-
-
-        if (data.equipe1) {
-
-            matchEquipe1.value =
-                data.equipe1;
-
-        }
-
-
-        if (data.equipe2) {
-
-            matchEquipe2.value =
-                data.equipe2;
-
-        }
-
-
-        if (data.logo1) {
-
-            logoEquipe1.value =
-                data.logo1;
-
-            logoPreview1.src =
-                data.logo1;
-
-        }
-
-
-        if (data.logo2) {
-
-            logoEquipe2.value =
-                data.logo2;
-
-            logoPreview2.src =
-                data.logo2;
-
-        }
-
-
-        if (data.date) {
-
-            matchDate.value =
-                data.date;
-
-        }
-
-
-        if (data.heure) {
-
-            matchHeure.value =
-                data.heure;
-
-        }
-
-        if (data.haloCouleur1) {
-            haloCouleur1.value = data.haloCouleur1;
-        }
-
-        if (data.haloCouleur2) {
-            haloCouleur2.value = data.haloCouleur2;
-        }
-
-        mettreAJourApercuHalos();
-
-    }
-
-);
-
+const matchRef = ref(db, "matchdusoir");
+const messageRef = ref(db, "message");
 
 /* =====================================================
    COULEURS DES HALOS
 ===================================================== */
-
 const COULEURS_HALO = {
     yellow: "#ffd400",
     black: "#000000",
@@ -1388,201 +814,151 @@ const COULEURS_HALO = {
 };
 
 function mettreAJourApercuHalo(select, preview) {
-
-    const couleur =
-        COULEURS_HALO[select.value] || "#ffffff";
-
+    const couleur = COULEURS_HALO[select.value] || "#ffffff";
     preview.style.background = couleur;
     preview.style.color = couleur;
-
-    preview.style.boxShadow =
-        "0 0 10px " + couleur + ", 0 0 25px " + couleur;
-
-    preview.style.border =
-        select.value === "black"
-            ? "1px solid #777"
-            : "none";
+    preview.style.boxShadow = "0 0 10px " + couleur + ", 0 0 25px " + couleur;
+    preview.style.border = select.value === "black" ? "1px solid #777" : "none";
 }
 
 function mettreAJourApercuHalos() {
-
-    mettreAJourApercuHalo(
-        haloCouleur1,
-        haloPreview1
-    );
-
-    mettreAJourApercuHalo(
-        haloCouleur2,
-        haloPreview2
-    );
+    mettreAJourApercuHalo(haloCouleur1, haloPreview1);
+    mettreAJourApercuHalo(haloCouleur2, haloPreview2);
 }
 
-haloCouleur1.addEventListener(
-    "change",
-    mettreAJourApercuHalos
-);
+/* =====================================================
+   CHARGER MATCH
+===================================================== */
+onValue(matchRef, (snapshot) => {
+    const data = snapshot.val();
+    if (!data) return;
 
-haloCouleur2.addEventListener(
-    "change",
-    mettreAJourApercuHalos
-);
+    if (data.championnat) matchChampionnat.value = data.championnat;
+    if (data.titreMatch) titreMatch.value = data.titreMatch;
+    if (data.equipe1) matchEquipe1.value = data.equipe1;
+    if (data.equipe2) matchEquipe2.value = data.equipe2;
+    if (data.logo1) {
+        logoEquipe1.value = data.logo1;
+        logoPreview1.src = data.logo1;
+    }
+    if (data.logo2) {
+        logoEquipe2.value = data.logo2;
+        logoPreview2.src = data.logo2;
+    }
+    if (data.date) matchDate.value = data.date;
+    if (data.heure) matchHeure.value = data.heure;
+    if (data.haloCouleur1) haloCouleur1.value = data.haloCouleur1;
+    if (data.haloCouleur2) haloCouleur2.value = data.haloCouleur2;
 
+    mettreAJourApercuHalos();
+});
+
+/* =====================================================
+   APERCU LOGOS
+===================================================== */
+logoEquipe1.addEventListener("change", () => {
+    if (logoEquipe1.value) logoPreview1.src = logoEquipe1.value;
+});
+
+logoEquipe2.addEventListener("change", () => {
+    if (logoEquipe2.value) logoPreview2.src = logoEquipe2.value;
+});
+
+/* =====================================================
+   COULEURS DES HALOS (ÉCOUTEURS)
+===================================================== */
+haloCouleur1.addEventListener("change", mettreAJourApercuHalos);
+haloCouleur2.addEventListener("change", mettreAJourApercuHalos);
 mettreAJourApercuHalos();
-
-
-/* =====================================================
-   APERCU LOGO 1
-===================================================== */
-
-logoEquipe1.addEventListener(
-    "change",
-    () => {
-
-        if (
-            logoEquipe1.value
-        ) {
-
-            logoPreview1.src =
-                logoEquipe1.value;
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   APERCU LOGO 2
-===================================================== */
-
-logoEquipe2.addEventListener(
-    "change",
-    () => {
-
-        if (
-            logoEquipe2.value
-        ) {
-
-            logoPreview2.src =
-                logoEquipe2.value;
-
-        }
-
-    }
-);
-
 
 /* =====================================================
    ENREGISTRER MATCH
 ===================================================== */
+saveMatchButton.addEventListener("click", async () => {
+    try {
+        saveMatchButton.disabled = true;
+        saveMatchButton.textContent = "⏳ ENREGISTREMENT...";
 
-saveMatchButton.addEventListener(
+        const donneesMatch = {
+            championnat: matchChampionnat.value.trim(),
+            titreMatch: titreMatch.value.trim(),
+            equipe1: matchEquipe1.value.trim(),
+            logo1: logoEquipe1.value,
+            equipe2: matchEquipe2.value.trim(),
+            logo2: logoEquipe2.value,
+            date: matchDate.value.trim(),
+            heure: matchHeure.value.trim(),
+            haloCouleur1: haloCouleur1.value,
+            haloCouleur2: haloCouleur2.value,
+            timestamp: Date.now()
+        };
 
-    "click",
+        await set(matchRef, donneesMatch);
+        matchStatus.className = "success";
+        matchStatus.textContent = "✅ Match enregistré !";
+        saveMatchButton.textContent = "✅ ENREGISTRÉ";
 
-    async () => {
-
-        try {
-
-            saveMatchButton.disabled =
-                true;
-
-            saveMatchButton.textContent =
-                "⏳ ENREGISTREMENT...";
-
-
-            const donneesMatch = {
-
-                championnat:
-                    matchChampionnat.value.trim(),
-
-                equipe1:
-                    matchEquipe1.value.trim(),
-
-                logo1:
-                    logoEquipe1.value,
-
-                equipe2:
-                    matchEquipe2.value.trim(),
-
-                logo2:
-                    logoEquipe2.value,
-
-                date:
-                    matchDate.value.trim(),
-
-                heure:
-                    matchHeure.value.trim(),
-
-                haloCouleur1:
-                    haloCouleur1.value,
-
-                haloCouleur2:
-                    haloCouleur2.value,
-
-                timestamp:
-                    Date.now()
-
-            };
-
-
-            await set(
-
-                matchRef,
-
-                donneesMatch
-
-            );
-
-
-            matchStatus.className =
-                "success";
-
-            matchStatus.textContent =
-                "✅ Match enregistré !";
-
-
-            saveMatchButton.textContent =
-                "✅ ENREGISTRÉ";
-
-
-            setTimeout(() => {
-
-                saveMatchButton.disabled =
-                    false;
-
-                saveMatchButton.textContent =
-                    "💾 ENREGISTRER LE MATCH";
-
-            }, 2000);
-
-        }
-
-        catch(error) {
-
-            console.error(error);
-
-            matchStatus.className =
-                "error";
-
-            matchStatus.textContent =
-                "❌ Erreur : " +
-                error.message;
-
-            saveMatchButton.disabled =
-                false;
-
-            saveMatchButton.textContent =
-                "💾 ENREGISTRER LE MATCH";
-
-        }
-
+        setTimeout(() => {
+            saveMatchButton.disabled = false;
+            saveMatchButton.textContent = "💾 ENREGISTRER LE MATCH";
+        }, 2000);
     }
+    catch(error) {
+        console.error(error);
+        matchStatus.className = "error";
+        matchStatus.textContent = "❌ Erreur : " + error.message;
+        saveMatchButton.disabled = false;
+        saveMatchButton.textContent = "💾 ENREGISTRER LE MATCH";
+    }
+});
 
-);
+/* =====================================================
+   CHARGER MESSAGE
+===================================================== */
+onValue(messageRef, (snapshot) => {
+    const data = snapshot.val();
+    if (!data) return;
 
+    if (data.titre) messageTitre.value = data.titre;
+    if (data.contenu) messageContenu.value = data.contenu;
+    if (data.couleur) messageCouleur.value = data.couleur;
+    if (data.fond) messageFond.value = data.fond;
+});
+
+/* =====================================================
+   ENREGISTRER MESSAGE
+===================================================== */
+saveMessageButton.addEventListener("click", async () => {
+    try {
+        saveMessageButton.disabled = true;
+        saveMessageButton.textContent = "⏳ ENREGISTREMENT...";
+
+        const donneesMessage = {
+            titre: messageTitre.value.trim(),
+            contenu: messageContenu.value.trim(),
+            couleur: messageCouleur.value,
+            fond: messageFond.value,
+            timestamp: Date.now()
+        };
+
+        await set(messageRef, donneesMessage);
+        messageStatus.className = "success";
+        messageStatus.textContent = "✅ Message enregistré !";
+        saveMessageButton.textContent = "✅ ENREGISTRÉ";
+
+        setTimeout(() => {
+            saveMessageButton.disabled = false;
+            saveMessageButton.textContent = "💾 ENREGISTRER LE MESSAGE";
+        }, 2000);
+    }
+    catch(error) {
+        console.error(error);
+        messageStatus.className = "error";
+        messageStatus.textContent = "❌ Erreur : " + error.message;
+        saveMessageButton.disabled = false;
+        saveMessageButton.textContent = "💾 ENREGISTRER LE MESSAGE";
+    }
+});
 </script>
-
 </body>
-
 </html>
