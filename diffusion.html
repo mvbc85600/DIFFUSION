@@ -63,7 +63,7 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: calc(100% - 80px);
+      height: calc(100% - 100px); /* Hauteur ajustée pour les logos + gros */
       display: none;
       align-items: center;
       justify-content: center;
@@ -87,13 +87,13 @@
       z-index: 40;
     }
 
-    /* DÉFILEMENT DES LOGOS */
+    /* DÉFILEMENT DES LOGOS DES PARTENAIRES */
     #partners-scroll-container {
       position: fixed;
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 80px;
+      height: 100px; /* Hauteur augmentée pour les logos plus gros */
       background-color: rgba(0, 0, 0, 0.8);
       overflow: hidden;
       z-index: 50;
@@ -104,18 +104,20 @@
       display: flex;
       align-items: center;
       white-space: nowrap;
-      animation: scroll 20s linear infinite;
+      animation: scroll 25s linear infinite; /* Animation plus lente pour les gros logos */
     }
 
     #partners-scroll img {
-      height: 50px;
-      margin: 0 20px;
+      height: 60px; /* Logos plus gros */
+      margin: 0 30px; /* Espacement augmenté */
       opacity: 0.8;
-      transition: opacity 0.3s ease;
+      transition: all 0.3s ease;
+      filter: brightness(0) invert(1); /* Logos en blanc */
     }
 
     #partners-scroll img:hover {
       opacity: 1;
+      transform: scale(1.2); /* Effet de zoom au survol */
     }
 
     @keyframes scroll {
@@ -131,6 +133,32 @@
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
+    }
+
+    /* ANIMATIONS POUR LE MESSAGE */
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes fadeInText {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes pulseGlow {
+      from { transform: scale(0.8); opacity: 0.5; }
+      to { transform: scale(1.2); opacity: 0.8; }
+    }
+
+    @keyframes shine {
+      from { opacity: 0.5; transform: scaleX(0.8); }
+      to { opacity: 1; transform: scaleX(1.2); }
     }
   </style>
 </head>
@@ -188,20 +216,23 @@
     const partnersScroll = document.getElementById("partners-scroll");
 
     // ==================================================
-    // LISTE DES LOGOS DES PARTENAIRES
+    // LISTE DES LOGOS DES PARTENAIRES (À ADAPTER)
     // ==================================================
     const partnerLogos = [
       "logo/AGTIM.png",
-      "logos/partenaire1.png",
-      "logos/partenaire2.png",
-      "logos/partenaire3.png",
-      "logos/partenaire4.png",
-      "logos/partenaire5.png",
-      "logos/partenaire6.png",
-      "logos/partenaire7.png",
-      "logos/partenaire8.png",
-      "logos/partenaire9.png",
-      "logos/partenaire10.png"
+      "logo/partenaire1.png",
+      "logo/partenaire2.png",
+      "logo/partenaire3.png",
+      "logo/partenaire4.png",
+      "logo/partenaire5.png",
+      "logo/partenaire6.png",
+      "logo/partenaire7.png",
+      "logo/partenaire8.png",
+      "logo/partenaire9.png",
+      "logo/partenaire10.png",
+      "logo/mvbc.png",
+      "logo/nantesbh.png"
+      // Ajoute ici tous tes logos (ex: "logo/nom_du_logo.png")
     ];
 
     // ==================================================
@@ -209,6 +240,7 @@
     // ==================================================
     function chargerLogosPartenaires() {
       partnersScroll.innerHTML = "";
+      // Ajouter chaque logo deux fois pour un défilement infini
       partnerLogos.forEach(logo => {
         const img = document.createElement('img');
         img.src = logo;
@@ -270,7 +302,7 @@
       pageFrame.style.display = "none";
       partnersScrollContainer.style.display = "none";
 
-      // Arrêter le diaporama
+      // Arrêter le diaporama et la vidéo
       arreterDiaporama();
       video.pause();
       video.removeAttribute("src");
@@ -353,10 +385,13 @@
       message.classList.add("fade");
     }
 
+    // ==================================================
+    // AFFICHER UN MESSAGE PERSONNALISÉ AVEC ANIMATIONS
+    // ==================================================
     function afficherMessagePersonnalise() {
       document.body.style.background = "#000";
 
-      // Créer le contenu du message
+      // Créer le contenu du message avec animations
       let htmlContent = `
         <div style="
           display: flex;
@@ -367,51 +402,61 @@
           height: 100%;
           padding: 20px;
           box-sizing: border-box;
+          position: relative;
         ">
+          <div class="message-glow" style="
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, ${currentMessageData ? currentMessageData.couleur : '#ffffff'}20, transparent 70%);
+            filter: blur(50px);
+            z-index: -1;
+            animation: pulseGlow 3s ease-in-out infinite alternate;
+          "></div>
+          <div class="message-box" style="
+            background-color: ${currentMessageData ? currentMessageData.fond : '#1e1e1e'};
+            max-width: 80%;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 100px;
+            animation: slideUp 1s ease-out, fadeIn 1.5s ease-in-out;
+            position: relative;
+            overflow: hidden;
+          ">
+            <div class="message-box::before" style="
+              content: '';
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 5px;
+              background: linear-gradient(90deg, transparent, ${currentMessageData ? currentMessageData.couleur : '#ffffff'}, transparent);
+              animation: shine 2s infinite alternate;
+            "></div>
+            <h2 class="message-title" style="
+              font-size: 2.5em;
+              margin-bottom: 20px;
+              color: ${currentMessageData ? currentMessageData.couleur : '#ffffff'};
+              font-weight: bold;
+              opacity: 0;
+              white-space: nowrap;
+              overflow: hidden;
+              border-right: 3px solid ${currentMessageData ? currentMessageData.couleur : '#ffffff'};
+              animation: typing 0.5s ease-out 1s forwards, fadeInText 1s ease-out 1s forwards;
+            ">${currentMessageData ? currentMessageData.titre || "Message" : "Message"}</h2>
+            <p class="message-content" style="
+              font-size: 1.5em;
+              line-height: 1.8;
+              color: ${currentMessageData ? currentMessageData.couleur : '#ffffff'};
+              opacity: 0;
+              animation: fadeInText 1s ease-out 1.5s forwards;
+            ">${currentMessageData ? currentMessageData.contenu || "Aucun contenu" : "Bienvenue"}</p>
+          </div>
+        </div>
       `;
-
-      if (currentMessageData) {
-        const titre = currentMessageData.titre || "Message";
-        const contenu = currentMessageData.contenu || "Aucun contenu";
-        const couleurTexte = currentMessageData.couleur || "#ffffff";
-        const couleurFond = currentMessageData.fond || "#1e1e1e";
-
-        htmlContent += `
-          <div style="
-            background-color: ${couleurFond};
-            color: ${couleurTexte};
-            max-width: 80%;
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            margin-bottom: 80px;
-            animation: fadeIn 1s ease-out;
-          ">
-            <h2 style="font-size: 2.5em; margin-bottom: 20px; color: ${couleurTexte}">${titre}</h2>
-            <p style="font-size: 1.5em; line-height: 1.8; color: ${couleurTexte}">${contenu}</p>
-          </div>
-        `;
-      } else {
-        htmlContent += `
-          <div style="
-            background-color: #1e1e1e;
-            color: #ffffff;
-            max-width: 80%;
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            margin-bottom: 80px;
-            animation: fadeIn 1s ease-out;
-          ">
-            <h2 style="font-size: 2.5em; margin-bottom: 20px;">Message</h2>
-            <p style="font-size: 1.5em; line-height: 1.8;">Bienvenue</p>
-          </div>
-        `;
-      }
-
-      htmlContent += `</div>`;
 
       message.innerHTML = htmlContent;
       message.style.display = "flex";
