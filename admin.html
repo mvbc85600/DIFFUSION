@@ -159,6 +159,10 @@ body {
     font-weight: bold;
     cursor: pointer;
     transition: 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .scene-button:hover {
@@ -180,6 +184,17 @@ body {
 .black {
     background: black;
     border: 1px solid #444;
+}
+
+/* NOUVEAU STYLE POUR LE BOUTON JAUNE */
+.yellow {
+    background: #ffd400 !important;
+    color: #000 !important;
+}
+
+.yellow:hover {
+    background: #ffeb3b !important;
+    transform: scale(1.03);
 }
 
 /* =========================
@@ -472,7 +487,8 @@ body {
             <button class="scene-button page" onclick="diffuser('nosequipes')">
                 👥<br>NOS ÉQUIPES
             </button>
-            <button class="scene-button" onclick="diffuserMessage()">
+            <!-- BOUTON MESSAGE EN JAUNE -->
+            <button class="scene-button yellow" onclick="diffuserMessage()">
                 📝<br>MESSAGE
             </button>
             <button class="scene-button black" onclick="diffuser('black')">
@@ -873,7 +889,7 @@ onValue(matchRef, (snapshot) => {
     if (data.championnat) matchChampionnat.value = data.championnat;
     if (data.titreMatch) titreMatch.value = data.titreMatch;
     if (data.equipe1) matchEquipe1.value = data.equipe1;
-    if (data.equipe2) matchEquipe2.value = data.equipe2;
+    if (data.equipe2) matchEquipe2.value = data.equipe2; // CORRECTION : "equipe2" au lieu de "équipe2"
     if (data.logo1) {
         logoEquipe1.value = data.logo1;
         logoPreview1.src = data.logo1;
@@ -921,7 +937,7 @@ saveMatchButton.addEventListener("click", async () => {
             titreMatch: titreMatch.value.trim(),
             equipe1: matchEquipe1.value.trim(),
             logo1: logoEquipe1.value,
-            équipe2: matchEquipe2.value.trim(),
+            equipe2: matchEquipe2.value.trim(), // CORRECTION : "equipe2" au lieu de "équipe2"
             logo2: logoEquipe2.value,
             date: matchDate.value.trim(),
             heure: matchHeure.value.trim(),
