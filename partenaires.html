@@ -12,365 +12,790 @@
   <title>Partenaires</title>
 
 
-  <style>
+ <!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nos Partenaires</title>
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 html,
 body {
 
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 
-  overflow: hidden;
+    overflow: hidden;
 
-  background: #000;
-  color: #fff;
+    background: #000;
 
-  font-family: Arial, sans-serif;
+    color: #fff;
+
+    font-family: Arial, Helvetica, sans-serif;
+
 }
 
 
-/* =================================
+/* =====================================================
+   FOND
+===================================================== */
+
+body {
+
+    position: relative;
+
+    background:
+
+        radial-gradient(
+            circle at center,
+            #252000 0%,
+            #100e00 35%,
+            #050500 65%,
+            #000 100%
+        );
+
+}
+
+
+/* Halo central */
+
+body::before {
+
+    content: "";
+
+    position: fixed;
+
+    width: 900px;
+    height: 900px;
+
+    left: 50%;
+    top: 52%;
+
+    transform: translate(-50%, -50%);
+
+    background:
+
+        radial-gradient(
+            circle,
+            rgba(255,204,0,0.20) 0%,
+            rgba(255,204,0,0.08) 25%,
+            rgba(255,204,0,0.02) 50%,
+            transparent 70%
+        );
+
+    pointer-events: none;
+
+    animation: halo 4s ease-in-out infinite;
+
+}
+
+
+/* =====================================================
+   ANIMATION HALO
+===================================================== */
+
+@keyframes halo {
+
+    0% {
+
+        transform:
+            translate(-50%, -50%)
+            scale(0.90);
+
+        opacity: 0.65;
+
+    }
+
+    50% {
+
+        transform:
+            translate(-50%, -50%)
+            scale(1.10);
+
+        opacity: 1;
+
+    }
+
+    100% {
+
+        transform:
+            translate(-50%, -50%)
+            scale(0.90);
+
+        opacity: 0.65;
+
+    }
+
+}
+
+
+/* =====================================================
    TITRE
-================================= */
+===================================================== */
 
 h1 {
 
-  text-align: center;
+    position: relative;
 
-  font-size: 50px;
+    z-index: 50;
 
-  margin-top: 30px;
-  margin-bottom: 20px;
+    margin: 25px 0 0 0;
 
-  letter-spacing: 4px;
+    text-align: center;
 
-  color: #ffcc00;
+    font-size: 54px;
 
-  text-shadow:
-    0 0 15px #ffcc00,
-    0 0 30px #ffcc00;
+    font-weight: 900;
+
+    letter-spacing: 7px;
+
+    color: #ffcc00;
+
+    text-shadow:
+
+        0 0 10px #ffcc00,
+        0 0 25px #ffcc00,
+        0 0 50px rgba(255,204,0,0.8);
 
 }
 
 
-/* =================================
-   CARROUSEL XXL
-================================= */
+/* petite ligne sous le titre */
+
+h1::after {
+
+    content: "";
+
+    display: block;
+
+    width: 300px;
+
+    height: 4px;
+
+    margin: 15px auto 0;
+
+    background: #ffcc00;
+
+    border-radius: 10px;
+
+    box-shadow:
+
+        0 0 10px #ffcc00,
+        0 0 25px #ffcc00;
+
+}
+
+
+/* =====================================================
+   CARROUSEL
+===================================================== */
 
 .carousel {
 
-  position: relative;
+    position: relative;
 
-  width: 100%;
+    width: 100%;
 
-  height: 650px;
+    height: calc(100vh - 130px);
 
-  margin: 20px auto 0;
+    min-height: 650px;
 
-  display: flex;
+    margin: 0 auto;
 
-  justify-content: center;
+    display: flex;
 
-  align-items: center;
+    justify-content: center;
 
-  perspective: 1600px;
+    align-items: center;
+
+    perspective: 1800px;
+
+    perspective-origin: center center;
 
 }
 
 
-/* =================================
-   LOGOS XXL
-================================= */
+/* =====================================================
+   LOGOS
+===================================================== */
 
 .carousel img {
 
-  position: absolute;
+    position: absolute;
 
-  width: auto;
+    left: 50%;
+    top: 50%;
 
-  height: auto;
+    transform-origin: center center;
 
-  max-height: 600px;
+    width: auto;
+    height: auto;
 
-  max-width: 800px;
+    max-width: 800px;
+    max-height: 600px;
 
-  padding: 20px;
+    padding: 25px;
 
-  background: #111;
+    object-fit: contain;
 
-  border: 3px solid #ffcc00;
+    background:
 
-  border-radius: 18px;
+        linear-gradient(
+            145deg,
+            rgba(30,30,30,0.98),
+            rgba(5,5,5,0.98)
+        );
 
-  object-fit: contain;
+    border: 3px solid rgba(255,204,0,0.85);
 
-  box-shadow:
-    0 0 20px #ffcc00,
-    0 0 40px rgba(255, 204, 0, 0.35);
+    border-radius: 24px;
 
-  transition:
-    transform 0.7s ease,
-    opacity 0.7s ease,
-    box-shadow 0.7s ease;
+    box-shadow:
+
+        0 0 15px rgba(255,204,0,0.7),
+        0 0 35px rgba(255,204,0,0.35);
+
+    transition:
+
+        transform 0.9s cubic-bezier(.22,.61,.36,1),
+        opacity 0.9s ease,
+        filter 0.9s ease,
+        box-shadow 0.9s ease;
 
 }
 
 
-/* =================================
+/* =====================================================
    LOGO CENTRAL
-================================= */
+===================================================== */
 
 .center {
 
-  transform:
-    translateX(0)
-    scale(1.15);
+    transform:
 
-  z-index: 10;
+        translate(-50%, -50%)
+        translateZ(300px)
+        scale(1.15);
 
-  opacity: 1;
+    z-index: 20;
 
-  box-shadow:
-    0 0 25px #ffcc00,
-    0 0 50px #ffcc00,
-    0 0 90px rgba(255, 204, 0, 0.5),
-    0 0 100px #ffcc00 inset;
+    opacity: 1;
+
+    filter:
+
+        brightness(1.15)
+        contrast(1.08);
+
+    border-color: #ffcc00;
+
+    box-shadow:
+
+        0 0 20px #ffcc00,
+        0 0 45px #ffcc00,
+        0 0 90px rgba(255,204,0,0.85),
+        0 0 140px rgba(255,204,0,0.35);
+
+    animation:
+
+        centralGlow 2.5s ease-in-out infinite;
 
 }
 
 
-/* =================================
-   GAUCHE 1
-================================= */
+/* =====================================================
+   GLOW LOGO CENTRAL
+===================================================== */
+
+@keyframes centralGlow {
+
+    0% {
+
+        box-shadow:
+
+            0 0 20px #ffcc00,
+            0 0 45px #ffcc00,
+            0 0 80px rgba(255,204,0,0.6);
+
+    }
+
+    50% {
+
+        box-shadow:
+
+            0 0 30px #ffcc00,
+            0 0 65px #ffcc00,
+            0 0 120px rgba(255,204,0,0.9),
+            0 0 170px rgba(255,204,0,0.35);
+
+    }
+
+    100% {
+
+        box-shadow:
+
+            0 0 20px #ffcc00,
+            0 0 45px #ffcc00,
+            0 0 80px rgba(255,204,0,0.6);
+
+    }
+
+}
+
+
+/* =====================================================
+   LOGO GAUCHE 1
+===================================================== */
 
 .left1 {
 
-  transform:
-    translateX(-520px)
-    scale(0.65);
+    transform:
 
-  opacity: 0.75;
+        translate(-50%, -50%)
+        translateX(-560px)
+        translateZ(40px)
+        scale(0.65);
 
-  z-index: 6;
+    z-index: 12;
+
+    opacity: 0.75;
+
+    filter:
+
+        brightness(0.75)
+        contrast(0.95);
 
 }
 
 
-/* =================================
-   GAUCHE 2
-================================= */
+/* =====================================================
+   LOGO GAUCHE 2
+===================================================== */
 
 .left2 {
 
-  transform:
-    translateX(-850px)
-    scale(0.45);
+    transform:
 
-  opacity: 0.4;
+        translate(-50%, -50%)
+        translateX(-900px)
+        translateZ(-250px)
+        scale(0.43);
 
-  z-index: 4;
+    z-index: 8;
+
+    opacity: 0.38;
+
+    filter:
+
+        brightness(0.55)
+        blur(0.3px);
 
 }
 
 
-/* =================================
-   DROITE 1
-================================= */
+/* =====================================================
+   LOGO DROITE 1
+===================================================== */
 
 .right1 {
 
-  transform:
-    translateX(520px)
-    scale(0.65);
+    transform:
 
-  opacity: 0.75;
+        translate(-50%, -50%)
+        translateX(560px)
+        translateZ(40px)
+        scale(0.65);
 
-  z-index: 6;
+    z-index: 12;
+
+    opacity: 0.75;
+
+    filter:
+
+        brightness(0.75)
+        contrast(0.95);
 
 }
 
 
-/* =================================
-   DROITE 2
-================================= */
+/* =====================================================
+   LOGO DROITE 2
+===================================================== */
 
 .right2 {
 
-  transform:
-    translateX(850px)
-    scale(0.45);
+    transform:
 
-  opacity: 0.4;
+        translate(-50%, -50%)
+        translateX(900px)
+        translateZ(-250px)
+        scale(0.43);
 
-  z-index: 4;
+    z-index: 8;
+
+    opacity: 0.38;
+
+    filter:
+
+        brightness(0.55)
+        blur(0.3px);
 
 }
 
 
-/* =================================
+/* =====================================================
    LOGOS CACHÉS
-================================= */
+===================================================== */
 
 .hidden {
 
-  opacity: 0;
-
-  transform:
-    translateX(0)
-    scale(0.2);
-
-  z-index: 1;
-
-}
-
-
-/* =================================
-   ÉCRANS MOYENS
-================================= */
-
-@media (max-width: 1400px) {
-
-  h1 {
-
-    font-size: 44px;
-
-  }
-
-
-  .carousel {
-
-    height: 600px;
-
-  }
-
-
-  .carousel img {
-
-    max-height: 520px;
-
-    max-width: 700px;
-
-  }
-
-
-  .center {
-
     transform:
-      translateX(0)
-      scale(1.1);
 
-  }
-
-
-  .left1 {
-
-    transform:
-      translateX(-420px)
-      scale(0.6);
-
-  }
-
-
-  .right1 {
-
-    transform:
-      translateX(420px)
-      scale(0.6);
-
-  }
-
-
-  .left2 {
-
-    transform:
-      translateX(-680px)
-      scale(0.4);
-
-  }
-
-
-  .right2 {
-
-    transform:
-      translateX(680px)
-      scale(0.4);
-
-  }
-
-}
-
-
-/* =================================
-   TABLETTES / PETITS ÉCRANS
-================================= */
-
-@media (max-width: 900px) {
-
-  h1 {
-
-    font-size: 35px;
-
-    margin-top: 20px;
-
-  }
-
-
-  .carousel {
-
-    height: 500px;
-
-  }
-
-
-  .carousel img {
-
-    max-height: 420px;
-
-    max-width: 550px;
-
-  }
-
-
-  .center {
-
-    transform:
-      translateX(0)
-      scale(1);
-
-  }
-
-
-  .left1 {
-
-    transform:
-      translateX(-270px)
-      scale(0.55);
-
-  }
-
-
-  .right1 {
-
-    transform:
-      translateX(270px)
-      scale(0.55);
-
-  }
-
-
-  .left2,
-  .right2 {
+        translate(-50%, -50%)
+        translateZ(-700px)
+        scale(0.15);
 
     opacity: 0;
 
-  }
+    filter: blur(5px);
+
+    z-index: 1;
+
+    pointer-events: none;
+
+}
+
+
+/* =====================================================
+   INDICATEUR PARTENAIRE
+===================================================== */
+
+.partner-counter {
+
+    position: fixed;
+
+    left: 50%;
+    bottom: 25px;
+
+    transform: translateX(-50%);
+
+    z-index: 100;
+
+    padding: 10px 25px;
+
+    border: 2px solid rgba(255,204,0,0.8);
+
+    border-radius: 30px;
+
+    background: rgba(0,0,0,0.75);
+
+    color: #ffcc00;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    letter-spacing: 3px;
+
+    box-shadow:
+
+        0 0 15px rgba(255,204,0,0.5);
+
+}
+
+
+/* =====================================================
+   BARRE LUMINEUSE
+===================================================== */
+
+.light-line {
+
+    position: fixed;
+
+    left: 50%;
+
+    bottom: 0;
+
+    transform: translateX(-50%);
+
+    width: 65%;
+
+    height: 3px;
+
+    background: #ffcc00;
+
+    box-shadow:
+
+        0 0 10px #ffcc00,
+        0 0 25px #ffcc00,
+        0 0 50px #ffcc00;
+
+    z-index: 90;
+
+}
+
+
+/* =====================================================
+   ÉCRANS 1600PX ET MOINS
+===================================================== */
+
+@media (max-width: 1600px) {
+
+    .carousel img {
+
+        max-width: 700px;
+
+        max-height: 520px;
+
+    }
+
+
+    .center {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateZ(250px)
+            scale(1.05);
+
+    }
+
+
+    .left1 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(-470px)
+            translateZ(30px)
+            scale(0.58);
+
+    }
+
+
+    .right1 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(470px)
+            translateZ(30px)
+            scale(0.58);
+
+    }
+
+
+    .left2 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(-720px)
+            translateZ(-200px)
+            scale(0.38);
+
+    }
+
+
+    .right2 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(720px)
+            translateZ(-200px)
+            scale(0.38);
+
+    }
+
+}
+
+
+/* =====================================================
+   ÉCRANS 1200PX ET MOINS
+===================================================== */
+
+@media (max-width: 1200px) {
+
+    h1 {
+
+        font-size: 42px;
+
+    }
+
+
+    .carousel {
+
+        min-height: 550px;
+
+    }
+
+
+    .carousel img {
+
+        max-width: 600px;
+
+        max-height: 450px;
+
+    }
+
+
+    .center {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateZ(180px)
+            scale(1);
+
+    }
+
+
+    .left1 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(-350px)
+            translateZ(20px)
+            scale(0.52);
+
+    }
+
+
+    .right1 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(350px)
+            translateZ(20px)
+            scale(0.52);
+
+    }
+
+
+    .left2,
+    .right2 {
+
+        opacity: 0;
+
+    }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+    h1 {
+
+        font-size: 28px;
+
+        letter-spacing: 3px;
+
+        margin-top: 20px;
+
+    }
+
+
+    h1::after {
+
+        width: 180px;
+
+        margin-top: 10px;
+
+    }
+
+
+    .carousel {
+
+        height: calc(100vh - 120px);
+
+        min-height: 400px;
+
+    }
+
+
+    .carousel img {
+
+        max-width: 85vw;
+
+        max-height: 400px;
+
+        padding: 15px;
+
+    }
+
+
+    .center {
+
+        transform:
+
+            translate(-50%, -50%)
+            scale(0.95);
+
+    }
+
+
+    .left1 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(-190px)
+            scale(0.42);
+
+    }
+
+
+    .right1 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(190px)
+            scale(0.42);
+
+    }
+
+
+    .left2,
+    .right2 {
+
+        display: none;
+
+    }
+
+
+    .partner-counter {
+
+        bottom: 15px;
+
+        font-size: 14px;
+
+        padding: 8px 18px;
+
+    }
 
 }
 
@@ -468,112 +893,106 @@ h1 {
 
   <script>
 
-    window.onload = function () {
+window.onload = function () {
 
-      const logos =
-        document.querySelectorAll(
-          "#carousel img"
-        );
+    const logos =
+        document.querySelectorAll("#carousel img");
 
-      let index = 0;
+    const counter =
+        document.getElementById("counter");
+
+    let index = 0;
+
+    const total = logos.length;
 
 
-      if (
-        !logos ||
-        logos.length === 0
-      ) {
+    if (!total) {
 
-        console.log(
-          "Aucun logo trouvé"
-        );
+        console.log("Aucun logo trouvé");
 
         return;
 
-      }
+    }
 
 
-      function updateCarousel() {
+    function updateCarousel() {
 
-        const total =
-          logos.length;
+        const center =
+            index % total;
+
+        const left1 =
+            (index - 1 + total) % total;
+
+        const left2 =
+            (index - 2 + total) % total;
+
+        const right1 =
+            (index + 1) % total;
+
+        const right2 =
+            (index + 2) % total;
 
 
-        for (
-          let i = 0;
-          i < total;
-          i++
-        ) {
+        /* Tous cachés */
 
-          logos[i].className =
-            "hidden";
+        logos.forEach(function (logo) {
+
+            logo.className = "hidden";
+
+        });
+
+
+        /* Positions */
+
+        logos[center].className =
+            "center";
+
+        logos[left1].className =
+            "left1";
+
+        logos[left2].className =
+            "left2";
+
+        logos[right1].className =
+            "right1";
+
+        logos[right2].className =
+            "right2";
+
+
+        /* Compteur */
+
+        if (counter) {
+
+            counter.textContent =
+                "PARTENAIRE " +
+                (index + 1) +
+                " / " +
+                total;
 
         }
 
-
-        const center =
-          index % total;
+    }
 
 
-        const left1 =
-          (index - 1 + total) % total;
+    updateCarousel();
 
 
-        const left2 =
-          (index - 2 + total) % total;
+    /* Rotation */
+
+    setInterval(function () {
+
+        index =
+            (index + 1) % total;
+
+        updateCarousel();
+
+    }, 2500);
 
 
-        const right1 =
-          (index + 1) % total;
+};
 
-
-        const right2 =
-          (index + 2) % total;
-
-
-        logos[center].className =
-          "center";
-
-
-        logos[left1].className =
-          "left1";
-
-
-        logos[left2].className =
-          "left2";
-
-
-        logos[right1].className =
-          "right1";
-
-
-        logos[right2].className =
-          "right2";
-
-      }
-
-
-      updateCarousel();
-
-
-      setInterval(
-
-        function () {
-
-          index =
-            (index + 1)
-            % logos.length;
-
-          updateCarousel();
-
-        },
-
-        2500
-
-      );
-
-    };
-
-  </script>
+</script>
 
 
 </body>
