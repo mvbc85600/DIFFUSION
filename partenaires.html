@@ -161,7 +161,7 @@ h1 {
 
         0 0 10px #ffffff,
         0 0 25px #ffffff,
-        0 0 50px rgba(255,204,0,0.8);
+        0 0 50px rgba(255,255,255,0.8);
 
 }
 
@@ -182,14 +182,14 @@ h1::after {
 
     margin: 15px auto 0;
 
-    background: #ffcc00;
+    background: #ffffff;
 
     border-radius: 10px;
 
     box-shadow:
 
-        0 0 10px #ffcc00,
-        0 0 25px #ffcc00;
+        0 0 10px #ffffff,
+        0 0 25px #ffffff;
 
 }
 
@@ -238,10 +238,6 @@ h1::after {
 
     width: auto;
     height: auto;
-
-    /*
-       Légère réduction par rapport à la version XXL
-    */
 
     max-width: 740px;
     max-height: 550px;
@@ -953,6 +949,10 @@ h1::after {
 window.onload = function () {
 
 
+    /* -------------------------------------------------
+       RÉCUPÉRATION DES LOGOS
+    ------------------------------------------------- */
+
     const logos =
         document.querySelectorAll(
             "#carousel img"
@@ -1029,7 +1029,7 @@ window.onload = function () {
 
 
     /* =================================================
-       COULEUR
+       COULEUR DU PARTENAIRE
     ================================================= */
 
     function getColor(
@@ -1045,11 +1045,15 @@ window.onload = function () {
 
 
     /* =================================================
-       MISE À JOUR
+       MISE À JOUR DU CARROUSEL
     ================================================= */
 
     function updateCarousel() {
 
+
+        /* ---------------------------------------------
+           POSITIONS
+        --------------------------------------------- */
 
         const center =
             index % total;
@@ -1144,7 +1148,7 @@ window.onload = function () {
 
 
         /* ---------------------------------------------
-           COULEUR DE LA BARRE
+           BARRE LUMINEUSE
         --------------------------------------------- */
 
         const lightLine =
@@ -1231,7 +1235,7 @@ window.onload = function () {
 
     /* =================================================
        ROTATION AUTOMATIQUE
-       
+
        2500 ms = 2,5 secondes
     ================================================= */
 
