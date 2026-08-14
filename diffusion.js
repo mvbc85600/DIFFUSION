@@ -189,45 +189,149 @@ function afficherPage(page) {
 }
 
 // ==================================================
-// AFFICHER UN MESSAGE PERSONNALISÉ
+// AFFICHER UN MESSAGE PERSONNALISÉ AVEC EFFETS STYLISÉS
 // ==================================================
 function afficherMessagePersonnalise() {
   document.body.style.background = "#000";
 
+  // Créer un conteneur pour le message
+  const messageContainer = document.createElement("div");
+  messageContainer.className = "message-container";
+
+  // Appliquer les styles CSS dynamique
+  const style = document.createElement("style");
+  style.textContent = `
+    .message-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      animation: fadeIn 1.5s ease-in-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .message-box {
+      max-width: 80%;
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+      transform: translateY(20px);
+      opacity: 0;
+      animation: slideUp 1s ease-out 0.5s forwards;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .message-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, transparent, ${currentMessageData ? currentMessageData.couleur : '#ffffff'}, transparent);
+      animation: shine 2s infinite alternate;
+    }
+
+    @keyframes shine {
+      from { opacity: 0.5; transform: scaleX(0.8); }
+      to { opacity: 1; transform: scaleX(1.2); }
+    }
+
+    .message-title {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      font-weight: bold;
+      opacity: 0;
+      animation: typing 0.5s ease-out 1s forwards, fadeInText 1s ease-out 1s forwards;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid ${currentMessageData ? currentMessageData.couleur : '#ffffff'};
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes fadeInText {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .message-content {
+      font-size: 1.5em;
+      line-height: 1.8;
+      opacity: 0;
+      animation: fadeInText 1s ease-out 1.5s forwards;
+    }
+
+    .message-glow {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, ${currentMessageData ? currentMessageData.couleur : '#ffffff'}20, transparent 70%);
+      filter: blur(50px);
+      z-index: -1;
+      animation: pulseGlow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      from { transform: scale(0.8); opacity: 0.5; }
+      to { transform: scale(1.2); opacity: 0.8; }
+    }
+  `;
+  document.head.appendChild(style);
+
   // Si on a des données de message, les utiliser
   if (currentMessageData) {
-    // Appliquer le titre et le contenu
     const titre = currentMessageData.titre || "Message";
     const contenu = currentMessageData.contenu || "Aucun contenu";
-
-    // Appliquer les couleurs
     const couleurTexte = currentMessageData.couleur || "#ffffff";
     const couleurFond = currentMessageData.fond || "#1e1e1e";
 
-    // Mettre à jour le style du message
-    message.innerHTML = `
-      <div style="background-color: ${couleurFond}; padding: 40px; border-radius: 15px; max-width: 80%; margin: auto; text-align: center;">
-        <h2 style="color: ${couleurTexte}; margin-bottom: 20px; font-size: 2.5em;">${titre}</h2>
-        <p style="color: ${couleurTexte}; font-size: 1.5em; line-height: 1.6;">${contenu}</p>
+    // Créer la structure du message
+    messageContainer.innerHTML = `
+      <div class="message-glow"></div>
+      <div class="message-box" style="background-color: ${couleurFond}; color: ${couleurTexte};">
+        <div class="message-title" style="color: ${couleurTexte}">${titre}</div>
+        <div class="message-content" style="color: ${couleurTexte}">${contenu}</div>
       </div>
     `;
   } else {
     // Message par défaut si aucune donnée n'est disponible
-    message.innerHTML = `
-      <div style="background-color: #1e1e1e; padding: 40px; border-radius: 15px; max-width: 80%; margin: auto; text-align: center;">
-        <h2 style="color: #ffffff; margin-bottom: 20px; font-size: 2.5em;">Message</h2>
-        <p style="color: #ffffff; font-size: 1.5em; line-height: 1.6;">Bienvenue</p>
+    messageContainer.innerHTML = `
+      <div class="message-glow" style="background: radial-gradient(circle, #ffffff20, transparent 70%);"></div>
+      <div class="message-box" style="background-color: #1e1e1e; color: #ffffff;">
+        <div class="message-title">Message</div>
+        <div class="message-content">Bienvenue</div>
       </div>
     `;
   }
 
-  // Afficher le message avec une transition
+  // Vider le conteneur de message existant et ajouter le nouveau
+  message.innerHTML = "";
+  message.appendChild(messageContainer);
   message.style.display = "flex";
-  message.classList.remove("fade");
-  void message.offsetWidth;
-  message.classList.add("fade");
 
-  console.log("Message personnalisé affiché :", currentMessageData);
+  console.log("Message personnalisé affiché avec effets stylisés :", currentMessageData);
 }
 
 // ==================================================
