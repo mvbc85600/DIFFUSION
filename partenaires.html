@@ -14,359 +14,367 @@
 
   <style>
 
-    * {
-      box-sizing: border-box;
-    }
+* {
+  box-sizing: border-box;
+}
 
+html,
+body {
 
-    html,
-    body {
+  margin: 0;
+  padding: 0;
 
-      margin: 0;
+  width: 100%;
+  height: 100%;
 
-      width: 100%;
+  overflow: hidden;
 
-      height: 100%;
+  background: #000;
+  color: #fff;
 
-      overflow: hidden;
+  font-family: Arial, sans-serif;
+}
 
-      background: #000;
 
-      color: #fff;
+/* =================================
+   TITRE
+================================= */
 
-      font-family: Arial, sans-serif;
+h1 {
 
-    }
+  text-align: center;
 
+  font-size: 50px;
 
-    /* =================================
-       TITRE
-       ================================= */
+  margin-top: 30px;
+  margin-bottom: 20px;
 
-    h1 {
+  letter-spacing: 4px;
 
-      text-align: center;
+  color: #ffcc00;
 
-      font-size: 50px;
+  text-shadow:
+    0 0 15px #ffcc00,
+    0 0 30px #ffcc00;
 
-      margin-top: 40px;
+}
 
-      letter-spacing: 4px;
 
-      color: #ffcc00;
+/* =================================
+   CARROUSEL XXL
+================================= */
 
-      text-shadow:
-        0 0 15px #ffcc00;
+.carousel {
 
-    }
+  position: relative;
 
+  width: 100%;
 
-    /* =================================
-       CARROUSEL
-       ================================= */
+  height: 650px;
 
-    .carousel {
+  margin: 20px auto 0;
 
-      position: relative;
+  display: flex;
 
-      width: 90%;
+  justify-content: center;
 
-      margin: 70px auto;
+  align-items: center;
 
-      height: 380px;
+  perspective: 1600px;
 
-      display: flex;
+}
 
-      justify-content: center;
 
-      align-items: center;
+/* =================================
+   LOGOS XXL
+================================= */
 
-      perspective: 1200px;
+.carousel img {
 
-    }
+  position: absolute;
 
+  width: auto;
 
-    /* =================================
-       LOGOS
-       ================================= */
+  height: auto;
 
-    .carousel img {
+  max-height: 600px;
 
-      position: absolute;
+  max-width: 800px;
 
-      max-height: 450px;
+  padding: 20px;
 
-      width: auto;
+  background: #111;
 
-      max-width: 450px;
+  border: 3px solid #ffcc00;
 
-      padding: 15px;
+  border-radius: 18px;
 
-      background: #111;
+  object-fit: contain;
 
-      border: 2px solid #ffcc00;
+  box-shadow:
+    0 0 20px #ffcc00,
+    0 0 40px rgba(255, 204, 0, 0.35);
 
-      border-radius: 14px;
+  transition:
+    transform 0.7s ease,
+    opacity 0.7s ease,
+    box-shadow 0.7s ease;
 
-      box-shadow:
-        0 0 15px #ffcc00;
+}
 
-      object-fit: contain;
 
-      transition:
-        transform 0.6s ease,
-        opacity 0.6s ease;
+/* =================================
+   LOGO CENTRAL
+================================= */
 
-    }
+.center {
 
+  transform:
+    translateX(0)
+    scale(1.15);
 
-    /* =================================
-       LOGO CENTRAL
-       ================================= */
+  z-index: 10;
 
-    .center {
+  opacity: 1;
 
-      transform:
-        translateX(0)
-        scale(1.5);
+  box-shadow:
+    0 0 25px #ffcc00,
+    0 0 50px #ffcc00,
+    0 0 90px rgba(255, 204, 0, 0.5),
+    0 0 100px #ffcc00 inset;
 
-      z-index: 5;
+}
 
-      opacity: 1;
 
-      box-shadow:
-        0 0 20px #ffcc00,
-        0 0 40px #ffcc00,
-        0 0 60px #ffcc00 inset;
+/* =================================
+   GAUCHE 1
+================================= */
 
-    }
+.left1 {
 
+  transform:
+    translateX(-520px)
+    scale(0.65);
 
-    /* =================================
-       GAUCHE
-       ================================= */
+  opacity: 0.75;
 
-    .left1 {
+  z-index: 6;
 
-      transform:
-        translateX(-260px)
-        scale(1);
+}
 
-      opacity: 0.75;
 
-      z-index: 4;
+/* =================================
+   GAUCHE 2
+================================= */
 
-    }
+.left2 {
 
+  transform:
+    translateX(-850px)
+    scale(0.45);
 
-    .left2 {
+  opacity: 0.4;
 
-      transform:
-        translateX(-470px)
-        scale(0.75);
+  z-index: 4;
 
-      opacity: 0.45;
+}
 
-      z-index: 3;
 
-    }
+/* =================================
+   DROITE 1
+================================= */
 
+.right1 {
 
-    /* =================================
-       DROITE
-       ================================= */
+  transform:
+    translateX(520px)
+    scale(0.65);
 
-    .right1 {
+  opacity: 0.75;
 
-      transform:
-        translateX(260px)
-        scale(1);
+  z-index: 6;
 
-      opacity: 0.75;
+}
 
-      z-index: 4;
 
-    }
+/* =================================
+   DROITE 2
+================================= */
 
+.right2 {
 
-    .right2 {
+  transform:
+    translateX(850px)
+    scale(0.45);
 
-      transform:
-        translateX(470px)
-        scale(0.75);
+  opacity: 0.4;
 
-      opacity: 0.45;
+  z-index: 4;
 
-      z-index: 3;
+}
 
-    }
 
+/* =================================
+   LOGOS CACHÉS
+================================= */
 
-    /* =================================
-       CACHÉS
-       ================================= */
+.hidden {
 
-    .hidden {
+  opacity: 0;
 
-      opacity: 0;
+  transform:
+    translateX(0)
+    scale(0.2);
 
-      transform:
-        scale(0.3);
+  z-index: 1;
 
-      z-index: 1;
+}
 
-    }
 
+/* =================================
+   ÉCRANS MOYENS
+================================= */
 
-    /* =================================
-       ADAPTATION ÉCRAN
-       ================================= */
+@media (max-width: 1400px) {
 
-    @media (max-width: 1000px) {
+  h1 {
 
-      h1 {
+    font-size: 44px;
 
-        font-size: 40px;
+  }
 
-      }
 
+  .carousel {
 
-      .carousel img {
+    height: 600px;
 
-        max-height: 450px;
+  }
 
-        max-width: 450px;
 
-      }
+  .carousel img {
 
+    max-height: 520px;
 
-      .left1 {
+    max-width: 700px;
 
-        transform:
-          translateX(-190px)
-          scale(0.85);
+  }
 
-      }
 
+  .center {
 
-      .right1 {
+    transform:
+      translateX(0)
+      scale(1.1);
 
-        transform:
-          translateX(190px)
-          scale(0.85);
+  }
 
-      }
 
+  .left1 {
 
-      .left2 {
+    transform:
+      translateX(-420px)
+      scale(0.6);
 
-        transform:
-          translateX(-330px)
-          scale(0.65);
+  }
 
-      }
 
+  .right1 {
 
-      .right2 {
+    transform:
+      translateX(420px)
+      scale(0.6);
 
-        transform:
-          translateX(330px)
-          scale(0.65);
+  }
 
-      }
 
+  .left2 {
 
-      .center {
+    transform:
+      translateX(-680px)
+      scale(0.4);
 
-        transform:
-          translateX(0)
-          scale(1.3);
+  }
 
-      }
 
-    }
+  .right2 {
 
+    transform:
+      translateX(680px)
+      scale(0.4);
 
-    /* =================================
-       PETITS ÉCRANS
-       ================================= */
+  }
 
-    @media (max-width: 700px) {
+}
 
-      h1 {
 
-        font-size: 30px;
+/* =================================
+   TABLETTES / PETITS ÉCRANS
+================================= */
 
-        margin-top: 25px;
+@media (max-width: 900px) {
 
-      }
+  h1 {
 
+    font-size: 35px;
 
-      .carousel {
+    margin-top: 20px;
 
-        width: 100%;
+  }
 
-        margin-top: 50px;
 
-      }
+  .carousel {
 
+    height: 500px;
 
-      .carousel img {
+  }
 
-        max-height: 220px;
 
-        max-width: 300px;
+  .carousel img {
 
-      }
+    max-height: 420px;
 
+    max-width: 550px;
 
-      .left1 {
+  }
 
-        transform:
-          translateX(-130px)
-          scale(0.75);
 
-      }
+  .center {
 
+    transform:
+      translateX(0)
+      scale(1);
 
-      .right1 {
+  }
 
-        transform:
-          translateX(130px)
-          scale(0.75);
 
-      }
+  .left1 {
 
+    transform:
+      translateX(-270px)
+      scale(0.55);
 
-      .left2 {
+  }
 
-        transform:
-          translateX(-220px)
-          scale(0.55);
 
-      }
+  .right1 {
 
+    transform:
+      translateX(270px)
+      scale(0.55);
 
-      .right2 {
+  }
 
-        transform:
-          translateX(220px)
-          scale(0.55);
 
-      }
+  .left2,
+  .right2 {
 
+    opacity: 0;
 
-      .center {
+  }
 
-        transform:
-          translateX(0)
-          scale(1.2);
+}
 
-      }
-
-    }
-
-  </style>
+</style>
 
 </head>
 
