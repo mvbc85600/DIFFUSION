@@ -3,25 +3,12 @@
 
 <head>
 
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
-
-  <title>Partenaires</title>
-
-
- <!DOCTYPE html>
-<html lang="fr">
-
-<head>
-
 <meta charset="UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Nos Partenaires</title>
+
 
 <style>
 
@@ -74,7 +61,9 @@ body {
 }
 
 
-/* Halo central */
+/* =====================================================
+   HALO CENTRAL DU FOND
+===================================================== */
 
 body::before {
 
@@ -177,7 +166,9 @@ h1 {
 }
 
 
-/* petite ligne sous le titre */
+/* =====================================================
+   LIGNE SOUS LE TITRE
+===================================================== */
 
 h1::after {
 
@@ -263,21 +254,50 @@ h1::after {
             rgba(5,5,5,0.98)
         );
 
-    border: 3px solid rgba(255,204,0,0.85);
+    border: 4px solid;
 
     border-radius: 24px;
-
-    box-shadow:
-
-        0 0 15px rgba(255,204,0,0.7),
-        0 0 35px rgba(255,204,0,0.35);
 
     transition:
 
         transform 0.9s cubic-bezier(.22,.61,.36,1),
         opacity 0.9s ease,
         filter 0.9s ease,
-        box-shadow 0.9s ease;
+        box-shadow 0.9s ease,
+        border-color 0.9s ease;
+
+}
+
+
+/* =====================================================
+   COULEUR JAUNE
+===================================================== */
+
+.color-yellow {
+
+    border-color: #ffcc00 !important;
+
+}
+
+
+/* =====================================================
+   COULEUR ROUGE
+===================================================== */
+
+.color-red {
+
+    border-color: #ff2020 !important;
+
+}
+
+
+/* =====================================================
+   COULEUR BLEUE
+===================================================== */
+
+.color-blue {
+
+    border-color: #168cff !important;
 
 }
 
@@ -303,7 +323,14 @@ h1::after {
         brightness(1.15)
         contrast(1.08);
 
-    border-color: #ffcc00;
+}
+
+
+/* =====================================================
+   HALO CENTRAL JAUNE
+===================================================== */
+
+.center.color-yellow {
 
     box-shadow:
 
@@ -312,55 +339,43 @@ h1::after {
         0 0 90px rgba(255,204,0,0.85),
         0 0 140px rgba(255,204,0,0.35);
 
-    animation:
-
-        centralGlow 2.5s ease-in-out infinite;
-
 }
 
 
 /* =====================================================
-   GLOW LOGO CENTRAL
+   HALO CENTRAL ROUGE
 ===================================================== */
 
-@keyframes centralGlow {
+.center.color-red {
 
-    0% {
+    box-shadow:
 
-        box-shadow:
-
-            0 0 20px #ffcc00,
-            0 0 45px #ffcc00,
-            0 0 80px rgba(255,204,0,0.6);
-
-    }
-
-    50% {
-
-        box-shadow:
-
-            0 0 30px #ffcc00,
-            0 0 65px #ffcc00,
-            0 0 120px rgba(255,204,0,0.9),
-            0 0 170px rgba(255,204,0,0.35);
-
-    }
-
-    100% {
-
-        box-shadow:
-
-            0 0 20px #ffcc00,
-            0 0 45px #ffcc00,
-            0 0 80px rgba(255,204,0,0.6);
-
-    }
+        0 0 20px #ff2020,
+        0 0 45px #ff2020,
+        0 0 90px rgba(255,32,32,0.85),
+        0 0 140px rgba(255,32,32,0.35);
 
 }
 
 
 /* =====================================================
-   LOGO GAUCHE 1
+   HALO CENTRAL BLEU
+===================================================== */
+
+.center.color-blue {
+
+    box-shadow:
+
+        0 0 20px #168cff,
+        0 0 45px #168cff,
+        0 0 90px rgba(22,140,255,0.85),
+        0 0 140px rgba(22,140,255,0.35);
+
+}
+
+
+/* =====================================================
+   GAUCHE 1
 ===================================================== */
 
 .left1 {
@@ -385,7 +400,7 @@ h1::after {
 
 
 /* =====================================================
-   LOGO GAUCHE 2
+   GAUCHE 2
 ===================================================== */
 
 .left2 {
@@ -410,7 +425,7 @@ h1::after {
 
 
 /* =====================================================
-   LOGO DROITE 1
+   DROITE 1
 ===================================================== */
 
 .right1 {
@@ -435,7 +450,7 @@ h1::after {
 
 
 /* =====================================================
-   LOGO DROITE 2
+   DROITE 2
 ===================================================== */
 
 .right2 {
@@ -483,7 +498,7 @@ h1::after {
 
 
 /* =====================================================
-   INDICATEUR PARTENAIRE
+   COMPTEUR
 ===================================================== */
 
 .partner-counter {
@@ -491,6 +506,7 @@ h1::after {
     position: fixed;
 
     left: 50%;
+
     bottom: 25px;
 
     transform: translateX(-50%);
@@ -499,11 +515,11 @@ h1::after {
 
     padding: 10px 25px;
 
-    border: 2px solid rgba(255,204,0,0.8);
+    border: 2px solid #ffcc00;
 
     border-radius: 30px;
 
-    background: rgba(0,0,0,0.75);
+    background: rgba(0,0,0,0.80);
 
     color: #ffcc00;
 
@@ -547,6 +563,50 @@ h1::after {
         0 0 50px #ffcc00;
 
     z-index: 90;
+
+}
+
+
+/* =====================================================
+   BOUTON RESET
+===================================================== */
+
+.reset-button {
+
+    position: fixed;
+
+    right: 15px;
+
+    bottom: 12px;
+
+    z-index: 200;
+
+    padding: 6px 12px;
+
+    border: 1px solid rgba(255,255,255,0.25);
+
+    border-radius: 15px;
+
+    background: rgba(0,0,0,0.45);
+
+    color: rgba(255,255,255,0.45);
+
+    font-size: 11px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+}
+
+
+.reset-button:hover {
+
+    color: #fff;
+
+    border-color: #ffcc00;
+
+    background: rgba(0,0,0,0.8);
 
 }
 
@@ -807,164 +867,436 @@ h1::after {
 <body>
 
 
-  <h1>
+<!-- =====================================================
+     TITRE
+===================================================== -->
+
+<h1>
     🤝 NOS PARTENAIRES
-  </h1>
+</h1>
 
 
-  <div
+<!-- =====================================================
+     CARROUSEL
+===================================================== -->
+
+<div
     class="carousel"
     id="carousel">
 
 
     <img src="logo/7ENVIE DE PAIN.png" alt="Partenaire 1">
+
     <img src="logo/AGTIM.png" alt="Partenaire 2">
+
     <img src="logo/Alain AFFLELOU.png" alt="Partenaire 3">
+
     <img src="logo/APOLLO.png" alt="Partenaire 4">
+
     <img src="logo/ARRIVE.png" alt="Partenaire 5">
+
     <img src="logo/ARTIPOLE.png" alt="Partenaire 6">
+
     <img src="logo/ATP.png" alt="Partenaire 7">
+
     <img src="logo/AUTO BILAN VIEILLEVIGNE.png" alt="Partenaire 8">
+
     <img src="logo/BAR LE SCORE.png" alt="Partenaire 9">
+
     <img src="logo/BARREAU.png" alt="Partenaire 10">
+
     <img src="logo/BIOCOOP.png" alt="Partenaire 11">
+
     <img src="logo/BOUTEAU.png" alt="Partenaire 12">
+
     <img src="logo/BRIOGEL.png" alt="Partenaire 13">
+
     <img src="logo/BUROLOGIC.png" alt="Partenaire 14">
+
     <img src="logo/C3P.png" alt="Partenaire 15">
+
     <img src="logo/CALIPAGE.png" alt="Partenaire 16">
+
     <img src="logo/CBH.png" alt="Partenaire 17">
+
     <img src="logo/CD VENDEE.png" alt="Partenaire 18">
+
     <img src="logo/CHAPLEAU MACONNERIE.png" alt="Partenaire 19">
+
     <img src="logo/CLARA AUTO.png" alt="Partenaire 20">
+
     <img src="logo/CMO.png" alt="Partenaire 21">
+
     <img src="logo/COIFFURE CELINE.png" alt="Partenaire 22">
+
     <img src="logo/COMITE DES FETES.png" alt="Partenaire 23">
+
     <img src="logo/CPM AXA.png" alt="Partenaire 24">
+
     <img src="logo/CYRIL LECLAIR.png" alt="Partenaire 25">
+
     <img src="logo/DIAGONAL.png" alt="Partenaire 26">
+
     <img src="logo/DURET.png" alt="Partenaire 27">
+
     <img src="logo/ENVOLIIS.png" alt="Partenaire 28">
+
     <img src="logo/ERIC MOCQUET.png" alt="Partenaire 29">
+
     <img src="logo/EVEILLARD.png" alt="Partenaire 30">
+
     <img src="logo/FLEUR D'ANGE.png" alt="Partenaire 31">
+
     <img src="logo/GO IMPRESSION.png" alt="Partenaire 32">
+
     <img src="logo/HEPPNER.png" alt="Partenaire 33">
+
     <img src="logo/HP.png" alt="Partenaire 34">
+
     <img src="logo/ID2TECH.png" alt="Partenaire 35">
+
     <img src="logo/IDM.png" alt="Partenaire 36">
+
     <img src="logo/INDCAR.png" alt="Partenaire 37">
+
     <img src="logo/JAD'O.png" alt="Partenaire 38">
+
     <img src="logo/LA MARTINIQUAISE.png" alt="Partenaire 39">
+
     <img src="logo/LE CONSERVATEUR.png" alt="Partenaire 40">
+
     <img src="logo/LECLERC.png" alt="Partenaire 41">
+
     <img src="logo/LLA.png" alt="Partenaire 42">
+
     <img src="logo/MAITRE COQ.png" alt="Partenaire 43">
+
     <img src="logo/MD NERGIES.png" alt="Partenaire 44">
+
     <img src="logo/MDLP.png" alt="Partenaire 45">
+
     <img src="logo/MJ.png" alt="Partenaire 46">
+
     <img src="logo/MOINARD.png" alt="Partenaire 47">
+
     <img src="logo/MV.png" alt="Partenaire 48">
+
     <img src="logo/NAT EVASION.png" alt="Partenaire 49">
+
     <img src="logo/NATURACARE.png" alt="Partenaire 50">
+
     <img src="logo/O BORD DELO.png" alt="Partenaire 51">
+
     <img src="logo/PETIT ST GEORGES.png" alt="Partenaire 52">
+
     <img src="logo/RATOKE.png" alt="Partenaire 53">
+
     <img src="logo/RAUTUREAU.png" alt="Partenaire 54">
+
     <img src="logo/RT.png" alt="Partenaire 55">
+
     <img src="logo/SCHMIDT.png" alt="Partenaire 56">
+
     <img src="logo/SENARD.png" alt="Partenaire 57">
+
     <img src="logo/SEV.png" alt="Partenaire 58">
+
     <img src="logo/SODEBO.png" alt="Partenaire 59">
+
     <img src="logo/SQUARE.png" alt="Partenaire 60">
+
     <img src="logo/STARTRUCKS.png" alt="Partenaire 61">
+
     <img src="logo/STRAPHARM.png" alt="Partenaire 62">
+
     <img src="logo/SUPER U.png" alt="Partenaire 63">
+
     <img src="logo/SYMBIOSE.png" alt="Partenaire 64">
+
     <img src="logo/TDM.png" alt="Partenaire 65">
+
     <img src="logo/UNE ENVIE DE PIZZA.png" alt="Partenaire 66">
+
     <img src="logo/VEB (2).png" alt="Partenaire 67">
+
     <img src="logo/VFLIT.png" alt="Partenaire 68">
+
     <img src="logo/VST.png" alt="Partenaire 69">
 
 
-  </div>
+</div>
 
 
-  <script>
+<!-- =====================================================
+     COMPTEUR
+===================================================== -->
+
+<div
+    class="partner-counter"
+    id="counter">
+
+    PARTENAIRE 1 / 69
+
+</div>
+
+
+<!-- =====================================================
+     BARRE LUMINEUSE
+===================================================== -->
+
+<div class="light-line"></div>
+
+
+<!-- =====================================================
+     BOUTON RESET
+===================================================== -->
+
+<button
+    class="reset-button"
+    id="resetButton">
+
+    Reset
+
+</button>
+
+
+<script>
+
+/* =====================================================
+   CARROUSEL PARTENAIRES
+===================================================== */
 
 window.onload = function () {
 
+
+    /* -------------------------------------------------
+       RÉCUPÉRATION DES ÉLÉMENTS
+    ------------------------------------------------- */
+
     const logos =
-        document.querySelectorAll("#carousel img");
+        document.querySelectorAll(
+            "#carousel img"
+        );
+
 
     const counter =
-        document.getElementById("counter");
+        document.getElementById(
+            "counter"
+        );
 
-    let index = 0;
 
-    const total = logos.length;
+    const resetButton =
+        document.getElementById(
+            "resetButton"
+        );
 
+
+    const total =
+        logos.length;
+
+
+    /* -------------------------------------------------
+       VÉRIFICATION
+    ------------------------------------------------- */
 
     if (!total) {
 
-        console.log("Aucun logo trouvé");
+        console.log(
+            "Aucun logo trouvé"
+        );
 
         return;
 
     }
 
 
+    /* -------------------------------------------------
+       COULEURS
+       
+       JAUNE → ROUGE → BLEU
+    ------------------------------------------------- */
+
+    const colors = [
+
+        "color-yellow",
+
+        "color-red",
+
+        "color-blue"
+
+    ];
+
+
+    /* -------------------------------------------------
+       RÉCUPÉRATION DU DERNIER PARTENAIRE
+    ------------------------------------------------- */
+
+    let savedIndex =
+        localStorage.getItem(
+            "partenaireIndex"
+        );
+
+
+    let index;
+
+
+    if (
+        savedIndex !== null &&
+        !isNaN(
+            parseInt(savedIndex)
+        )
+    ) {
+
+        index =
+            parseInt(
+                savedIndex
+            );
+
+
+        /*
+         * Sécurité si le nombre de logos
+         * change dans le futur.
+         */
+
+        index =
+            index % total;
+
+    }
+
+    else {
+
+        index = 0;
+
+    }
+
+
+    /* =================================================
+       COULEUR D'UN PARTENAIRE
+    ================================================= */
+
+    function getColor(
+        partnerIndex
+    ) {
+
+        return colors[
+            partnerIndex %
+            colors.length
+        ];
+
+    }
+
+
+    /* =================================================
+       MISE À JOUR DU CARROUSEL
+    ================================================= */
+
     function updateCarousel() {
+
+
+        /* ---------------------------------------------
+           CALCUL DES POSITIONS
+        --------------------------------------------- */
 
         const center =
             index % total;
 
+
         const left1 =
-            (index - 1 + total) % total;
+            (
+                index - 1 + total
+            ) % total;
+
 
         const left2 =
-            (index - 2 + total) % total;
+            (
+                index - 2 + total
+            ) % total;
+
 
         const right1 =
-            (index + 1) % total;
+            (
+                index + 1
+            ) % total;
+
 
         const right2 =
-            (index + 2) % total;
+            (
+                index + 2
+            ) % total;
 
 
-        /* Tous cachés */
+        /* ---------------------------------------------
+           CACHER TOUS LES LOGOS
+        --------------------------------------------- */
 
-        logos.forEach(function (logo) {
+        logos.forEach(
+            function (logo) {
 
-            logo.className = "hidden";
+                logo.className =
+                    "hidden";
 
-        });
+            }
+        );
 
 
-        /* Positions */
+        /* ---------------------------------------------
+           LOGO CENTRAL
+        --------------------------------------------- */
 
         logos[center].className =
-            "center";
+
+            "center " +
+            getColor(center);
+
+
+        /* ---------------------------------------------
+           GAUCHE 1
+        --------------------------------------------- */
 
         logos[left1].className =
-            "left1";
+
+            "left1 " +
+            getColor(left1);
+
+
+        /* ---------------------------------------------
+           GAUCHE 2
+        --------------------------------------------- */
 
         logos[left2].className =
-            "left2";
+
+            "left2 " +
+            getColor(left2);
+
+
+        /* ---------------------------------------------
+           DROITE 1
+        --------------------------------------------- */
 
         logos[right1].className =
-            "right1";
+
+            "right1 " +
+            getColor(right1);
+
+
+        /* ---------------------------------------------
+           DROITE 2
+        --------------------------------------------- */
 
         logos[right2].className =
-            "right2";
+
+            "right2 " +
+            getColor(right2);
 
 
-        /* Compteur */
+        /* ---------------------------------------------
+           COMPTEUR
+        --------------------------------------------- */
 
         if (counter) {
 
             counter.textContent =
+
                 "PARTENAIRE " +
                 (index + 1) +
                 " / " +
@@ -972,22 +1304,191 @@ window.onload = function () {
 
         }
 
+
+        /* ---------------------------------------------
+           COULEUR DU COMPTEUR
+        --------------------------------------------- */
+
+        if (counter) {
+
+            if (
+                getColor(index)
+                === "color-yellow"
+            ) {
+
+                counter.style.color =
+                    "#ffcc00";
+
+                counter.style.borderColor =
+                    "#ffcc00";
+
+                counter.style.boxShadow =
+                    "0 0 15px rgba(255,204,0,0.6)";
+
+            }
+
+
+            else if (
+                getColor(index)
+                === "color-red"
+            ) {
+
+                counter.style.color =
+                    "#ff2020";
+
+                counter.style.borderColor =
+                    "#ff2020";
+
+                counter.style.boxShadow =
+                    "0 0 15px rgba(255,32,32,0.6)";
+
+            }
+
+
+            else {
+
+                counter.style.color =
+                    "#168cff";
+
+                counter.style.borderColor =
+                    "#168cff";
+
+                counter.style.boxShadow =
+                    "0 0 15px rgba(22,140,255,0.6)";
+
+            }
+
+        }
+
+
+        /* ---------------------------------------------
+           COULEUR DE LA BARRE
+        --------------------------------------------- */
+
+        const lightLine =
+            document.querySelector(
+                ".light-line"
+            );
+
+
+        if (lightLine) {
+
+
+            if (
+                getColor(index)
+                === "color-yellow"
+            ) {
+
+                lightLine.style.background =
+                    "#ffcc00";
+
+                lightLine.style.boxShadow =
+
+                    "0 0 10px #ffcc00," +
+                    "0 0 25px #ffcc00," +
+                    "0 0 50px #ffcc00";
+
+            }
+
+
+            else if (
+                getColor(index)
+                === "color-red"
+            ) {
+
+                lightLine.style.background =
+                    "#ff2020";
+
+                lightLine.style.boxShadow =
+
+                    "0 0 10px #ff2020," +
+                    "0 0 25px #ff2020," +
+                    "0 0 50px #ff2020";
+
+            }
+
+
+            else {
+
+                lightLine.style.background =
+                    "#168cff";
+
+                lightLine.style.boxShadow =
+
+                    "0 0 10px #168cff," +
+                    "0 0 25px #168cff," +
+                    "0 0 50px #168cff";
+
+            }
+
+        }
+
+
+        /* ---------------------------------------------
+           MÉMORISATION
+        --------------------------------------------- */
+
+        localStorage.setItem(
+            "partenaireIndex",
+            index
+        );
+
     }
 
+
+    /* =================================================
+       BOUTON RESET
+    ================================================= */
+
+    if (resetButton) {
+
+        resetButton.addEventListener(
+            "click",
+            function () {
+
+                localStorage.removeItem(
+                    "partenaireIndex"
+                );
+
+
+                index = 0;
+
+
+                updateCarousel();
+
+            }
+        );
+
+    }
+
+
+    /* =================================================
+       PREMIER AFFICHAGE
+    ================================================= */
 
     updateCarousel();
 
 
-    /* Rotation */
+    /* =================================================
+       ROTATION AUTOMATIQUE
+       
+       2500 ms = 2,5 secondes
+    ================================================= */
 
-    setInterval(function () {
+    setInterval(
+        function () {
 
-        index =
-            (index + 1) % total;
+            index =
+                (
+                    index + 1
+                ) % total;
 
-        updateCarousel();
 
-    }, 2500);
+            updateCarousel();
+
+        },
+        2500
+    );
 
 
 };
