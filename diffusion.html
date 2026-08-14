@@ -3,270 +3,205 @@
 
 <head>
 
-  
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Diffusion MVBC</title>
 
-
   <style>
-
     * {
       box-sizing: border-box;
     }
 
-
     html,
     body {
-
       margin: 0;
       padding: 0;
-
       width: 100%;
       height: 100%;
-
       overflow: hidden;
-
       background: #000;
-
       font-family: Arial, sans-serif;
-
     }
-
 
     #diffusion {
-
       position: relative;
-
       width: 100vw;
       height: 100vh;
-
       background: #000;
-
       overflow: hidden;
-
     }
-
 
     /* ==========================================
        VIDÉO
        ========================================== */
-
     #video {
-
       position: absolute;
-
       top: 0;
       left: 0;
-
       width: 100%;
       height: 100%;
-
       object-fit: contain;
-
       background: #000;
-
       display: none;
-
       z-index: 10;
-
     }
-
 
     /* ==========================================
        DIAPORAMA
        ========================================== */
-
     #slideshow {
-
       position: absolute;
-
       top: 0;
       left: 0;
-
       width: 100%;
       height: 100%;
-
       background: #000;
-
       display: none;
-
       z-index: 20;
-
     }
-
 
     #slideImage {
-
       width: 100%;
       height: 100%;
-
       object-fit: contain;
-
       display: block;
-
     }
-
 
     /* ==========================================
        MESSAGE
        ========================================== */
-
     #message {
-
       position: absolute;
-
       top: 0;
       left: 0;
-
       width: 100%;
-      height: 100%;
-
+      height: calc(100% - 80px); /* Hauteur réduite pour laisser de la place aux logos */
       display: none;
-
       align-items: center;
       justify-content: center;
-
       background: #000;
-
       color: #fff;
-
       font-size: 50px;
-
       text-align: center;
-
       z-index: 30;
-
     }
-
 
     /* ==========================================
        PAGES
        ========================================== */
-
     #pageFrame {
-
       position: absolute;
-
       top: 0;
       left: 0;
-
       width: 100%;
       height: 100%;
-
       border: 0;
-
       display: none;
-
       background: #000;
-
       z-index: 40;
-
     }
 
+    /* ==========================================
+       DÉFILEMENT DES LOGOS DES PARTENAIRES
+       ========================================== */
+    #partners-scroll-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      background-color: rgba(0, 0, 0, 0.7);
+      overflow: hidden;
+      z-index: 50;
+      display: none; /* Masqué par défaut */
+    }
+
+    #partners-scroll {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      animation: scroll 20s linear infinite;
+    }
+
+    #partners-scroll img {
+      height: 50px;
+      margin: 0 20px;
+      filter: brightness(0) invert(1);
+      opacity: 0.8;
+      transition: all 0.3s ease;
+    }
+
+    #partners-scroll img:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    @keyframes scroll {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
 
     /* ==========================================
        TRANSITION
        ========================================== */
-
     .fade {
-
       animation: fadeIn 0.8s ease-in-out;
-
     }
-
 
     @keyframes fadeIn {
-
       from {
-
         opacity: 0;
-
       }
-
       to {
-
         opacity: 1;
-
       }
-
     }
-
   </style>
-
 </head>
 
-
 <body>
-
-
   <div id="diffusion">
-
-
     <!-- ======================================
          VIDÉO
          ====================================== -->
-
-    <video
-      id="video"
-      playsinline
-      preload="auto">
-    </video>
-
+    <video id="video" playsinline preload="auto"></video>
 
     <!-- ======================================
          DIAPORAMA
          ====================================== -->
-
     <div id="slideshow">
-
-      <img
-        id="slideImage"
-        src=""
-        alt="Diaporama">
-
+      <img id="slideImage" src="" alt="Diaporama">
     </div>
-
 
     <!-- ======================================
          MESSAGE
          ====================================== -->
-
     <div id="message">
-
       En attente de diffusion...
-
     </div>
-
 
     <!-- ======================================
          PAGES HTML
          ====================================== -->
+    <iframe id="pageFrame" src="" allow="autoplay"></iframe>
 
-    <iframe
-      id="pageFrame"
-      src=""
-      allow="autoplay">
-    </iframe>
-
-
+    <!-- ======================================
+         DÉFILEMENT DES LOGOS DES PARTENAIRES
+         ====================================== -->
+    <div id="partners-scroll-container">
+      <div id="partners-scroll">
+        <!-- Les logos seront ajoutés dynamiquement ici -->
+      </div>
+    </div>
   </div>
-
 
   <!-- ========================================
        JAVASCRIPT
        ======================================== -->
-
-  <script
-    type="module"
-    src="diffusion.js">
-  </script>
-
-
+  <script type="module" src="diffusion.js"></script>
 </body>
-
 </html>
