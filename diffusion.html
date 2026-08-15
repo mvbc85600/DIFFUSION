@@ -123,7 +123,7 @@ body {
     left: 0;
 
     width: 100%;
-    height: calc(100% - 120px);
+    height: calc(100% - 180px);
 
     display: none;
 
@@ -179,15 +179,15 @@ body {
     bottom: 0;
 
     width: 100%;
-    height: 180px;
+    height: 190px;
 
     background:
 
         linear-gradient(
             to top,
-            rgba(0,0,0,0.98),
-            rgba(0,0,0,0.88),
-            rgba(0,0,0,0.60)
+            rgba(0,0,0,1),
+            rgba(0,0,0,0.96),
+            rgba(0,0,0,0.82)
         );
 
     overflow: hidden;
@@ -204,7 +204,7 @@ body {
 
 
 /* =====================================================
-   CONTENEUR DES 7 LOGOS
+   CONTENEUR
 ===================================================== */
 
 #partners-scroll {
@@ -232,9 +232,9 @@ body {
     height: auto;
 
     max-width: 250px;
-    max-height: 125px;
+    max-height: 130px;
 
-    padding: 8px;
+    padding: 9px;
 
     object-fit: contain;
 
@@ -248,7 +248,7 @@ body {
 
     border: 3px solid;
 
-    border-radius: 14px;
+    border-radius: 15px;
 
     transform-origin: center center;
 
@@ -264,7 +264,7 @@ body {
 
 
 /* =====================================================
-   JAUNE
+   CONTOUR JAUNE
 ===================================================== */
 
 #partners-scroll img.color-yellow {
@@ -275,7 +275,7 @@ body {
 
 
 /* =====================================================
-   ROUGE
+   CONTOUR ROUGE
 ===================================================== */
 
 #partners-scroll img.color-red {
@@ -286,7 +286,7 @@ body {
 
 
 /* =====================================================
-   BLEU
+   CONTOUR BLEU
 ===================================================== */
 
 #partners-scroll img.color-blue {
@@ -298,6 +298,7 @@ body {
 
 /* =====================================================
    LOGO CENTRAL
+   POSITION 4
 ===================================================== */
 
 #partners-scroll img.center {
@@ -306,7 +307,7 @@ body {
 
         translate(-50%, -50%)
         translateZ(300px)
-        scale(1.10);
+        scale(1.15);
 
     z-index: 20;
 
@@ -328,10 +329,10 @@ body {
 
     box-shadow:
 
-        0 0 12px #ffcc00,
-        0 0 25px #ffcc00,
-        0 0 50px rgba(255,204,0,0.85),
-        0 0 80px rgba(255,204,0,0.35);
+        0 0 15px #ffcc00,
+        0 0 30px #ffcc00,
+        0 0 55px rgba(255,204,0,0.85),
+        0 0 90px rgba(255,204,0,0.35);
 
 }
 
@@ -344,10 +345,10 @@ body {
 
     box-shadow:
 
-        0 0 12px #ff2020,
-        0 0 25px #ff2020,
-        0 0 50px rgba(255,32,32,0.85),
-        0 0 80px rgba(255,32,32,0.35);
+        0 0 15px #ff2020,
+        0 0 30px #ff2020,
+        0 0 55px rgba(255,32,32,0.85),
+        0 0 90px rgba(255,32,32,0.35);
 
 }
 
@@ -360,16 +361,16 @@ body {
 
     box-shadow:
 
-        0 0 12px #168cff,
-        0 0 25px #168cff,
-        0 0 50px rgba(22,140,255,0.85),
-        0 0 80px rgba(22,140,255,0.35);
+        0 0 15px #168cff,
+        0 0 30px #168cff,
+        0 0 55px rgba(22,140,255,0.85),
+        0 0 90px rgba(22,140,255,0.35);
 
 }
 
 
 /* =====================================================
-   GAUCHE 1
+   LOGO 3 — GAUCHE 1
 ===================================================== */
 
 #partners-scroll img.left1 {
@@ -377,24 +378,24 @@ body {
     transform:
 
         translate(-50%, -50%)
-        translateX(-270px)
-        translateZ(40px)
-        scale(0.70);
+        translateX(-300px)
+        translateZ(80px)
+        scale(0.78);
 
-    z-index: 12;
+    z-index: 16;
 
-    opacity: 0.75;
+    opacity: 0.90;
 
     filter:
 
-        brightness(0.75)
-        contrast(0.95);
+        brightness(0.90)
+        contrast(1.02);
 
 }
 
 
 /* =====================================================
-   GAUCHE 2
+   LOGO 2 — GAUCHE 2
 ===================================================== */
 
 #partners-scroll img.left2 {
@@ -402,24 +403,51 @@ body {
     transform:
 
         translate(-50%, -50%)
-        translateX(-480px)
-        translateZ(-250px)
-        scale(0.48);
+        translateX(-550px)
+        translateZ(-50px)
+        scale(0.62);
 
-    z-index: 8;
+    z-index: 12;
 
-    opacity: 0.38;
+    opacity: 0.70;
 
     filter:
 
-        brightness(0.55)
-        blur(0.3px);
+        brightness(0.75)
+        contrast(0.98);
 
 }
 
 
 /* =====================================================
-   DROITE 1
+   LOGO 1 — GAUCHE 3
+===================================================== */
+
+#partners-scroll img.left3 {
+
+    transform:
+
+        translate(-50%, -50%)
+        translateX(-770px)
+        translateZ(-180px)
+        scale(0.48);
+
+    z-index: 8;
+
+    opacity: 0.50;
+
+    filter:
+
+        brightness(0.60)
+        contrast(0.95);
+
+    display: block;
+
+}
+
+
+/* =====================================================
+   LOGO 5 — DROITE 1
 ===================================================== */
 
 #partners-scroll img.right1 {
@@ -427,24 +455,24 @@ body {
     transform:
 
         translate(-50%, -50%)
-        translateX(270px)
-        translateZ(40px)
-        scale(0.70);
+        translateX(300px)
+        translateZ(80px)
+        scale(0.78);
 
-    z-index: 12;
+    z-index: 16;
 
-    opacity: 0.75;
+    opacity: 0.90;
 
     filter:
 
-        brightness(0.75)
-        contrast(0.95);
+        brightness(0.90)
+        contrast(1.02);
 
 }
 
 
 /* =====================================================
-   DROITE 2
+   LOGO 6 — DROITE 2
 ===================================================== */
 
 #partners-scroll img.right2 {
@@ -452,18 +480,45 @@ body {
     transform:
 
         translate(-50%, -50%)
-        translateX(480px)
-        translateZ(-250px)
+        translateX(550px)
+        translateZ(-50px)
+        scale(0.62);
+
+    z-index: 12;
+
+    opacity: 0.70;
+
+    filter:
+
+        brightness(0.75)
+        contrast(0.98);
+
+}
+
+
+/* =====================================================
+   LOGO 7 — DROITE 3
+===================================================== */
+
+#partners-scroll img.right3 {
+
+    transform:
+
+        translate(-50%, -50%)
+        translateX(770px)
+        translateZ(-180px)
         scale(0.48);
 
     z-index: 8;
 
-    opacity: 0.38;
+    opacity: 0.50;
 
     filter:
 
-        brightness(0.55)
-        blur(0.3px);
+        brightness(0.60)
+        contrast(0.95);
+
+    display: block;
 
 }
 
@@ -608,8 +663,7 @@ body {
 
     from {
 
-        transform:
-            scale(0.8);
+        transform: scale(0.8);
 
         opacity: 0.5;
 
@@ -617,8 +671,7 @@ body {
 
     to {
 
-        transform:
-            scale(1.2);
+        transform: scale(1.2);
 
         opacity: 0.8;
 
@@ -633,8 +686,7 @@ body {
 
         opacity: 0.5;
 
-        transform:
-            scaleX(0.8);
+        transform: scaleX(0.8);
 
     }
 
@@ -642,8 +694,7 @@ body {
 
         opacity: 1;
 
-        transform:
-            scaleX(1.2);
+        transform: scaleX(1.2);
 
     }
 
@@ -659,7 +710,18 @@ body {
     #partners-scroll img {
 
         max-width: 220px;
-        max-height: 115px;
+        max-height: 120px;
+
+    }
+
+
+    #partners-scroll img.center {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateZ(250px)
+            scale(1.08);
 
     }
 
@@ -669,9 +731,9 @@ body {
         transform:
 
             translate(-50%, -50%)
-            translateX(-240px)
-            translateZ(30px)
-            scale(0.65);
+            translateX(-260px)
+            translateZ(60px)
+            scale(0.70);
 
     }
 
@@ -681,9 +743,9 @@ body {
         transform:
 
             translate(-50%, -50%)
-            translateX(240px)
-            translateZ(30px)
-            scale(0.65);
+            translateX(260px)
+            translateZ(60px)
+            scale(0.70);
 
     }
 
@@ -693,9 +755,9 @@ body {
         transform:
 
             translate(-50%, -50%)
-            translateX(-430px)
-            translateZ(-200px)
-            scale(0.42);
+            translateX(-470px)
+            translateZ(-40px)
+            scale(0.55);
 
     }
 
@@ -705,8 +767,32 @@ body {
         transform:
 
             translate(-50%, -50%)
-            translateX(430px)
-            translateZ(-200px)
+            translateX(470px)
+            translateZ(-40px)
+            scale(0.55);
+
+    }
+
+
+    #partners-scroll img.left3 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(-660px)
+            translateZ(-160px)
+            scale(0.42);
+
+    }
+
+
+    #partners-scroll img.right3 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(660px)
+            translateZ(-160px)
             scale(0.42);
 
     }
@@ -722,7 +808,7 @@ body {
 
     #partners-scroll-container {
 
-        height: 160px;
+        height: 165px;
 
     }
 
@@ -741,7 +827,7 @@ body {
 
             translate(-50%, -50%)
             translateZ(180px)
-            scale(0.95);
+            scale(0.98);
 
     }
 
@@ -751,9 +837,9 @@ body {
         transform:
 
             translate(-50%, -50%)
-            translateX(-190px)
-            translateZ(20px)
-            scale(0.52);
+            translateX(-205px)
+            translateZ(30px)
+            scale(0.55);
 
     }
 
@@ -763,23 +849,61 @@ body {
         transform:
 
             translate(-50%, -50%)
-            translateX(190px)
-            translateZ(20px)
-            scale(0.52);
+            translateX(205px)
+            translateZ(30px)
+            scale(0.55);
 
     }
 
 
     #partners-scroll img.left2 {
 
-        opacity: 0;
+        transform:
+
+            translate(-50%, -50%)
+            translateX(-365px)
+            translateZ(-40px)
+            scale(0.44);
 
     }
 
 
     #partners-scroll img.right2 {
 
-        opacity: 0;
+        transform:
+
+            translate(-50%, -50%)
+            translateX(365px)
+            translateZ(-40px)
+            scale(0.44);
+
+    }
+
+
+    #partners-scroll img.left3 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(-500px)
+            translateZ(-100px)
+            scale(0.34);
+
+        opacity: 0.40;
+
+    }
+
+
+    #partners-scroll img.right3 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(500px)
+            translateZ(-100px)
+            scale(0.34);
+
+        opacity: 0.40;
 
     }
 
@@ -801,10 +925,10 @@ body {
 
     #partners-scroll img {
 
-        max-width: 140px;
-        max-height: 80px;
+        max-width: 130px;
+        max-height: 75px;
 
-        padding: 6px;
+        padding: 5px;
 
         border-width: 2px;
 
@@ -818,7 +942,7 @@ body {
         transform:
 
             translate(-50%, -50%)
-            scale(0.90);
+            scale(0.85);
 
     }
 
@@ -828,8 +952,8 @@ body {
         transform:
 
             translate(-50%, -50%)
-            translateX(-120px)
-            scale(0.40);
+            translateX(-115px)
+            scale(0.42);
 
     }
 
@@ -839,16 +963,56 @@ body {
         transform:
 
             translate(-50%, -50%)
-            translateX(120px)
-            scale(0.40);
+            translateX(115px)
+            scale(0.42);
 
     }
 
 
-    #partners-scroll img.left2,
+    #partners-scroll img.left2 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(-190px)
+            scale(0.30);
+
+    }
+
+
     #partners-scroll img.right2 {
 
-        display: none;
+        transform:
+
+            translate(-50%, -50%)
+            translateX(190px)
+            scale(0.30);
+
+    }
+
+
+    #partners-scroll img.left3 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(-250px)
+            scale(0.22);
+
+        opacity: 0.30;
+
+    }
+
+
+    #partners-scroll img.right3 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(250px)
+            scale(0.22);
+
+        opacity: 0.30;
 
     }
 
@@ -929,7 +1093,7 @@ body {
 
 
 /* =====================================================
-   FIREBASE
+   CONFIGURATION FIREBASE
 ===================================================== */
 
 import {
@@ -951,7 +1115,7 @@ import {
 const firebaseConfig = {
 
     apiKey:
-        "AIzaSySyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+        "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
 
     authDomain:
         "diffusion-b9afa.firebaseapp.com",
@@ -983,7 +1147,7 @@ const db =
 
 
 /* =====================================================
-   ÉLÉMENTS HTML
+   RÉCUPÉRATION DES ÉLÉMENTS HTML
 ===================================================== */
 
 const video =
@@ -1025,7 +1189,7 @@ const partnersLightLine =
 
 
 /* =====================================================
-   LISTE DES 69 PARTENAIRES
+   LISTE DES 69 LOGOS
 ===================================================== */
 
 const partnerLogos = [
@@ -1123,6 +1287,8 @@ const partnerColors = [
 
 let partnerCarouselIndex = 0;
 
+let partnerCarouselTimer = null;
+
 
 /* =====================================================
    CHARGEMENT DES LOGOS
@@ -1141,7 +1307,9 @@ function chargerLogosPartenaires() {
                 document.createElement("img");
 
 
-            img.src = logo;
+            img.src =
+                logo;
+
 
             img.alt =
                 "Partenaire";
@@ -1160,7 +1328,9 @@ function chargerLogosPartenaires() {
                 };
 
 
-            partnersScroll.appendChild(img);
+            partnersScroll.appendChild(
+                img
+            );
 
         }
 
@@ -1187,7 +1357,7 @@ function getPartnerColor(index) {
 
 
 /* =====================================================
-   MISE À JOUR DE LA BARRE LUMINEUSE
+   MISE À JOUR BARRE LUMINEUSE
 ===================================================== */
 
 function updateLightLine() {
@@ -1214,7 +1384,6 @@ function updateLightLine() {
 
     }
 
-
     else if (
         currentColor ===
         "color-red"
@@ -1230,7 +1399,6 @@ function updateLightLine() {
             "0 0 50px #ff2020";
 
     }
-
 
     else {
 
@@ -1249,14 +1417,15 @@ function updateLightLine() {
 
 
 /* =====================================================
-   MISE À JOUR DU CARROUSEL
-   7 LOGOS VISIBLES
+   CARROUSEL — 7 LOGOS VISIBLES
 ===================================================== */
 
 function updatePartnerCarousel() {
 
     const logos =
-        partnersScroll.querySelectorAll("img");
+        partnersScroll.querySelectorAll(
+            "img"
+        );
 
 
     const total =
@@ -1270,9 +1439,17 @@ function updatePartnerCarousel() {
     }
 
 
+    /*
+       CENTRE
+    */
+
     const center =
         partnerCarouselIndex % total;
 
+
+    /*
+       GAUCHE 1
+    */
 
     const left1 =
         (
@@ -1282,6 +1459,10 @@ function updatePartnerCarousel() {
         ) % total;
 
 
+    /*
+       GAUCHE 2
+    */
+
     const left2 =
         (
             partnerCarouselIndex -
@@ -1290,12 +1471,32 @@ function updatePartnerCarousel() {
         ) % total;
 
 
+    /*
+       GAUCHE 3
+    */
+
+    const left3 =
+        (
+            partnerCarouselIndex -
+            3 +
+            total
+        ) % total;
+
+
+    /*
+       DROITE 1
+    */
+
     const right1 =
         (
             partnerCarouselIndex +
             1
         ) % total;
 
+
+    /*
+       DROITE 2
+    */
 
     const right2 =
         (
@@ -1305,7 +1506,18 @@ function updatePartnerCarousel() {
 
 
     /*
-       Tous les logos sont cachés
+       DROITE 3
+    */
+
+    const right3 =
+        (
+            partnerCarouselIndex +
+            3
+        ) % total;
+
+
+    /*
+       CACHER TOUS LES LOGOS
     */
 
     logos.forEach(
@@ -1321,54 +1533,47 @@ function updatePartnerCarousel() {
 
 
     /*
-       Logo central
+       7 LOGOS
     */
 
     logos[center].className =
-
         "center " +
         getPartnerColor(center);
 
 
-    /*
-       Gauche 1
-    */
-
     logos[left1].className =
-
         "left1 " +
         getPartnerColor(left1);
 
 
-    /*
-       Gauche 2
-    */
-
     logos[left2].className =
-
         "left2 " +
         getPartnerColor(left2);
 
 
-    /*
-       Droite 1
-    */
+    logos[left3].className =
+        "left3 " +
+        getPartnerColor(left3);
+
 
     logos[right1].className =
-
         "right1 " +
         getPartnerColor(right1);
 
 
-    /*
-       Droite 2
-    */
-
     logos[right2].className =
-
         "right2 " +
         getPartnerColor(right2);
 
+
+    logos[right3].className =
+        "right3 " +
+        getPartnerColor(right3);
+
+
+    /*
+       BARRE LUMINEUSE
+    */
 
     updateLightLine();
 
@@ -1376,21 +1581,23 @@ function updatePartnerCarousel() {
 
 
 /* =====================================================
-   ROTATION DU CARROUSEL
+   DÉMARRER LE CARROUSEL
 ===================================================== */
-
-let partnerCarouselTimer = null;
-
 
 function demarrerCarrouselPartenaires() {
 
-    if (partnerCarouselTimer) {
+    if (
+        partnerCarouselTimer
+    ) {
 
         clearInterval(
             partnerCarouselTimer
         );
 
     }
+
+
+    updatePartnerCarousel();
 
 
     partnerCarouselTimer =
@@ -1419,9 +1626,15 @@ function demarrerCarrouselPartenaires() {
 }
 
 
+/* =====================================================
+   ARRÊTER LE CARROUSEL
+===================================================== */
+
 function arreterCarrouselPartenaires() {
 
-    if (partnerCarouselTimer) {
+    if (
+        partnerCarouselTimer
+    ) {
 
         clearInterval(
             partnerCarouselTimer
@@ -1447,11 +1660,17 @@ chargerLogosPartenaires();
 ===================================================== */
 
 const messageRef =
-    ref(db, "message");
+    ref(
+        db,
+        "message"
+    );
 
 
 const diffusionRef =
-    ref(db, "diffusion");
+    ref(
+        db,
+        "diffusion"
+    );
 
 
 let currentMessageData =
@@ -1463,7 +1682,7 @@ let currentScene =
 
 
 /* =====================================================
-   ÉCOUTE DU MESSAGE
+   ÉCOUTE MESSAGE
 ===================================================== */
 
 onValue(
@@ -1490,23 +1709,25 @@ onValue(
             const afficherLogos =
 
                 currentMessageData &&
-                currentMessageData.afficherDefilementLogos;
-
-
-            partnersScrollContainer.style.display =
-
-                afficherLogos
-                    ? "block"
-                    : "none";
+                currentMessageData
+                    .afficherDefilementLogos;
 
 
             if (afficherLogos) {
+
+                partnersScrollContainer.style.display =
+                    "block";
+
 
                 demarrerCarrouselPartenaires();
 
             }
 
             else {
+
+                partnersScrollContainer.style.display =
+                    "none";
+
 
                 arreterCarrouselPartenaires();
 
@@ -1520,7 +1741,7 @@ onValue(
 
 
 /* =====================================================
-   ÉCOUTE DE LA DIFFUSION
+   ÉCOUTE DIFFUSION
 ===================================================== */
 
 onValue(
@@ -1570,7 +1791,7 @@ function afficherScene(scene) {
 
 
     /*
-       Tout masquer
+       TOUT MASQUER
     */
 
     video.style.display =
@@ -1597,27 +1818,29 @@ function afficherScene(scene) {
 
 
     /*
-       Arrêter le diaporama
+       ARRÊTER DIAPORAMA
     */
 
     arreterDiaporama();
 
 
     /*
-       Arrêter la vidéo
+       ARRÊTER VIDÉO
     */
 
     video.pause();
+
 
     video.removeAttribute(
         "src"
     );
 
+
     video.load();
 
 
     /*
-       Afficher la scène demandée
+       AFFICHER SCÈNE
     */
 
     switch (scene) {
@@ -1715,11 +1938,6 @@ function afficherScene(scene) {
 
             afficherMessagePersonnalise();
 
-
-            /*
-               Afficher le carrousel
-               uniquement si activé
-            */
 
             if (
 
@@ -1934,7 +2152,6 @@ function afficherMessagePersonnalise() {
                     z-index: -1;
 
                     animation:
-
                         pulseGlow
                         3s
                         ease-in-out
@@ -2018,7 +2235,6 @@ function afficherMessagePersonnalise() {
                             );
 
                         animation:
-
                             shine
                             2s
                             infinite
