@@ -77,7 +77,6 @@ body {
 /* =========================
    ADMIN
 ========================= */
-
 #admin {
     display: none;
     max-width: 1200px;
@@ -126,7 +125,6 @@ body {
 /* =========================
    STATUT
 ========================= */
-
 .status {
     background: #222;
     padding: 15px;
@@ -143,7 +141,6 @@ body {
 /* =========================
    BOUTONS DE DIFFUSION
 ========================= */
-
 .scene-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -200,7 +197,6 @@ body {
 /* =========================
    MATCH DU SOIR
 ========================= */
-
 .match-editor {
     margin-top: 20px;
     padding: 25px;
@@ -222,7 +218,6 @@ body {
 /* =========================
    FORMULAIRE
 ========================= */
-
 .form-group {
     margin-bottom: 20px;
 }
@@ -260,7 +255,7 @@ body {
 
 /* =========================
    DÉFILEMENT DES LOGOS DES PARTENAIRES (ADMIN)
-===================================================== */
+========================= */
 .partners-scroll-container-admin {
     width: 100%;
     height: 80px;
@@ -303,7 +298,6 @@ body {
 /* =========================
    APERCU LOGOS
 ========================= */
-
 .logo-preview {
     margin-top: 10px;
     width: 120px;
@@ -318,9 +312,9 @@ body {
 /* =========================
    SAUVEGARDE
 ========================= */
-
 #saveMatchButton,
-#saveMessageButton {
+#saveMessageButton,
+#savePartnerButton {
     width: 100%;
     padding: 17px;
     border: none;
@@ -333,12 +327,14 @@ body {
 }
 
 #saveMatchButton:hover,
-#saveMessageButton:hover {
+#saveMessageButton:hover,
+#savePartnerButton:hover {
     background: #22c55e;
 }
 
 #matchStatus,
-#messageStatus {
+#messageStatus,
+#partnerStatus {
     margin-top: 15px;
     text-align: center;
     padding: 12px;
@@ -356,7 +352,6 @@ body {
 /* =========================
    HALOS DES ÉQUIPES
 ========================= */
-
 .halo-editor {
     margin-top: 25px;
     margin-bottom: 25px;
@@ -431,7 +426,6 @@ body {
 /* =========================
    MOBILE
 ========================= */
-
 @media(max-width:600px) {
     #admin {
         padding: 12px;
@@ -511,6 +505,10 @@ body {
         <button class="tab-button" data-tab="message">
             📝 Message
         </button>
+        <!-- NOUVEL ONGLET : PARTENAIRE DU MATCH -->
+        <button class="tab-button" data-tab="partenaire">
+            🤝 Partenaire du Match
+        </button>
     </div>
 
     <!-- STATUT -->
@@ -557,6 +555,10 @@ body {
             </button>
             <button class="scene-button black" onclick="diffuser('black')">
                 ⬛<br>ÉCRAN NOIR
+            </button>
+            <!-- BOUTON PARTENAIRE DU MATCH -->
+            <button class="scene-button yellow" onclick="diffuserPartenaire()">
+                🤝<br>PARTENAIRE DU MATCH
             </button>
         </div>
     </div>
@@ -745,6 +747,126 @@ body {
             </div>
         </div>
     </div>
+
+    <!-- =================================================
+         ONGLET : PARTENAIRE DU MATCH (NOUVEAU)
+    ================================================== -->
+    <div id="partenaire" class="tab-content">
+        <div class="match-editor">
+            <h2>🤝 PARTENAIRE DU MATCH</h2>
+            <div class="description">
+                Configure ici le partenaire qui apparaîtra sur <strong>partenairedumatch.html</strong>.
+                <br><br>
+                Le logo sera affiché avec un halo lumineux dont tu peux choisir la couleur.
+            </div>
+
+            <!-- SÉLECTEUR DE PARTENAIRE -->
+            <div class="form-group">
+                <label>🏆 Partenaire</label>
+                <select id="partnerSelect">
+                    <option value="">-- Choisir un partenaire --</option>
+                    <option value="7ENVIE DE PAIN">7ENVIE DE PAIN</option>
+                    <option value="AGTIM">AGTIM</option>
+                    <option value="Alain AFFLELOU">Alain AFFLELOU</option>
+                    <option value="APOLLO">APOLLO</option>
+                    <option value="ARRIVE">ARRIVE</option>
+                    <option value="ARTIPOLE">ARTIPOLE</option>
+                    <option value="ATP">ATP</option>
+                    <option value="AUTO BILAN VIEILLEVIGNE">AUTO BILAN VIEILLEVIGNE</option>
+                    <option value="BAR LE SCORE">BAR LE SCORE</option>
+                    <option value="BARREAU">BARREAU</option>
+                    <option value="BIOCOOP">BIOCOOP</option>
+                    <option value="BOUTEAU">BOUTEAU</option>
+                    <option value="BRIOGEL">BRIOGEL</option>
+                    <option value="BUROLOGIC">BUROLOGIC</option>
+                    <option value="C3P">C3P</option>
+                    <option value="CALIPAGE">CALIPAGE</option>
+                    <option value="CBH">CBH</option>
+                    <option value="CD VENDEE">CD VENDEE</option>
+                    <option value="CHAPLEAU MACONNERIE">CHAPLEAU MACONNERIE</option>
+                    <option value="CLARA AUTO">CLARA AUTO</option>
+                    <option value="CMO">CMO</option>
+                    <option value="COIFFURE CELINE">COIFFURE CELINE</option>
+                    <option value="COMITE DES FETES">COMITE DES FETES</option>
+                    <option value="CPM AXA">CPM AXA</option>
+                    <option value="CYRIL LECLAIR">CYRIL LECLAIR</option>
+                    <option value="DIAGONAL">DIAGONAL</option>
+                    <option value="DURET">DURET</option>
+                    <option value="ENVOLIIS">ENVOLIIS</option>
+                    <option value="ERIC MOCQUET">ERIC MOCQUET</option>
+                    <option value="EVEILLARD">EVEILLARD</option>
+                    <option value="FLEUR D'ANGE">FLEUR D'ANGE</option>
+                    <option value="GO IMPRESSION">GO IMPRESSION</option>
+                    <option value="HEPPNER">HEPPNER</option>
+                    <option value="HP">HP</option>
+                    <option value="ID2TECH">ID2TECH</option>
+                    <option value="IDM">IDM</option>
+                    <option value="INDCAR">INDCAR</option>
+                    <option value="JAD'O">JAD'O</option>
+                    <option value="LA MARTINIQUAISE">LA MARTINIQUAISE</option>
+                    <option value="LE CONSERVATEUR">LE CONSERVATEUR</option>
+                    <option value="LECLERC">LECLERC</option>
+                    <option value="LLA">LLA</option>
+                    <option value="MAITRE COQ">MAITRE COQ</option>
+                    <option value="MD NERGIES">MD NERGIES</option>
+                    <option value="MDLP">MDLP</option>
+                    <option value="MJ">MJ</option>
+                    <option value="MOINARD">MOINARD</option>
+                    <option value="MV">MV</option>
+                    <option value="NAT EVASION">NAT EVASION</option>
+                    <option value="NATURACARE">NATURACARE</option>
+                    <option value="O BORD DELO">O BORD DELO</option>
+                    <option value="PETIT ST GEORGES">PETIT ST GEORGES</option>
+                    <option value="RATOKE">RATOKE</option>
+                    <option value="RAUTUREAU">RAUTUREAU</option>
+                    <option value="RT">RT</option>
+                    <option value="SCHMIDT">SCHMIDT</option>
+                    <option value="SENARD">SENARD</option>
+                    <option value="SEV">SEV</option>
+                    <option value="SODEBO">SODEBO</option>
+                    <option value="SQUARE">SQUARE</option>
+                    <option value="STARTRUCKS">STARTRUCKS</option>
+                    <option value="STRAPHARM">STRAPHARM</option>
+                    <option value="SUPER U">SUPER U</option>
+                    <option value="SYMBIOSE">SYMBIOSE</option>
+                    <option value="TDM">TDM</option>
+                    <option value="UNE ENVIE DE PIZZA">UNE ENVIE DE PIZZA</option>
+                    <option value="VEB (2)">VEB</option>
+                    <option value="VFLIT">VFLIT</option>
+                    <option value="VST">VST</option>
+                </select>
+            </div>
+
+            <!-- APERÇU DU LOGO -->
+            <div class="form-group">
+                <label>Aperçu du logo</label>
+                <img id="partnerLogoPreview" class="logo-preview" src="" alt="Logo partenaire">
+            </div>
+
+            <!-- COULEUR DU HALO -->
+            <div class="form-group">
+                <label>✨ Couleur du halo</label>
+                <div class="color-control">
+                    <span id="partnerHaloPreview" class="halo-color-preview" style="background: #008cff; box-shadow: 0 0 10px #008cff, 0 0 25px #008cff;"></span>
+                    <select id="partnerHaloColor">
+                        <option value="#008cff" selected>🔵 Bleu</option>
+                        <option value="#ffcc00">🟡 Jaune</option>
+                        <option value="#ff6500">🟠 Orange</option>
+                        <option value="#ff2020">🔴 Rouge</option>
+                        <option value="#16a34a">🟢 Vert</option>
+                        <option value="#ff4fa3">🩷 Rose</option>
+                        <option value="#ffffff">⚪ Blanc</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- SAUVEGARDE -->
+            <button id="savePartnerButton">
+                💾 ENREGISTRER LE PARTENAIRE
+            </button>
+            <div id="partnerStatus"></div>
+        </div>
+    </div>
 </div>
 
 <!-- =====================================================
@@ -813,13 +935,92 @@ const saveMessageButton = document.getElementById("saveMessageButton");
 const messageStatus = document.getElementById("messageStatus");
 const afficherDefilementLogos = document.getElementById("afficherDefilementLogos");
 
+/* PARTENAIRE DU MATCH (NOUVEAU) */
+const partnerSelect = document.getElementById("partnerSelect");
+const partnerLogoPreview = document.getElementById("partnerLogoPreview");
+const partnerHaloColor = document.getElementById("partnerHaloColor");
+const partnerHaloPreview = document.getElementById("partnerHaloPreview");
+const savePartnerButton = document.getElementById("savePartnerButton");
+const partnerStatus = document.getElementById("partnerStatus");
+
+/* =====================================================
+   LISTE DES LOGOS DES PARTENAIRES
+===================================================== */
+const partnerLogos = {
+    "7ENVIE DE PAIN": "logo/7ENVIE DE PAIN.png",
+    "AGTIM": "logo/AGTIM.png",
+    "Alain AFFLELOU": "logo/Alain AFFLELOU.png",
+    "APOLLO": "logo/APOLLO.png",
+    "ARRIVE": "logo/ARRIVE.png",
+    "ARTIPOLE": "logo/ARTIPOLE.png",
+    "ATP": "logo/ATP.png",
+    "AUTO BILAN VIEILLEVIGNE": "logo/AUTO BILAN VIEILLEVIGNE.png",
+    "BAR LE SCORE": "logo/BAR LE SCORE.png",
+    "BARREAU": "logo/BARREAU.png",
+    "BIOCOOP": "logo/BIOCOOP.png",
+    "BOUTEAU": "logo/BOUTEAU.png",
+    "BRIOGEL": "logo/BRIOGEL.png",
+    "BUROLOGIC": "logo/BUROLOGIC.png",
+    "C3P": "logo/C3P.png",
+    "CALIPAGE": "logo/CALIPAGE.png",
+    "CBH": "logo/CBH.png",
+    "CD VENDEE": "logo/CD VENDEE.png",
+    "CHAPLEAU MACONNERIE": "logo/CHAPLEAU MACONNERIE.png",
+    "CLARA AUTO": "logo/CLARA AUTO.png",
+    "CMO": "logo/CMO.png",
+    "COIFFURE CELINE": "logo/COIFFURE CELINE.png",
+    "COMITE DES FETES": "logo/COMITE DES FETES.png",
+    "CPM AXA": "logo/CPM AXA.png",
+    "CYRIL LECLAIR": "logo/CYRIL LECLAIR.png",
+    "DIAGONAL": "logo/DIAGONAL.png",
+    "DURET": "logo/DURET.png",
+    "ENVOLIIS": "logo/ENVOLIIS.png",
+    "ERIC MOCQUET": "logo/ERIC MOCQUET.png",
+    "EVEILLARD": "logo/EVEILLARD.png",
+    "FLEUR D'ANGE": "logo/FLEUR D'ANGE.png",
+    "GO IMPRESSION": "logo/GO IMPRESSION.png",
+    "HEPPNER": "logo/HEPPNER.png",
+    "HP": "logo/HP.png",
+    "ID2TECH": "logo/ID2TECH.png",
+    "IDM": "logo/IDM.png",
+    "INDCAR": "logo/INDCAR.png",
+    "JAD'O": "logo/JAD'O.png",
+    "LA MARTINIQUAISE": "logo/LA MARTINIQUAISE.png",
+    "LE CONSERVATEUR": "logo/LE CONSERVATEUR.png",
+    "LECLERC": "logo/LECLERC.png",
+    "LLA": "logo/LLA.png",
+    "MAITRE COQ": "logo/MAITRE COQ.png",
+    "MD NERGIES": "logo/MD NERGIES.png",
+    "MDLP": "logo/MDLP.png",
+    "MJ": "logo/MJ.png",
+    "MOINARD": "logo/MOINARD.png",
+    "MV": "logo/MV.png",
+    "NAT EVASION": "logo/NAT EVASION.png",
+    "NATURACARE": "logo/NATURACARE.png",
+    "O BORD DELO": "logo/O BORD DELO.png",
+    "PETIT ST GEORGES": "logo/PETIT ST GEORGES.png",
+    "RATOKE": "logo/RATOKE.png",
+    "RAUTUREAU": "logo/RAUTUREAU.png",
+    "RT": "logo/RT.png",
+    "SCHMIDT": "logo/SCHMIDT.png",
+    "SENARD": "logo/SENARD.png",
+    "SEV": "logo/SEV.png",
+    "SODEBO": "logo/SODEBO.png",
+    "SQUARE": "logo/SQUARE.png",
+    "STARTRUCKS": "logo/STARTRUCKS.png",
+    "STRAPHARM": "logo/STRAPHARM.png",
+    "SUPER U": "logo/SUPER U.png",
+    "SYMBIOSE": "logo/SYMBIOSE.png",
+    "TDM": "logo/TDM.png",
+    "UNE ENVIE DE PIZZA": "logo/UNE ENVIE DE PIZZA.png",
+    "VEB (2)": "logo/VEB (2).png",
+    "VFLIT": "logo/VFLIT.png",
+    "VST": "logo/VST.png"
+};
+
 /* =====================================================
    ONGLETS
-===================================================== */
-// Sélectionner tous les boutons d'onglets
-const tabButtons = document.querySelectorAll('.tab-button');
-
-// Ajouter un écouteur d'événement à chaque bouton
+===================================================== -->
 tabButtons.forEach(button => {
     button.addEventListener('click', () => {
         // Désactiver tous les boutons d'onglets
@@ -927,11 +1128,28 @@ window.diffuserMessage = function() {
         });
 };
 
+// Fonction spécialisée pour le partenaire du match
+window.diffuserPartenaire = function() {
+    // Diffuser la scène "partenairedumatch"
+    set(ref(db, "diffusion"), {
+        scene: "partenairedumatch",
+        timestamp: Date.now()
+    })
+    .then(() => {
+        currentScene.textContent = "partenairedumatch";
+    })
+    .catch((error) => {
+        console.error(error);
+        alert("Erreur de diffusion : " + error.message);
+    });
+};
+
 /* =====================================================
    REFERENCES FIREBASE
 ===================================================== */
 const matchRef = ref(db, "matchdusoir");
 const messageRef = ref(db, "message");
+const partnerRef = ref(db, "partenairedumatch"); // Nouvelle référence pour le partenaire du match
 
 /* =====================================================
    COULEURS DES HALOS
@@ -959,6 +1177,80 @@ function mettreAJourApercuHalos() {
     mettreAJourApercuHalo(haloCouleur1, haloPreview1);
     mettreAJourApercuHalo(haloCouleur2, haloPreview2);
 }
+
+/* =====================================================
+   ONGLET : PARTENAIRE DU MATCH (NOUVELLES FONCTIONS)
+===================================================== */
+
+// Mettre à jour l'aperçu du logo et du halo
+partnerSelect.addEventListener("change", () => {
+    const selectedPartner = partnerSelect.value;
+    if (selectedPartner && partnerLogos[selectedPartner]) {
+        partnerLogoPreview.src = partnerLogos[selectedPartner];
+    } else {
+        partnerLogoPreview.src = "";
+    }
+});
+
+// Mettre à jour l'aperçu du halo
+partnerHaloColor.addEventListener("change", () => {
+    const couleur = partnerHaloColor.value;
+    partnerHaloPreview.style.background = couleur;
+    partnerHaloPreview.style.boxShadow = `0 0 10px ${couleur}, 0 0 25px ${couleur}`;
+});
+
+// Charger les données du partenaire depuis Firebase
+onValue(partnerRef, (snapshot) => {
+    const data = snapshot.val();
+    if (!data) return;
+
+    if (data.nom) partnerSelect.value = data.nom;
+    if (data.logo && partnerSelect.value) {
+        partnerLogoPreview.src = data.logo;
+    }
+    if (data.couleur) {
+        partnerHaloColor.value = data.couleur;
+        partnerHaloPreview.style.background = data.couleur;
+        partnerHaloPreview.style.boxShadow = `0 0 10px ${data.couleur}, 0 0 25px ${data.couleur}`;
+    }
+});
+
+// Enregistrer le partenaire du match
+savePartnerButton.addEventListener("click", async () => {
+    try {
+        savePartnerButton.disabled = true;
+        savePartnerButton.textContent = "⏳ ENREGISTREMENT...";
+
+        const selectedPartner = partnerSelect.value;
+        if (!selectedPartner) {
+            throw new Error("Veuillez sélectionner un partenaire.");
+        }
+
+        const partnerData = {
+            nom: selectedPartner,
+            logo: partnerLogos[selectedPartner],
+            couleur: partnerHaloColor.value,
+            timestamp: Date.now()
+        };
+
+        await set(partnerRef, partnerData);
+        partnerStatus.className = "success";
+        partnerStatus.textContent = "✅ Partenaire enregistré !";
+        savePartnerButton.textContent = "✅ ENREGISTRÉ";
+
+        setTimeout(() => {
+            savePartnerButton.disabled = false;
+            savePartnerButton.textContent = "💾 ENREGISTRER LE PARTENAIRE";
+        }, 2000);
+    }
+    catch(error) {
+        console.error(error);
+        partnerStatus.className = "error";
+        partnerStatus.textContent = "❌ Erreur : " + error.message;
+        savePartnerButton.disabled = false;
+        savePartnerButton.textContent = "💾 ENREGISTRER LE PARTENAIRE";
+    }
+});
 
 /* =====================================================
    CHARGER MATCH
@@ -1101,85 +1393,12 @@ saveMessageButton.addEventListener("click", async () => {
 /* =====================================================
    CHARGEMENT DES LOGOS DES PARTENAIRES
 ===================================================== */
-// Liste des logos des partenaires (à adapter selon tes fichiers)
-const partnerLogos = [
-      "logo/7ENVIE DE PAIN.png",
-      "logo/AGTIM.png",
-      "logo/Alain AFFLELOU.png",
-      "logo/APOLLO.png",
-      "logo/ARRIVE.png",
-      "logo/ARTIPOLE.png",
-      "logo/ATP.png",
-      "logo/AUTO BILAN VIEILLEVIGNE.png",
-      "logo/BAR LE SCORE.png",
-      "logo/BARREAU.png",
-      "logo/BIOCOOP.png",
-      "logo/BOUTEAU.png",
-      "logo/BRIOGEL.png",
-      "logo/BUROLOGIC.png",
-      "logo/C3P.png",
-      "logo/CALIPAGE.png",
-      "logo/CBH.png",
-      "logo/CD VENDEE.png",
-      "logo/CHAPLEAU MACONNERIE.png",
-      "logo/CLARA AUTO.png",
-      "logo/CMO.png",
-      "logo/COIFFURE CELINE.png",
-      "logo/COMITE DES FETES.png",
-      "logo/CPM AXA.png",
-      "logo/CYRIL LECLAIR.png",
-      "logo/DIAGONAL.png",
-      "logo/DURET.png",
-      "logo/ENVOLIIS.png",
-      "logo/ERIC MOCQUET.png",
-      "logo/EVEILLARD.png",
-      "logo/FLEUR D'ANGE.png",
-      "logo/GO IMPRESSION.png",
-      "logo/HEPPNER.png",
-      "logo/HP.png",
-      "logo/ID2TECH.png",
-      "logo/IDM.png",
-      "logo/INDCAR.png",
-      "logo/JAD'O.png",
-      "logo/LA MARTINIQUAISE.png",
-      "logo/LE CONSERVATEUR.png",
-      "logo/LECLERC.png",
-      "logo/LLA.png",
-      "logo/MAITRE COQ.png",
-      "logo/MD NERGIES.png",
-      "logo/MDLP.png",
-      "logo/MJ.png",
-      "logo/MOINARD.png",
-      "logo/MV.png",
-      "logo/NAT EVASION.png",
-      "logo/NATURACARE.png",
-      "logo/O BORD DELO.png",
-      "logo/PETIT ST GEORGES.png",
-      "logo/RATOKE.png",
-      "logo/RAUTUREAU.png",
-      "logo/RT.png",
-      "logo/SCHMIDT.png",
-      "logo/SENARD.png",
-      "logo/SEV.png",
-      "logo/SODEBO.png",
-      "logo/SQUARE.png",
-      "logo/STARTRUCKS.png",
-      "logo/STRAPHARM.png",
-      "logo/SUPER U.png",
-      "logo/SYMBIOSE.png",
-      "logo/TDM.png",
-      "logo/UNE ENVIE DE PIZZA.png",
-      "logo/VEB (2).png",
-      "logo/VFLIT.png",
-      "logo/VST.png"
-];
-
 // Charger les logos des partenaires dans l'onglet "Message"
 document.addEventListener('DOMContentLoaded', () => {
     const partnersScrollAdmin = document.querySelector('.partners-scroll-admin');
     if (partnersScrollAdmin) {
         // Ajouter chaque logo deux fois pour un défilement infini fluide
-        partnerLogos.forEach(logo => {
+        Object.values(partnerLogos).forEach(logo => {
             const img = document.createElement('img');
             img.src = logo;
             img.alt = "Partenaire";
@@ -1190,7 +1409,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Dupliquer les logos pour un défilement infini
-        partnerLogos.forEach(logo => {
+        Object.values(partnerLogos).forEach(logo => {
             const img = document.createElement('img');
             img.src = logo;
             img.alt = "Partenaire";
@@ -1200,6 +1419,28 @@ document.addEventListener('DOMContentLoaded', () => {
             partnersScrollAdmin.appendChild(img);
         });
     }
+});
+
+/* =====================================================
+   SELECTION DES ONGLETS
+===================================================== */
+const tabButtons = document.querySelectorAll('.tab-button');
+tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        // Désactiver tous les boutons d'onglets
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+
+        // Masquer tous les contenus d'onglets
+        const tabContents = document.querySelectorAll('.tab-content');
+        tabContents.forEach(content => content.classList.remove('active'));
+
+        // Activer le bouton cliqué
+        button.classList.add('active');
+
+        // Afficher le contenu de l'onglet correspondant
+        const tabId = button.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+    });
 });
 </script>
 </body>
