@@ -25,14 +25,13 @@
         #050500 65%,
         #000 100%
       );
-    height: 100vh;
+    min-height: 100vh;
     padding: 10px;
     margin: 0;
     color: #fff;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
-    z-index: 1;
+    align-items: center;
   }
 
   /* =====================================================
@@ -65,29 +64,6 @@
   }
 
   /* =====================================================
-     CARROUSEL DES LOGOS PARTENAIRES (en arrière-plan)
-  ===================================================== */
-  .partners-carousel {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  .partners-carousel img {
-    position: absolute;
-    opacity: 0.1;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    max-width: 150px;
-    max-height: 80px;
-    object-fit: contain;
-    filter: grayscale(80%) brightness(1.5);
-  }
-
-  /* =====================================================
      TITRES
   ===================================================== */
   .custom-section h2 {
@@ -102,7 +78,6 @@
       0 0 15px #ffcc00;
     margin-bottom: 8px;
     z-index: 10;
-    flex-shrink: 0;
   }
 
   .custom-section h2::after {
@@ -117,23 +92,27 @@
   }
 
   /* =====================================================
-     TABLES WRAPPER
+     CONTAINERS PRINCIPAUX
   ===================================================== */
-  .custom-section .tables-wrapper {
+  .main-content {
     display: flex;
-    gap: 10px;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: flex-start;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1400px;
+    gap: 20px;
+    align-items: center;
     flex: 1;
-    min-height: 0;
-    padding-bottom: 40px;
-    box-sizing: border-box;
-    position: relative;
-    z-index: 10;
   }
 
-  .custom-section .table-container {
+  .tables-and-partners {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .table-container {
     flex: 1;
     min-width: 300px;
     max-width: 600px;
@@ -142,13 +121,25 @@
     padding: 8px;
     border: 1px solid rgba(255, 204, 0, 0.2);
     box-shadow: 0 0 10px rgba(255, 204, 0, 0.1);
-    overflow: hidden;
+  }
+
+  .partners-section {
+    width: 100%;
+    max-width: 1000px;
+    height: 400px;
+    margin-top: 20px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1800px;
+    perspective-origin: center center;
   }
 
   /* =====================================================
      TABLE ROWS (espacements réduits)
   ===================================================== */
-  .custom-section .table-row {
+  .table-row {
     display: grid;
     background: rgba(20, 20, 20, 0.8);
     border-radius: 4px;
@@ -167,25 +158,24 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Animation séquentielle accélérée */
-  .custom-section .table-row:nth-child(1) { animation-delay: 0.05s; }
-  .custom-section .table-row:nth-child(2) { animation-delay: 0.1s; }
-  .custom-section .table-row:nth-child(3) { animation-delay: 0.15s; }
-  .custom-section .table-row:nth-child(4) { animation-delay: 0.2s; }
-  .custom-section .table-row:nth-child(5) { animation-delay: 0.25s; }
-  .custom-section .table-row:nth-child(6) { animation-delay: 0.3s; }
-  .custom-section .table-row:nth-child(7) { animation-delay: 0.35s; }
-  .custom-section .table-row:nth-child(8) { animation-delay: 0.4s; }
-  .custom-section .table-row:nth-child(9) { animation-delay: 0.45s; }
-  .custom-section .table-row:nth-child(10) { animation-delay: 0.5s; }
+  .table-row:nth-child(1) { animation-delay: 0.05s; }
+  .table-row:nth-child(2) { animation-delay: 0.1s; }
+  .table-row:nth-child(3) { animation-delay: 0.15s; }
+  .table-row:nth-child(4) { animation-delay: 0.2s; }
+  .table-row:nth-child(5) { animation-delay: 0.25s; }
+  .table-row:nth-child(6) { animation-delay: 0.3s; }
+  .table-row:nth-child(7) { animation-delay: 0.35s; }
+  .table-row:nth-child(8) { animation-delay: 0.4s; }
+  .table-row:nth-child(9) { animation-delay: 0.45s; }
+  .table-row:nth-child(10) { animation-delay: 0.5s; }
 
-  .custom-section .table-row:hover {
+  .table-row:hover {
     background: rgba(30, 30, 40, 0.9);
     border-color: rgba(255, 204, 0, 0.4);
     box-shadow: 0 0 10px rgba(255, 204, 0, 0.2);
   }
 
-  .custom-section .table-header {
+  .table-header {
     background: linear-gradient(145deg, #1a1a1a, #2a2a2a) !important;
     color: #ffcc00 !important;
     font-weight: bold;
@@ -201,13 +191,13 @@
     margin-bottom: 2px;
   }
 
-  .custom-section .highlight-yellow {
+  .highlight-yellow {
     background: linear-gradient(145deg, rgba(255, 204, 0, 0.2), rgba(255, 204, 0, 0.1)) !important;
     border-left: 2px solid #ffcc00;
     color: #ffffff !important;
   }
 
-  .custom-section .table-row > div {
+  .table-row > div {
     padding: 4px 2px;
     text-align: center;
     word-break: break-word;
@@ -215,7 +205,7 @@
     font-size: 0.9em;
   }
 
-  .custom-section .table2 {
+  .table2 {
     --col-a: 1fr;
     --col-b: 1fr;
     --col-c: 0.7fr;
@@ -227,49 +217,268 @@
   }
 
   /* =====================================================
+     CARROUSEL DES PARTENAIRES (style admin.html)
+  ===================================================== */
+  .partners-carousel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1800px;
+    perspective-origin: center center;
+  }
+
+  .partners-carousel img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-origin: center center;
+    width: auto;
+    height: auto;
+    max-width: 200px;
+    max-height: 140px;
+    padding: 10px;
+    object-fit: contain;
+    background:
+      linear-gradient(
+        145deg,
+        rgba(30, 30, 30, 0.98),
+        rgba(5, 5, 5, 0.98)
+      );
+    border: 2px solid;
+    border-radius: 12px;
+    transition:
+      transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1),
+      opacity 0.9s ease,
+      filter 0.9s ease,
+      box-shadow 0.9s ease,
+      border-color 0.9s ease;
+  }
+
+  /* Couleurs des bordures */
+  .color-yellow { border-color: #ffcc00 !important; }
+  .color-red { border-color: #ff2020 !important; }
+  .color-blue { border-color: #168cff !important; }
+
+  /* Positions des logos */
+  .center {
+    transform:
+      translate(-50%, -50%)
+      translateZ(300px)
+      scale(1.10);
+    z-index: 20;
+    opacity: 1;
+    filter:
+      brightness(1.15)
+      contrast(1.08);
+  }
+
+  .center.color-yellow {
+    box-shadow:
+      0 0 20px #ffcc00,
+      0 0 45px #ffcc00,
+      0 0 90px rgba(255, 204, 0, 0.85),
+      0 0 140px rgba(255, 204, 0, 0.35);
+  }
+
+  .center.color-red {
+    box-shadow:
+      0 0 20px #ff2020,
+      0 0 45px #ff2020,
+      0 0 90px rgba(255, 32, 32, 0.85),
+      0 0 140px rgba(255, 32, 32, 0.35);
+  }
+
+  .center.color-blue {
+    box-shadow:
+      0 0 20px #168cff,
+      0 0 45px #168cff,
+      0 0 90px rgba(22, 140, 255, 0.85),
+      0 0 140px rgba(22, 140, 255, 0.35);
+  }
+
+  .left1 {
+    transform:
+      translate(-50%, -50%)
+      translateX(-300px)
+      translateZ(40px)
+      scale(0.62);
+    z-index: 12;
+    opacity: 0.75;
+    filter:
+      brightness(0.75)
+      contrast(0.95);
+  }
+
+  .right1 {
+    transform:
+      translate(-50%, -50%)
+      translateX(300px)
+      translateZ(40px)
+      scale(0.62);
+    z-index: 12;
+    opacity: 0.75;
+    filter:
+      brightness(0.75)
+      contrast(0.95);
+  }
+
+  .left2 {
+    transform:
+      translate(-50%, -50%)
+      translateX(-500px)
+      translateZ(-200px)
+      scale(0.41);
+    z-index: 8;
+    opacity: 0.38;
+    filter:
+      brightness(0.55)
+      blur(0.3px);
+  }
+
+  .right2 {
+    transform:
+      translate(-50%, -50%)
+      translateX(500px)
+      translateZ(-200px)
+      scale(0.41);
+    z-index: 8;
+    opacity: 0.38;
+    filter:
+      brightness(0.55)
+      blur(0.3px);
+  }
+
+  .hidden {
+    transform:
+      translate(-50%, -50%)
+      translateZ(-700px)
+      scale(0.15);
+    opacity: 0;
+    filter: blur(5px);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* =====================================================
+     BARRE LUMINEUSE
+  ===================================================== */
+  .light-line {
+    position: fixed;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 65%;
+    height: 2px;
+    background: #ffcc00;
+    box-shadow:
+      0 0 8px #ffcc00,
+      0 0 20px rgba(255, 204, 0, 0.5);
+    z-index: 90;
+  }
+
+  /* =====================================================
      RESPONSIVE
   ===================================================== */
+  @media (max-width: 1200px) {
+    .partners-section {
+      height: 300px;
+    }
+    .partners-carousel img {
+      max-width: 150px;
+      max-height: 100px;
+    }
+    .left1 {
+      transform:
+        translate(-50%, -50%)
+        translateX(-200px)
+        translateZ(30px)
+        scale(0.55);
+    }
+    .right1 {
+      transform:
+        translate(-50%, -50%)
+        translateX(200px)
+        translateZ(30px)
+        scale(0.55);
+    }
+    .left2, .right2 {
+      opacity: 0;
+    }
+  }
+
   @media (max-width: 768px) {
-    .custom-section .tables-wrapper {
+    .tables-and-partners {
       flex-direction: column;
-      height: 100%;
     }
-    .custom-section .table-container {
-      flex: 1;
-      margin-bottom: 10px;
+    .table-container {
+      width: 100%;
+      margin-bottom: 15px;
     }
-    .custom-section .table-row {
+    .partners-section {
+      height: 250px;
+      margin-top: 10px;
+    }
+    .partners-carousel img {
+      max-width: 120px;
+      max-height: 80px;
+    }
+    .center {
+      transform:
+        translate(-50%, -50%)
+        translateZ(150px)
+        scale(0.9);
+    }
+    .left1 {
+      transform:
+        translate(-50%, -50%)
+        translateX(-120px)
+        scale(0.45);
+    }
+    .right1 {
+      transform:
+        translate(-50%, -50%)
+        translateX(120px)
+        scale(0.45);
+    }
+    .left2, .right2 {
+      display: none;
+    }
+    .table-row {
       font-size: clamp(10px, 1.8vw, 12px);
       padding: 3px;
       margin-bottom: 1px;
     }
-    .custom-section .table-row > div {
+    .table-row > div {
       padding: 2px 1px;
       font-size: 0.85em;
-    }
-    .custom-section h2 {
-      font-size: clamp(14px, 3vw, 18px);
-    }
-    .partners-carousel img {
-      max-width: 100px;
-      opacity: 0.08;
     }
   }
 </style>
 
-<!-- Carrousel des logos partenaires en arrière-plan -->
-<div class="partners-carousel" id="partnersCarousel">
-  <!-- Les logos seront insérés dynamiquement ici -->
-</div>
+<div class="main-content">
+  <div class="tables-and-partners">
+    <!-- Tableau Programme -->
+    <div class="table-container">
+      <h2>📅 PROGRAMME</h2>
+      <div id="json1"></div>
+    </div>
 
-<div class="tables-wrapper">
-  <div class="table-container">
-    <h2>📅 PROGRAMME</h2>
-    <div id="json1"></div>
+    <!-- Tableau Classement -->
+    <div class="table-container">
+      <h2>🏆 CLASSEMENT</h2>
+      <div id="json2"></div>
+    </div>
   </div>
-  <div class="table-container">
-    <h2>🏆 CLASSEMENT</h2>
-    <div id="json2"></div>
+
+  <!-- Section des partenaires (sous le tableau Programme) -->
+  <div class="partners-section">
+    <h2>🤝 NOS PARTENAIRES</h2>
+    <div class="partners-carousel" id="partnersCarousel">
+      <!-- Les logos seront insérés ici -->
+    </div>
   </div>
 </div>
 
@@ -336,11 +545,9 @@
   fetchSheetData('1966074571', 'json2', { extraClass: 'table2', fixedColumns: 8 });
 
   // =====================================================
-  // CARROUSEL DES LOGOS PARTENAIRES
+  // CARROUSEL DES LOGOS PARTENAIRES (comme admin.html)
   // =====================================================
-  document.addEventListener('DOMContentLoaded', function() {
-    const carousel = document.getElementById('partnersCarousel');
-
+  window.onload = function() {
     // Liste des logos partenaires (à adapter avec vos chemins réels)
     const partnerLogos = [
       "logo/7ENVIE DE PAIN.png",
@@ -354,54 +561,108 @@
       "logo/BAR LE SCORE.png",
       "logo/BARREAU.png",
       "logo/BIOCOOP.png",
-      "logo/BOUTEAU.png"
+      "logo/BOUTEAU.png",
+      "logo/BRIOGEL.png",
+      "logo/BUROLOGIC.png",
+      "logo/C3P.png",
+      "logo/CALIPAGE.png",
+      "logo/CBH.png",
+      "logo/CD VENDEE.png",
+      "logo/CHAPLEAU MACONNERIE.png",
+      "logo/CLARA AUTO.png"
     ];
 
-    // Positionnement des logos en arrière-plan
-    partnerLogos.forEach((logo, index) => {
+    const carousel = document.getElementById('partnersCarousel');
+    const total = partnerLogos.length;
+
+    if (total === 0) return;
+
+    // Initialisation
+    let index = 0;
+
+    // Couleurs pour les bordures
+    const colors = ["color-yellow", "color-red", "color-blue"];
+
+    function getColor(partnerIndex) {
+      return colors[partnerIndex % colors.length];
+    }
+
+    function updateCarousel() {
+      // Positions
+      const center = index % total;
+      const left1 = (index - 1 + total) % total;
+      const left2 = (index - 2 + total) % total;
+      const right1 = (index + 1) % total;
+      const right2 = (index + 2) % total;
+
+      // Masquer tous les logos
+      const images = carousel.querySelectorAll('img');
+      images.forEach(img => {
+        img.className = 'hidden';
+      });
+
+      // Afficher les logos actifs
+      if (carousel.querySelector(`img:nth-child(${center + 1})`)) {
+        carousel.querySelector(`img:nth-child(${center + 1})`).className = `center ${getColor(center)}`;
+      }
+      if (carousel.querySelector(`img:nth-child(${left1 + 1})`)) {
+        carousel.querySelector(`img:nth-child(${left1 + 1})`).className = `left1 ${getColor(left1)}`;
+      }
+      if (carousel.querySelector(`img:nth-child(${left2 + 1})`)) {
+        carousel.querySelector(`img:nth-child(${left2 + 1})`).className = `left2 ${getColor(left2)}`;
+      }
+      if (carousel.querySelector(`img:nth-child(${right1 + 1})`)) {
+        carousel.querySelector(`img:nth-child(${right1 + 1})`).className = `right1 ${getColor(right1)}`;
+      }
+      if (carousel.querySelector(`img:nth-child(${right2 + 1})`)) {
+        carousel.querySelector(`img:nth-child(${right2 + 1})`).className = `right2 ${getColor(right2)}`;
+      }
+
+      // Barre lumineuse
+      const lightLine = document.querySelector('.light-line');
+      if (lightLine) {
+        const currentColor = getColor(index);
+        if (currentColor === "color-yellow") {
+          lightLine.style.background = "#ffcc00";
+          lightLine.style.boxShadow = "0 0 8px #ffcc00, 0 0 20px #ffcc00, 0 0 40px rgba(255, 204, 0, 0.5)";
+        } else if (currentColor === "color-red") {
+          lightLine.style.background = "#ff2020";
+          lightLine.style.boxShadow = "0 0 8px #ff2020, 0 0 20px #ff2020, 0 0 40px rgba(255, 32, 32, 0.5)";
+        } else {
+          lightLine.style.background = "#168cff";
+          lightLine.style.boxShadow = "0 0 8px #168cff, 0 0 20px #168cff, 0 0 40px rgba(22, 140, 255, 0.5)";
+        }
+      }
+
+      // Sauvegarder l'index
+      localStorage.setItem("partenaireIndex", index);
+    }
+
+    // Charger les images
+    partnerLogos.forEach((logo, i) => {
       const img = document.createElement('img');
       img.src = logo;
-      img.alt = `Partenaire ${index + 1}`;
-
-      // Position aléatoire ou calculée
-      const angle = (index / partnerLogos.length) * Math.PI * 2;
-      const radius = 400 + Math.random() * 200;
-      const x = 50 + Math.cos(angle) * radius;
-      const y = 50 + Math.sin(angle) * radius;
-
-      img.style.left = `${x}%`;
-      img.style.top = `${y}%`;
-      img.style.transform = `rotate(${Math.random() * 10 - 5}deg)`;
-
+      img.alt = `Partenaire ${i + 1}`;
+      img.className = 'hidden';
       carousel.appendChild(img);
     });
 
-    // Animation légère des logos
-    setInterval(() => {
-      const images = carousel.querySelectorAll('img');
-      images.forEach(img => {
-        img.style.opacity = 0.08 + Math.random() * 0.05;
-        img.style.transform = `rotate(${Math.random() * 10 - 5}deg) scale(${0.8 + Math.random() * 0.4})`;
-      });
-    }, 3000);
-  });
-</script>
+    // Initialiser le carrousel
+    const savedIndex = localStorage.getItem("partenaireIndex");
+    if (savedIndex !== null && !isNaN(parseInt(savedIndex))) {
+      index = parseInt(savedIndex) % total;
+    } else {
+      index = 0;
+    }
+    updateCarousel();
 
-<style>
-  .light-line {
-    position: fixed;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
-    width: 65%;
-    height: 2px;
-    background: #ffcc00;
-    box-shadow:
-      0 0 8px #ffcc00,
-      0 0 20px rgba(255, 204, 0, 0.5);
-    z-index: 90;
-  }
-</style>
+    // Rotation automatique (2.5 secondes)
+    setInterval(() => {
+      index = (index + 1) % total;
+      updateCarousel();
+    }, 2500);
+  };
+</script>
 </div>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
