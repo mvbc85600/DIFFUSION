@@ -166,32 +166,59 @@ body {
     transform: scale(1.03);
 }
 
-.video {
-    background: #1d4ed8;
+/* Couleurs des boutons : alternance jaune, rouge, bleu */
+.scene-button:nth-child(1) {
+    background: #ffd400; /* Jaune */
+    color: #000;
 }
 
-.page {
-    background: #15803d;
+.scene-button:nth-child(2) {
+    background: #ff2020; /* Rouge */
 }
 
-.photos {
-    background: #9333ea;
+.scene-button:nth-child(3) {
+    background: #168cff; /* Bleu */
+}
+
+.scene-button:nth-child(4) {
+    background: #ffd400; /* Jaune */
+    color: #000;
+}
+
+.scene-button:nth-child(5) {
+    background: #ff2020; /* Rouge */
+}
+
+.scene-button:nth-child(6) {
+    background: #168cff; /* Bleu */
+}
+
+.scene-button:nth-child(7) {
+    background: #ffd400; /* Jaune */
+    color: #000;
+}
+
+.scene-button:nth-child(8) {
+    background: #ff2020; /* Rouge */
+}
+
+.scene-button:nth-child(9) {
+    background: #168cff; /* Bleu */
+}
+
+.scene-button:nth-child(10) {
+    background: #ffd400; /* Jaune */
+    color: #000;
+}
+
+.scene-button:nth-child(11) {
+    background: #ff2020; /* Rouge */
 }
 
 .black {
     background: black;
     border: 1px solid #444;
-}
-
-/* NOUVEAU STYLE POUR LE BOUTON JAUNE */
-.yellow {
-    background: #ffd400 !important;
-    color: #000 !important;
-}
-
-.yellow:hover {
-    background: #ffeb3b !important;
-    transform: scale(1.03);
+    color: white;
 }
 
 /* =========================
@@ -522,42 +549,50 @@ body {
     ================================================== -->
     <div id="regie" class="tab-content active">
         <div class="scene-grid">
-            <button class="scene-button video" onclick="diffuser('video1')">
-                🎬<br>VIDÉO 1
-            </button>
-            <button class="scene-button video" onclick="diffuser('video2')">
-                🎬<br>VIDÉO 2
-            </button>
-            <button class="scene-button photos" onclick="diffuser('photos')">
-                🖼️<br>DIAPORAMA
-            </button>
-            <button class="scene-button page" onclick="diffuser('partenaires')">
+            <!-- Les 3 premiers boutons (VIDÉO 1, VIDÉO 2, DIAPORAMA) sont supprimés -->
+
+            <!-- Bouton PARTENAIRES (Jaune) -->
+            <button class="scene-button" onclick="diffuser('partenaires')">
                 🤝<br>PARTENAIRES
             </button>
-            <button class="scene-button page" onclick="diffuser('evenements')">
+
+            <!-- Bouton ÉVÉNEMENTS (Rouge) -->
+            <button class="scene-button" onclick="diffuser('evenements')">
                 📅<br>ÉVÉNEMENTS
             </button>
-            <button class="scene-button page" onclick="diffuser('videomvbc')">
+
+            <!-- Bouton VIDÉOS MVBC (Bleu) -->
+            <button class="scene-button" onclick="diffuser('videomvbc')">
                 🎥<br>VIDÉOS MVBC
             </button>
-            <button class="scene-button page" onclick="diffuser('matchdusoir')">
+
+            <!-- Bouton MATCH DU SOIR (Jaune) -->
+            <button class="scene-button" onclick="diffuser('matchdusoir')">
                 🏀<br>MATCH DU SOIR
             </button>
-            <button class="scene-button page" onclick="diffuser('classementnm2')">
+
+            <!-- Bouton CLASSEMENT NM2 (Rouge) -->
+            <button class="scene-button" onclick="diffuser('classementnm2')">
                 🏆<br>CLASSEMENT NM2
             </button>
-            <button class="scene-button page" onclick="diffuser('nosequipes')">
+
+            <!-- Bouton NOS ÉQUIPES (Bleu) -->
+            <button class="scene-button" onclick="diffuser('nosequipes')">
                 👥<br>NOS ÉQUIPES
             </button>
-            <!-- BOUTON MESSAGE EN JAUNE -->
-            <button class="scene-button yellow" onclick="diffuserMessage()">
+
+            <!-- Bouton MESSAGE (Jaune) -->
+            <button class="scene-button" onclick="diffuserMessage()">
                 📝<br>MESSAGE
             </button>
+
+            <!-- Bouton ÉCRAN NOIR (Noir) -->
             <button class="scene-button black" onclick="diffuser('black')">
                 ⬛<br>ÉCRAN NOIR
             </button>
-            <!-- BOUTON PARTENAIRE DU MATCH -->
-            <button class="scene-button yellow" onclick="diffuserPartenaire()">
+
+            <!-- Bouton PARTENAIRE DU MATCH (Rouge) -->
+            <button class="scene-button" onclick="diffuserPartenaire()">
                 🤝<br>PARTENAIRE DU MATCH
             </button>
         </div>
