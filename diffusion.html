@@ -1,553 +1,2248 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Diffusion MVBC</title>
-  <style>
-    *
-    {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Diffusion MVBC</title>
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+html,
+body {
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    background: #000;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+
+/* =====================================================
+   DIFFUSION
+===================================================== */
+
+#diffusion {
+
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+}
+
+
+/* =====================================================
+   VIDÉO
+===================================================== */
+
+#video {
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    background: #000;
+
+    display: none;
+
+    z-index: 10;
+
+}
+
+
+/* =====================================================
+   DIAPORAMA
+===================================================== */
+
+#slideshow {
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: #000;
+
+    display: none;
+
+    z-index: 20;
+
+}
+
+
+#slideImage {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+
+}
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+#message {
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: calc(100% - 120px);
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #000;
+
+    color: #fff;
+
+    z-index: 30;
+
+    padding: 70px;
+
+}
+
+
+/* =====================================================
+   PAGES
+===================================================== */
+
+#pageFrame {
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    border: 0;
+
+    display: none;
+
+    background: #000;
+
+    z-index: 40;
+
+}
+
+
+/* =====================================================
+   CARROUSEL PARTENAIRES
+   7 LOGOS VISIBLES
+===================================================== */
+
+#partners-scroll-container {
+
+    position: fixed;
+
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 180px;
+
+    background:
+
+        linear-gradient(
+            to top,
+            rgba(0,0,0,0.98),
+            rgba(0,0,0,0.88),
+            rgba(0,0,0,0.60)
+        );
+
+    overflow: hidden;
+
+    z-index: 50;
+
+    display: none;
+
+    perspective: 1800px;
+
+    perspective-origin: center center;
+
+}
+
+
+/* =====================================================
+   CONTENEUR DES 7 LOGOS
+===================================================== */
+
+#partners-scroll {
+
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+}
+
+
+/* =====================================================
+   LOGOS
+===================================================== */
+
+#partners-scroll img {
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: auto;
+    height: auto;
+
+    max-width: 250px;
+    max-height: 125px;
+
+    padding: 8px;
+
+    object-fit: contain;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(30,30,30,0.98),
+            rgba(5,5,5,0.98)
+        );
+
+    border: 3px solid;
+
+    border-radius: 14px;
+
+    transform-origin: center center;
+
+    transition:
+
+        transform 0.9s cubic-bezier(.22,.61,.36,1),
+        opacity 0.9s ease,
+        filter 0.9s ease,
+        box-shadow 0.9s ease,
+        border-color 0.9s ease;
+
+}
+
+
+/* =====================================================
+   JAUNE
+===================================================== */
+
+#partners-scroll img.color-yellow {
+
+    border-color: #ffcc00 !important;
+
+}
+
+
+/* =====================================================
+   ROUGE
+===================================================== */
+
+#partners-scroll img.color-red {
+
+    border-color: #ff2020 !important;
+
+}
+
+
+/* =====================================================
+   BLEU
+===================================================== */
+
+#partners-scroll img.color-blue {
+
+    border-color: #168cff !important;
+
+}
+
+
+/* =====================================================
+   LOGO CENTRAL
+===================================================== */
+
+#partners-scroll img.center {
+
+    transform:
+
+        translate(-50%, -50%)
+        translateZ(300px)
+        scale(1.10);
+
+    z-index: 20;
+
+    opacity: 1;
+
+    filter:
+
+        brightness(1.15)
+        contrast(1.08);
+
+}
+
+
+/* =====================================================
+   HALO CENTRAL JAUNE
+===================================================== */
+
+#partners-scroll img.center.color-yellow {
+
+    box-shadow:
+
+        0 0 12px #ffcc00,
+        0 0 25px #ffcc00,
+        0 0 50px rgba(255,204,0,0.85),
+        0 0 80px rgba(255,204,0,0.35);
+
+}
+
+
+/* =====================================================
+   HALO CENTRAL ROUGE
+===================================================== */
+
+#partners-scroll img.center.color-red {
+
+    box-shadow:
+
+        0 0 12px #ff2020,
+        0 0 25px #ff2020,
+        0 0 50px rgba(255,32,32,0.85),
+        0 0 80px rgba(255,32,32,0.35);
+
+}
+
+
+/* =====================================================
+   HALO CENTRAL BLEU
+===================================================== */
+
+#partners-scroll img.center.color-blue {
+
+    box-shadow:
+
+        0 0 12px #168cff,
+        0 0 25px #168cff,
+        0 0 50px rgba(22,140,255,0.85),
+        0 0 80px rgba(22,140,255,0.35);
+
+}
+
+
+/* =====================================================
+   GAUCHE 1
+===================================================== */
+
+#partners-scroll img.left1 {
+
+    transform:
+
+        translate(-50%, -50%)
+        translateX(-270px)
+        translateZ(40px)
+        scale(0.70);
+
+    z-index: 12;
+
+    opacity: 0.75;
+
+    filter:
+
+        brightness(0.75)
+        contrast(0.95);
+
+}
+
+
+/* =====================================================
+   GAUCHE 2
+===================================================== */
+
+#partners-scroll img.left2 {
+
+    transform:
+
+        translate(-50%, -50%)
+        translateX(-480px)
+        translateZ(-250px)
+        scale(0.48);
+
+    z-index: 8;
+
+    opacity: 0.38;
+
+    filter:
+
+        brightness(0.55)
+        blur(0.3px);
+
+}
+
+
+/* =====================================================
+   DROITE 1
+===================================================== */
+
+#partners-scroll img.right1 {
+
+    transform:
+
+        translate(-50%, -50%)
+        translateX(270px)
+        translateZ(40px)
+        scale(0.70);
+
+    z-index: 12;
+
+    opacity: 0.75;
+
+    filter:
+
+        brightness(0.75)
+        contrast(0.95);
+
+}
+
+
+/* =====================================================
+   DROITE 2
+===================================================== */
+
+#partners-scroll img.right2 {
+
+    transform:
+
+        translate(-50%, -50%)
+        translateX(480px)
+        translateZ(-250px)
+        scale(0.48);
+
+    z-index: 8;
+
+    opacity: 0.38;
+
+    filter:
+
+        brightness(0.55)
+        blur(0.3px);
+
+}
+
+
+/* =====================================================
+   LOGOS CACHÉS
+===================================================== */
+
+#partners-scroll img.hidden {
+
+    transform:
+
+        translate(-50%, -50%)
+        translateZ(-700px)
+        scale(0.15);
+
+    opacity: 0;
+
+    filter: blur(5px);
+
+    z-index: 1;
+
+    pointer-events: none;
+
+}
+
+
+/* =====================================================
+   BARRE LUMINEUSE
+===================================================== */
+
+#partners-light-line {
+
+    position: fixed;
+
+    left: 50%;
+
+    bottom: 0;
+
+    transform: translateX(-50%);
+
+    width: 65%;
+
+    height: 3px;
+
+    background: #ffcc00;
+
+    box-shadow:
+
+        0 0 10px #ffcc00,
+        0 0 25px #ffcc00,
+        0 0 50px #ffcc00;
+
+    z-index: 90;
+
+    transition:
+
+        background 0.7s ease,
+        box-shadow 0.7s ease;
+
+}
+
+
+/* =====================================================
+   TRANSITION
+===================================================== */
+
+.fade {
+
+    animation: fadeIn 0.5s ease-in-out;
+
+}
+
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
     }
 
-    html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #000;
-      font-family: Arial, sans-serif;
+    to {
+        opacity: 1;
     }
 
-    #diffusion {
-      position: relative;
-      width: 100%;
-      height: 100%;
+}
+
+
+/* =====================================================
+   ANIMATIONS MESSAGE
+===================================================== */
+
+@keyframes typing {
+
+    from {
+        width: 0;
     }
 
-    /* VIDÉO */
-    #video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      background: #000;
-      display: none;
-      z-index: 10;
+    to {
+        width: 100%;
     }
 
-    /* DIAPORAMA */
-    #slideshow {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
-      display: none;
-      z-index: 20;
+}
+
+
+@keyframes fadeInText {
+
+    from {
+        opacity: 0;
     }
 
-    #slideImage {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
+    to {
+        opacity: 1;
     }
 
-    /* MESSAGE */
-    #message {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: calc(100% - 120px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      background: #000;
-      color: #fff;
-      z-index: 30;
-      padding: 70px;
-      box-sizing: border-box;
+}
+
+
+@keyframes slideUp {
+
+    from {
+
+        transform:
+            translateY(20px);
+
+        opacity: 0;
+
     }
 
-    /* PAGES */
-    #pageFrame {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-      display: none;
-      background: #000;
-      z-index: 40;
+    to {
+
+        transform:
+            translateY(0);
+
+        opacity: 1;
+
     }
 
-    /* DÉFILEMENT DES LOGOS DES PARTENAIRES */
-    #partners-scroll-container {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 150px;
-      background-color: rgba(0, 0, 0, 0.8);
-      overflow: hidden;
-      z-index: 50;
-      display: none;
+}
+
+
+@keyframes pulseGlow {
+
+    from {
+
+        transform:
+            scale(0.8);
+
+        opacity: 0.5;
+
     }
 
-    #partners-scroll {
-      display: flex;
-      align-items: center;
-      white-space: nowrap;
-      animation: scroll 20s linear infinite;
+    to {
+
+        transform:
+            scale(1.2);
+
+        opacity: 0.8;
+
     }
+
+}
+
+
+@keyframes shine {
+
+    from {
+
+        opacity: 0.5;
+
+        transform:
+            scaleX(0.8);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            scaleX(1.2);
+
+    }
+
+}
+
+
+/* =====================================================
+   ÉCRANS 1600PX ET MOINS
+===================================================== */
+
+@media (max-width: 1600px) {
 
     #partners-scroll img {
-      height: 120px;
-      margin: 0 50px;
-      opacity: 0.9;
-      transition: all 0.3s ease;
+
+        max-width: 220px;
+        max-height: 115px;
+
     }
 
-    #partners-scroll img:hover {
-      opacity: 1;
-      transform: scale(1.1);
+
+    #partners-scroll img.left1 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(-240px)
+            translateZ(30px)
+            scale(0.65);
+
     }
 
-    @keyframes scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+
+    #partners-scroll img.right1 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(240px)
+            translateZ(30px)
+            scale(0.65);
+
     }
 
-    /* TRANSITION */
-    .fade {
-      animation: fadeIn 0.5s ease-in-out;
+
+    #partners-scroll img.left2 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(-430px)
+            translateZ(-200px)
+            scale(0.42);
+
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+
+    #partners-scroll img.right2 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(430px)
+            translateZ(-200px)
+            scale(0.42);
+
     }
 
-    /* ANIMATIONS POUR LE MESSAGE */
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 100%; }
+}
+
+
+/* =====================================================
+   ÉCRANS 1200PX ET MOINS
+===================================================== */
+
+@media (max-width: 1200px) {
+
+    #partners-scroll-container {
+
+        height: 160px;
+
     }
 
-    @keyframes fadeInText {
-      from { opacity: 0; }
-      to { opacity: 1; }
+
+    #partners-scroll img {
+
+        max-width: 180px;
+        max-height: 100px;
+
     }
 
-    @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+
+    #partners-scroll img.center {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateZ(180px)
+            scale(0.95);
+
     }
 
-    @keyframes pulseGlow {
-      from { transform: scale(0.8); opacity: 0.5; }
-      to { transform: scale(1.2); opacity: 0.8; }
+
+    #partners-scroll img.left1 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(-190px)
+            translateZ(20px)
+            scale(0.52);
+
     }
 
-    @keyframes shine {
-      from { opacity: 0.5; transform: scaleX(0.8); }
-      to { opacity: 1; transform: scaleX(1.2); }
+
+    #partners-scroll img.right1 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(190px)
+            translateZ(20px)
+            scale(0.52);
+
     }
-  </style>
+
+
+    #partners-scroll img.left2 {
+
+        opacity: 0;
+
+    }
+
+
+    #partners-scroll img.right2 {
+
+        opacity: 0;
+
+    }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+    #partners-scroll-container {
+
+        height: 140px;
+
+    }
+
+
+    #partners-scroll img {
+
+        max-width: 140px;
+        max-height: 80px;
+
+        padding: 6px;
+
+        border-width: 2px;
+
+        border-radius: 10px;
+
+    }
+
+
+    #partners-scroll img.center {
+
+        transform:
+
+            translate(-50%, -50%)
+            scale(0.90);
+
+    }
+
+
+    #partners-scroll img.left1 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(-120px)
+            scale(0.40);
+
+    }
+
+
+    #partners-scroll img.right1 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(120px)
+            scale(0.40);
+
+    }
+
+
+    #partners-scroll img.left2,
+    #partners-scroll img.right2 {
+
+        display: none;
+
+    }
+
+}
+
+</style>
+
 </head>
-<body>
-  <div id="diffusion">
-    <!-- VIDÉO -->
-    <video id="video" playsinline preload="auto"></video>
 
-    <!-- DIAPORAMA -->
+
+<body>
+
+
+<div id="diffusion">
+
+
+    <!-- =================================================
+         VIDÉO
+    ================================================= -->
+
+    <video
+        id="video"
+        playsinline
+        preload="auto">
+    </video>
+
+
+    <!-- =================================================
+         DIAPORAMA
+    ================================================= -->
+
     <div id="slideshow">
-      <img id="slideImage" src="" alt="Diaporama">
+
+        <img
+            id="slideImage"
+            src=""
+            alt="Diaporama">
+
     </div>
 
-    <!-- MESSAGE -->
+
+    <!-- =================================================
+         MESSAGE
+    ================================================= -->
+
     <div id="message"></div>
 
-    <!-- PAGES HTML -->
-    <iframe id="pageFrame" src="" allow="autoplay"></iframe>
 
-    <!-- DÉFILEMENT DES LOGOS -->
+    <!-- =================================================
+         PAGES HTML
+    ================================================= -->
+
+    <iframe
+        id="pageFrame"
+        src=""
+        allow="autoplay">
+    </iframe>
+
+
+    <!-- =================================================
+         CARROUSEL PARTENAIRES
+    ================================================= -->
+
     <div id="partners-scroll-container">
-      <div id="partners-scroll"></div>
+
+        <div id="partners-scroll"></div>
+
     </div>
-  </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-    // ==================================================
-    // CONFIGURATION FIREBASE
-    // ==================================================
-    const firebaseConfig = {
-      apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
-      authDomain: "diffusion-b9afa.firebaseapp.com",
-      databaseURL: "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "diffusion-b9afa",
-      storageBucket: "diffusion-b9afa.firebasestorage.app",
-      messagingSenderId: "674799570797",
-      appId: "1:674799570797:web:0d8b7a2a892f604eb7d464"
-    };
+    <div id="partners-light-line"></div>
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
 
-    // ==================================================
-    // RÉCUPÉRATION DES ÉLÉMENTS HTML
-    // ==================================================
-    const video = document.getElementById("video");
-    const message = document.getElementById("message");
-    const slideshow = document.getElementById("slideshow");
-    const slideImage = document.getElementById("slideImage");
-    const pageFrame = document.getElementById("pageFrame");
-    const partnersScrollContainer = document.getElementById("partners-scroll-container");
-    const partnersScroll = document.getElementById("partners-scroll");
+</div>
 
-    // ==================================================
-    // LISTE DES LOGOS DES PARTENAIRES (À ADAPTER)
-    // ==================================================
-    const partnerLogos = [
-      "logo/7ENVIE DE PAIN.png",
-      "logo/AGTIM.png",
-      "logo/Alain AFFLELOU.png",
-      "logo/APOLLO.png",
-      "logo/ARRIVE.png",
-      "logo/ARTIPOLE.png",
-      "logo/ATP.png",
-      "logo/AUTO BILAN VIEILLEVIGNE.png",
-      "logo/BAR LE SCORE.png",
-      "logo/BARREAU.png",
-      "logo/BIOCOOP.png",
-      "logo/BOUTEAU.png",
-      "logo/BRIOGEL.png",
-      "logo/BUROLOGIC.png",
-      "logo/C3P.png",
-      "logo/CALIPAGE.png",
-      "logo/CBH.png",
-      "logo/CD VENDEE.png",
-      "logo/CHAPLEAU MACONNERIE.png",
-      "logo/CLARA AUTO.png",
-      "logo/CMO.png",
-      "logo/COIFFURE CELINE.png",
-      "logo/COMITE DES FETES.png",
-      "logo/CPM AXA.png",
-      "logo/CYRIL LECLAIR.png",
-      "logo/DIAGONAL.png",
-      "logo/DURET.png",
-      "logo/ENVOLIIS.png",
-      "logo/ERIC MOCQUET.png",
-      "logo/EVEILLARD.png",
-      "logo/FLEUR D'ANGE.png",
-      "logo/GO IMPRESSION.png",
-      "logo/HEPPNER.png",
-      "logo/HP.png",
-      "logo/ID2TECH.png",
-      "logo/IDM.png",
-      "logo/INDCAR.png",
-      "logo/JAD'O.png",
-      "logo/LA MARTINIQUAISE.png",
-      "logo/LE CONSERVATEUR.png",
-      "logo/LECLERC.png",
-      "logo/LLA.png",
-      "logo/MAITRE COQ.png",
-      "logo/MD NERGIES.png",
-      "logo/MDLP.png",
-      "logo/MJ.png",
-      "logo/MOINARD.png",
-      "logo/MV.png",
-      "logo/NAT EVASION.png",
-      "logo/NATURACARE.png",
-      "logo/O BORD DELO.png",
-      "logo/PETIT ST GEORGES.png",
-      "logo/RATOKE.png",
-      "logo/RAUTUREAU.png",
-      "logo/RT.png",
-      "logo/SCHMIDT.png",
-      "logo/SENARD.png",
-      "logo/SEV.png",
-      "logo/SODEBO.png",
-      "logo/SQUARE.png",
-      "logo/STARTRUCKS.png",
-      "logo/STRAPHARM.png",
-      "logo/SUPER U.png",
-      "logo/SYMBIOSE.png",
-      "logo/TDM.png",
-      "logo/UNE ENVIE DE PIZZA.png",
-      "logo/VEB (2).png",
-      "logo/VFLIT.png",
-      "logo/VST.png"
+
+<script type="module">
+
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+import {
+
+    initializeApp
+
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+
+import {
+
+    getDatabase,
+    ref,
+    onValue
+
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSySyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+
+    authDomain:
+        "diffusion-b9afa.firebaseapp.com",
+
+    databaseURL:
+        "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
+
+    projectId:
+        "diffusion-b9afa",
+
+    storageBucket:
+        "diffusion-b9afa.firebasestorage.app",
+
+    messagingSenderId:
+        "674799570797",
+
+    appId:
+        "1:674799570797:web:0d8b7a2a892f604eb7d464"
+
+};
+
+
+const app =
+    initializeApp(firebaseConfig);
+
+
+const db =
+    getDatabase(app);
+
+
+/* =====================================================
+   ÉLÉMENTS HTML
+===================================================== */
+
+const video =
+    document.getElementById("video");
+
+
+const message =
+    document.getElementById("message");
+
+
+const slideshow =
+    document.getElementById("slideshow");
+
+
+const slideImage =
+    document.getElementById("slideImage");
+
+
+const pageFrame =
+    document.getElementById("pageFrame");
+
+
+const partnersScrollContainer =
+    document.getElementById(
+        "partners-scroll-container"
+    );
+
+
+const partnersScroll =
+    document.getElementById(
+        "partners-scroll"
+    );
+
+
+const partnersLightLine =
+    document.getElementById(
+        "partners-light-line"
+    );
+
+
+/* =====================================================
+   LISTE DES 69 PARTENAIRES
+===================================================== */
+
+const partnerLogos = [
+
+    "logo/7ENVIE DE PAIN.png",
+    "logo/AGTIM.png",
+    "logo/Alain AFFLELOU.png",
+    "logo/APOLLO.png",
+    "logo/ARRIVE.png",
+    "logo/ARTIPOLE.png",
+    "logo/ATP.png",
+    "logo/AUTO BILAN VIEILLEVIGNE.png",
+    "logo/BAR LE SCORE.png",
+    "logo/BARREAU.png",
+    "logo/BIOCOOP.png",
+    "logo/BOUTEAU.png",
+    "logo/BRIOGEL.png",
+    "logo/BUROLOGIC.png",
+    "logo/C3P.png",
+    "logo/CALIPAGE.png",
+    "logo/CBH.png",
+    "logo/CD VENDEE.png",
+    "logo/CHAPLEAU MACONNERIE.png",
+    "logo/CLARA AUTO.png",
+    "logo/CMO.png",
+    "logo/COIFFURE CELINE.png",
+    "logo/COMITE DES FETES.png",
+    "logo/CPM AXA.png",
+    "logo/CYRIL LECLAIR.png",
+    "logo/DIAGONAL.png",
+    "logo/DURET.png",
+    "logo/ENVOLIIS.png",
+    "logo/ERIC MOCQUET.png",
+    "logo/EVEILLARD.png",
+    "logo/FLEUR D'ANGE.png",
+    "logo/GO IMPRESSION.png",
+    "logo/HEPPNER.png",
+    "logo/HP.png",
+    "logo/ID2TECH.png",
+    "logo/IDM.png",
+    "logo/INDCAR.png",
+    "logo/JAD'O.png",
+    "logo/LA MARTINIQUAISE.png",
+    "logo/LE CONSERVATEUR.png",
+    "logo/LECLERC.png",
+    "logo/LLA.png",
+    "logo/MAITRE COQ.png",
+    "logo/MD NERGIES.png",
+    "logo/MDLP.png",
+    "logo/MJ.png",
+    "logo/MOINARD.png",
+    "logo/MV.png",
+    "logo/NAT EVASION.png",
+    "logo/NATURACARE.png",
+    "logo/O BORD DELO.png",
+    "logo/PETIT ST GEORGES.png",
+    "logo/RATOKE.png",
+    "logo/RAUTUREAU.png",
+    "logo/RT.png",
+    "logo/SCHMIDT.png",
+    "logo/SENARD.png",
+    "logo/SEV.png",
+    "logo/SODEBO.png",
+    "logo/SQUARE.png",
+    "logo/STARTRUCKS.png",
+    "logo/STRAPHARM.png",
+    "logo/SUPER U.png",
+    "logo/SYMBIOSE.png",
+    "logo/TDM.png",
+    "logo/UNE ENVIE DE PIZZA.png",
+    "logo/VEB (2).png",
+    "logo/VFLIT.png",
+    "logo/VST.png"
+
+];
+
+
+/* =====================================================
+   COULEURS
+   JAUNE → ROUGE → BLEU
+===================================================== */
+
+const partnerColors = [
+
+    "color-yellow",
+    "color-red",
+    "color-blue"
+
+];
+
+
+/* =====================================================
+   INDEX DU CARROUSEL
+===================================================== */
+
+let partnerCarouselIndex = 0;
+
+
+/* =====================================================
+   CHARGEMENT DES LOGOS
+===================================================== */
+
+function chargerLogosPartenaires() {
+
+    partnersScroll.innerHTML = "";
+
+
+    partnerLogos.forEach(
+
+        (logo, index) => {
+
+            const img =
+                document.createElement("img");
+
+
+            img.src = logo;
+
+            img.alt =
+                "Partenaire";
+
+
+            img.dataset.index =
+                index;
+
+
+            img.onerror =
+                () => {
+
+                    img.style.display =
+                        "none";
+
+                };
+
+
+            partnersScroll.appendChild(img);
+
+        }
+
+    );
+
+
+    updatePartnerCarousel();
+
+}
+
+
+/* =====================================================
+   COULEUR DU PARTENAIRE
+===================================================== */
+
+function getPartnerColor(index) {
+
+    return partnerColors[
+        index %
+        partnerColors.length
     ];
 
-    // ==================================================
-    // CHARGEMENT DES LOGOS
-    // ==================================================
-    function chargerLogosPartenaires() {
-      partnersScroll.innerHTML = "";
-      // Ajouter chaque logo deux fois pour un défilement infini
-      partnerLogos.forEach(logo => {
-        const img = document.createElement('img');
-        img.src = logo;
-        img.alt = "Partenaire";
-        img.onerror = () => { img.style.display = 'none'; };
-        partnersScroll.appendChild(img);
-      });
-      // Dupliquer pour un défilement infini
-      partnerLogos.forEach(logo => {
-        const img = document.createElement('img');
-        img.src = logo;
-        img.alt = "Partenaire";
-        img.onerror = () => { img.style.display = 'none'; };
-        partnersScroll.appendChild(img);
-      });
+}
+
+
+/* =====================================================
+   MISE À JOUR DE LA BARRE LUMINEUSE
+===================================================== */
+
+function updateLightLine() {
+
+    const currentColor =
+        getPartnerColor(
+            partnerCarouselIndex
+        );
+
+
+    if (
+        currentColor ===
+        "color-yellow"
+    ) {
+
+        partnersLightLine.style.background =
+            "#ffcc00";
+
+        partnersLightLine.style.boxShadow =
+
+            "0 0 10px #ffcc00," +
+            "0 0 25px #ffcc00," +
+            "0 0 50px #ffcc00";
+
     }
 
-    // Charger les logos au démarrage
-    chargerLogosPartenaires();
 
-    // ==================================================
-    // RÉFÉRENCES FIREBASE
-    // ==================================================
-    const messageRef = ref(db, "message");
-    const diffusionRef = ref(db, "diffusion");
-    let currentMessageData = null;
-    let currentScene = null;
+    else if (
+        currentColor ===
+        "color-red"
+    ) {
 
-    // ==================================================
-    // ÉCOUTE DES MODIFICATIONS
-    // ==================================================
-    onValue(messageRef, (snapshot) => {
-      currentMessageData = snapshot.val();
-      console.log("Message mis à jour:", currentMessageData);
-      // Mettre à jour l'affichage des logos SI on est sur la scène "message"
-      if (currentScene === "message") {
-        partnersScrollContainer.style.display =
-          (currentMessageData && currentMessageData.afficherDefilementLogos) ? "block" : "none";
-      }
-    });
+        partnersLightLine.style.background =
+            "#ff2020";
 
-    onValue(diffusionRef, (snapshot) => {
-      const data = snapshot.val();
-      if (!data || !data.scene) return;
+        partnersLightLine.style.boxShadow =
 
-      currentScene = data.scene;
-      console.log("Nouvelle scène:", currentScene);
-      afficherScene(currentScene);
-    });
+            "0 0 10px #ff2020," +
+            "0 0 25px #ff2020," +
+            "0 0 50px #ff2020";
 
-    // ==================================================
-    // AFFICHER UNE SCÈNE
-    // ==================================================
-    function afficherScene(scene) {
-      // Tout masquer
-      video.style.display = "none";
-      slideshow.style.display = "none";
-      message.style.display = "none";
-      pageFrame.style.display = "none";
-      partnersScrollContainer.style.display = "none";
+    }
 
-      // Arrêter le diaporama et la vidéo
-      arreterDiaporama();
-      video.pause();
-      video.removeAttribute("src");
-      video.load();
 
-      // Afficher la scène demandée
-      switch(scene) {
+    else {
+
+        partnersLightLine.style.background =
+            "#168cff";
+
+        partnersLightLine.style.boxShadow =
+
+            "0 0 10px #168cff," +
+            "0 0 25px #168cff," +
+            "0 0 50px #168cff";
+
+    }
+
+}
+
+
+/* =====================================================
+   MISE À JOUR DU CARROUSEL
+   7 LOGOS VISIBLES
+===================================================== */
+
+function updatePartnerCarousel() {
+
+    const logos =
+        partnersScroll.querySelectorAll("img");
+
+
+    const total =
+        logos.length;
+
+
+    if (!total) {
+
+        return;
+
+    }
+
+
+    const center =
+        partnerCarouselIndex % total;
+
+
+    const left1 =
+        (
+            partnerCarouselIndex -
+            1 +
+            total
+        ) % total;
+
+
+    const left2 =
+        (
+            partnerCarouselIndex -
+            2 +
+            total
+        ) % total;
+
+
+    const right1 =
+        (
+            partnerCarouselIndex +
+            1
+        ) % total;
+
+
+    const right2 =
+        (
+            partnerCarouselIndex +
+            2
+        ) % total;
+
+
+    /*
+       Tous les logos sont cachés
+    */
+
+    logos.forEach(
+
+        logo => {
+
+            logo.className =
+                "hidden";
+
+        }
+
+    );
+
+
+    /*
+       Logo central
+    */
+
+    logos[center].className =
+
+        "center " +
+        getPartnerColor(center);
+
+
+    /*
+       Gauche 1
+    */
+
+    logos[left1].className =
+
+        "left1 " +
+        getPartnerColor(left1);
+
+
+    /*
+       Gauche 2
+    */
+
+    logos[left2].className =
+
+        "left2 " +
+        getPartnerColor(left2);
+
+
+    /*
+       Droite 1
+    */
+
+    logos[right1].className =
+
+        "right1 " +
+        getPartnerColor(right1);
+
+
+    /*
+       Droite 2
+    */
+
+    logos[right2].className =
+
+        "right2 " +
+        getPartnerColor(right2);
+
+
+    updateLightLine();
+
+}
+
+
+/* =====================================================
+   ROTATION DU CARROUSEL
+===================================================== */
+
+let partnerCarouselTimer = null;
+
+
+function demarrerCarrouselPartenaires() {
+
+    if (partnerCarouselTimer) {
+
+        clearInterval(
+            partnerCarouselTimer
+        );
+
+    }
+
+
+    partnerCarouselTimer =
+
+        setInterval(
+
+            () => {
+
+                partnerCarouselIndex =
+
+                    (
+                        partnerCarouselIndex +
+                        1
+                    ) %
+                    partnerLogos.length;
+
+
+                updatePartnerCarousel();
+
+            },
+
+            2500
+
+        );
+
+}
+
+
+function arreterCarrouselPartenaires() {
+
+    if (partnerCarouselTimer) {
+
+        clearInterval(
+            partnerCarouselTimer
+        );
+
+        partnerCarouselTimer =
+            null;
+
+    }
+
+}
+
+
+/* =====================================================
+   CHARGEMENT INITIAL
+===================================================== */
+
+chargerLogosPartenaires();
+
+
+/* =====================================================
+   RÉFÉRENCES FIREBASE
+===================================================== */
+
+const messageRef =
+    ref(db, "message");
+
+
+const diffusionRef =
+    ref(db, "diffusion");
+
+
+let currentMessageData =
+    null;
+
+
+let currentScene =
+    null;
+
+
+/* =====================================================
+   ÉCOUTE DU MESSAGE
+===================================================== */
+
+onValue(
+
+    messageRef,
+
+    (snapshot) => {
+
+        currentMessageData =
+            snapshot.val();
+
+
+        console.log(
+            "Message mis à jour:",
+            currentMessageData
+        );
+
+
+        if (
+            currentScene ===
+            "message"
+        ) {
+
+            const afficherLogos =
+
+                currentMessageData &&
+                currentMessageData.afficherDefilementLogos;
+
+
+            partnersScrollContainer.style.display =
+
+                afficherLogos
+                    ? "block"
+                    : "none";
+
+
+            if (afficherLogos) {
+
+                demarrerCarrouselPartenaires();
+
+            }
+
+            else {
+
+                arreterCarrouselPartenaires();
+
+            }
+
+        }
+
+    }
+
+);
+
+
+/* =====================================================
+   ÉCOUTE DE LA DIFFUSION
+===================================================== */
+
+onValue(
+
+    diffusionRef,
+
+    (snapshot) => {
+
+        const data =
+            snapshot.val();
+
+
+        if (
+            !data ||
+            !data.scene
+        ) {
+
+            return;
+
+        }
+
+
+        currentScene =
+            data.scene;
+
+
+        console.log(
+            "Nouvelle scène:",
+            currentScene
+        );
+
+
+        afficherScene(
+            currentScene
+        );
+
+    }
+
+);
+
+
+/* =====================================================
+   AFFICHER UNE SCÈNE
+===================================================== */
+
+function afficherScene(scene) {
+
+
+    /*
+       Tout masquer
+    */
+
+    video.style.display =
+        "none";
+
+
+    slideshow.style.display =
+        "none";
+
+
+    message.style.display =
+        "none";
+
+
+    pageFrame.style.display =
+        "none";
+
+
+    partnersScrollContainer.style.display =
+        "none";
+
+
+    arreterCarrouselPartenaires();
+
+
+    /*
+       Arrêter le diaporama
+    */
+
+    arreterDiaporama();
+
+
+    /*
+       Arrêter la vidéo
+    */
+
+    video.pause();
+
+    video.removeAttribute(
+        "src"
+    );
+
+    video.load();
+
+
+    /*
+       Afficher la scène demandée
+    */
+
+    switch (scene) {
+
+
         case "video1":
-          afficherVideo("video/defense.mp4");
-          break;
+
+            afficherVideo(
+                "video/defense.mp4"
+            );
+
+            break;
+
+
         case "video2":
-          afficherVideo("videos/video2.mp4");
-          break;
+
+            afficherVideo(
+                "videos/video2.mp4"
+            );
+
+            break;
+
+
         case "photos":
-          lancerDiaporama();
-          break;
+
+            lancerDiaporama();
+
+            break;
+
+
         case "partenaires":
-          afficherPage("partenaires.html");
-          break;
+
+            afficherPage(
+                "partenaires.html"
+            );
+
+            break;
+
+
         case "evenements":
-          afficherPage("evenements.html");
-          break;
+
+            afficherPage(
+                "evenements.html"
+            );
+
+            break;
+
+
         case "videomvbc":
-          afficherPage("videomvbc.html");
-          break;
+
+            afficherPage(
+                "videomvbc.html"
+            );
+
+            break;
+
+
         case "matchdusoir":
-          afficherPage("matchdusoir.html");
-          break;
+
+            afficherPage(
+                "matchdusoir.html"
+            );
+
+            break;
+
+
         case "classementnm2":
-          afficherPage("classementnm2.html");
-          break;
+
+            afficherPage(
+                "classementnm2.html"
+            );
+
+            break;
+
+
         case "nosequipes":
-          afficherPage("nosequipes.html");
-          break;
+
+            afficherPage(
+                "nosequipes.html"
+            );
+
+            break;
+
+
         case "page2":
-          afficherMessage("PAGE 2");
-          break;
+
+            afficherMessage(
+                "PAGE 2"
+            );
+
+            break;
+
+
         case "message":
-          afficherMessagePersonnalise();
-          // Afficher les logos SI la case est cochée
-          if (currentMessageData && currentMessageData.afficherDefilementLogos) {
-            partnersScrollContainer.style.display = "block";
-          }
-          break;
+
+            afficherMessagePersonnalise();
+
+
+            /*
+               Afficher le carrousel
+               uniquement si activé
+            */
+
+            if (
+
+                currentMessageData &&
+
+                currentMessageData
+                    .afficherDefilementLogos
+
+            ) {
+
+                partnersScrollContainer.style.display =
+                    "block";
+
+
+                demarrerCarrouselPartenaires();
+
+            }
+
+            break;
+
+
         case "black":
-          document.body.style.background = "#000";
-          break;
-      }
+
+            document.body.style.background =
+                "#000";
+
+            break;
+
     }
 
-    // ==================================================
-    // FONCTIONS D'AFFICHAGE
-    // ==================================================
-    function afficherVideo(source) {
-      document.body.style.background = "#000";
-      video.style.display = "block";
-      video.classList.remove("fade");
-      void video.offsetWidth;
-      video.classList.add("fade");
-      video.src = source;
-      video.currentTime = 0;
-      video.play().catch(e => console.error("Erreur vidéo:", e));
-    }
+}
 
-    function afficherPage(page) {
-      document.body.style.background = "#000";
-      pageFrame.style.display = "block";
-      pageFrame.classList.remove("fade");
-      void pageFrame.offsetWidth;
-      pageFrame.classList.add("fade");
-      pageFrame.src = page;
-    }
 
-    function afficherMessage(text) {
-      document.body.style.background = "#000";
-      message.textContent = text;
-      message.style.display = "flex";
-      message.classList.remove("fade");
-      void message.offsetWidth;
-      message.classList.add("fade");
-    }
+/* =====================================================
+   AFFICHER VIDÉO
+===================================================== */
 
-    // ==================================================
-    // AFFICHER UN MESSAGE PERSONNALISÉ AVEC ANIMATIONS
-    // ==================================================
-    function afficherMessagePersonnalise() {
-      document.body.style.background = "#000";
+function afficherVideo(source) {
 
-      // Créer le contenu du message avec animations
-      let htmlContent = `
+    document.body.style.background =
+        "#000";
+
+
+    video.style.display =
+        "block";
+
+
+    video.classList.remove(
+        "fade"
+    );
+
+
+    void video.offsetWidth;
+
+
+    video.classList.add(
+        "fade"
+    );
+
+
+    video.src =
+        source;
+
+
+    video.currentTime =
+        0;
+
+
+    video.play().catch(
+
+        e =>
+            console.error(
+                "Erreur vidéo:",
+                e
+            )
+
+    );
+
+}
+
+
+/* =====================================================
+   AFFICHER PAGE
+===================================================== */
+
+function afficherPage(page) {
+
+    document.body.style.background =
+        "#000";
+
+
+    pageFrame.style.display =
+        "block";
+
+
+    pageFrame.classList.remove(
+        "fade"
+    );
+
+
+    void pageFrame.offsetWidth;
+
+
+    pageFrame.classList.add(
+        "fade"
+    );
+
+
+    pageFrame.src =
+        page;
+
+}
+
+
+/* =====================================================
+   AFFICHER MESSAGE SIMPLE
+===================================================== */
+
+function afficherMessage(text) {
+
+    document.body.style.background =
+        "#000";
+
+
+    message.textContent =
+        text;
+
+
+    message.style.display =
+        "flex";
+
+
+    message.classList.remove(
+        "fade"
+    );
+
+
+    void message.offsetWidth;
+
+
+    message.classList.add(
+        "fade"
+    );
+
+}
+
+
+/* =====================================================
+   MESSAGE PERSONNALISÉ
+===================================================== */
+
+function afficherMessagePersonnalise() {
+
+    document.body.style.background =
+        "#000";
+
+
+    let htmlContent = `
+
         <div style="
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          width: 100%;
-          height: 100%;
-          padding: 20px;
-          box-sizing: border-box;
-          position: relative;
-        ">
-          <div class="message-glow" style="
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            background: radial-gradient(circle, ${currentMessageData ? currentMessageData.couleur : '#ffffff'}20, transparent 70%);
-            filter: blur(50px);
-            z-index: -1;
-            animation: pulseGlow 3s ease-in-out infinite alternate;
-          "></div>
-          <div class="message-box" style="
-            background-color: ${currentMessageData ? currentMessageData.fond : '#1e1e1e'};
-            max-width: 80%;
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            margin-bottom: 100px;
-            animation: slideUp 1s ease-out, fadeIn 1.5s ease-in-out;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            width: 100%;
+
+            height: 100%;
+
+            padding: 20px;
+
+            box-sizing: border-box;
+
             position: relative;
-            overflow: hidden;
-          ">
-            <div class="message-box::before" style="
-              content: '';
-              position: absolute;
-              top: 0;
-              left: 0;
-              width: 100%;
-              height: 5px;
-              background: linear-gradient(90deg, transparent, ${currentMessageData ? currentMessageData.couleur : '#ffffff'}, transparent);
-              animation: shine 2s infinite alternate;
-            "></div>
-            <h2 class="message-title" style="
-              font-size: 2.5em;
-              margin-bottom: 20px;
-              color: ${currentMessageData ? currentMessageData.couleur : '#ffffff'};
-              font-weight: bold;
-              opacity: 0;
-              white-space: nowrap;
-              overflow: hidden;
-              border-right: 3px solid ${currentMessageData ? currentMessageData.couleur : '#ffffff'};
-              animation: typing 0.5s ease-out 1s forwards, fadeInText 1s ease-out 1s forwards;
-            ">${currentMessageData ? currentMessageData.titre || "Message" : "Message"}</h2>
-            <p class="message-content" style="
-              font-size: 1.5em;
-              line-height: 1.8;
-              color: ${currentMessageData ? currentMessageData.couleur : '#ffffff'};
-              opacity: 0;
-              animation: fadeInText 1s ease-out 1.5s forwards;
-            ">${currentMessageData ? currentMessageData.contenu || "Aucun contenu" : "Bienvenue"}</p>
-          </div>
+
+        ">
+
+
+            <div
+                class="message-glow"
+                style="
+
+                    position: absolute;
+
+                    width: 300px;
+                    height: 300px;
+
+                    border-radius: 50%;
+
+                    background:
+
+                        radial-gradient(
+
+                            circle,
+
+                            ${
+                                currentMessageData
+                                    ? currentMessageData.couleur
+                                    : "#ffffff"
+                            }20,
+
+                            transparent 70%
+
+                        );
+
+                    filter: blur(50px);
+
+                    z-index: -1;
+
+                    animation:
+
+                        pulseGlow
+                        3s
+                        ease-in-out
+                        infinite
+                        alternate;
+
+                "
+            ></div>
+
+
+            <div
+                class="message-box"
+                style="
+
+                    background-color:
+
+                        ${
+                            currentMessageData
+                                ? currentMessageData.fond
+                                : "#1e1e1e"
+                        };
+
+                    max-width: 80%;
+
+                    padding: 40px;
+
+                    border-radius: 20px;
+
+                    text-align: center;
+
+                    box-shadow:
+                        0 10px 30px
+                        rgba(0,0,0,0.5);
+
+                    margin-bottom: 100px;
+
+                    animation:
+                        slideUp
+                        1s
+                        ease-out,
+                        fadeIn
+                        1.5s
+                        ease-in-out;
+
+                    position: relative;
+
+                    overflow: hidden;
+
+                "
+            >
+
+
+                <div
+                    style="
+
+                        position: absolute;
+
+                        top: 0;
+                        left: 0;
+
+                        width: 100%;
+
+                        height: 5px;
+
+                        background:
+
+                            linear-gradient(
+
+                                90deg,
+
+                                transparent,
+
+                                ${
+                                    currentMessageData
+                                        ? currentMessageData.couleur
+                                        : "#ffffff"
+                                },
+
+                                transparent
+
+                            );
+
+                        animation:
+
+                            shine
+                            2s
+                            infinite
+                            alternate;
+
+                    "
+                ></div>
+
+
+                <h2
+                    class="message-title"
+                    style="
+
+                        font-size: 2.5em;
+
+                        margin-bottom: 20px;
+
+                        color:
+
+                            ${
+                                currentMessageData
+                                    ? currentMessageData.couleur
+                                    : "#ffffff"
+                            };
+
+                        font-weight: bold;
+
+                        opacity: 0;
+
+                        white-space: nowrap;
+
+                        overflow: hidden;
+
+                        border-right:
+
+                            3px solid
+                            ${
+                                currentMessageData
+                                    ? currentMessageData.couleur
+                                    : "#ffffff"
+                            };
+
+                        animation:
+
+                            typing
+                            0.5s
+                            ease-out
+                            1s
+                            forwards,
+
+                            fadeInText
+                            1s
+                            ease-out
+                            1s
+                            forwards;
+
+                    "
+                >
+                    ${
+                        currentMessageData
+                            ? currentMessageData.titre ||
+                              "Message"
+                            : "Message"
+                    }
+                </h2>
+
+
+                <p
+                    class="message-content"
+                    style="
+
+                        font-size: 1.5em;
+
+                        line-height: 1.8;
+
+                        color:
+
+                            ${
+                                currentMessageData
+                                    ? currentMessageData.couleur
+                                    : "#ffffff"
+                            };
+
+                        opacity: 0;
+
+                        animation:
+
+                            fadeInText
+                            1s
+                            ease-out
+                            1.5s
+                            forwards;
+
+                    "
+                >
+                    ${
+                        currentMessageData
+                            ? currentMessageData.contenu ||
+                              "Aucun contenu"
+                            : "Bienvenue"
+                    }
+                </p>
+
+
+            </div>
+
         </div>
-      `;
 
-      message.innerHTML = htmlContent;
-      message.style.display = "flex";
+    `;
+
+
+    message.innerHTML =
+        htmlContent;
+
+
+    message.style.display =
+        "flex";
+
+}
+
+
+/* =====================================================
+   DIAPORAMA
+===================================================== */
+
+let slideTimer =
+    null;
+
+
+let currentSlide =
+    0;
+
+
+const slides = [
+
+    "photos/photo1.jpg",
+    "photos/photo2.jpg",
+    "photos/photo3.jpg"
+
+];
+
+
+function lancerDiaporama() {
+
+    document.body.style.background =
+        "#000";
+
+
+    slideshow.style.display =
+        "block";
+
+
+    currentSlide =
+        0;
+
+
+    afficherSlide();
+
+
+    slideTimer =
+
+        setInterval(
+
+            () => {
+
+                currentSlide =
+
+                    (
+                        currentSlide +
+                        1
+                    ) %
+                    slides.length;
+
+
+                afficherSlide();
+
+            },
+
+            5000
+
+        );
+
+}
+
+
+function afficherSlide() {
+
+    slideImage.classList.remove(
+        "fade"
+    );
+
+
+    void slideImage.offsetWidth;
+
+
+    slideImage.classList.add(
+        "fade"
+    );
+
+
+    slideImage.src =
+        slides[currentSlide];
+
+}
+
+
+function arreterDiaporama() {
+
+    if (slideTimer) {
+
+        clearInterval(
+            slideTimer
+        );
+
+        slideTimer =
+            null;
+
     }
 
-    // ==================================================
-    // DIAPORAMA
-    // ==================================================
-    let slideTimer = null;
-    let currentSlide = 0;
-    const slides = ["photos/photo1.jpg", "photos/photo2.jpg", "photos/photo3.jpg"];
+}
 
-    function lancerDiaporama() {
-      document.body.style.background = "#000";
-      slideshow.style.display = "block";
-      currentSlide = 0;
-      afficherSlide();
-      slideTimer = setInterval(() => {
-        currentSlide = (currentSlide + 1) % slides.length;
-        afficherSlide();
-      }, 5000);
-    }
 
-    function afficherSlide() {
-      slideImage.classList.remove("fade");
-      void slideImage.offsetWidth;
-      slideImage.classList.add("fade");
-      slideImage.src = slides[currentSlide];
-    }
+</script>
 
-    function arreterDiaporama() {
-      if (slideTimer) {
-        clearInterval(slideTimer);
-        slideTimer = null;
-      }
-    }
-  </script>
 </body>
+
 </html>
