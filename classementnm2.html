@@ -26,7 +26,7 @@
         #000 100%
       );
     height: 100vh;
-    padding: 20px;
+    padding: 10px;
     margin: 0;
     color: #fff;
     overflow: hidden;
@@ -70,14 +70,13 @@
     position: relative;
     text-align: center;
     color: #ffffff;
-    font-size: clamp(18px, 3vw, 24px);
+    font-size: clamp(16px, 2.5vw, 20px);
     font-weight: 900;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     text-shadow:
-      0 0 10px #ffffff,
-      0 0 20px #ffcc00,
-      0 0 30px rgba(255, 204, 0, 0.7);
-    margin-bottom: 15px;
+      0 0 8px #ffffff,
+      0 0 15px #ffcc00;
+    margin-bottom: 8px;
     z-index: 10;
     flex-shrink: 0;
   }
@@ -85,28 +84,26 @@
   .custom-section h2::after {
     content: "";
     display: block;
-    width: 150px;
-    height: 3px;
-    margin: 10px auto 0;
+    width: 120px;
+    height: 2px;
+    margin: 6px auto 0;
     background: #ffcc00;
-    border-radius: 5px;
-    box-shadow:
-      0 0 10px #ffcc00,
-      0 0 20px rgba(255, 204, 0, 0.7);
+    border-radius: 3px;
+    box-shadow: 0 0 8px #ffcc00;
   }
 
   /* =====================================================
-     TABLES WRAPPER (2 colonnes, hauteur dynamique)
+     TABLES WRAPPER
   ===================================================== */
   .custom-section .tables-wrapper {
     display: flex;
-    gap: 20px;
+    gap: 10px;
     flex-wrap: nowrap;
     justify-content: center;
     align-items: flex-start;
     flex: 1;
     min-height: 0;
-    padding-bottom: 60px; /* Espace pour la barre lumineuse */
+    padding-bottom: 40px;
     box-sizing: border-box;
   }
 
@@ -115,101 +112,92 @@
     min-width: 300px;
     max-width: 600px;
     background: rgba(10, 10, 10, 0.7);
-    border-radius: 12px;
-    padding: 15px;
+    border-radius: 8px;
+    padding: 8px;
     border: 1px solid rgba(255, 204, 0, 0.2);
-    box-shadow:
-      0 0 15px rgba(255, 204, 0, 0.1),
-      inset 0 0 15px rgba(255, 204, 0, 0.05);
-    overflow-y: auto; /* Défilement interne si nécessaire */
-    max-height: 100%; /* Hauteur maximale = hauteur du parent */
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.1);
+    overflow: hidden;
   }
 
   /* =====================================================
-     TABLE ROWS (avec animations)
+     TABLE ROWS (espacements réduits)
   ===================================================== */
   .custom-section .table-row {
     display: grid;
     background: rgba(20, 20, 20, 0.8);
-    border-radius: 8px;
-    padding: 10px;
+    border-radius: 4px;
+    padding: 4px;
     align-items: center;
-    margin-bottom: 8px;
-    transition: all 0.3s ease;
-    font-size: clamp(12px, 1.8vw, 14px);
+    margin-bottom: 2px;
+    transition: all 0.2s ease;
+    font-size: clamp(11px, 1.5vw, 13px);
     border: 1px solid rgba(255, 204, 0, 0.1);
     opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.6s ease forwards;
+    transform: translateY(10px);
+    animation: fadeInUp 0.5s ease forwards;
   }
 
   @keyframes fadeInUp {
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Animation séquentielle */
-  .custom-section .table-row:nth-child(1) { animation-delay: 0.1s; }
-  .custom-section .table-row:nth-child(2) { animation-delay: 0.2s; }
-  .custom-section .table-row:nth-child(3) { animation-delay: 0.3s; }
-  .custom-section .table-row:nth-child(4) { animation-delay: 0.4s; }
-  .custom-section .table-row:nth-child(5) { animation-delay: 0.5s; }
-  .custom-section .table-row:nth-child(6) { animation-delay: 0.6s; }
-  .custom-section .table-row:nth-child(7) { animation-delay: 0.7s; }
-  .custom-section .table-row:nth-child(8) { animation-delay: 0.8s; }
-  .custom-section .table-row:nth-child(9) { animation-delay: 0.9s; }
-  .custom-section .table-row:nth-child(10) { animation-delay: 1.0s; }
+  /* Animation séquentielle accélérée */
+  .custom-section .table-row:nth-child(1) { animation-delay: 0.05s; }
+  .custom-section .table-row:nth-child(2) { animation-delay: 0.1s; }
+  .custom-section .table-row:nth-child(3) { animation-delay: 0.15s; }
+  .custom-section .table-row:nth-child(4) { animation-delay: 0.2s; }
+  .custom-section .table-row:nth-child(5) { animation-delay: 0.25s; }
+  .custom-section .table-row:nth-child(6) { animation-delay: 0.3s; }
+  .custom-section .table-row:nth-child(7) { animation-delay: 0.35s; }
+  .custom-section .table-row:nth-child(8) { animation-delay: 0.4s; }
+  .custom-section .table-row:nth-child(9) { animation-delay: 0.45s; }
+  .custom-section .table-row:nth-child(10) { animation-delay: 0.5s; }
 
   .custom-section .table-row:hover {
     background: rgba(30, 30, 40, 0.9);
     border-color: rgba(255, 204, 0, 0.4);
-    box-shadow:
-      0 0 15px rgba(255, 204, 0, 0.3),
-      0 0 25px rgba(255, 204, 0, 0.1);
-    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.2);
   }
 
   .custom-section .table-header {
     background: linear-gradient(145deg, #1a1a1a, #2a2a2a) !important;
     color: #ffcc00 !important;
     font-weight: bold;
-    border-radius: 8px 8px 0 0;
-    border-bottom: 2px solid #ffcc00;
-    box-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
+    border-radius: 4px 4px 0 0;
+    border-bottom: 1px solid #ffcc00;
+    box-shadow: 0 0 5px rgba(255, 204, 0, 0.2);
     animation: none;
     opacity: 1;
     transform: none;
     position: sticky;
     top: 0;
     z-index: 20;
+    margin-bottom: 2px;
   }
 
   .custom-section .highlight-yellow {
-    background: linear-gradient(145deg, rgba(255, 204, 0, 0.3), rgba(255, 204, 0, 0.1)) !important;
-    border-left: 3px solid #ffcc00;
+    background: linear-gradient(145deg, rgba(255, 204, 0, 0.2), rgba(255, 204, 0, 0.1)) !important;
+    border-left: 2px solid #ffcc00;
     color: #ffffff !important;
   }
 
   .custom-section .table-row > div {
-    padding: 8px;
+    padding: 4px 2px;
     text-align: center;
     word-break: break-word;
     color: #e0e0e0;
+    font-size: 0.9em;
   }
 
   .custom-section .table2 {
     --col-a: 1fr;
     --col-b: 1fr;
-    --col-c: 0.8fr;
-    --col-d: 0.8fr;
-    --col-e: 0.8fr;
-    --col-f: 0.8fr;
-    --col-g: 0.8fr;
-    --col-h: 0.8fr;
-  }
-
-  .custom-section .table-row:hover > div {
-    color: #ffcc00;
-    text-shadow: 0 0 5px rgba(255, 204, 0, 0.7);
+    --col-c: 0.7fr;
+    --col-d: 0.7fr;
+    --col-e: 0.7fr;
+    --col-f: 0.7fr;
+    --col-g: 0.7fr;
+    --col-h: 0.7fr;
   }
 
   /* =====================================================
@@ -222,24 +210,26 @@
     }
     .custom-section .table-container {
       flex: 1;
-      max-height: 50%; /* Chaque tableau prend 50% de la hauteur */
+      margin-bottom: 10px;
     }
     .custom-section .table-row {
-      font-size: clamp(11px, 2.2vw, 13px);
-      padding: 6px;
+      font-size: clamp(10px, 1.8vw, 12px);
+      padding: 3px;
+      margin-bottom: 1px;
     }
     .custom-section .table-row > div {
-      padding: 4px;
+      padding: 2px 1px;
+      font-size: 0.85em;
     }
     .custom-section h2 {
-      font-size: clamp(16px, 4vw, 20px);
+      font-size: clamp(14px, 3vw, 18px);
     }
   }
 </style>
 
 <div class="tables-wrapper">
   <div class="table-container">
-    <h2>📅 PROGRAMME DES MATCHS</h2>
+    <h2>📅 PROGRAMME</h2>
     <div id="json1"></div>
   </div>
   <div class="table-container">
@@ -248,7 +238,7 @@
   </div>
 </div>
 
-<!-- Barre lumineuse en bas -->
+<!-- Barre lumineuse -->
 <div class="light-line"></div>
 
 <script>
@@ -307,7 +297,6 @@
   fetchSheetData('1966074571', 'json2', { extraClass: 'table2', fixedColumns: 8 });
 </script>
 
-<!-- Style pour la barre lumineuse -->
 <style>
   .light-line {
     position: fixed;
@@ -315,12 +304,11 @@
     bottom: 0;
     transform: translateX(-50%);
     width: 65%;
-    height: 3px;
+    height: 2px;
     background: #ffcc00;
     box-shadow:
-      0 0 10px #ffcc00,
-      0 0 25px #ffcc00,
-      0 0 50px rgba(255, 204, 0, 0.5);
+      0 0 8px #ffcc00,
+      0 0 20px rgba(255, 204, 0, 0.5);
     z-index: 90;
   }
 </style>
