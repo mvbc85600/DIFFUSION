@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Diffusion MVBC</title>
   <style>
-    /* =====================================================
-       RESET
-    ===================================================== */
-    * {
+    *
+    {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
@@ -22,72 +20,13 @@
       font-family: Arial, sans-serif;
     }
 
-    /* =====================================================
-       FOND
-    ===================================================== */
-    body {
-      position: relative;
-      background:
-        radial-gradient(
-          circle at center,
-          #252000 0%,
-          #100e00 35%,
-          #050500 65%,
-          #000 100%
-        );
-    }
-
-    /* =====================================================
-       HALO CENTRAL DU FOND
-    ===================================================== */
-    body::before {
-      content: "";
-      position: fixed;
-      width: 900px;
-      height: 900px;
-      left: 50%;
-      top: 52%;
-      transform: translate(-50%, -50%);
-      background:
-        radial-gradient(
-          circle,
-          rgba(255,204,0,0.20) 0%,
-          rgba(255,204,0,0.08) 25%,
-          rgba(255,204,0,0.02) 50%,
-          transparent 70%
-        );
-      pointer-events: none;
-      animation: halo 4s ease-in-out infinite;
-    }
-
-    @keyframes halo {
-      0% {
-        transform: translate(-50%, -50%) scale(0.90);
-        opacity: 0.65;
-      }
-      50% {
-        transform: translate(-50%, -50%) scale(1.10);
-        opacity: 1;
-      }
-      100% {
-        transform: translate(-50%, -50%) scale(0.90);
-        opacity: 0.65;
-      }
-    }
-
-    /* =====================================================
-       CONTENEUR PRINCIPAL
-    ===================================================== */
     #diffusion {
       position: relative;
       width: 100%;
       height: 100%;
-      z-index: 10;
     }
 
-    /* =====================================================
-       VIDÉO
-    ===================================================== */
+    /* VIDÉO */
     #video {
       position: absolute;
       top: 0;
@@ -97,12 +36,10 @@
       object-fit: contain;
       background: #000;
       display: none;
-      z-index: 20;
+      z-index: 10;
     }
 
-    /* =====================================================
-       DIAPORAMA
-    ===================================================== */
+    /* DIAPORAMA */
     #slideshow {
       position: absolute;
       top: 0;
@@ -121,28 +58,24 @@
       display: block;
     }
 
-    /* =====================================================
-       MESSAGE
-    ===================================================== */
+    /* MESSAGE */
     #message {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      height: 100%;
+      height: calc(100% - 120px);
       display: none;
       align-items: center;
       justify-content: center;
-      background: rgba(0, 0, 0, 0.8);
+      background: #000;
       color: #fff;
       z-index: 30;
-      padding: 40px;
+      padding: 70px;
       box-sizing: border-box;
     }
 
-    /* =====================================================
-       PAGES HTML
-    ===================================================== */
+    /* PAGES */
     #pageFrame {
       position: absolute;
       top: 0;
@@ -155,188 +88,44 @@
       z-index: 40;
     }
 
-    /* =====================================================
-       CARROUSEL DES PARTENAIRES
-    ===================================================== */
-    #partners-carousel {
-      position: absolute;
-      top: 0;
+    /* DÉFILEMENT DES LOGOS DES PARTENAIRES */
+    #partners-scroll-container {
+      position: fixed;
+      bottom: 0;
       left: 0;
       width: 100%;
-      height: 100%;
-      display: none;
+      height: 150px;
+      background-color: rgba(0, 0, 0, 0.8);
+      overflow: hidden;
       z-index: 50;
-      perspective: 1800px;
-      perspective-origin: center center;
-    }
-
-    #partners-carousel .carousel {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    /* =====================================================
-       STYLE DES LOGOS (MEME QUE PARTENAIRES.HTML)
-    ===================================================== */
-    #partners-carousel img {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform-origin: center center;
-      width: auto;
-      height: auto;
-      max-width: 740px;
-      max-height: 550px;
-      padding: 22px;
-      object-fit: contain;
-      background:
-        linear-gradient(
-          145deg,
-          rgba(30,30,30,0.98),
-          rgba(5,5,5,0.98)
-        );
-      border: 4px solid;
-      border-radius: 24px;
-      transition:
-        transform 0.9s cubic-bezier(.22,.61,.36,1),
-        opacity 0.9s ease,
-        filter 0.9s ease,
-        box-shadow 0.9s ease,
-        border-color 0.9s ease;
-    }
-
-    /* COULEURS DES BORDURES */
-    .color-yellow { border-color: #ffcc00 !important; }
-    .color-red { border-color: #ff2020 !important; }
-    .color-blue { border-color: #168cff !important; }
-
-    /* POSITIONS DES LOGOS */
-    .center {
-      transform:
-        translate(-50%, -50%)
-        translateZ(300px)
-        scale(1.10);
-      z-index: 20;
-      opacity: 1;
-      filter:
-        brightness(1.15)
-        contrast(1.08);
-    }
-
-    .left1 {
-      transform:
-        translate(-50%, -50%)
-        translateX(-540px)
-        translateZ(40px)
-        scale(0.62);
-      z-index: 12;
-      opacity: 0.75;
-      filter:
-        brightness(0.75)
-        contrast(0.95);
-    }
-
-    .left2 {
-      transform:
-        translate(-50%, -50%)
-        translateX(-860px)
-        translateZ(-250px)
-        scale(0.41);
-      z-index: 8;
-      opacity: 0.38;
-      filter:
-        brightness(0.55)
-        blur(0.3px);
-    }
-
-    .right1 {
-      transform:
-        translate(-50%, -50%)
-        translateX(540px)
-        translateZ(40px)
-        scale(0.62);
-      z-index: 12;
-      opacity: 0.75;
-      filter:
-        brightness(0.75)
-        contrast(0.95);
-    }
-
-    .right2 {
-      transform:
-        translate(-50%, -50%)
-        translateX(860px)
-        translateZ(-250px)
-        scale(0.41);
-      z-index: 8;
-      opacity: 0.38;
-      filter:
-        brightness(0.55)
-        blur(0.3px);
-    }
-
-    .hidden {
-      transform:
-        translate(-50%, -50%)
-        translateZ(-700px)
-        scale(0.15);
-      opacity: 0;
-      filter: blur(5px);
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    /* EFFETS DE LUMIÈRE POUR LES LOGOS CENTRAUX */
-    .center.color-yellow {
-      box-shadow:
-        0 0 20px #ffcc00,
-        0 0 45px #ffcc00,
-        0 0 90px rgba(255,204,0,0.85),
-        0 0 140px rgba(255,204,0,0.35);
-    }
-
-    .center.color-red {
-      box-shadow:
-        0 0 20px #ff2020,
-        0 0 45px #ff2020,
-        0 0 90px rgba(255,32,32,0.85),
-        0 0 140px rgba(255,32,32,0.35);
-    }
-
-    .center.color-blue {
-      box-shadow:
-        0 0 20px #168cff,
-        0 0 45px #168cff,
-        0 0 90px rgba(22,140,255,0.85),
-        0 0 140px rgba(22,140,255,0.35);
-    }
-
-    /* =====================================================
-       BARRE LUMINEUSE (MEME QUE PARTENAIRES.HTML)
-    ===================================================== */
-    .light-line {
-      position: fixed;
-      left: 50%;
-      bottom: 0;
-      transform: translateX(-50%);
-      width: 65%;
-      height: 3px;
-      background: #ffcc00;
-      box-shadow:
-        0 0 10px #ffcc00,
-        0 0 25px #ffcc00,
-        0 0 50px #ffcc00;
-      z-index: 90;
       display: none;
     }
 
-    /* =====================================================
-       TRANSITIONS
-    ===================================================== */
+    #partners-scroll {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      animation: scroll 20s linear infinite;
+    }
+
+    #partners-scroll img {
+      height: 120px;
+      margin: 0 50px;
+      opacity: 0.9;
+      transition: all 0.3s ease;
+    }
+
+    #partners-scroll img:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* TRANSITION */
     .fade {
       animation: fadeIn 0.5s ease-in-out;
     }
@@ -346,9 +135,7 @@
       to { opacity: 1; }
     }
 
-    /* =====================================================
-       ANIMATIONS POUR LE MESSAGE
-    ===================================================== */
+    /* ANIMATIONS POUR LE MESSAGE */
     @keyframes typing {
       from { width: 0; }
       to { width: 100%; }
@@ -373,108 +160,6 @@
       from { opacity: 0.5; transform: scaleX(0.8); }
       to { opacity: 1; transform: scaleX(1.2); }
     }
-
-    /* =====================================================
-       RESPONSIVE
-    ===================================================== */
-    @media (max-width: 1600px) {
-      #partners-carousel img {
-        max-width: 680px;
-        max-height: 510px;
-      }
-      .center {
-        transform:
-          translate(-50%, -50%)
-          translateZ(250px)
-          scale(1.02);
-      }
-      .left1 {
-        transform:
-          translate(-50%, -50%)
-          translateX(-450px)
-          translateZ(30px)
-          scale(0.55);
-      }
-      .right1 {
-        transform:
-          translate(-50%, -50%)
-          translateX(450px)
-          translateZ(30px)
-          scale(0.55);
-      }
-      .left2 {
-        transform:
-          translate(-50%, -50%)
-          translateX(-700px)
-          translateZ(-200px)
-          scale(0.36);
-      }
-      .right2 {
-        transform:
-          translate(-50%, -50%)
-          translateX(700px)
-          translateZ(-200px)
-          scale(0.36);
-      }
-    }
-
-    @media (max-width: 1200px) {
-      #partners-carousel img {
-        max-width: 570px;
-        max-height: 430px;
-      }
-      .center {
-        transform:
-          translate(-50%, -50%)
-          translateZ(180px)
-          scale(0.98);
-      }
-      .left1 {
-        transform:
-          translate(-50%, -50%)
-          translateX(-330px)
-          translateZ(20px)
-          scale(0.48);
-      }
-      .right1 {
-        transform:
-          translate(-50%, -50%)
-          translateX(330px)
-          translateZ(20px)
-          scale(0.48);
-      }
-      .left2, .right2 {
-        opacity: 0;
-      }
-    }
-
-    @media (max-width: 700px) {
-      #partners-carousel img {
-        max-width: 85vw;
-        max-height: 400px;
-        padding: 15px;
-      }
-      .center {
-        transform:
-          translate(-50%, -50%)
-          scale(0.92);
-      }
-      .left1 {
-        transform:
-          translate(-50%, -50%)
-          translateX(-190px)
-          scale(0.40);
-      }
-      .right1 {
-        transform:
-          translate(-50%, -50%)
-          translateX(190px)
-          scale(0.40);
-      }
-      .left2, .right2 {
-        display: none;
-      }
-    }
   </style>
 </head>
 <body>
@@ -493,14 +178,11 @@
     <!-- PAGES HTML -->
     <iframe id="pageFrame" src="" allow="autoplay"></iframe>
 
-    <!-- CARROUSEL DES PARTENAIRES -->
-    <div id="partners-carousel">
-      <div class="carousel" id="carousel"></div>
+    <!-- DÉFILEMENT DES LOGOS -->
+    <div id="partners-scroll-container">
+      <div id="partners-scroll"></div>
     </div>
   </div>
-
-  <!-- BARRE LUMINEUSE -->
-  <div class="light-line" id="light-line"></div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -530,12 +212,11 @@
     const slideshow = document.getElementById("slideshow");
     const slideImage = document.getElementById("slideImage");
     const pageFrame = document.getElementById("pageFrame");
-    const partnersCarousel = document.getElementById("partners-carousel");
-    const carousel = document.getElementById("carousel");
-    const lightLine = document.getElementById("light-line");
+    const partnersScrollContainer = document.getElementById("partners-scroll-container");
+    const partnersScroll = document.getElementById("partners-scroll");
 
     // ==================================================
-    // LISTE DES LOGOS DES PARTENAIRES
+    // LISTE DES LOGOS DES PARTENAIRES (À ADAPTER)
     // ==================================================
     const partnerLogos = [
       "logo/7ENVIE DE PAIN.png",
@@ -610,76 +291,30 @@
     ];
 
     // ==================================================
-    // CHARGEMENT DES LOGOS DANS LE CARROUSEL
+    // CHARGEMENT DES LOGOS
     // ==================================================
     function chargerLogosPartenaires() {
-      carousel.innerHTML = "";
+      partnersScroll.innerHTML = "";
+      // Ajouter chaque logo deux fois pour un défilement infini
       partnerLogos.forEach(logo => {
         const img = document.createElement('img');
         img.src = logo;
         img.alt = "Partenaire";
         img.onerror = () => { img.style.display = 'none'; };
-        carousel.appendChild(img);
+        partnersScroll.appendChild(img);
+      });
+      // Dupliquer pour un défilement infini
+      partnerLogos.forEach(logo => {
+        const img = document.createElement('img');
+        img.src = logo;
+        img.alt = "Partenaire";
+        img.onerror = () => { img.style.display = 'none'; };
+        partnersScroll.appendChild(img);
       });
     }
 
     // Charger les logos au démarrage
     chargerLogosPartenaires();
-
-    // ==================================================
-    // CARROUSEL 3D (MEME QUE PARTENAIRES.HTML)
-    // ==================================================
-    let currentIndex = 0;
-    const colors = ["color-yellow", "color-red", "color-blue"];
-    const logos = document.querySelectorAll("#carousel img");
-    const totalLogos = logos.length;
-
-    function getColor(index) {
-      return colors[index % colors.length];
-    }
-
-    function updateCarousel() {
-      // Cacher tous les logos
-      logos.forEach(logo => {
-        logo.className = "hidden";
-      });
-
-      // Calculer les positions
-      const center = currentIndex % totalLogos;
-      const left1 = (currentIndex - 1 + totalLogos) % totalLogos;
-      const left2 = (currentIndex - 2 + totalLogos) % totalLogos;
-      const right1 = (currentIndex + 1) % totalLogos;
-      const right2 = (currentIndex + 2) % totalLogos;
-
-      // Appliquer les classes
-      logos[center].className = `center ${getColor(center)}`;
-      logos[left1].className = `left1 ${getColor(left1)}`;
-      logos[left2].className = `left2 ${getColor(left2)}`;
-      logos[right1].className = `right1 ${getColor(right1)}`;
-      logos[right2].className = `right2 ${getColor(right2)}`;
-
-      // Mettre à jour la barre lumineuse
-      const currentColor = getColor(currentIndex);
-      if (currentColor === "color-yellow") {
-        lightLine.style.background = "#ffcc00";
-        lightLine.style.boxShadow = "0 0 10px #ffcc00, 0 0 25px #ffcc00, 0 0 50px #ffcc00";
-      } else if (currentColor === "color-red") {
-        lightLine.style.background = "#ff2020";
-        lightLine.style.boxShadow = "0 0 10px #ff2020, 0 0 25px #ff2020, 0 0 50px #ff2020";
-      } else {
-        lightLine.style.background = "#168cff";
-        lightLine.style.boxShadow = "0 0 10px #168cff, 0 0 25px #168cff, 0 0 50px #168cff";
-      }
-    }
-
-    // Initialiser le carrousel
-    updateCarousel();
-
-    // Rotation automatique toutes les 2.5 secondes
-    setInterval(() => {
-      currentIndex = (currentIndex + 1) % totalLogos;
-      updateCarousel();
-    }, 2500);
 
     // ==================================================
     // RÉFÉRENCES FIREBASE
@@ -695,6 +330,11 @@
     onValue(messageRef, (snapshot) => {
       currentMessageData = snapshot.val();
       console.log("Message mis à jour:", currentMessageData);
+      // Mettre à jour l'affichage des logos SI on est sur la scène "message"
+      if (currentScene === "message") {
+        partnersScrollContainer.style.display =
+          (currentMessageData && currentMessageData.afficherDefilementLogos) ? "block" : "none";
+      }
     });
 
     onValue(diffusionRef, (snapshot) => {
@@ -715,8 +355,7 @@
       slideshow.style.display = "none";
       message.style.display = "none";
       pageFrame.style.display = "none";
-      partnersCarousel.style.display = "none";
-      lightLine.style.display = "none";
+      partnersScrollContainer.style.display = "none";
 
       // Arrêter le diaporama et la vidéo
       arreterDiaporama();
@@ -758,23 +397,15 @@
           break;
         case "message":
           afficherMessagePersonnalise();
+          // Afficher les logos SI la case est cochée
+          if (currentMessageData && currentMessageData.afficherDefilementLogos) {
+            partnersScrollContainer.style.display = "block";
+          }
           break;
         case "black":
           document.body.style.background = "#000";
           break;
-        case "carousel-partenaires":
-          afficherCarouselPartenaires();
-          break;
       }
-    }
-
-    // ==================================================
-    // FONCTION POUR AFFICHER LE CARROUSEL DES PARTENAIRES
-    // ==================================================
-    function afficherCarouselPartenaires() {
-      document.body.style.background = "transparent";
-      partnersCarousel.style.display = "block";
-      lightLine.style.display = "block";
     }
 
     // ==================================================
@@ -815,6 +446,7 @@
     function afficherMessagePersonnalise() {
       document.body.style.background = "#000";
 
+      // Créer le contenu du message avec animations
       let htmlContent = `
         <div style="
           display: flex;
