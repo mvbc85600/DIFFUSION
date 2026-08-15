@@ -1,669 +1,1610 @@
 <div class="custom-section">
+
 <style type="text/css">
-  /* =====================================================
-     RESET & FOND
-  ===================================================== */
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+
+/* =====================================================
+   RESET & FOND
+===================================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.custom-section {
+  position: relative;
+
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+
+  padding: 10px;
+  margin: 0;
+
+  color: #fff;
+
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  background:
+    radial-gradient(
+      circle at center,
+      #252000 0%,
+      #100e00 35%,
+      #050500 65%,
+      #000 100%
+    );
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  overflow: hidden;
+}
+
+
+/* =====================================================
+   HALO CENTRAL
+===================================================== */
+
+.custom-section::before {
+  content: "";
+
+  position: fixed;
+
+  width: 900px;
+  height: 900px;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 204, 0, 0.15) 0%,
+      rgba(255, 204, 0, 0.05) 25%,
+      transparent 50%
+    );
+
+  pointer-events: none;
+
+  animation: halo 6s ease-in-out infinite;
+
+  z-index: 0;
+}
+
+@keyframes halo {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.5;
   }
 
-  html, body {
-    height: 100%;
-    overflow: hidden;
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 0.8;
   }
 
-  .custom-section {
-    position: relative;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background:
-      radial-gradient(
-        circle at center,
-        #252000 0%,
-        #100e00 35%,
-        #050500 65%,
-        #000 100%
-      );
-    min-height: 100vh;
-    padding: 10px;
-    margin: 0;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  100% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.5;
   }
+}
 
-  /* =====================================================
-     HALO CENTRAL
-  ===================================================== */
-  .custom-section::before {
-    content: "";
-    position: fixed;
-    width: 900px;
-    height: 900px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background:
-      radial-gradient(
-        circle,
-        rgba(255, 204, 0, 0.15) 0%,
-        rgba(255, 204, 0, 0.05) 25%,
-        transparent 50%
-      );
-    pointer-events: none;
-    animation: halo 6s ease-in-out infinite;
-    z-index: -1;
-  }
 
-  @keyframes halo {
-    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
-    50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; }
-    100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
-  }
+/* =====================================================
+   TITRES
+===================================================== */
 
-  /* =====================================================
-     TITRES
-  ===================================================== */
-  .custom-section h2 {
-    position: relative;
-    text-align: center;
-    color: #ffffff;
-    font-size: clamp(16px, 2.5vw, 20px);
-    font-weight: 900;
-    letter-spacing: 2px;
-    text-shadow:
-      0 0 8px #ffffff,
-      0 0 15px #ffcc00;
-    margin-bottom: 8px;
-    z-index: 10;
-  }
+.custom-section h2 {
+  position: relative;
 
-  .custom-section h2::after {
-    content: "";
-    display: block;
-    width: 120px;
-    height: 2px;
-    margin: 6px auto 0;
-    background: #ffcc00;
-    border-radius: 3px;
-    box-shadow: 0 0 8px #ffcc00;
-  }
+  text-align: center;
 
-  /* =====================================================
-     CONTAINERS PRINCIPAUX
-  ===================================================== */
-  .main-content {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 1400px;
-    gap: 20px;
-    align-items: center;
-    flex: 1;
-  }
+  color: #ffffff;
 
-  .tables-and-partners {
-    display: flex;
-    width: 100%;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+  font-size: clamp(16px, 2.5vw, 20px);
 
-  .table-container {
-    flex: 1;
-    min-width: 300px;
-    max-width: 600px;
-    background: rgba(10, 10, 10, 0.85);
-    border-radius: 8px;
-    padding: 8px;
-    border: 1px solid rgba(255, 204, 0, 0.2);
-    box-shadow: 0 0 10px rgba(255, 204, 0, 0.1);
+  font-weight: 900;
+
+  letter-spacing: 2px;
+
+  text-shadow:
+    0 0 8px #ffffff,
+    0 0 15px #ffcc00;
+
+  margin-bottom: 8px;
+
+  z-index: 10;
+}
+
+.custom-section h2::after {
+  content: "";
+
+  display: block;
+
+  width: 120px;
+  height: 2px;
+
+  margin: 6px auto 0;
+
+  background: #ffcc00;
+
+  border-radius: 3px;
+
+  box-shadow: 0 0 8px #ffcc00;
+}
+
+
+/* =====================================================
+   CONTENEUR PRINCIPAL
+===================================================== */
+
+.main-content {
+  position: relative;
+
+  width: 100%;
+  max-width: 1400px;
+
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+
+  align-items: center;
+
+  flex: 1;
+
+  min-height: 0;
+
+  z-index: 2;
+}
+
+
+/* =====================================================
+   ZONE DES DEUX TABLEAUX
+   =========================
+
+   Cette zone occupe la moitié haute
+   de l'écran.
+===================================================== */
+
+.tables-and-partners {
+  width: 100%;
+
+  height: 50vh;
+  min-height: 0;
+
+  display: flex;
+
+  gap: 20px;
+
+  justify-content: center;
+
+  align-items: stretch;
+
+  flex: 0 0 50vh;
+}
+
+
+/* =====================================================
+   CONTENEUR DES TABLEAUX
+===================================================== */
+
+.table-container {
+  flex: 1;
+
+  width: 50%;
+
+  min-width: 300px;
+
+  max-width: 600px;
+
+  height: 100%;
+
+  min-height: 0;
+
+  background: rgba(10, 10, 10, 0.85);
+
+  border-radius: 8px;
+
+  padding: 8px;
+
+  border: 1px solid rgba(255, 204, 0, 0.2);
+
+  box-shadow:
+    0 0 10px rgba(255, 204, 0, 0.1);
+
+  overflow-y: auto;
+
+  overflow-x: hidden;
+
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    rgba(255, 204, 0, 0.7)
+    rgba(20, 20, 20, 0.5);
+}
+
+
+/* =====================================================
+   SCROLLBAR TABLEAUX
+===================================================== */
+
+.table-container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: rgba(20, 20, 20, 0.5);
+
+  border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 204, 0, 0.7);
+
+  border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #ffcc00;
+}
+
+
+/* =====================================================
+   TABLE ROWS
+===================================================== */
+
+.table-row {
+  display: grid;
+
+  background: rgba(20, 20, 20, 0.8);
+
+  border-radius: 4px;
+
+  padding: 4px;
+
+  align-items: center;
+
+  margin-bottom: 2px;
+
+  transition: all 0.2s ease;
+
+  font-size: clamp(11px, 1.5vw, 13px);
+
+  border: 1px solid rgba(255, 204, 0, 0.1);
+
+  opacity: 0;
+
+  transform: translateY(10px);
+
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
+}
+
+.table-row:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.table-row:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.table-row:nth-child(3) {
+  animation-delay: 0.15s;
+}
+
+.table-row:nth-child(4) {
+  animation-delay: 0.2s;
+}
+
+.table-row:nth-child(5) {
+  animation-delay: 0.25s;
+}
+
+.table-row:nth-child(6) {
+  animation-delay: 0.3s;
+}
+
+.table-row:nth-child(7) {
+  animation-delay: 0.35s;
+}
+
+.table-row:nth-child(8) {
+  animation-delay: 0.4s;
+}
+
+.table-row:nth-child(9) {
+  animation-delay: 0.45s;
+}
+
+.table-row:nth-child(10) {
+  animation-delay: 0.5s;
+}
+
+
+/* =====================================================
+   HOVER LIGNES
+===================================================== */
+
+.table-row:hover {
+  background: rgba(30, 30, 40, 0.9);
+
+  border-color: rgba(255, 204, 0, 0.4);
+
+  box-shadow:
+    0 0 10px rgba(255, 204, 0, 0.2);
+}
+
+
+/* =====================================================
+   HEADER TABLEAU
+===================================================== */
+
+.table-header {
+  background:
+    linear-gradient(
+      145deg,
+      #1a1a1a,
+      #2a2a2a
+    ) !important;
+
+  color: #ffcc00 !important;
+
+  font-weight: bold;
+
+  border-radius: 4px 4px 0 0;
+
+  border-bottom: 1px solid #ffcc00;
+
+  box-shadow:
+    0 0 5px rgba(255, 204, 0, 0.2);
+
+  animation: none;
+
+  opacity: 1;
+
+  transform: none;
+
+  position: sticky;
+
+  top: 0;
+
+  z-index: 20;
+
+  margin-bottom: 2px;
+}
+
+
+/* =====================================================
+   PREMIÈRE LIGNE EN JAUNE
+===================================================== */
+
+.highlight-yellow {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 204, 0, 0.2),
+      rgba(255, 204, 0, 0.1)
+    ) !important;
+
+  border-left: 2px solid #ffcc00;
+
+  color: #ffffff !important;
+}
+
+
+/* =====================================================
+   CELLULES
+===================================================== */
+
+.table-row > div {
+  padding: 4px 2px;
+
+  text-align: center;
+
+  word-break: break-word;
+
+  color: #e0e0e0;
+
+  font-size: 0.9em;
+}
+
+
+/* =====================================================
+   TABLEAU CLASSEMENT
+===================================================== */
+
+.table2 {
+  --col-a: 1fr;
+  --col-b: 1fr;
+  --col-c: 0.7fr;
+  --col-d: 0.7fr;
+  --col-e: 0.7fr;
+  --col-f: 0.7fr;
+  --col-g: 0.7fr;
+  --col-h: 0.7fr;
+}
+
+
+/* =====================================================
+   ZONE PARTENAIRES
+   =========================
+
+   Cette zone occupe la moitié basse
+   de l'écran.
+===================================================== */
+
+.partners-section {
+  position: relative;
+
+  width: 100%;
+
+  max-width: 1000px;
+
+  height: calc(50vh - 18px);
+
+  min-height: 250px;
+
+  margin: 0;
+
+  flex: 1;
+
+  min-height: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: center;
+
+  perspective: 1800px;
+
+  perspective-origin: center center;
+
+  overflow: visible;
+}
+
+
+/* =====================================================
+   CARROUSEL PARTENAIRES
+===================================================== */
+
+.partners-carousel {
+  position: relative;
+
+  width: 100%;
+
+  height: 100%;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  perspective: 1800px;
+
+  perspective-origin: center center;
+}
+
+
+/* =====================================================
+   LOGOS
+===================================================== */
+
+.partners-carousel img {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  transform-origin: center center;
+
+  width: auto;
+  height: auto;
+
+  max-width: 200px;
+  max-height: 140px;
+
+  padding: 10px;
+
+  object-fit: contain;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(30, 30, 30, 0.98),
+      rgba(5, 5, 5, 0.98)
+    );
+
+  border: 2px solid;
+
+  border-radius: 12px;
+
+  transition:
+    transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 0.9s ease,
+    filter 0.9s ease,
+    box-shadow 0.9s ease,
+    border-color 0.9s ease;
+}
+
+
+/* =====================================================
+   COULEURS DES BORDURES
+===================================================== */
+
+.color-yellow {
+  border-color: #ffcc00 !important;
+}
+
+.color-red {
+  border-color: #ff2020 !important;
+}
+
+.color-blue {
+  border-color: #168cff !important;
+}
+
+
+/* =====================================================
+   LOGO CENTRAL
+===================================================== */
+
+.center {
+  transform:
+    translate(-50%, -50%)
+    translateZ(300px)
+    scale(1.10);
+
+  z-index: 20;
+
+  opacity: 1;
+
+  filter:
+    brightness(1.15)
+    contrast(1.08);
+}
+
+.center.color-yellow {
+  box-shadow:
+    0 0 20px #ffcc00,
+    0 0 45px #ffcc00,
+    0 0 90px rgba(255, 204, 0, 0.85),
+    0 0 140px rgba(255, 204, 0, 0.35);
+}
+
+.center.color-red {
+  box-shadow:
+    0 0 20px #ff2020,
+    0 0 45px #ff2020,
+    0 0 90px rgba(255, 32, 32, 0.85),
+    0 0 140px rgba(255, 32, 32, 0.35);
+}
+
+.center.color-blue {
+  box-shadow:
+    0 0 20px #168cff,
+    0 0 45px #168cff,
+    0 0 90px rgba(22, 140, 255, 0.85),
+    0 0 140px rgba(22, 140, 255, 0.35);
+}
+
+
+/* =====================================================
+   LOGO GAUCHE 1
+===================================================== */
+
+.left1 {
+  transform:
+    translate(-50%, -50%)
+    translateX(-300px)
+    translateZ(40px)
+    scale(0.62);
+
+  z-index: 12;
+
+  opacity: 0.75;
+
+  filter:
+    brightness(0.75)
+    contrast(0.95);
+}
+
+
+/* =====================================================
+   LOGO DROITE 1
+===================================================== */
+
+.right1 {
+  transform:
+    translate(-50%, -50%)
+    translateX(300px)
+    translateZ(40px)
+    scale(0.62);
+
+  z-index: 12;
+
+  opacity: 0.75;
+
+  filter:
+    brightness(0.75)
+    contrast(0.95);
+}
+
+
+/* =====================================================
+   LOGO GAUCHE 2
+===================================================== */
+
+.left2 {
+  transform:
+    translate(-50%, -50%)
+    translateX(-500px)
+    translateZ(-200px)
+    scale(0.41);
+
+  z-index: 8;
+
+  opacity: 0.38;
+
+  filter:
+    brightness(0.55)
+    blur(0.3px);
+}
+
+
+/* =====================================================
+   LOGO DROITE 2
+===================================================== */
+
+.right2 {
+  transform:
+    translate(-50%, -50%)
+    translateX(500px)
+    translateZ(-200px)
+    scale(0.41);
+
+  z-index: 8;
+
+  opacity: 0.38;
+
+  filter:
+    brightness(0.55)
+    blur(0.3px);
+}
+
+
+/* =====================================================
+   LOGOS CACHÉS
+===================================================== */
+
+.hidden {
+  transform:
+    translate(-50%, -50%)
+    translateZ(-700px)
+    scale(0.15);
+
+  opacity: 0;
+
+  filter: blur(5px);
+
+  z-index: 1;
+
+  pointer-events: none;
+}
+
+
+/* =====================================================
+   BARRE LUMINEUSE
+===================================================== */
+
+.light-line {
+  position: fixed;
+
+  left: 50%;
+
+  bottom: 0;
+
+  transform: translateX(-50%);
+
+  width: 65%;
+
+  height: 2px;
+
+  background: #ffcc00;
+
+  box-shadow:
+    0 0 8px #ffcc00,
+    0 0 20px rgba(255, 204, 0, 0.5);
+
+  z-index: 90;
+}
+
+
+/* =====================================================
+   RESPONSIVE TABLETTE / PETIT ÉCRAN
+===================================================== */
+
+@media (max-width: 1200px) {
 
   .partners-section {
-    width: 100%;
-    max-width: 1000px;
-    height: 400px;
-    margin-top: 20px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    perspective: 1800px;
-    perspective-origin: center center;
-  }
-
-  /* =====================================================
-     TABLE ROWS (espacements réduits)
-  ===================================================== */
-  .table-row {
-    display: grid;
-    background: rgba(20, 20, 20, 0.8);
-    border-radius: 4px;
-    padding: 4px;
-    align-items: center;
-    margin-bottom: 2px;
-    transition: all 0.2s ease;
-    font-size: clamp(11px, 1.5vw, 13px);
-    border: 1px solid rgba(255, 204, 0, 0.1);
-    opacity: 0;
-    transform: translateY(10px);
-    animation: fadeInUp 0.5s ease forwards;
-  }
-
-  @keyframes fadeInUp {
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .table-row:nth-child(1) { animation-delay: 0.05s; }
-  .table-row:nth-child(2) { animation-delay: 0.1s; }
-  .table-row:nth-child(3) { animation-delay: 0.15s; }
-  .table-row:nth-child(4) { animation-delay: 0.2s; }
-  .table-row:nth-child(5) { animation-delay: 0.25s; }
-  .table-row:nth-child(6) { animation-delay: 0.3s; }
-  .table-row:nth-child(7) { animation-delay: 0.35s; }
-  .table-row:nth-child(8) { animation-delay: 0.4s; }
-  .table-row:nth-child(9) { animation-delay: 0.45s; }
-  .table-row:nth-child(10) { animation-delay: 0.5s; }
-
-  .table-row:hover {
-    background: rgba(30, 30, 40, 0.9);
-    border-color: rgba(255, 204, 0, 0.4);
-    box-shadow: 0 0 10px rgba(255, 204, 0, 0.2);
-  }
-
-  .table-header {
-    background: linear-gradient(145deg, #1a1a1a, #2a2a2a) !important;
-    color: #ffcc00 !important;
-    font-weight: bold;
-    border-radius: 4px 4px 0 0;
-    border-bottom: 1px solid #ffcc00;
-    box-shadow: 0 0 5px rgba(255, 204, 0, 0.2);
-    animation: none;
-    opacity: 1;
-    transform: none;
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    margin-bottom: 2px;
-  }
-
-  .highlight-yellow {
-    background: linear-gradient(145deg, rgba(255, 204, 0, 0.2), rgba(255, 204, 0, 0.1)) !important;
-    border-left: 2px solid #ffcc00;
-    color: #ffffff !important;
-  }
-
-  .table-row > div {
-    padding: 4px 2px;
-    text-align: center;
-    word-break: break-word;
-    color: #e0e0e0;
-    font-size: 0.9em;
-  }
-
-  .table2 {
-    --col-a: 1fr;
-    --col-b: 1fr;
-    --col-c: 0.7fr;
-    --col-d: 0.7fr;
-    --col-e: 0.7fr;
-    --col-f: 0.7fr;
-    --col-g: 0.7fr;
-    --col-h: 0.7fr;
-  }
-
-  /* =====================================================
-     CARROUSEL DES PARTENAIRES (style admin.html)
-  ===================================================== */
-  .partners-carousel {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    perspective: 1800px;
-    perspective-origin: center center;
+    height: calc(50vh - 18px);
   }
 
   .partners-carousel img {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform-origin: center center;
-    width: auto;
-    height: auto;
-    max-width: 200px;
-    max-height: 140px;
-    padding: 10px;
-    object-fit: contain;
-    background:
-      linear-gradient(
-        145deg,
-        rgba(30, 30, 30, 0.98),
-        rgba(5, 5, 5, 0.98)
-      );
-    border: 2px solid;
-    border-radius: 12px;
-    transition:
-      transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1),
-      opacity 0.9s ease,
-      filter 0.9s ease,
-      box-shadow 0.9s ease,
-      border-color 0.9s ease;
-  }
-
-  /* Couleurs des bordures */
-  .color-yellow { border-color: #ffcc00 !important; }
-  .color-red { border-color: #ff2020 !important; }
-  .color-blue { border-color: #168cff !important; }
-
-  /* Positions des logos */
-  .center {
-    transform:
-      translate(-50%, -50%)
-      translateZ(300px)
-      scale(1.10);
-    z-index: 20;
-    opacity: 1;
-    filter:
-      brightness(1.15)
-      contrast(1.08);
-  }
-
-  .center.color-yellow {
-    box-shadow:
-      0 0 20px #ffcc00,
-      0 0 45px #ffcc00,
-      0 0 90px rgba(255, 204, 0, 0.85),
-      0 0 140px rgba(255, 204, 0, 0.35);
-  }
-
-  .center.color-red {
-    box-shadow:
-      0 0 20px #ff2020,
-      0 0 45px #ff2020,
-      0 0 90px rgba(255, 32, 32, 0.85),
-      0 0 140px rgba(255, 32, 32, 0.35);
-  }
-
-  .center.color-blue {
-    box-shadow:
-      0 0 20px #168cff,
-      0 0 45px #168cff,
-      0 0 90px rgba(22, 140, 255, 0.85),
-      0 0 140px rgba(22, 140, 255, 0.35);
+    max-width: 150px;
+    max-height: 100px;
   }
 
   .left1 {
     transform:
       translate(-50%, -50%)
-      translateX(-300px)
-      translateZ(40px)
-      scale(0.62);
-    z-index: 12;
-    opacity: 0.75;
-    filter:
-      brightness(0.75)
-      contrast(0.95);
+      translateX(-200px)
+      translateZ(30px)
+      scale(0.55);
   }
 
   .right1 {
     transform:
       translate(-50%, -50%)
-      translateX(300px)
-      translateZ(40px)
-      scale(0.62);
-    z-index: 12;
-    opacity: 0.75;
-    filter:
-      brightness(0.75)
-      contrast(0.95);
+      translateX(200px)
+      translateZ(30px)
+      scale(0.55);
   }
 
-  .left2 {
-    transform:
-      translate(-50%, -50%)
-      translateX(-500px)
-      translateZ(-200px)
-      scale(0.41);
-    z-index: 8;
-    opacity: 0.38;
-    filter:
-      brightness(0.55)
-      blur(0.3px);
-  }
-
+  .left2,
   .right2 {
-    transform:
-      translate(-50%, -50%)
-      translateX(500px)
-      translateZ(-200px)
-      scale(0.41);
-    z-index: 8;
-    opacity: 0.38;
-    filter:
-      brightness(0.55)
-      blur(0.3px);
-  }
-
-  .hidden {
-    transform:
-      translate(-50%, -50%)
-      translateZ(-700px)
-      scale(0.15);
     opacity: 0;
-    filter: blur(5px);
-    z-index: 1;
-    pointer-events: none;
+  }
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 768px) {
+
+  .custom-section {
+    padding: 6px;
   }
 
-  /* =====================================================
-     BARRE LUMINEUSE
-  ===================================================== */
-  .light-line {
-    position: fixed;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
-    width: 65%;
-    height: 2px;
-    background: #ffcc00;
-    box-shadow:
-      0 0 8px #ffcc00,
-      0 0 20px rgba(255, 204, 0, 0.5);
-    z-index: 90;
+  .main-content {
+    gap: 5px;
   }
 
-  /* =====================================================
-     RESPONSIVE
-  ===================================================== */
-  @media (max-width: 1200px) {
-    .partners-section {
-      height: 300px;
-    }
-    .partners-carousel img {
-      max-width: 150px;
-      max-height: 100px;
-    }
-    .left1 {
-      transform:
-        translate(-50%, -50%)
-        translateX(-200px)
-        translateZ(30px)
-        scale(0.55);
-    }
-    .right1 {
-      transform:
-        translate(-50%, -50%)
-        translateX(200px)
-        translateZ(30px)
-        scale(0.55);
-    }
-    .left2, .right2 {
-      opacity: 0;
-    }
+  .tables-and-partners {
+    flex-direction: column;
+
+    height: 50vh;
+
+    flex: 0 0 50vh;
+
+    gap: 8px;
   }
 
-  @media (max-width: 768px) {
-    .tables-and-partners {
-      flex-direction: column;
-    }
-    .table-container {
-      width: 100%;
-      margin-bottom: 15px;
-    }
-    .partners-section {
-      height: 250px;
-      margin-top: 10px;
-    }
-    .partners-carousel img {
-      max-width: 120px;
-      max-height: 80px;
-    }
-    .center {
-      transform:
-        translate(-50%, -50%)
-        translateZ(150px)
-        scale(0.9);
-    }
-    .left1 {
-      transform:
-        translate(-50%, -50%)
-        translateX(-120px)
-        scale(0.45);
-    }
-    .right1 {
-      transform:
-        translate(-50%, -50%)
-        translateX(120px)
-        scale(0.45);
-    }
-    .left2, .right2 {
-      display: none;
-    }
-    .table-row {
-      font-size: clamp(10px, 1.8vw, 12px);
-      padding: 3px;
-      margin-bottom: 1px;
-    }
-    .table-row > div {
-      padding: 2px 1px;
-      font-size: 0.85em;
-    }
+  .table-container {
+    width: 100%;
+
+    max-width: none;
+
+    min-width: 0;
+
+    height: 50%;
+
+    min-height: 0;
+
+    margin-bottom: 0;
   }
+
+  .partners-section {
+    height: calc(50vh - 10px);
+
+    min-height: 200px;
+
+    margin-top: 0;
+  }
+
+  .partners-carousel img {
+    max-width: 120px;
+
+    max-height: 80px;
+  }
+
+  .center {
+    transform:
+      translate(-50%, -50%)
+      translateZ(150px)
+      scale(0.9);
+  }
+
+  .left1 {
+    transform:
+      translate(-50%, -50%)
+      translateX(-120px)
+      scale(0.45);
+  }
+
+  .right1 {
+    transform:
+      translate(-50%, -50%)
+      translateX(120px)
+      scale(0.45);
+  }
+
+  .left2,
+  .right2 {
+    display: none;
+  }
+
+  .table-row {
+    font-size: clamp(10px, 1.8vw, 12px);
+
+    padding: 3px;
+
+    margin-bottom: 1px;
+  }
+
+  .table-row > div {
+    padding: 2px 1px;
+
+    font-size: 0.85em;
+  }
+}
+
+
+/* =====================================================
+   TRÈS PETITS ÉCRANS
+===================================================== */
+
+@media (max-width: 480px) {
+
+  .custom-section h2 {
+    font-size: 14px;
+
+    margin-bottom: 4px;
+  }
+
+  .custom-section h2::after {
+    width: 80px;
+
+    margin-top: 3px;
+  }
+
+  .tables-and-partners {
+    gap: 5px;
+  }
+
+  .table-container {
+    padding: 4px;
+  }
+
+  .partners-section {
+    min-height: 180px;
+  }
+
+  .partners-carousel img {
+    max-width: 90px;
+
+    max-height: 65px;
+
+    padding: 6px;
+  }
+
+  .center {
+    transform:
+      translate(-50%, -50%)
+      translateZ(100px)
+      scale(0.8);
+  }
+
+  .left1 {
+    transform:
+      translate(-50%, -50%)
+      translateX(-85px)
+      scale(0.35);
+  }
+
+  .right1 {
+    transform:
+      translate(-50%, -50%)
+      translateX(85px)
+      scale(0.35);
+  }
+}
+
 </style>
 
+
+<!-- =====================================================
+     CONTENU PRINCIPAL
+===================================================== -->
+
 <div class="main-content">
+
+
+  <!-- ===================================================
+       MOITIÉ HAUTE : TABLEAUX
+  ==================================================== -->
+
   <div class="tables-and-partners">
-    <!-- Tableau Programme -->
+
+
+    <!-- ===============================
+         TABLEAU PROGRAMME
+    ================================ -->
+
     <div class="table-container">
+
       <h2>📅 PROGRAMME</h2>
+
       <div id="json1"></div>
+
     </div>
 
-    <!-- Tableau Classement -->
+
+    <!-- ===============================
+         TABLEAU CLASSEMENT
+    ================================ -->
+
     <div class="table-container">
+
       <h2>🏆 CLASSEMENT</h2>
+
       <div id="json2"></div>
+
     </div>
+
   </div>
 
-  <!-- Section des partenaires (sous le tableau Programme) -->
+
+  <!-- ===================================================
+       MOITIÉ BASSE : PARTENAIRES
+  ==================================================== -->
+
   <div class="partners-section">
+
     <h2>🤝 NOS PARTENAIRES</h2>
-    <div class="partners-carousel" id="partnersCarousel">
-      <!-- Les logos seront insérés ici -->
+
+    <div
+      class="partners-carousel"
+      id="partnersCarousel"
+    >
+      <!-- Les logos seront insérés automatiquement -->
     </div>
+
   </div>
+
+
 </div>
 
-<!-- Barre lumineuse -->
+
+<!-- =====================================================
+     BARRE LUMINEUSE
+===================================================== -->
+
 <div class="light-line"></div>
 
+
 <script>
-  // =====================================================
-  // CHARGEMENT DES DONNÉES DES TABLEAUX
-  // =====================================================
-  function fetchSheetData(gid, elementId, options = {}) {
-    const id = '1vidVkLiiLMnmrO9HTmzM9Ns8bC28ONU1dVL41SVepOU';
-    const url = `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:json&tq&gid=${gid}`;
 
-    fetch(url)
-      .then(response => response.text())
-      .then(data => {
-        const json = JSON.parse(data.substring(47).slice(0, -2));
-        document.getElementById(elementId).innerHTML = buildModernTable(json, options);
-      });
-  }
+/* =====================================================
+   CHARGEMENT DES DONNÉES DES TABLEAUX
+===================================================== */
 
-  function buildModernTable(json, options = {}) {
-    const { skipHeader = false, highlightFirstRow = false, extraClass = '', fixedColumns = null } = options;
-    let html = '';
-    const colCount = json.table.cols.length;
+function fetchSheetData(
+  gid,
+  elementId,
+  options = {}
+) {
 
-    const gridTemplate = fixedColumns && extraClass === 'table2'
+  const id =
+    '1vidVkLiiLMnmrO9HTmzM9Ns8bC28ONU1dVL41SVepOU';
+
+  const url =
+    `https://docs.google.com/spreadsheets/d/${id}/gviz/gviz/tq?tqx=out:json&tq&gid=${gid}`;
+
+  fetch(url)
+
+    .then(response => response.text())
+
+    .then(data => {
+
+      const json =
+        JSON.parse(
+          data.substring(47).slice(0, -2)
+        );
+
+      document.getElementById(elementId).innerHTML =
+        buildModernTable(json, options);
+
+    })
+
+    .catch(error => {
+
+      console.error(
+        "Erreur chargement Google Sheets :",
+        error
+      );
+
+    });
+}
+
+
+/* =====================================================
+   CONSTRUCTION DES TABLEAUX
+===================================================== */
+
+function buildModernTable(
+  json,
+  options = {}
+) {
+
+  const {
+    skipHeader = false,
+    highlightFirstRow = false,
+    extraClass = '',
+    fixedColumns = null
+  } = options;
+
+
+  let html = '';
+
+  const colCount =
+    json.table.cols.length;
+
+
+  const gridTemplate =
+    fixedColumns &&
+    extraClass === 'table2'
+
       ? 'var(--col-a) var(--col-b) var(--col-c) var(--col-d) var(--col-e) var(--col-f) var(--col-g) var(--col-h)'
-      : `repeat(${fixedColumns || colCount}, 1fr)`;
 
-    const gridStyle = `grid-template-columns: ${gridTemplate};`;
+      : `repeat(
+          ${fixedColumns || colCount},
+          1fr
+        )`;
 
-    if (!skipHeader) {
-      const headerClass = `table-row table-header ${extraClass}`;
-      html += `<div class="${headerClass}" style="${gridStyle}">`;
-      json.table.cols.forEach(col => {
-        html += `<div>${col.label}</div>`;
-      });
-      html += '</div>';
-    }
 
-    json.table.rows.forEach((row, index) => {
-      const rowClass = (highlightFirstRow && index === 0)
-        ? `table-row highlight-yellow ${extraClass}`
-        : `table-row ${extraClass}`;
-      html += `<div class="${rowClass}" style="${gridStyle}">`;
-      for (let i = 0; i < (fixedColumns || colCount); i++) {
-        const cell = row.c[i];
-        let value = '';
-        try {
-          value = cell?.f ?? cell?.v ?? '';
-        } catch (e) {}
-        html += `<div>${value}</div>`;
-      }
-      html += '</div>';
+  const gridStyle =
+    `grid-template-columns: ${gridTemplate};`;
+
+
+  /* ===============================================
+     EN-TÊTE
+  =============================================== */
+
+  if (!skipHeader) {
+
+    const headerClass =
+      `table-row table-header ${extraClass}`;
+
+
+    html +=
+      `<div
+        class="${headerClass}"
+        style="${gridStyle}"
+      >`;
+
+
+    json.table.cols.forEach(col => {
+
+      html +=
+        `<div>${col.label}</div>`;
+
     });
 
-    return html;
+
+    html += '</div>';
   }
 
-  // Chargement des tableaux
-  fetchSheetData('1902966512', 'json1', { skipHeader: true, highlightFirstRow: true });
-  fetchSheetData('1966074571', 'json2', { extraClass: 'table2', fixedColumns: 8 });
 
-  // =====================================================
-  // CARROUSEL DES LOGOS PARTENAIRES (comme admin.html)
-  // =====================================================
-  window.onload = function() {
-    // Liste des logos partenaires (à adapter avec vos chemins réels)
-    const partnerLogos = [
-      "logo/7ENVIE DE PAIN.png",
-      "logo/AGTIM.png",
-      "logo/Alain AFFLELOU.png",
-      "logo/APOLLO.png",
-      "logo/ARRIVE.png",
-      "logo/ARTIPOLE.png",
-      "logo/ATP.png",
-      "logo/AUTO BILAN VIEILLEVIGNE.png",
-      "logo/BAR LE SCORE.png",
-      "logo/BARREAU.png",
-      "logo/BIOCOOP.png",
-      "logo/BOUTEAU.png",
-      "logo/BRIOGEL.png",
-      "logo/BUROLOGIC.png",
-      "logo/C3P.png",
-      "logo/CALIPAGE.png",
-      "logo/CBH.png",
-      "logo/CD VENDEE.png",
-      "logo/CHAPLEAU MACONNERIE.png",
-      "logo/CLARA AUTO.png"
+  /* ===============================================
+     LIGNES
+  =============================================== */
+
+  json.table.rows.forEach(
+    (row, index) => {
+
+      const rowClass =
+        (
+          highlightFirstRow &&
+          index === 0
+        )
+
+          ? `table-row highlight-yellow ${extraClass}`
+
+          : `table-row ${extraClass}`;
+
+
+      html +=
+        `<div
+          class="${rowClass}"
+          style="${gridStyle}"
+        >`;
+
+
+      for (
+        let i = 0;
+        i < (fixedColumns || colCount);
+        i++
+      ) {
+
+        const cell = row.c[i];
+
+        let value = '';
+
+
+        try {
+
+          value =
+            cell?.f ??
+            cell?.v ??
+            '';
+
+        } catch (e) {
+
+          value = '';
+
+        }
+
+
+        html +=
+          `<div>${value}</div>`;
+      }
+
+
+      html += '</div>';
+
+    }
+  );
+
+
+  return html;
+}
+
+
+/* =====================================================
+   CHARGEMENT DES TABLEAUX
+===================================================== */
+
+fetchSheetData(
+  '1902966512',
+  'json1',
+  {
+    skipHeader: true,
+    highlightFirstRow: true
+  }
+);
+
+
+fetchSheetData(
+  '1966074571',
+  'json2',
+  {
+    extraClass: 'table2',
+    fixedColumns: 8
+  }
+);
+
+
+/* =====================================================
+   CARROUSEL DES LOGOS PARTENAIRES
+===================================================== */
+
+window.onload = function() {
+
+
+  /* ===============================================
+     LISTE DES LOGOS
+  =============================================== */
+
+  const partnerLogos = [
+
+    "logo/7ENVIE DE PAIN.png",
+
+    "logo/AGTIM.png",
+
+    "logo/Alain AFFLELOU.png",
+
+    "logo/APOLLO.png",
+
+    "logo/ARRIVE.png",
+
+    "logo/ARTIPOLE.png",
+
+    "logo/ATP.png",
+
+    "logo/AUTO BILAN VIEILLEVIGNE.png",
+
+    "logo/BAR LE SCORE.png",
+
+    "logo/BARREAU.png",
+
+    "logo/BIOCOOP.png",
+
+    "logo/BOUTEAU.png",
+
+    "logo/BRIOGEL.png",
+
+    "logo/BUROLOGIC.png",
+
+    "logo/C3P.png",
+
+    "logo/CALIPAGE.png",
+
+    "logo/CBH.png",
+
+    "logo/CD VENDEE.png",
+
+    "logo/CHAPLEAU MACONNERIE.png",
+
+    "logo/CLARA AUTO.png"
+
+  ];
+
+
+  const carousel =
+    document.getElementById(
+      'partnersCarousel'
+    );
+
+
+  const total =
+    partnerLogos.length;
+
+
+  if (total === 0) {
+    return;
+  }
+
+
+  /* ===============================================
+     INDEX COURANT
+  =============================================== */
+
+  let index = 0;
+
+
+  /* ===============================================
+     COULEURS
+  =============================================== */
+
+  const colors = [
+    "color-yellow",
+    "color-red",
+    "color-blue"
+  ];
+
+
+  function getColor(
+    partnerIndex
+  ) {
+
+    return colors[
+      partnerIndex % colors.length
     ];
 
-    const carousel = document.getElementById('partnersCarousel');
-    const total = partnerLogos.length;
+  }
 
-    if (total === 0) return;
 
-    // Initialisation
-    let index = 0;
+  /* ===============================================
+     MISE À JOUR DU CARROUSEL
+  =============================================== */
 
-    // Couleurs pour les bordures
-    const colors = ["color-yellow", "color-red", "color-blue"];
+  function updateCarousel() {
 
-    function getColor(partnerIndex) {
-      return colors[partnerIndex % colors.length];
-    }
 
-    function updateCarousel() {
-      // Positions
-      const center = index % total;
-      const left1 = (index - 1 + total) % total;
-      const left2 = (index - 2 + total) % total;
-      const right1 = (index + 1) % total;
-      const right2 = (index + 2) % total;
+    /* -------------------------------------------
+       POSITIONS
+    ------------------------------------------- */
 
-      // Masquer tous les logos
-      const images = carousel.querySelectorAll('img');
-      images.forEach(img => {
-        img.className = 'hidden';
-      });
+    const center =
+      index % total;
 
-      // Afficher les logos actifs
-      if (carousel.querySelector(`img:nth-child(${center + 1})`)) {
-        carousel.querySelector(`img:nth-child(${center + 1})`).className = `center ${getColor(center)}`;
-      }
-      if (carousel.querySelector(`img:nth-child(${left1 + 1})`)) {
-        carousel.querySelector(`img:nth-child(${left1 + 1})`).className = `left1 ${getColor(left1)}`;
-      }
-      if (carousel.querySelector(`img:nth-child(${left2 + 1})`)) {
-        carousel.querySelector(`img:nth-child(${left2 + 1})`).className = `left2 ${getColor(left2)}`;
-      }
-      if (carousel.querySelector(`img:nth-child(${right1 + 1})`)) {
-        carousel.querySelector(`img:nth-child(${right1 + 1})`).className = `right1 ${getColor(right1)}`;
-      }
-      if (carousel.querySelector(`img:nth-child(${right2 + 1})`)) {
-        carousel.querySelector(`img:nth-child(${right2 + 1})`).className = `right2 ${getColor(right2)}`;
-      }
 
-      // Barre lumineuse
-      const lightLine = document.querySelector('.light-line');
-      if (lightLine) {
-        const currentColor = getColor(index);
-        if (currentColor === "color-yellow") {
-          lightLine.style.background = "#ffcc00";
-          lightLine.style.boxShadow = "0 0 8px #ffcc00, 0 0 20px #ffcc00, 0 0 40px rgba(255, 204, 0, 0.5)";
-        } else if (currentColor === "color-red") {
-          lightLine.style.background = "#ff2020";
-          lightLine.style.boxShadow = "0 0 8px #ff2020, 0 0 20px #ff2020, 0 0 40px rgba(255, 32, 32, 0.5)";
-        } else {
-          lightLine.style.background = "#168cff";
-          lightLine.style.boxShadow = "0 0 8px #168cff, 0 0 20px #168cff, 0 0 40px rgba(22, 140, 255, 0.5)";
-        }
-      }
+    const left1 =
+      (index - 1 + total) % total;
 
-      // Sauvegarder l'index
-      localStorage.setItem("partenaireIndex", index);
-    }
 
-    // Charger les images
-    partnerLogos.forEach((logo, i) => {
-      const img = document.createElement('img');
-      img.src = logo;
-      img.alt = `Partenaire ${i + 1}`;
+    const left2 =
+      (index - 2 + total) % total;
+
+
+    const right1 =
+      (index + 1) % total;
+
+
+    const right2 =
+      (index + 2) % total;
+
+
+    /* -------------------------------------------
+       MASQUER TOUS LES LOGOS
+    ------------------------------------------- */
+
+    const images =
+      carousel.querySelectorAll('img');
+
+
+    images.forEach(img => {
+
       img.className = 'hidden';
-      carousel.appendChild(img);
+
     });
 
-    // Initialiser le carrousel
-    const savedIndex = localStorage.getItem("partenaireIndex");
-    if (savedIndex !== null && !isNaN(parseInt(savedIndex))) {
-      index = parseInt(savedIndex) % total;
-    } else {
-      index = 0;
-    }
-    updateCarousel();
 
-    // Rotation automatique (2.5 secondes)
-    setInterval(() => {
-      index = (index + 1) % total;
+    /* -------------------------------------------
+       LOGO CENTRAL
+    ------------------------------------------- */
+
+    const centerImg =
+      carousel.querySelector(
+        `img:nth-child(${center + 1})`
+      );
+
+
+    if (centerImg) {
+
+      centerImg.className =
+        `center ${getColor(center)}`;
+
+    }
+
+
+    /* -------------------------------------------
+       LOGO GAUCHE 1
+    ------------------------------------------- */
+
+    const left1Img =
+      carousel.querySelector(
+        `img:nth-child(${left1 + 1})`
+      );
+
+
+    if (left1Img) {
+
+      left1Img.className =
+        `left1 ${getColor(left1)}`;
+
+    }
+
+
+    /* -------------------------------------------
+       LOGO GAUCHE 2
+    ------------------------------------------- */
+
+    const left2Img =
+      carousel.querySelector(
+        `img:nth-child(${left2 + 1})`
+      );
+
+
+    if (left2Img) {
+
+      left2Img.className =
+        `left2 ${getColor(left2)}`;
+
+    }
+
+
+    /* -------------------------------------------
+       LOGO DROITE 1
+    ------------------------------------------- */
+
+    const right1Img =
+      carousel.querySelector(
+        `img:nth-child(${right1 + 1})`
+      );
+
+
+    if (right1Img) {
+
+      right1Img.className =
+        `right1 ${getColor(right1)}`;
+
+    }
+
+
+    /* -------------------------------------------
+       LOGO DROITE 2
+    ------------------------------------------- */
+
+    const right2Img =
+      carousel.querySelector(
+        `img:nth-child(${right2 + 1})`
+      );
+
+
+    if (right2Img) {
+
+      right2Img.className =
+        `right2 ${getColor(right2)}`;
+
+    }
+
+
+    /* ===========================================
+       BARRE LUMINEUSE
+    =========================================== */
+
+    const lightLine =
+      document.querySelector(
+        '.light-line'
+      );
+
+
+    if (lightLine) {
+
+      const currentColor =
+        getColor(index);
+
+
+      if (
+        currentColor ===
+        "color-yellow"
+      ) {
+
+        lightLine.style.background =
+          "#ffcc00";
+
+        lightLine.style.boxShadow =
+          "0 0 8px #ffcc00, 0 0 20px #ffcc00, 0 0 40px rgba(255, 204, 0, 0.5)";
+
+      }
+
+
+      else if (
+        currentColor ===
+        "color-red"
+      ) {
+
+        lightLine.style.background =
+          "#ff2020";
+
+        lightLine.style.boxShadow =
+          "0 0 8px #ff2020, 0 0 20px #ff2020, 0 0 40px rgba(255, 32, 32, 0.5)";
+
+      }
+
+
+      else {
+
+        lightLine.style.background =
+          "#168cff";
+
+        lightLine.style.boxShadow =
+          "0 0 8px #168cff, 0 0 20px #168cff, 0 0 40px rgba(22, 140, 255, 0.5)";
+
+      }
+
+    }
+
+
+    /* ===========================================
+       SAUVEGARDE
+    =========================================== */
+
+    localStorage.setItem(
+      "partenaireIndex",
+      index
+    );
+
+  }
+
+
+  /* ===============================================
+     CHARGEMENT DES IMAGES
+  =============================================== */
+
+  partnerLogos.forEach(
+    (logo, i) => {
+
+      const img =
+        document.createElement('img');
+
+
+      img.src = logo;
+
+      img.alt =
+        `Partenaire ${i + 1}`;
+
+      img.className =
+        'hidden';
+
+
+      carousel.appendChild(img);
+
+    }
+  );
+
+
+  /* ===============================================
+     RESTAURATION DE L'INDEX
+  =============================================== */
+
+  const savedIndex =
+    localStorage.getItem(
+      "partenaireIndex"
+    );
+
+
+  if (
+    savedIndex !== null &&
+    !isNaN(parseInt(savedIndex))
+  ) {
+
+    index =
+      parseInt(savedIndex) % total;
+
+  }
+
+  else {
+
+    index = 0;
+
+  }
+
+
+  /* ===============================================
+     INITIALISATION
+  =============================================== */
+
+  updateCarousel();
+
+
+  /* ===============================================
+     ROTATION AUTOMATIQUE
+     Toutes les 2,5 secondes
+  =============================================== */
+
+  setInterval(
+    () => {
+
+      index =
+        (index + 1) % total;
+
       updateCarousel();
-    }, 2500);
-  };
+
+    },
+    2500
+  );
+
+};
+
 </script>
+
 </div>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Programme & Classement</title>
+
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+  Programme & Classement
+</title>
