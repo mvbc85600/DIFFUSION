@@ -1,3 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>Programme & Classement</title>
+
+</head>
+
+
+<body>
+
 <div class="custom-section">
 
 <style type="text/css">
@@ -31,7 +50,12 @@ body {
 
   color: #fff;
 
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family:
+    'Segoe UI',
+    Tahoma,
+    Geneva,
+    Verdana,
+    sans-serif;
 
   background:
     radial-gradient(
@@ -65,7 +89,8 @@ body {
   left: 50%;
   top: 50%;
 
-  transform: translate(-50%, -50%);
+  transform:
+    translate(-50%, -50%);
 
   background:
     radial-gradient(
@@ -77,26 +102,39 @@ body {
 
   pointer-events: none;
 
-  animation: halo 6s ease-in-out infinite;
+  animation:
+    halo 6s ease-in-out infinite;
 
   z-index: 0;
 }
 
+
 @keyframes halo {
+
   0% {
-    transform: translate(-50%, -50%) scale(0.8);
+    transform:
+      translate(-50%, -50%)
+      scale(0.8);
+
     opacity: 0.5;
   }
 
   50% {
-    transform: translate(-50%, -50%) scale(1.1);
+    transform:
+      translate(-50%, -50%)
+      scale(1.1);
+
     opacity: 0.8;
   }
 
   100% {
-    transform: translate(-50%, -50%) scale(0.8);
+    transform:
+      translate(-50%, -50%)
+      scale(0.8);
+
     opacity: 0.5;
   }
+
 }
 
 
@@ -105,13 +143,15 @@ body {
 ===================================================== */
 
 .custom-section h2 {
+
   position: relative;
 
   text-align: center;
 
   color: #ffffff;
 
-  font-size: clamp(16px, 2.5vw, 20px);
+  font-size:
+    clamp(16px, 2.5vw, 20px);
 
   font-weight: 900;
 
@@ -126,7 +166,9 @@ body {
   z-index: 10;
 }
 
+
 .custom-section h2::after {
+
   content: "";
 
   display: block;
@@ -140,7 +182,8 @@ body {
 
   border-radius: 3px;
 
-  box-shadow: 0 0 8px #ffcc00;
+  box-shadow:
+    0 0 8px #ffcc00;
 }
 
 
@@ -149,81 +192,123 @@ body {
 ===================================================== */
 
 .main-content {
+
   position: relative;
 
   width: 100%;
+
   max-width: 1400px;
 
-  height: 100%;
-
-  display: flex;
-  flex-direction: column;
-
-  gap: 8px;
-
-  align-items: center;
-
-  flex: 1;
+  height:
+    calc(100vh - 20px);
 
   min-height: 0;
+
+  display: flex;
+
+  flex-direction: row;
+
+  gap: 20px;
+
+  align-items: stretch;
+
+  flex: 1;
 
   z-index: 2;
 }
 
 
 /* =====================================================
-   ZONE DES DEUX TABLEAUX
-   =========================
-
-   Cette zone occupe la moitié haute
-   de l'écran.
+   COLONNE GAUCHE
+   PROGRAMME + PARTENAIRES
 ===================================================== */
 
-.tables-and-partners {
-  width: 100%;
+.left-column {
 
-  height: 50vh;
+  width:
+    calc(50% - 10px);
+
+  height: 100%;
+
+  min-width: 0;
+
   min-height: 0;
 
   display: flex;
 
-  gap: 20px;
+  flex-direction: column;
 
-  justify-content: center;
-
-  align-items: stretch;
-
-  flex: 0 0 50vh;
+  gap: 10px;
 }
 
 
 /* =====================================================
-   CONTENEUR DES TABLEAUX
+   COLONNE DROITE
+   CLASSEMENT
 ===================================================== */
 
-.table-container {
-  flex: 1;
+.right-column {
 
-  width: 50%;
-
-  min-width: 300px;
-
-  max-width: 600px;
+  width:
+    calc(50% - 10px);
 
   height: 100%;
 
+  min-width: 0;
+
   min-height: 0;
 
-  background: rgba(10, 10, 10, 0.85);
+  display: flex;
+
+  flex-direction: column;
+}
+
+
+/* =====================================================
+   CONTENEURS DES TABLEAUX
+===================================================== */
+
+.table-container {
+
+  width: 100%;
+
+  min-width: 0;
+
+  min-height: 0;
+
+  background:
+    rgba(10, 10, 10, 0.85);
 
   border-radius: 8px;
 
   padding: 8px;
 
-  border: 1px solid rgba(255, 204, 0, 0.2);
+  border:
+    1px solid
+    rgba(255, 204, 0, 0.2);
 
   box-shadow:
-    0 0 10px rgba(255, 204, 0, 0.1);
+    0 0 10px
+    rgba(255, 204, 0, 0.1);
+}
+
+
+/* =====================================================
+   TABLEAU PROGRAMME
+   -----------------
+   Partie supérieure gauche
+===================================================== */
+
+.programme-container {
+
+  width: 100%;
+
+  height: 48%;
+
+  flex:
+    0 0 48%;
+
+  min-height: 0;
 
   overflow-y: auto;
 
@@ -238,26 +323,67 @@ body {
 
 
 /* =====================================================
-   SCROLLBAR TABLEAUX
+   TABLEAU CLASSEMENT
+   -----------------
+   Toute la hauteur droite
 ===================================================== */
 
-.table-container::-webkit-scrollbar {
+.classement-container {
+
+  width: 100%;
+
+  height: 100%;
+
+  flex: 1;
+
+  min-height: 0;
+
+  overflow-y: auto;
+
+  overflow-x: hidden;
+
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    rgba(255, 204, 0, 0.7)
+    rgba(20, 20, 20, 0.5);
+}
+
+
+/* =====================================================
+   SCROLLBAR WEBKIT
+===================================================== */
+
+.programme-container::-webkit-scrollbar,
+.classement-container::-webkit-scrollbar {
+
   width: 5px;
 }
 
-.table-container::-webkit-scrollbar-track {
-  background: rgba(20, 20, 20, 0.5);
+
+.programme-container::-webkit-scrollbar-track,
+.classement-container::-webkit-scrollbar-track {
+
+  background:
+    rgba(20, 20, 20, 0.5);
 
   border-radius: 10px;
 }
 
-.table-container::-webkit-scrollbar-thumb {
-  background: rgba(255, 204, 0, 0.7);
+
+.programme-container::-webkit-scrollbar-thumb,
+.classement-container::-webkit-scrollbar-thumb {
+
+  background:
+    rgba(255, 204, 0, 0.7);
 
   border-radius: 10px;
 }
 
-.table-container::-webkit-scrollbar-thumb:hover {
+
+.programme-container::-webkit-scrollbar-thumb:hover,
+.classement-container::-webkit-scrollbar-thumb:hover {
+
   background: #ffcc00;
 }
 
@@ -267,9 +393,11 @@ body {
 ===================================================== */
 
 .table-row {
+
   display: grid;
 
-  background: rgba(20, 20, 20, 0.8);
+  background:
+    rgba(20, 20, 20, 0.8);
 
   border-radius: 4px;
 
@@ -279,25 +407,39 @@ body {
 
   margin-bottom: 2px;
 
-  transition: all 0.2s ease;
+  transition:
+    all 0.2s ease;
 
-  font-size: clamp(11px, 1.5vw, 13px);
+  font-size:
+    clamp(11px, 1.5vw, 13px);
 
-  border: 1px solid rgba(255, 204, 0, 0.1);
+  border:
+    1px solid
+    rgba(255, 204, 0, 0.1);
 
   opacity: 0;
 
-  transform: translateY(10px);
+  transform:
+    translateY(10px);
 
-  animation: fadeInUp 0.5s ease forwards;
+  animation:
+    fadeInUp 0.5s ease forwards;
 }
+
 
 @keyframes fadeInUp {
+
   to {
+
     opacity: 1;
-    transform: translateY(0);
+
+    transform:
+      translateY(0);
+
   }
+
 }
+
 
 .table-row:nth-child(1) {
   animation-delay: 0.05s;
@@ -341,16 +483,20 @@ body {
 
 
 /* =====================================================
-   HOVER LIGNES
+   HOVER TABLE
 ===================================================== */
 
 .table-row:hover {
-  background: rgba(30, 30, 40, 0.9);
 
-  border-color: rgba(255, 204, 0, 0.4);
+  background:
+    rgba(30, 30, 40, 0.9);
+
+  border-color:
+    rgba(255, 204, 0, 0.4);
 
   box-shadow:
-    0 0 10px rgba(255, 204, 0, 0.2);
+    0 0 10px
+    rgba(255, 204, 0, 0.2);
 }
 
 
@@ -359,6 +505,7 @@ body {
 ===================================================== */
 
 .table-header {
+
   background:
     linear-gradient(
       145deg,
@@ -366,38 +513,51 @@ body {
       #2a2a2a
     ) !important;
 
-  color: #ffcc00 !important;
+  color:
+    #ffcc00 !important;
 
-  font-weight: bold;
+  font-weight:
+    bold;
 
-  border-radius: 4px 4px 0 0;
+  border-radius:
+    4px 4px 0 0;
 
-  border-bottom: 1px solid #ffcc00;
+  border-bottom:
+    1px solid #ffcc00;
 
   box-shadow:
-    0 0 5px rgba(255, 204, 0, 0.2);
+    0 0 5px
+    rgba(255, 204, 0, 0.2);
 
-  animation: none;
+  animation:
+    none;
 
-  opacity: 1;
+  opacity:
+    1;
 
-  transform: none;
+  transform:
+    none;
 
-  position: sticky;
+  position:
+    sticky;
 
-  top: 0;
+  top:
+    0;
 
-  z-index: 20;
+  z-index:
+    20;
 
-  margin-bottom: 2px;
+  margin-bottom:
+    2px;
 }
 
 
 /* =====================================================
-   PREMIÈRE LIGNE EN JAUNE
+   LIGNE MISE EN AVANT
 ===================================================== */
 
 .highlight-yellow {
+
   background:
     linear-gradient(
       145deg,
@@ -405,9 +565,11 @@ body {
       rgba(255, 204, 0, 0.1)
     ) !important;
 
-  border-left: 2px solid #ffcc00;
+  border-left:
+    2px solid #ffcc00;
 
-  color: #ffffff !important;
+  color:
+    #ffffff !important;
 }
 
 
@@ -416,23 +578,30 @@ body {
 ===================================================== */
 
 .table-row > div {
-  padding: 4px 2px;
 
-  text-align: center;
+  padding:
+    4px 2px;
 
-  word-break: break-word;
+  text-align:
+    center;
 
-  color: #e0e0e0;
+  word-break:
+    break-word;
 
-  font-size: 0.9em;
+  color:
+    #e0e0e0;
+
+  font-size:
+    0.9em;
 }
 
 
 /* =====================================================
-   TABLEAU CLASSEMENT
+   TABLEAU 2 : CLASSEMENT
 ===================================================== */
 
 .table2 {
+
   --col-a: 1fr;
   --col-b: 1fr;
   --col-c: 0.7fr;
@@ -441,94 +610,117 @@ body {
   --col-f: 0.7fr;
   --col-g: 0.7fr;
   --col-h: 0.7fr;
+
 }
 
 
 /* =====================================================
-   ZONE PARTENAIRES
-   =========================
-
-   Cette zone occupe la moitié basse
-   de l'écran.
+   CARROUSEL DES PARTENAIRES
 ===================================================== */
 
 .partners-section {
-  position: relative;
 
-  width: 100%;
+  position:
+    relative;
 
-  max-width: 1000px;
+  width:
+    100%;
 
-  height: calc(50vh - 18px);
+  flex:
+    1;
 
-  min-height: 250px;
+  min-height:
+    0;
 
-  margin: 0;
+  margin:
+    0;
 
-  flex: 1;
+  display:
+    flex;
 
-  min-height: 0;
+  flex-direction:
+    column;
 
-  display: flex;
+  justify-content:
+    center;
 
-  flex-direction: column;
+  align-items:
+    center;
 
-  justify-content: center;
+  perspective:
+    1800px;
 
-  align-items: center;
+  perspective-origin:
+    center center;
 
-  perspective: 1800px;
-
-  perspective-origin: center center;
-
-  overflow: visible;
+  overflow:
+    visible;
 }
 
-
-/* =====================================================
-   CARROUSEL PARTENAIRES
-===================================================== */
 
 .partners-carousel {
-  position: relative;
 
-  width: 100%;
+  position:
+    relative;
 
-  height: 100%;
+  width:
+    100%;
 
-  display: flex;
+  height:
+    100%;
 
-  justify-content: center;
+  display:
+    flex;
 
-  align-items: center;
+  justify-content:
+    center;
 
-  perspective: 1800px;
+  align-items:
+    center;
 
-  perspective-origin: center center;
+  perspective:
+    1800px;
+
+  perspective-origin:
+    center center;
 }
 
 
 /* =====================================================
-   LOGOS
+   LOGOS PARTENAIRES
 ===================================================== */
 
 .partners-carousel img {
-  position: absolute;
 
-  left: 50%;
-  top: 50%;
+  position:
+    absolute;
 
-  transform-origin: center center;
+  left:
+    50%;
 
-  width: auto;
-  height: auto;
+  top:
+    50%;
 
-  max-width: 200px;
-  max-height: 140px;
+  transform-origin:
+    center center;
 
-  padding: 10px;
+  width:
+    auto;
 
-  object-fit: contain;
+  height:
+    auto;
+
+  max-width:
+    200px;
+
+  max-height:
+    140px;
+
+  padding:
+    10px;
+
+  object-fit:
+    contain;
 
   background:
     linear-gradient(
@@ -537,15 +729,22 @@ body {
       rgba(5, 5, 5, 0.98)
     );
 
-  border: 2px solid;
+  border:
+    2px solid;
 
-  border-radius: 12px;
+  border-radius:
+    12px;
 
   transition:
-    transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.9s
+      cubic-bezier(0.22, 0.61, 0.36, 1),
+
     opacity 0.9s ease,
+
     filter 0.9s ease,
+
     box-shadow 0.9s ease,
+
     border-color 0.9s ease;
 }
 
@@ -555,15 +754,18 @@ body {
 ===================================================== */
 
 .color-yellow {
-  border-color: #ffcc00 !important;
+  border-color:
+    #ffcc00 !important;
 }
 
 .color-red {
-  border-color: #ff2020 !important;
+  border-color:
+    #ff2020 !important;
 }
 
 .color-blue {
-  border-color: #168cff !important;
+  border-color:
+    #168cff !important;
 }
 
 
@@ -572,21 +774,26 @@ body {
 ===================================================== */
 
 .center {
+
   transform:
     translate(-50%, -50%)
     translateZ(300px)
     scale(1.10);
 
-  z-index: 20;
+  z-index:
+    20;
 
-  opacity: 1;
+  opacity:
+    1;
 
   filter:
     brightness(1.15)
     contrast(1.08);
 }
 
+
 .center.color-yellow {
+
   box-shadow:
     0 0 20px #ffcc00,
     0 0 45px #ffcc00,
@@ -594,7 +801,9 @@ body {
     0 0 140px rgba(255, 204, 0, 0.35);
 }
 
+
 .center.color-red {
+
   box-shadow:
     0 0 20px #ff2020,
     0 0 45px #ff2020,
@@ -602,7 +811,9 @@ body {
     0 0 140px rgba(255, 32, 32, 0.35);
 }
 
+
 .center.color-blue {
+
   box-shadow:
     0 0 20px #168cff,
     0 0 45px #168cff,
@@ -616,15 +827,18 @@ body {
 ===================================================== */
 
 .left1 {
+
   transform:
     translate(-50%, -50%)
     translateX(-300px)
     translateZ(40px)
     scale(0.62);
 
-  z-index: 12;
+  z-index:
+    12;
 
-  opacity: 0.75;
+  opacity:
+    0.75;
 
   filter:
     brightness(0.75)
@@ -637,15 +851,18 @@ body {
 ===================================================== */
 
 .right1 {
+
   transform:
     translate(-50%, -50%)
     translateX(300px)
     translateZ(40px)
     scale(0.62);
 
-  z-index: 12;
+  z-index:
+    12;
 
-  opacity: 0.75;
+  opacity:
+    0.75;
 
   filter:
     brightness(0.75)
@@ -658,15 +875,18 @@ body {
 ===================================================== */
 
 .left2 {
+
   transform:
     translate(-50%, -50%)
     translateX(-500px)
     translateZ(-200px)
     scale(0.41);
 
-  z-index: 8;
+  z-index:
+    8;
 
-  opacity: 0.38;
+  opacity:
+    0.38;
 
   filter:
     brightness(0.55)
@@ -679,15 +899,18 @@ body {
 ===================================================== */
 
 .right2 {
+
   transform:
     translate(-50%, -50%)
     translateX(500px)
     translateZ(-200px)
     scale(0.41);
 
-  z-index: 8;
+  z-index:
+    8;
 
-  opacity: 0.38;
+  opacity:
+    0.38;
 
   filter:
     brightness(0.55)
@@ -700,18 +923,23 @@ body {
 ===================================================== */
 
 .hidden {
+
   transform:
     translate(-50%, -50%)
     translateZ(-700px)
     scale(0.15);
 
-  opacity: 0;
+  opacity:
+    0;
 
-  filter: blur(5px);
+  filter:
+    blur(5px);
 
-  z-index: 1;
+  z-index:
+    1;
 
-  pointer-events: none;
+  pointer-events:
+    none;
 }
 
 
@@ -720,44 +948,56 @@ body {
 ===================================================== */
 
 .light-line {
-  position: fixed;
 
-  left: 50%;
+  position:
+    fixed;
 
-  bottom: 0;
+  left:
+    50%;
 
-  transform: translateX(-50%);
+  bottom:
+    0;
 
-  width: 65%;
+  transform:
+    translateX(-50%);
 
-  height: 2px;
+  width:
+    65%;
 
-  background: #ffcc00;
+  height:
+    2px;
+
+  background:
+    #ffcc00;
 
   box-shadow:
     0 0 8px #ffcc00,
     0 0 20px rgba(255, 204, 0, 0.5);
 
-  z-index: 90;
+  z-index:
+    90;
 }
 
 
 /* =====================================================
-   RESPONSIVE TABLETTE / PETIT ÉCRAN
+   RESPONSIVE
+   TABLETTE
 ===================================================== */
 
 @media (max-width: 1200px) {
 
-  .partners-section {
-    height: calc(50vh - 18px);
+  .partners-carousel img {
+
+    max-width:
+      150px;
+
+    max-height:
+      100px;
   }
 
-  .partners-carousel img {
-    max-width: 150px;
-    max-height: 100px;
-  }
 
   .left1 {
+
     transform:
       translate(-50%, -50%)
       translateX(-200px)
@@ -765,7 +1005,9 @@ body {
       scale(0.55);
   }
 
+
   .right1 {
+
     transform:
       translate(-50%, -50%)
       translateX(200px)
@@ -773,10 +1015,14 @@ body {
       scale(0.55);
   }
 
+
   .left2,
   .right2 {
-    opacity: 0;
+
+    opacity:
+      0;
   }
+
 }
 
 
@@ -787,90 +1033,137 @@ body {
 @media (max-width: 768px) {
 
   .custom-section {
-    padding: 6px;
+
+    padding:
+      6px;
   }
+
 
   .main-content {
-    gap: 5px;
+
+    flex-direction:
+      column;
+
+    gap:
+      8px;
   }
 
-  .tables-and-partners {
-    flex-direction: column;
 
-    height: 50vh;
+  .left-column,
+  .right-column {
 
-    flex: 0 0 50vh;
+    width:
+      100%;
 
-    gap: 8px;
+    min-width:
+      0;
   }
 
-  .table-container {
-    width: 100%;
 
-    max-width: none;
+  .left-column {
 
-    min-width: 0;
+    height:
+      55%;
 
-    height: 50%;
-
-    min-height: 0;
-
-    margin-bottom: 0;
+    flex:
+      0 0 55%;
   }
+
+
+  .right-column {
+
+    height:
+      45%;
+
+    flex:
+      0 0 45%;
+  }
+
+
+  .programme-container {
+
+    height:
+      50%;
+
+    flex:
+      0 0 50%;
+  }
+
 
   .partners-section {
-    height: calc(50vh - 10px);
 
-    min-height: 200px;
-
-    margin-top: 0;
+    min-height:
+      0;
   }
+
 
   .partners-carousel img {
-    max-width: 120px;
 
-    max-height: 80px;
+    max-width:
+      120px;
+
+    max-height:
+      80px;
   }
 
+
   .center {
+
     transform:
       translate(-50%, -50%)
       translateZ(150px)
       scale(0.9);
   }
 
+
   .left1 {
+
     transform:
       translate(-50%, -50%)
       translateX(-120px)
       scale(0.45);
   }
 
+
   .right1 {
+
     transform:
       translate(-50%, -50%)
       translateX(120px)
       scale(0.45);
   }
 
+
   .left2,
   .right2 {
-    display: none;
+
+    display:
+      none;
   }
+
 
   .table-row {
-    font-size: clamp(10px, 1.8vw, 12px);
 
-    padding: 3px;
+    font-size:
+      clamp(10px, 1.8vw, 12px);
 
-    margin-bottom: 1px;
+    padding:
+      3px;
+
+    margin-bottom:
+      1px;
   }
+
 
   .table-row > div {
-    padding: 2px 1px;
 
-    font-size: 0.85em;
+    padding:
+      2px 1px;
+
+    font-size:
+      0.85em;
   }
+
 }
 
 
@@ -881,57 +1174,106 @@ body {
 @media (max-width: 480px) {
 
   .custom-section h2 {
-    font-size: 14px;
 
-    margin-bottom: 4px;
+    font-size:
+      14px;
+
+    margin-bottom:
+      4px;
   }
+
 
   .custom-section h2::after {
-    width: 80px;
 
-    margin-top: 3px;
+    width:
+      80px;
+
+    margin-top:
+      3px;
   }
 
-  .tables-and-partners {
-    gap: 5px;
+
+  .main-content {
+
+    gap:
+      5px;
   }
+
+
+  .left-column,
+  .right-column {
+
+    width:
+      100%;
+  }
+
+
+  .left-column {
+
+    height:
+      55%;
+
+    flex:
+      0 0 55%;
+  }
+
+
+  .right-column {
+
+    height:
+      45%;
+
+    flex:
+      0 0 45%;
+  }
+
 
   .table-container {
-    padding: 4px;
+
+    padding:
+      4px;
   }
 
-  .partners-section {
-    min-height: 180px;
-  }
 
   .partners-carousel img {
-    max-width: 90px;
 
-    max-height: 65px;
+    max-width:
+      90px;
 
-    padding: 6px;
+    max-height:
+      65px;
+
+    padding:
+      6px;
   }
 
+
   .center {
+
     transform:
       translate(-50%, -50%)
       translateZ(100px)
       scale(0.8);
   }
 
+
   .left1 {
+
     transform:
       translate(-50%, -50%)
       translateX(-85px)
       scale(0.35);
   }
 
+
   .right1 {
+
     transform:
       translate(-50%, -50%)
       translateX(85px)
       scale(0.35);
   }
+
 }
 
 </style>
@@ -945,17 +1287,18 @@ body {
 
 
   <!-- ===================================================
-       MOITIÉ HAUTE : TABLEAUX
+       COLONNE GAUCHE
+       PROGRAMME + PARTENAIRES
   ==================================================== -->
 
-  <div class="tables-and-partners">
+  <div class="left-column">
 
 
-    <!-- ===============================
+    <!-- ===============================================
          TABLEAU PROGRAMME
-    ================================ -->
+    ================================================ -->
 
-    <div class="table-container">
+    <div class="table-container programme-container">
 
       <h2>📅 PROGRAMME</h2>
 
@@ -964,11 +1307,38 @@ body {
     </div>
 
 
-    <!-- ===============================
-         TABLEAU CLASSEMENT
-    ================================ -->
+    <!-- ===============================================
+         PARTENAIRES
+    ================================================ -->
 
-    <div class="table-container">
+    <div class="partners-section">
+
+      <h2>🤝 NOS PARTENAIRES</h2>
+
+      <div
+        class="partners-carousel"
+        id="partnersCarousel"
+      >
+
+        <!-- Les logos seront insérés ici -->
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+  <!-- ===================================================
+       COLONNE DROITE
+       CLASSEMENT
+  ==================================================== -->
+
+  <div class="right-column">
+
+
+    <div class="table-container classement-container">
 
       <h2>🏆 CLASSEMENT</h2>
 
@@ -976,23 +1346,6 @@ body {
 
     </div>
 
-  </div>
-
-
-  <!-- ===================================================
-       MOITIÉ BASSE : PARTENAIRES
-  ==================================================== -->
-
-  <div class="partners-section">
-
-    <h2>🤝 NOS PARTENAIRES</h2>
-
-    <div
-      class="partners-carousel"
-      id="partnersCarousel"
-    >
-      <!-- Les logos seront insérés automatiquement -->
-    </div>
 
   </div>
 
@@ -1022,33 +1375,49 @@ function fetchSheetData(
   const id =
     '1vidVkLiiLMnmrO9HTmzM9Ns8bC28ONU1dVL41SVepOU';
 
+
   const url =
-    `https://docs.google.com/spreadsheets/d/${id}/gviz/gviz/tq?tqx=out:json&tq&gid=${gid}`;
+    `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:json&tq&gid=${gid}`;
+
 
   fetch(url)
 
-    .then(response => response.text())
+    .then(
+      response =>
+        response.text()
+    )
 
-    .then(data => {
+    .then(
+      data => {
 
-      const json =
-        JSON.parse(
-          data.substring(47).slice(0, -2)
+        const json =
+          JSON.parse(
+            data.substring(47).slice(0, -2)
+          );
+
+
+        document
+          .getElementById(elementId)
+          .innerHTML =
+            buildModernTable(
+              json,
+              options
+            );
+
+      }
+    )
+
+    .catch(
+      error => {
+
+        console.error(
+          "Erreur lors du chargement des données :",
+          error
         );
 
-      document.getElementById(elementId).innerHTML =
-        buildModernTable(json, options);
+      }
+    );
 
-    })
-
-    .catch(error => {
-
-      console.error(
-        "Erreur chargement Google Sheets :",
-        error
-      );
-
-    });
 }
 
 
@@ -1070,6 +1439,7 @@ function buildModernTable(
 
 
   let html = '';
+
 
   const colCount =
     json.table.cols.length;
@@ -1108,15 +1478,18 @@ function buildModernTable(
       >`;
 
 
-    json.table.cols.forEach(col => {
+    json.table.cols.forEach(
+      col => {
 
-      html +=
-        `<div>${col.label}</div>`;
+        html +=
+          `<div>${col.label}</div>`;
 
-    });
+      }
+    );
 
 
-    html += '</div>';
+    html +=
+      '</div>';
   }
 
 
@@ -1151,7 +1524,9 @@ function buildModernTable(
         i++
       ) {
 
-        const cell = row.c[i];
+        const cell =
+          row.c[i];
+
 
         let value = '';
 
@@ -1163,31 +1538,40 @@ function buildModernTable(
             cell?.v ??
             '';
 
-        } catch (e) {
+        }
 
-          value = '';
+        catch (e) {
+
+          value =
+            '';
 
         }
 
 
         html +=
           `<div>${value}</div>`;
+
       }
 
 
-      html += '</div>';
+      html +=
+        '</div>';
 
     }
   );
 
 
   return html;
+
 }
 
 
 /* =====================================================
    CHARGEMENT DES TABLEAUX
 ===================================================== */
+
+
+/* PROGRAMME */
 
 fetchSheetData(
   '1902966512',
@@ -1198,6 +1582,8 @@ fetchSheetData(
   }
 );
 
+
+/* CLASSEMENT */
 
 fetchSheetData(
   '1966074571',
@@ -1213,398 +1599,428 @@ fetchSheetData(
    CARROUSEL DES LOGOS PARTENAIRES
 ===================================================== */
 
-window.onload = function() {
+window.onload =
+  function() {
 
 
-  /* ===============================================
-     LISTE DES LOGOS
-  =============================================== */
+    /* ===============================================
+       LISTE DES LOGOS PARTENAIRES
+    =============================================== */
 
-  const partnerLogos = [
+    const partnerLogos = [
 
-    "logo/7ENVIE DE PAIN.png",
+      "logo/7ENVIE DE PAIN.png",
 
-    "logo/AGTIM.png",
+      "logo/AGTIM.png",
 
-    "logo/Alain AFFLELOU.png",
+      "logo/Alain AFFLELOU.png",
 
-    "logo/APOLLO.png",
+      "logo/APOLLO.png",
 
-    "logo/ARRIVE.png",
+      "logo/ARRIVE.png",
 
-    "logo/ARTIPOLE.png",
+      "logo/ARTIPOLE.png",
 
-    "logo/ATP.png",
+      "logo/ATP.png",
 
-    "logo/AUTO BILAN VIEILLEVIGNE.png",
+      "logo/AUTO BILAN VIEILLEVIGNE.png",
 
-    "logo/BAR LE SCORE.png",
+      "logo/BAR LE SCORE.png",
 
-    "logo/BARREAU.png",
+      "logo/BARREAU.png",
 
-    "logo/BIOCOOP.png",
+      "logo/BIOCOOP.png",
 
-    "logo/BOUTEAU.png",
+      "logo/BOUTEAU.png",
 
-    "logo/BRIOGEL.png",
+      "logo/BRIOGEL.png",
 
-    "logo/BUROLOGIC.png",
+      "logo/BUROLOGIC.png",
 
-    "logo/C3P.png",
+      "logo/C3P.png",
 
-    "logo/CALIPAGE.png",
+      "logo/CALIPAGE.png",
 
-    "logo/CBH.png",
+      "logo/CBH.png",
 
-    "logo/CD VENDEE.png",
+      "logo/CD VENDEE.png",
 
-    "logo/CHAPLEAU MACONNERIE.png",
+      "logo/CHAPLEAU MACONNERIE.png",
 
-    "logo/CLARA AUTO.png"
+      "logo/CLARA AUTO.png"
 
-  ];
-
-
-  const carousel =
-    document.getElementById(
-      'partnersCarousel'
-    );
-
-
-  const total =
-    partnerLogos.length;
-
-
-  if (total === 0) {
-    return;
-  }
-
-
-  /* ===============================================
-     INDEX COURANT
-  =============================================== */
-
-  let index = 0;
-
-
-  /* ===============================================
-     COULEURS
-  =============================================== */
-
-  const colors = [
-    "color-yellow",
-    "color-red",
-    "color-blue"
-  ];
-
-
-  function getColor(
-    partnerIndex
-  ) {
-
-    return colors[
-      partnerIndex % colors.length
     ];
 
-  }
 
+    /* ===============================================
+       RÉCUPÉRATION DU CARROUSEL
+    =============================================== */
 
-  /* ===============================================
-     MISE À JOUR DU CARROUSEL
-  =============================================== */
-
-  function updateCarousel() {
-
-
-    /* -------------------------------------------
-       POSITIONS
-    ------------------------------------------- */
-
-    const center =
-      index % total;
-
-
-    const left1 =
-      (index - 1 + total) % total;
-
-
-    const left2 =
-      (index - 2 + total) % total;
-
-
-    const right1 =
-      (index + 1) % total;
-
-
-    const right2 =
-      (index + 2) % total;
-
-
-    /* -------------------------------------------
-       MASQUER TOUS LES LOGOS
-    ------------------------------------------- */
-
-    const images =
-      carousel.querySelectorAll('img');
-
-
-    images.forEach(img => {
-
-      img.className = 'hidden';
-
-    });
-
-
-    /* -------------------------------------------
-       LOGO CENTRAL
-    ------------------------------------------- */
-
-    const centerImg =
-      carousel.querySelector(
-        `img:nth-child(${center + 1})`
+    const carousel =
+      document.getElementById(
+        'partnersCarousel'
       );
 
 
-    if (centerImg) {
+    const total =
+      partnerLogos.length;
 
-      centerImg.className =
-        `center ${getColor(center)}`;
+
+    if (total === 0) {
+
+      return;
 
     }
 
 
-    /* -------------------------------------------
-       LOGO GAUCHE 1
-    ------------------------------------------- */
+    /* ===============================================
+       INDEX
+    =============================================== */
 
-    const left1Img =
-      carousel.querySelector(
-        `img:nth-child(${left1 + 1})`
-      );
+    let index =
+      0;
 
 
-    if (left1Img) {
+    /* ===============================================
+       COULEURS
+    =============================================== */
 
-      left1Img.className =
-        `left1 ${getColor(left1)}`;
+    const colors = [
 
-    }
+      "color-yellow",
 
+      "color-red",
 
-    /* -------------------------------------------
-       LOGO GAUCHE 2
-    ------------------------------------------- */
+      "color-blue"
 
-    const left2Img =
-      carousel.querySelector(
-        `img:nth-child(${left2 + 1})`
-      );
+    ];
 
 
-    if (left2Img) {
+    function getColor(
+      partnerIndex
+    ) {
 
-      left2Img.className =
-        `left2 ${getColor(left2)}`;
-
-    }
-
-
-    /* -------------------------------------------
-       LOGO DROITE 1
-    ------------------------------------------- */
-
-    const right1Img =
-      carousel.querySelector(
-        `img:nth-child(${right1 + 1})`
-      );
-
-
-    if (right1Img) {
-
-      right1Img.className =
-        `right1 ${getColor(right1)}`;
+      return colors[
+        partnerIndex %
+        colors.length
+      ];
 
     }
 
 
-    /* -------------------------------------------
-       LOGO DROITE 2
-    ------------------------------------------- */
+    /* ===============================================
+       MISE À JOUR DU CARROUSEL
+    =============================================== */
 
-    const right2Img =
-      carousel.querySelector(
-        `img:nth-child(${right2 + 1})`
+    function updateCarousel() {
+
+
+      /* -------------------------------------------
+         POSITIONS
+      ------------------------------------------- */
+
+      const center =
+        index % total;
+
+
+      const left1 =
+        (index - 1 + total) %
+        total;
+
+
+      const left2 =
+        (index - 2 + total) %
+        total;
+
+
+      const right1 =
+        (index + 1) %
+        total;
+
+
+      const right2 =
+        (index + 2) %
+        total;
+
+
+      /* -------------------------------------------
+         MASQUER TOUS LES LOGOS
+      ------------------------------------------- */
+
+      const images =
+        carousel.querySelectorAll(
+          'img'
+        );
+
+
+      images.forEach(
+        img => {
+
+          img.className =
+            'hidden';
+
+        }
       );
 
 
-    if (right2Img) {
+      /* -------------------------------------------
+         LOGO CENTRAL
+      ------------------------------------------- */
 
-      right2Img.className =
-        `right2 ${getColor(right2)}`;
-
-    }
-
-
-    /* ===========================================
-       BARRE LUMINEUSE
-    =========================================== */
-
-    const lightLine =
-      document.querySelector(
-        '.light-line'
-      );
+      const centerImg =
+        carousel.querySelector(
+          `img:nth-child(${center + 1})`
+        );
 
 
-    if (lightLine) {
+      if (centerImg) {
 
-      const currentColor =
-        getColor(index);
-
-
-      if (
-        currentColor ===
-        "color-yellow"
-      ) {
-
-        lightLine.style.background =
-          "#ffcc00";
-
-        lightLine.style.boxShadow =
-          "0 0 8px #ffcc00, 0 0 20px #ffcc00, 0 0 40px rgba(255, 204, 0, 0.5)";
+        centerImg.className =
+          `center ${getColor(center)}`;
 
       }
 
 
-      else if (
-        currentColor ===
-        "color-red"
-      ) {
+      /* -------------------------------------------
+         LOGO GAUCHE 1
+      ------------------------------------------- */
 
-        lightLine.style.background =
-          "#ff2020";
+      const left1Img =
+        carousel.querySelector(
+          `img:nth-child(${left1 + 1})`
+        );
 
-        lightLine.style.boxShadow =
-          "0 0 8px #ff2020, 0 0 20px #ff2020, 0 0 40px rgba(255, 32, 32, 0.5)";
+
+      if (left1Img) {
+
+        left1Img.className =
+          `left1 ${getColor(left1)}`;
+
+      }
+
+
+      /* -------------------------------------------
+         LOGO GAUCHE 2
+      ------------------------------------------- */
+
+      const left2Img =
+        carousel.querySelector(
+          `img:nth-child(${left2 + 1})`
+        );
+
+
+      if (left2Img) {
+
+        left2Img.className =
+          `left2 ${getColor(left2)}`;
 
       }
 
 
-      else {
+      /* -------------------------------------------
+         LOGO DROITE 1
+      ------------------------------------------- */
 
-        lightLine.style.background =
-          "#168cff";
+      const right1Img =
+        carousel.querySelector(
+          `img:nth-child(${right1 + 1})`
+        );
 
-        lightLine.style.boxShadow =
-          "0 0 8px #168cff, 0 0 20px #168cff, 0 0 40px rgba(22, 140, 255, 0.5)";
+
+      if (right1Img) {
+
+        right1Img.className =
+          `right1 ${getColor(right1)}`;
 
       }
+
+
+      /* -------------------------------------------
+         LOGO DROITE 2
+      ------------------------------------------- */
+
+      const right2Img =
+        carousel.querySelector(
+          `img:nth-child(${right2 + 1})`
+        );
+
+
+      if (right2Img) {
+
+        right2Img.className =
+          `right2 ${getColor(right2)}`;
+
+      }
+
+
+      /* ===========================================
+         BARRE LUMINEUSE
+      =========================================== */
+
+      const lightLine =
+        document.querySelector(
+          '.light-line'
+        );
+
+
+      if (lightLine) {
+
+        const currentColor =
+          getColor(index);
+
+
+        if (
+          currentColor ===
+          "color-yellow"
+        ) {
+
+          lightLine.style.background =
+            "#ffcc00";
+
+
+          lightLine.style.boxShadow =
+            "0 0 8px #ffcc00, 0 0 20px #ffcc00, 0 0 40px rgba(255, 204, 0, 0.5)";
+
+        }
+
+
+        else if (
+          currentColor ===
+          "color-red"
+        ) {
+
+          lightLine.style.background =
+            "#ff2020";
+
+
+          lightLine.style.boxShadow =
+            "0 0 8px #ff2020, 0 0 20px #ff2020, 0 0 40px rgba(255, 32, 32, 0.5)";
+
+        }
+
+
+        else {
+
+          lightLine.style.background =
+            "#168cff";
+
+
+          lightLine.style.boxShadow =
+            "0 0 8px #168cff, 0 0 20px #168cff, 0 0 40px rgba(22, 140, 255, 0.5)";
+
+        }
+
+      }
+
+
+      /* ===========================================
+         SAUVEGARDE INDEX
+      =========================================== */
+
+      localStorage.setItem(
+        "partenaireIndex",
+        index
+      );
 
     }
 
 
-    /* ===========================================
-       SAUVEGARDE
-    =========================================== */
+    /* ===============================================
+       CHARGEMENT DES IMAGES
+    =============================================== */
 
-    localStorage.setItem(
-      "partenaireIndex",
-      index
+    partnerLogos.forEach(
+      (logo, i) => {
+
+        const img =
+          document.createElement(
+            'img'
+          );
+
+
+        img.src =
+          logo;
+
+
+        img.alt =
+          `Partenaire ${i + 1}`;
+
+
+        img.className =
+          'hidden';
+
+
+        carousel.appendChild(
+          img
+        );
+
+      }
     );
 
-  }
+
+    /* ===============================================
+       RÉCUPÉRATION INDEX SAUVEGARDÉ
+    =============================================== */
+
+    const savedIndex =
+      localStorage.getItem(
+        "partenaireIndex"
+      );
 
 
-  /* ===============================================
-     CHARGEMENT DES IMAGES
-  =============================================== */
-
-  partnerLogos.forEach(
-    (logo, i) => {
-
-      const img =
-        document.createElement('img');
-
-
-      img.src = logo;
-
-      img.alt =
-        `Partenaire ${i + 1}`;
-
-      img.className =
-        'hidden';
-
-
-      carousel.appendChild(img);
-
-    }
-  );
-
-
-  /* ===============================================
-     RESTAURATION DE L'INDEX
-  =============================================== */
-
-  const savedIndex =
-    localStorage.getItem(
-      "partenaireIndex"
-    );
-
-
-  if (
-    savedIndex !== null &&
-    !isNaN(parseInt(savedIndex))
-  ) {
-
-    index =
-      parseInt(savedIndex) % total;
-
-  }
-
-  else {
-
-    index = 0;
-
-  }
-
-
-  /* ===============================================
-     INITIALISATION
-  =============================================== */
-
-  updateCarousel();
-
-
-  /* ===============================================
-     ROTATION AUTOMATIQUE
-     Toutes les 2,5 secondes
-  =============================================== */
-
-  setInterval(
-    () => {
+    if (
+      savedIndex !== null &&
+      !isNaN(
+        parseInt(savedIndex)
+      )
+    ) {
 
       index =
-        (index + 1) % total;
+        parseInt(savedIndex) %
+        total;
 
-      updateCarousel();
+    }
 
-    },
-    2500
-  );
+    else {
 
-};
+      index =
+        0;
+
+    }
+
+
+    /* ===============================================
+       INITIALISATION
+    =============================================== */
+
+    updateCarousel();
+
+
+    /* ===============================================
+       ROTATION AUTOMATIQUE
+       2,5 secondes
+    =============================================== */
+
+    setInterval(
+      () => {
+
+        index =
+          (index + 1) %
+          total;
+
+
+        updateCarousel();
+
+      },
+      2500
+    );
+
+  };
 
 </script>
 
 </div>
 
+</body>
 
-<meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
-
-<title>
-  Programme & Classement
-</title>
+</html>
