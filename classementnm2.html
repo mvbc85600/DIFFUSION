@@ -9,6 +9,11 @@
     padding: 0;
   }
 
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+
   .custom-section {
     position: relative;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -20,15 +25,17 @@
         #050500 65%,
         #000 100%
       );
+    height: 100vh;
     padding: 20px;
-    max-width: 1400px;
-    margin: auto;
+    margin: 0;
     color: #fff;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
   /* =====================================================
-     HALO CENTRAL (inspiré de votre page partenaires)
+     HALO CENTRAL
   ===================================================== */
   .custom-section::before {
     content: "";
@@ -51,18 +58,9 @@
   }
 
   @keyframes halo {
-    0% {
-      transform: translate(-50%, -50%) scale(0.8);
-      opacity: 0.5;
-    }
-    50% {
-      transform: translate(-50%, -50%) scale(1.1);
-      opacity: 0.8;
-    }
-    100% {
-      transform: translate(-50%, -50%) scale(0.8);
-      opacity: 0.5;
-    }
+    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+    50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; }
+    100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
   }
 
   /* =====================================================
@@ -81,6 +79,7 @@
       0 0 30px rgba(255, 204, 0, 0.7);
     margin-bottom: 15px;
     z-index: 10;
+    flex-shrink: 0;
   }
 
   .custom-section h2::after {
@@ -97,15 +96,18 @@
   }
 
   /* =====================================================
-     TABLES WRAPPER (2 colonnes)
+     TABLES WRAPPER (2 colonnes, hauteur dynamique)
   ===================================================== */
   .custom-section .tables-wrapper {
     display: flex;
     gap: 20px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: center;
-    position: relative;
-    z-index: 10;
+    align-items: flex-start;
+    flex: 1;
+    min-height: 0;
+    padding-bottom: 60px; /* Espace pour la barre lumineuse */
+    box-sizing: border-box;
   }
 
   .custom-section .table-container {
@@ -119,6 +121,8 @@
     box-shadow:
       0 0 15px rgba(255, 204, 0, 0.1),
       inset 0 0 15px rgba(255, 204, 0, 0.05);
+    overflow-y: auto; /* Défilement interne si nécessaire */
+    max-height: 100%; /* Hauteur maximale = hauteur du parent */
   }
 
   /* =====================================================
@@ -140,13 +144,10 @@
   }
 
   @keyframes fadeInUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Animation séquentielle pour chaque ligne */
+  /* Animation séquentielle */
   .custom-section .table-row:nth-child(1) { animation-delay: 0.1s; }
   .custom-section .table-row:nth-child(2) { animation-delay: 0.2s; }
   .custom-section .table-row:nth-child(3) { animation-delay: 0.3s; }
@@ -177,6 +178,9 @@
     animation: none;
     opacity: 1;
     transform: none;
+    position: sticky;
+    top: 0;
+    z-index: 20;
   }
 
   .custom-section .highlight-yellow {
@@ -203,9 +207,6 @@
     --col-h: 0.8fr;
   }
 
-  /* =====================================================
-     LUMIÈRE AU SURVOL (effet glow)
-  ===================================================== */
   .custom-section .table-row:hover > div {
     color: #ffcc00;
     text-shadow: 0 0 5px rgba(255, 204, 0, 0.7);
@@ -217,6 +218,11 @@
   @media (max-width: 768px) {
     .custom-section .tables-wrapper {
       flex-direction: column;
+      height: 100%;
+    }
+    .custom-section .table-container {
+      flex: 1;
+      max-height: 50%; /* Chaque tableau prend 50% de la hauteur */
     }
     .custom-section .table-row {
       font-size: clamp(11px, 2.2vw, 13px);
@@ -242,7 +248,7 @@
   </div>
 </div>
 
-<!-- Barre lumineuse en bas (comme votre page partenaires) -->
+<!-- Barre lumineuse en bas -->
 <div class="light-line"></div>
 
 <script>
