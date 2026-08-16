@@ -451,6 +451,98 @@ body {
 }
 
 /* =========================
+   ÉDITEUR DE TEXTE RICHE
+========================= */
+
+.message-editor {
+    border: 1px solid #444;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #222;
+}
+
+.message-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    padding: 8px;
+    background: #2b2b2b;
+    border-bottom: 1px solid #444;
+}
+
+.message-toolbar button,
+.message-toolbar select,
+.message-toolbar input[type="color"] {
+    height: 36px;
+    min-width: 36px;
+    border: 1px solid #555;
+    border-radius: 6px;
+    background: #333;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.message-toolbar button {
+    padding: 0 10px;
+    font-weight: 600;
+}
+
+.message-toolbar button:hover,
+.message-toolbar select:hover {
+    background: #444;
+}
+
+.message-toolbar .separator {
+    width: 1px;
+    height: 26px;
+    background: #555;
+    margin: 0 3px;
+}
+
+.message-toolbar select {
+    padding: 0 8px;
+    min-width: 100px;
+}
+
+.message-toolbar input[type="color"] {
+    padding: 3px;
+    width: 42px;
+}
+
+.message-content-editor {
+    min-height: 220px;
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 16px;
+    background: #333;
+    color: white;
+    outline: none;
+    font-size: 18px;
+    line-height: 1.6;
+    text-align: left;
+}
+
+.message-content-editor:empty::before {
+    content: attr(data-placeholder);
+    color: #888;
+    pointer-events: none;
+}
+
+.message-content-editor:focus {
+    box-shadow: inset 0 0 0 2px #16a34a;
+}
+
+.message-editor-help {
+    padding: 8px 12px;
+    color: #999;
+    font-size: 12px;
+    background: #282828;
+    border-top: 1px solid #444;
+}
+
+/* =========================
    MOBILE
 ========================= */
 @media(max-width:600px) {
@@ -742,10 +834,88 @@ body {
                 <input type="text" id="messageTitre" placeholder="Ex : Annonce importante">
             </div>
 
-            <!-- CONTENU DU MESSAGE -->
+            <!-- CONTENU DU MESSAGE : ÉDITEUR DE TEXTE RICHE -->
             <div class="form-group">
                 <label>📄 Contenu du message</label>
-                <textarea id="messageContenu" rows="5" placeholder="Ex : Le match est reporté à demain..."></textarea>
+
+                <div class="message-editor">
+                    <div class="message-toolbar" id="messageToolbar">
+                        <button type="button" data-command="undo" title="Annuler">↶</button>
+                        <button type="button" data-command="redo" title="Rétablir">↷</button>
+                        <span class="separator"></span>
+
+                        <button type="button" data-command="bold" title="Gras"><strong>G</strong></button>
+                        <button type="button" data-command="italic" title="Italique"><em>I</em></button>
+                        <button type="button" data-command="underline" title="Souligné"><u>S</u></button>
+                        <button type="button" data-command="strikeThrough" title="Barré"><s>ABC</s></button>
+                        <span class="separator"></span>
+
+                        <button type="button" data-command="justifyLeft" title="Aligner à gauche">☰</button>
+                        <button type="button" data-command="justifyCenter" title="Centrer">≡</button>
+                        <button type="button" data-command="justifyRight" title="Aligner à droite">☷</button>
+                        <button type="button" data-command="justifyFull" title="Justifier">▤</button>
+                        <span class="separator"></span>
+
+                        <button type="button" data-command="insertUnorderedList" title="Liste à puces">• Liste</button>
+                        <button type="button" data-command="insertOrderedList" title="Liste numérotée">1. Liste</button>
+                        <button type="button" data-command="outdent" title="Diminuer le retrait">⇤</button>
+                        <button type="button" data-command="indent" title="Augmenter le retrait">⇥</button>
+                        <span class="separator"></span>
+
+                        <select id="messageFormatBlock" title="Style de paragraphe">
+                            <option value="p">Paragraphe</option>
+                            <option value="h1">Titre 1</option>
+                            <option value="h2">Titre 2</option>
+                            <option value="h3">Titre 3</option>
+                            <option value="blockquote">Citation</option>
+                        </select>
+
+                        <select id="messageFontName" title="Police">
+                            <option value="">Police</option>
+                            <option value="Arial">Arial</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Times New Roman">Times New Roman</option>
+                            <option value="Verdana">Verdana</option>
+                            <option value="Trebuchet MS">Trebuchet MS</option>
+                            <option value="Courier New">Courier New</option>
+                        </select>
+
+                        <select id="messageFontSize" title="Taille">
+                            <option value="">Taille</option>
+                            <option value="1">Très petit</option>
+                            <option value="2">Petit</option>
+                            <option value="3">Normal</option>
+                            <option value="4">Grand</option>
+                            <option value="5">Très grand</option>
+                            <option value="6">Énorme</option>
+                            <option value="7">Maximum</option>
+                        </select>
+
+                        <label title="Couleur du texte">
+                            🎨 <input type="color" id="messageInlineColor" value="#ffffff">
+                        </label>
+
+                        <button type="button" id="messageHighlightButton" title="Surligner">🖍️</button>
+                        <button type="button" id="messageLinkButton" title="Insérer un lien">🔗</button>
+                        <button type="button" data-command="unlink" title="Supprimer le lien">⛓️‍💥</button>
+                        <button type="button" data-command="insertHorizontalRule" title="Ligne horizontale">―</button>
+                        <button type="button" id="messageClearFormat" title="Effacer la mise en forme">Tx</button>
+                        <button type="button" id="messageInsertBreak" title="Insérer un saut de ligne (<br>)">↵</button>
+                    </div>
+
+                    <div
+                        id="messageContenu"
+                        class="message-content-editor"
+                        contenteditable="true"
+                        role="textbox"
+                        aria-multiline="true"
+                        data-placeholder="Ex : Le match est reporté à demain..."
+                    ></div>
+
+                    <div class="message-editor-help">
+                        Entrée = nouveau paragraphe • Maj + Entrée = saut de ligne • Ctrl/Cmd + B = gras • Ctrl/Cmd + I = italique • Ctrl/Cmd + U = souligné
+                    </div>
+                </div>
             </div>
 
             <!-- COULEUR DU TEXTE -->
@@ -799,76 +969,7 @@ body {
             <div class="form-group">
                 <label>🏆 Partenaire</label>
                 <select id="partnerSelect">
-                    <option value="">-- Choisir un partenaire --</option>
-                    <option value="7ENVIE DE PAIN">7ENVIE DE PAIN</option>
-                    <option value="AGTIM">AGTIM</option>
-                    <option value="Alain AFFLELOU">Alain AFFLELOU</option>
-                    <option value="APOLLO">APOLLO</option>
-                    <option value="ARRIVE">ARRIVE</option>
-                    <option value="ARTIPOLE">ARTIPOLE</option>
-                    <option value="ATP">ATP</option>
-                    <option value="AUTO BILAN VIEILLEVIGNE">AUTO BILAN VIEILLEVIGNE</option>
-                    <option value="BAR LE SCORE">BAR LE SCORE</option>
-                    <option value="BARREAU">BARREAU</option>
-                    <option value="BIOCOOP">BIOCOOP</option>
-                    <option value="BOUTEAU">BOUTEAU</option>
-                    <option value="BRIOGEL">BRIOGEL</option>
-                    <option value="BUROLOGIC">BUROLOGIC</option>
-                    <option value="C3P">C3P</option>
-                    <option value="CALIPAGE">CALIPAGE</option>
-                    <option value="CBH">CBH</option>
-                    <option value="CD VENDEE">CD VENDEE</option>
-                    <option value="CHAPLEAU MACONNERIE">CHAPLEAU MACONNERIE</option>
-                    <option value="CLARA AUTO">CLARA AUTO</option>
-                    <option value="CMO">CMO</option>
-                    <option value="COIFFURE CELINE">COIFFURE CELINE</option>
-                    <option value="COMITE DES FETES">COMITE DES FETES</option>
-                    <option value="CPM AXA">CPM AXA</option>
-                    <option value="CYRIL LECLAIR">CYRIL LECLAIR</option>
-                    <option value="DIAGONAL">DIAGONAL</option>
-                    <option value="DURET">DURET</option>
-                    <option value="ENVOLIIS">ENVOLIIS</option>
-                    <option value="ERIC MOCQUET">ERIC MOCQUET</option>
-                    <option value="EVEILLARD">EVEILLARD</option>
-                    <option value="FLEUR D'ANGE">FLEUR D'ANGE</option>
-                    <option value="GO IMPRESSION">GO IMPRESSION</option>
-                    <option value="HEPPNER">HEPPNER</option>
-                    <option value="HP">HP</option>
-                    <option value="ID2TECH">ID2TECH</option>
-                    <option value="IDM">IDM</option>
-                    <option value="INDCAR">INDCAR</option>
-                    <option value="JAD'O">JAD'O</option>
-                    <option value="LA MARTINIQUAISE">LA MARTINIQUAISE</option>
-                    <option value="LE CONSERVATEUR">LE CONSERVATEUR</option>
-                    <option value="LECLERC">LECLERC</option>
-                    <option value="LLA">LLA</option>
-                    <option value="MAITRE COQ">MAITRE COQ</option>
-                    <option value="MD NERGIES">MD NERGIES</option>
-                    <option value="MDLP">MDLP</option>
-                    <option value="MJ">MJ</option>
-                    <option value="MOINARD">MOINARD</option>
-                    <option value="MV">MV</option>
-                    <option value="NAT EVASION">NAT EVASION</option>
-                    <option value="NATURACARE">NATURACARE</option>
-                    <option value="O BORD DELO">O BORD DELO</option>
-                    <option value="PETIT ST GEORGES">PETIT ST GEORGES</option>
-                    <option value="RATOKE">RATOKE</option>
-                    <option value="RAUTUREAU">RAUTUREAU</option>
-                    <option value="RT">RT</option>
-                    <option value="SCHMIDT">SCHMIDT</option>
-                    <option value="SENARD">SENARD</option>
-                    <option value="SEV">SEV</option>
-                    <option value="SODEBO">SODEBO</option>
-                    <option value="SQUARE">SQUARE</option>
-                    <option value="STARTRUCKS">STARTRUCKS</option>
-                    <option value="STRAPHARM">STRAPHARM</option>
-                    <option value="SUPER U">SUPER U</option>
-                    <option value="SYMBIOSE">SYMBIOSE</option>
-                    <option value="TDM">TDM</option>
-                    <option value="UNE ENVIE DE PIZZA">UNE ENVIE DE PIZZA</option>
-                    <option value="VEB (2)">VEB</option>
-                    <option value="VFLIT">VFLIT</option>
-                    <option value="VST">VST</option>
+                    <option value="">-- Chargement des partenaires... --</option>
                 </select>
             </div>
 
@@ -964,11 +1065,210 @@ const matchStatus = document.getElementById("matchStatus");
 /* MESSAGE */
 const messageTitre = document.getElementById("messageTitre");
 const messageContenu = document.getElementById("messageContenu");
+const messageToolbar = document.getElementById("messageToolbar");
+const messageFormatBlock = document.getElementById("messageFormatBlock");
+const messageFontName = document.getElementById("messageFontName");
+const messageFontSize = document.getElementById("messageFontSize");
+const messageInlineColor = document.getElementById("messageInlineColor");
+const messageHighlightButton = document.getElementById("messageHighlightButton");
+const messageLinkButton = document.getElementById("messageLinkButton");
+const messageClearFormat = document.getElementById("messageClearFormat");
+const messageInsertBreak = document.getElementById("messageInsertBreak");
 const messageCouleur = document.getElementById("messageCouleur");
 const messageFond = document.getElementById("messageFond");
 const saveMessageButton = document.getElementById("saveMessageButton");
 const messageStatus = document.getElementById("messageStatus");
 const afficherDefilementLogos = document.getElementById("afficherDefilementLogos");
+
+/* =====================================================
+   ÉDITEUR DE TEXTE RICHE
+===================================================== */
+
+let messageSavedRange = null;
+
+function sauvegarderSelectionEditeur() {
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0) return;
+    const range = selection.getRangeAt(0);
+    if (messageContenu.contains(range.commonAncestorContainer)) {
+        messageSavedRange = range.cloneRange();
+    }
+}
+
+function restaurerSelectionEditeur() {
+    if (!messageSavedRange) {
+        messageContenu.focus();
+        return;
+    }
+
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(messageSavedRange);
+    messageContenu.focus();
+}
+
+function executerCommande(command, value = null) {
+    restaurerSelectionEditeur();
+    document.execCommand(command, false, value);
+    sauvegarderSelectionEditeur();
+    messageContenu.focus();
+}
+
+function insererHTML(html) {
+    restaurerSelectionEditeur();
+    document.execCommand("insertHTML", false, html);
+    sauvegarderSelectionEditeur();
+    messageContenu.focus();
+}
+
+function nettoyerHTMLMessage(html) {
+    const template = document.createElement("template");
+    template.innerHTML = html;
+
+    const elementsAutorises = [
+        "B", "STRONG", "I", "EM", "U", "S", "STRIKE",
+        "BR", "DIV", "P", "H1", "H2", "H3",
+        "BLOCKQUOTE", "UL", "OL", "LI", "SPAN",
+        "A", "HR", "FONT"
+    ];
+
+    template.content.querySelectorAll("*").forEach(element => {
+        if (!elementsAutorises.includes(element.tagName)) {
+            element.replaceWith(...element.childNodes);
+            return;
+        }
+
+        [...element.attributes].forEach(attribute => {
+            const nom = attribute.name.toLowerCase();
+            const valeur = attribute.value;
+
+            if (nom === "href") {
+                if (!/^https?:\/\//i.test(valeur) && !/^mailto:/i.test(valeur)) {
+                    element.removeAttribute(attribute.name);
+                } else {
+                    element.setAttribute("target", "_blank");
+                    element.setAttribute("rel", "noopener noreferrer");
+                }
+            } else if (nom === "style") {
+                const stylesAutorises = [
+                    "text-align",
+                    "font-weight",
+                    "font-style",
+                    "text-decoration",
+                    "font-family",
+                    "font-size",
+                    "color",
+                    "background-color",
+                    "background",
+                    "margin-left"
+                ];
+
+                const styles = valeur.split(";")
+                    .map(part => part.trim())
+                    .filter(Boolean)
+                    .filter(part => {
+                        const nomStyle = part.split(":")[0].trim().toLowerCase();
+                        return stylesAutorises.includes(nomStyle);
+                    })
+                    .join("; ");
+
+                if (styles) {
+                    element.setAttribute("style", styles);
+                } else {
+                    element.removeAttribute("style");
+                }
+            } else if (!["target", "rel"].includes(nom)) {
+                element.removeAttribute(attribute.name);
+            }
+        });
+    });
+
+    return template.innerHTML.trim();
+}
+
+function insererSautDeLigne() {
+    restaurerSelectionEditeur();
+    document.execCommand("insertHTML", false, "<br>");
+    sauvegarderSelectionEditeur();
+    messageContenu.focus();
+}
+
+messageToolbar.addEventListener("mousedown", event => {
+    if (event.target.closest("button, select, input")) {
+        sauvegarderSelectionEditeur();
+    }
+});
+
+messageToolbar.querySelectorAll("[data-command]").forEach(button => {
+    button.addEventListener("click", () => {
+        executerCommande(button.dataset.command);
+    });
+});
+
+messageFormatBlock.addEventListener("change", () => {
+    if (messageFormatBlock.value) {
+        executerCommande("formatBlock", `<${messageFormatBlock.value}>`);
+    }
+    messageFormatBlock.value = "";
+});
+
+messageFontName.addEventListener("change", () => {
+    if (messageFontName.value) {
+        executerCommande("fontName", messageFontName.value);
+    }
+    messageFontName.value = "";
+});
+
+messageFontSize.addEventListener("change", () => {
+    if (messageFontSize.value) {
+        executerCommande("fontSize", messageFontSize.value);
+    }
+    messageFontSize.value = "";
+});
+
+messageInlineColor.addEventListener("input", () => {
+    executerCommande("foreColor", messageInlineColor.value);
+});
+
+messageHighlightButton.addEventListener("click", () => {
+    sauvegarderSelectionEditeur();
+    const couleur = prompt("Couleur du surlignage (ex. #ffff00) :", "#ffff00");
+    if (couleur) {
+        executerCommande("hiliteColor", couleur);
+    }
+});
+
+messageLinkButton.addEventListener("click", () => {
+    sauvegarderSelectionEditeur();
+    const url = prompt("Adresse du lien :", "https://");
+    if (url) {
+        executerCommande("createLink", url.trim());
+    }
+});
+
+messageClearFormat.addEventListener("click", () => {
+    executerCommande("removeFormat");
+    executerCommande("unlink");
+});
+
+messageInsertBreak.addEventListener("click", insererSautDeLigne);
+
+messageContenu.addEventListener("mouseup", sauvegarderSelectionEditeur);
+messageContenu.addEventListener("keyup", sauvegarderSelectionEditeur);
+messageContenu.addEventListener("input", sauvegarderSelectionEditeur);
+
+messageContenu.focus();
+messageContenu.addEventListener("keydown", event => {
+    if (event.key === "Enter" && !event.shiftKey) {
+        /*
+         * On utilise <br> plutôt que les blocs automatiques du
+         * contenteditable afin que les retours soient parfaitement
+         * prévisibles dans diffusion.html.
+         */
+        event.preventDefault();
+        insererSautDeLigne();
+    }
+});
 
 /* PARTENAIRE DU MATCH (NOUVEAU) */
 const partnerSelect = document.getElementById("partnerSelect");
@@ -979,100 +1279,24 @@ const savePartnerButton = document.getElementById("savePartnerButton");
 const partnerStatus = document.getElementById("partnerStatus");
 
 /* =====================================================
-   LISTE DES LOGOS DES PARTENAIRES
+   LOGOS DES PARTENAIRES
+   Les fichiers sont récupérés automatiquement depuis GitHub.
+   Plus besoin de maintenir manuellement la liste des 69 logos.
 ===================================================== */
-const partnerLogos = {
-    "7ENVIE DE PAIN": "logo/7ENVIE DE PAIN.png",
-    "AGTIM": "logo/AGTIM.png",
-    "Alain AFFLELOU": "logo/Alain AFFLELOU.png",
-    "APOLLO": "logo/APOLLO.png",
-    "ARRIVE": "logo/ARRIVE.png",
-    "ARTIPOLE": "logo/ARTIPOLE.png",
-    "ATP": "logo/ATP.png",
-    "AUTO BILAN VIEILLEVIGNE": "logo/AUTO BILAN VIEILLEVIGNE.png",
-    "BAR LE SCORE": "logo/BAR LE SCORE.png",
-    "BARREAU": "logo/BARREAU.png",
-    "BIOCOOP": "logo/BIOCOOP.png",
-    "BOUTEAU": "logo/BOUTEAU.png",
-    "BRIOGEL": "logo/BRIOGEL.png",
-    "BUROLOGIC": "logo/BUROLOGIC.png",
-    "C3P": "logo/C3P.png",
-    "CALIPAGE": "logo/CALIPAGE.png",
-    "CBH": "logo/CBH.png",
-    "CD VENDEE": "logo/CD VENDEE.png",
-    "CHAPLEAU MACONNERIE": "logo/CHAPLEAU MACONNERIE.png",
-    "CLARA AUTO": "logo/CLARA AUTO.png",
-    "CMO": "logo/CMO.png",
-    "COIFFURE CELINE": "logo/COIFFURE CELINE.png",
-    "COMITE DES FETES": "logo/COMITE DES FETES.png",
-    "CPM AXA": "logo/CPM AXA.png",
-    "CYRIL LECLAIR": "logo/CYRIL LECLAIR.png",
-    "DIAGONAL": "logo/DIAGONAL.png",
-    "DURET": "logo/DURET.png",
-    "ENVOLIIS": "logo/ENVOLIIS.png",
-    "ERIC MOCQUET": "logo/ERIC MOCQUET.png",
-    "EVEILLARD": "logo/EVEILLARD.png",
-    "FLEUR D'ANGE": "logo/FLEUR D'ANGE.png",
-    "GO IMPRESSION": "logo/GO IMPRESSION.png",
-    "HEPPNER": "logo/HEPPNER.png",
-    "HP": "logo/HP.png",
-    "ID2TECH": "logo/ID2TECH.png",
-    "IDM": "logo/IDM.png",
-    "INDCAR": "logo/INDCAR.png",
-    "JAD'O": "logo/JAD'O.png",
-    "LA MARTINIQUAISE": "logo/LA MARTINIQUAISE.png",
-    "LE CONSERVATEUR": "logo/LE CONSERVATEUR.png",
-    "LECLERC": "logo/LECLERC.png",
-    "LLA": "logo/LLA.png",
-    "MAITRE COQ": "logo/MAITRE COQ.png",
-    "MD NERGIES": "logo/MD NERGIES.png",
-    "MDLP": "logo/MDLP.png",
-    "MJ": "logo/MJ.png",
-    "MOINARD": "logo/MOINARD.png",
-    "MV": "logo/MV.png",
-    "NAT EVASION": "logo/NAT EVASION.png",
-    "NATURACARE": "logo/NATURACARE.png",
-    "O BORD DELO": "logo/O BORD DELO.png",
-    "PETIT ST GEORGES": "logo/PETIT ST GEORGES.png",
-    "RATOKE": "logo/RATOKE.png",
-    "RAUTUREAU": "logo/RAUTUREAU.png",
-    "RT": "logo/RT.png",
-    "SCHMIDT": "logo/SCHMIDT.png",
-    "SENARD": "logo/SENARD.png",
-    "SEV": "logo/SEV.png",
-    "SODEBO": "logo/SODEBO.png",
-    "SQUARE": "logo/SQUARE.png",
-    "STARTRUCKS": "logo/STARTRUCKS.png",
-    "STRAPHARM": "logo/STRAPHARM.png",
-    "SUPER U": "logo/SUPER U.png",
-    "SYMBIOSE": "logo/SYMBIOSE.png",
-    "TDM": "logo/TDM.png",
-    "UNE ENVIE DE PIZZA": "logo/UNE ENVIE DE PIZZA.png",
-    "VEB (2)": "logo/VEB (2).png",
-    "VFLIT": "logo/VFLIT.png",
-    "VST": "logo/VST.png"
-};
+
+const GITHUB_LOGO_API =
+    "https://api.github.com/repos/mvbc85600/DIFFUSION/contents/logo";
+
+const GITHUB_LOGO_RAW =
+    "https://raw.githubusercontent.com/mvbc85600/DIFFUSION/main/logo/";
+
+let partnerLogos = {};
+
 
 /* =====================================================
    ONGLETS
-===================================================== -->
-tabButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        // Désactiver tous les boutons d'onglets
-        tabButtons.forEach(btn => btn.classList.remove('active'));
-
-        // Masquer tous les contenus d'onglets
-        const tabContents = document.querySelectorAll('.tab-content');
-        tabContents.forEach(content => content.classList.remove('active'));
-
-        // Activer le bouton cliqué
-        button.classList.add('active');
-
-        // Afficher le contenu de l'onglet correspondant
-        const tabId = button.getAttribute('data-tab');
-        document.getElementById(tabId).classList.add('active');
-    });
-});
+===================================================== */
+/* Les écouteurs sont installés plus bas, après le chargement du DOM. */
 
 /* =====================================================
    CONNEXION
@@ -1134,7 +1358,7 @@ window.diffuserMessage = function() {
     // Sauvegarder les données du message dans Firebase
     const donneesMessage = {
         titre: messageTitre.value.trim(),
-        contenu: messageContenu.value.trim(),
+        contenu: nettoyerHTMLMessage(messageContenu.innerHTML),
         couleur: messageCouleur.value,
         fond: messageFond.value,
         afficherDefilementLogos: afficherDefilementLogos.checked,
@@ -1217,6 +1441,8 @@ function mettreAJourApercuHalos() {
    ONGLET : PARTENAIRE DU MATCH (NOUVELLES FONCTIONS)
 ===================================================== */
 
+let partnerDataEnregistree = null;
+
 // Mettre à jour l'aperçu du logo et du halo
 partnerSelect.addEventListener("change", () => {
     const selectedPartner = partnerSelect.value;
@@ -1226,6 +1452,101 @@ partnerSelect.addEventListener("change", () => {
         partnerLogoPreview.src = "";
     }
 });
+
+/*
+ * Récupère automatiquement tous les PNG du dossier /logo du dépôt GitHub.
+ * Le nom du fichier devient le nom du partenaire.
+ */
+async function chargerPartenairesDepuisGithub() {
+    try {
+        const response = await fetch(GITHUB_LOGO_API, {
+            headers: {
+                "Accept": "application/vnd.github+json"
+            },
+            cache: "no-store"
+        });
+
+        if (!response.ok) {
+            throw new Error(`GitHub a répondu ${response.status}`);
+        }
+
+        const fichiers = await response.json();
+
+        partnerLogos = {};
+
+        fichiers
+            .filter(fichier =>
+                fichier.type === "file" &&
+                /\.(png|jpe?g|webp|gif|svg)$/i.test(fichier.name)
+            )
+            .sort((a, b) => a.name.localeCompare(b.name, "fr"))
+            .forEach(fichier => {
+                const nom = fichier.name.replace(/\.[^.]+$/, "");
+                partnerLogos[nom] = GITHUB_LOGO_RAW + encodeURIComponent(fichier.name).replace(/%20/g, "%20");
+            });
+
+        partnerSelect.innerHTML = '<option value="">-- Choisir un partenaire --</option>';
+
+        Object.keys(partnerLogos).forEach(nom => {
+            const option = document.createElement("option");
+            option.value = nom;
+            option.textContent = nom;
+            partnerSelect.appendChild(option);
+        });
+
+        chargerApercuLogosPartenaires();
+
+        if (partnerDataEnregistree && partnerDataEnregistree.nom) {
+            partnerSelect.value = partnerDataEnregistree.nom;
+            partnerLogoPreview.src =
+                partnerLogos[partnerDataEnregistree.nom] ||
+                partnerDataEnregistree.logo ||
+                "";
+        }
+
+        if (Object.keys(partnerLogos).length === 0) {
+            throw new Error("Aucun logo trouvé dans le dossier GitHub /logo.");
+        }
+
+    } catch (error) {
+        console.error("Erreur chargement partenaires GitHub :", error);
+
+        partnerSelect.innerHTML =
+            '<option value="">❌ Impossible de charger les partenaires</option>';
+
+        partnerStatus.className = "error";
+        partnerStatus.textContent =
+            "❌ Impossible de charger les logos depuis GitHub : " + error.message;
+    }
+}
+
+function creerLogoApercu(src) {
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = "Partenaire";
+    img.onerror = function () {
+        this.style.display = "none";
+    };
+    return img;
+}
+
+function chargerApercuLogosPartenaires() {
+    const container = document.querySelector(".partners-scroll-admin");
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    const logos = Object.values(partnerLogos);
+
+    /*
+     * Deux passages permettent de conserver l'animation de défilement.
+     */
+    [...logos, ...logos].forEach(logo => {
+        container.appendChild(creerLogoApercu(logo));
+    });
+}
+
+chargerPartenairesDepuisGithub();
 
 // Mettre à jour l'aperçu du halo
 partnerHaloColor.addEventListener("change", () => {
@@ -1239,9 +1560,15 @@ onValue(partnerRef, (snapshot) => {
     const data = snapshot.val();
     if (!data) return;
 
-    if (data.nom) partnerSelect.value = data.nom;
-    if (data.logo && partnerSelect.value) {
-        partnerLogoPreview.src = data.logo;
+    partnerDataEnregistree = data;
+
+    if (data.nom) {
+        partnerSelect.value = data.nom;
+        if (partnerLogos[data.nom]) {
+            partnerLogoPreview.src = partnerLogos[data.nom];
+        } else if (data.logo) {
+            partnerLogoPreview.src = data.logo;
+        }
     }
     if (data.couleur) {
         partnerHaloColor.value = data.couleur;
@@ -1381,7 +1708,20 @@ onValue(messageRef, (snapshot) => {
     if (!data) return;
 
     if (data.titre) messageTitre.value = data.titre;
-    if (data.contenu) messageContenu.value = data.contenu;
+
+    if (data.contenu !== undefined && data.contenu !== null) {
+        /*
+         * Compatibilité avec les anciens messages :
+         * s'il s'agit encore de texte brut, on l'affiche comme texte.
+         * Les nouveaux messages sont enregistrés en HTML.
+         */
+        if (/<[a-z][\s\S]*>/i.test(data.contenu)) {
+            messageContenu.innerHTML = data.contenu;
+        } else {
+            messageContenu.textContent = data.contenu;
+        }
+    }
+
     if (data.couleur) messageCouleur.value = data.couleur;
     if (data.fond) messageFond.value = data.fond;
     if (data.afficherDefilementLogos !== undefined) {
@@ -1399,7 +1739,7 @@ saveMessageButton.addEventListener("click", async () => {
 
         const donneesMessage = {
             titre: messageTitre.value.trim(),
-            contenu: messageContenu.value.trim(),
+            contenu: nettoyerHTMLMessage(messageContenu.innerHTML),
             couleur: messageCouleur.value,
             fond: messageFond.value,
             afficherDefilementLogos: afficherDefilementLogos.checked,
@@ -1422,37 +1762,6 @@ saveMessageButton.addEventListener("click", async () => {
         messageStatus.textContent = "❌ Erreur : " + error.message;
         saveMessageButton.disabled = false;
         saveMessageButton.textContent = "💾 ENREGISTRER LE MESSAGE";
-    }
-});
-
-/* =====================================================
-   CHARGEMENT DES LOGOS DES PARTENAIRES
-===================================================== */
-// Charger les logos des partenaires dans l'onglet "Message"
-document.addEventListener('DOMContentLoaded', () => {
-    const partnersScrollAdmin = document.querySelector('.partners-scroll-admin');
-    if (partnersScrollAdmin) {
-        // Ajouter chaque logo deux fois pour un défilement infini fluide
-        Object.values(partnerLogos).forEach(logo => {
-            const img = document.createElement('img');
-            img.src = logo;
-            img.alt = "Partenaire";
-            img.onerror = function() {
-                this.style.display = 'none';
-            };
-            partnersScrollAdmin.appendChild(img);
-        });
-
-        // Dupliquer les logos pour un défilement infini
-        Object.values(partnerLogos).forEach(logo => {
-            const img = document.createElement('img');
-            img.src = logo;
-            img.alt = "Partenaire";
-            img.onerror = function() {
-                this.style.display = 'none';
-            };
-            partnersScrollAdmin.appendChild(img);
-        });
     }
 });
 
