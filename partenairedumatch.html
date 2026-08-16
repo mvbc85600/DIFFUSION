@@ -9,10 +9,14 @@
         /* =====================================================
            VARIABLES CSS POUR LES COULEURS DYNAMIQUES
         ===================================================== */
-        :root {
-            --halo-couleur: #008cff; /* Couleur par défaut (bleu) */
-            --halo-couleur-rgb: 0, 140, 255;
-        }
+     :root {
+    /* AUCUNE COULEUR PAR DEFAUT ICI */
+    --halo-couleur-1: transparent;
+    --halo-couleur-2: transparent;
+
+    --halo-couleur-1-rgb: 0, 0, 0;
+    --halo-couleur-2-rgb: 0, 0, 0;
+}
 
         /* =====================================================
            RESET
@@ -31,6 +35,8 @@
             font-family: Arial, Helvetica, sans-serif;
             background: #050505;
             color: white;
+             visibility: hidden;
+    opacity: 0;
         }
 
         /* =====================================================
@@ -480,6 +486,11 @@
             // RELANCER LES ANIMATIONS
             // =================================================
             restartAnimations();
+             requestAnimationFrame(() => {
+
+                document.body.classList.add(
+                    "loaded"
+                );
         });
     </script>
 </body>
