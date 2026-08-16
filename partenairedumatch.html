@@ -9,14 +9,10 @@
         /* =====================================================
            VARIABLES CSS POUR LES COULEURS DYNAMIQUES
         ===================================================== */
-     :root {
-    /* AUCUNE COULEUR PAR DEFAUT ICI */
-    --halo-couleur-1: transparent;
-    --halo-couleur-2: transparent;
-
-    --halo-couleur-1-rgb: 0, 0, 0;
-    --halo-couleur-2-rgb: 0, 0, 0;
-}
+        :root {
+            --halo-couleur: #008cff;
+            --halo-couleur-rgb: 0, 140, 255;
+        }
 
         /* =====================================================
            RESET
@@ -35,8 +31,6 @@
             font-family: Arial, Helvetica, sans-serif;
             background: #050505;
             color: white;
-             visibility: hidden;
-    opacity: 0;
         }
 
         /* =====================================================
@@ -370,8 +364,7 @@
         <div class="logo-container">
             <img id="partnerLogo" class="logo" src="" alt="Logo Partenaire">
         </div>
-
-        
+        <div id="partnerName" class="partner-name"></div>
     </div>
 
     <script type="module">
@@ -449,10 +442,11 @@
 
             if (!data) {
                 console.log("Aucun partenaire du match sélectionné.");
+                partnerLogo.src = "";
+                partnerLogo.alt = "Aucun logo";
+                partnerName.textContent = "";
                 return;
             }
-
-           
 
             // =================================================
             // COULEUR DU HALO (par défaut : bleu #008cff)
@@ -467,6 +461,7 @@
             if (data.logo) {
                 partnerLogo.style.opacity = "0";
                 partnerLogo.src = data.logo;
+                partnerLogo.alt = `Logo ${data.nom || "Partenaire"}`;
 
                 partnerLogo.onerror = () => {
                     console.error("Impossible de charger le logo :", data.logo);
@@ -483,14 +478,18 @@
             }
 
             // =================================================
+            // NOM DU PARTENAIRE
+            // =================================================
+            if (data.nom) {
+                partnerName.textContent = data.nom;
+            } else {
+                partnerName.textContent = "";
+            }
+
+            // =================================================
             // RELANCER LES ANIMATIONS
             // =================================================
             restartAnimations();
-             requestAnimationFrame(() => {
-
-                document.body.classList.add(
-                    "loaded"
-                );
         });
     </script>
 </body>
