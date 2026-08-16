@@ -2,21 +2,31 @@
 <html lang="fr">
 
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
 /* =====================================================
-   VARIABLES CSS POUR LES COULEURS DYNAMIQUES
+   VARIABLES CSS
 ===================================================== */
+
 :root {
-    --halo-couleur-1: #008cff;
-    --halo-couleur-2: #ff6500;
+    /* AUCUNE COULEUR PAR DEFAUT ICI */
+    --halo-couleur-1: transparent;
+    --halo-couleur-2: transparent;
+
+    --halo-couleur-1-rgb: 0, 0, 0;
+    --halo-couleur-2-rgb: 0, 0, 0;
 }
+
 
 /* =====================================================
    RESET
 ===================================================== */
+
 * {
     box-sizing: border-box;
 }
@@ -33,9 +43,38 @@ body {
     color: white;
 }
 
+
+/* =====================================================
+   ECRAN DE CHARGEMENT
+===================================================== */
+
+/*
+   La page reste complètement noire tant que
+   Firebase n'a pas envoyé les données.
+*/
+
+body {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+
+/*
+   Classe ajoutée uniquement lorsque Firebase
+   a terminé le chargement.
+*/
+
+body.loaded {
+    visibility: visible;
+    opacity: 1;
+}
+
+
 /* =====================================================
    FOND
 ===================================================== */
+
 body {
     position: relative;
     background:
@@ -57,9 +96,11 @@ body {
         );
 }
 
+
 /* =====================================================
    LUMIÈRES D'ARRIÈRE-PLAN
 ===================================================== */
+
 body::before {
     content: "";
     position: absolute;
@@ -67,10 +108,18 @@ body::before {
     height: 600px;
     left: -250px;
     top: 25%;
-    background: rgba(var(--halo-couleur-1-rgb), 0.25);
+
+    background:
+        rgba(
+            var(--halo-couleur-1-rgb),
+            0.25
+        );
+
     filter: blur(100px);
     border-radius: 50%;
-    animation: blueGlow 4s infinite alternate;
+
+    animation:
+        blueGlow 4s infinite alternate;
 }
 
 body::after {
@@ -80,84 +129,136 @@ body::after {
     height: 600px;
     right: -250px;
     top: 25%;
-    background: rgba(var(--halo-couleur-2-rgb), 0.25);
+
+    background:
+        rgba(
+            var(--halo-couleur-2-rgb),
+            0.25
+        );
+
     filter: blur(100px);
     border-radius: 50%;
-    animation: orangeGlow 4s infinite alternate;
+
+    animation:
+        orangeGlow 4s infinite alternate;
 }
+
+
+/* =====================================================
+   ANIMATION HALO GAUCHE
+===================================================== */
 
 @keyframes blueGlow {
+
     from {
         transform: scale(0.9);
         opacity: 0.5;
     }
+
     to {
         transform: scale(1.2);
         opacity: 1;
     }
+
 }
 
+
+/* =====================================================
+   ANIMATION HALO DROIT
+===================================================== */
+
 @keyframes orangeGlow {
+
     from {
         transform: scale(0.9);
         opacity: 0.5;
     }
+
     to {
         transform: scale(1.2);
         opacity: 1;
     }
+
 }
+
 
 /* =====================================================
    CONTENEUR PRINCIPAL
 ===================================================== */
+
 .container {
     position: relative;
     z-index: 5;
+
     width: 100%;
     height: 100vh;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+
     padding-top: 50px;
 }
 
+
 /* =====================================================
-   PETIT TITRE (CHAMPIONNAT)
+   PETIT TITRE
 ===================================================== */
+
 .championnat {
     font-size: 20px;
     letter-spacing: 8px;
     font-weight: bold;
     color: #ffffff;
+
     opacity: 0;
-    animation: subtitleIn 1s ease forwards;
+
+    animation:
+        subtitleIn 1s ease forwards;
+
     animation-delay: 0.2s;
 }
 
+
+/* =====================================================
+   ANIMATION PETIT TITRE
+===================================================== */
+
 @keyframes subtitleIn {
+
     from {
         opacity: 0;
         transform: translateY(-30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
+
 }
 
+
 /* =====================================================
-   TITRE PRINCIPAL (MATCH DU SOIR / PROCHAIN MATCH)
+   TITRE PRINCIPAL
 ===================================================== */
+
 .match-title {
+
     margin-top: 10px;
-    font-size: clamp(30px, 5vw, 60px); /* Plus petit que précédemment */
+
+    font-size: clamp(30px, 5vw, 60px);
+
     font-weight: 900;
     font-style: italic;
+
     letter-spacing: 3px;
+
     text-transform: uppercase;
+
     text-align: center;
+
     background:
         linear-gradient(
             90deg,
@@ -167,50 +268,82 @@ body::after {
             #ffb36b,
             #ffffff
         );
+
     background-size: 300% auto;
+
     -webkit-background-clip: text;
     background-clip: text;
+
     color: transparent;
+
     animation:
         titleIn 1.2s ease forwards,
         titleShine 5s linear infinite;
+
     opacity: 0;
+
     text-shadow:
         0 0 20px rgba(255,255,255,0.25);
 }
 
+
+/* =====================================================
+   ANIMATION TITRE
+===================================================== */
+
 @keyframes titleIn {
+
     from {
+
         opacity: 0;
+
         transform:
             scale(0.7)
             translateY(-30px);
     }
+
     to {
+
         opacity: 1;
+
         transform:
             scale(1)
             translateY(0);
     }
+
 }
 
+
+/* =====================================================
+   ANIMATION REFLET TITRE
+===================================================== */
+
 @keyframes titleShine {
+
     0% {
         background-position: 0% center;
     }
+
     100% {
         background-position: 300% center;
     }
+
 }
+
 
 /* =====================================================
    LIGNE SOUS LE TITRE
 ===================================================== */
+
 .match-title-line {
+
     width: 500px;
     max-width: 70%;
+
     height: 3px;
+
     margin-top: 20px;
+
     background:
         linear-gradient(
             90deg,
@@ -220,356 +353,581 @@ body::after {
             var(--halo-couleur-2),
             transparent
         );
+
     box-shadow:
         0 0 15px var(--halo-couleur-1),
         0 0 15px var(--halo-couleur-2);
+
     transform: scaleX(0);
+
     animation:
         lineIn 1s ease forwards;
+
     animation-delay: 1s;
 }
 
+
+/* =====================================================
+   ANIMATION LIGNE
+===================================================== */
+
 @keyframes lineIn {
+
     to {
         transform: scaleX(1);
     }
+
 }
+
 
 /* =====================================================
    ZONE DES ÉQUIPES
 ===================================================== */
+
 .teams {
+
     position: relative;
+
     width: 100%;
     max-width: 1500px;
+
     flex: 1;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
+
     gap: 100px;
 }
+
 
 /* =====================================================
    ÉQUIPE
 ===================================================== */
+
 .team {
+
     position: relative;
+
     width: 340px;
     height: 340px;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
 }
 
+
 /* =====================================================
    CADRE LOGO
 ===================================================== */
+
 .logo-box {
+
     position: relative;
+
     width: 290px;
     height: 290px;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
+
     border-radius: 50%;
+
     background:
         radial-gradient(
             circle,
             rgba(255,255,255,0.08),
             rgba(0,0,0,0.8)
         );
+
     overflow: visible;
 }
+
 
 /* =====================================================
    CERCLE EXTÉRIEUR
 ===================================================== */
+
 .logo-box::before {
+
     content: "";
+
     position: absolute;
+
     inset: -12px;
+
     border-radius: 50%;
+
     border: 3px solid;
+
     animation:
         rotateRing 5s linear infinite;
 }
 
+
 .team-left .logo-box::before {
-    border-color: var(--halo-couleur-1);
+
+    border-color:
+        var(--halo-couleur-1);
+
     box-shadow:
         0 0 15px var(--halo-couleur-1),
         0 0 35px var(--halo-couleur-1),
         inset 0 0 20px var(--halo-couleur-1);
 }
 
+
 .team-right .logo-box::before {
-    border-color: var(--halo-couleur-2);
+
+    border-color:
+        var(--halo-couleur-2);
+
     box-shadow:
         0 0 15px var(--halo-couleur-2),
         0 0 35px var(--halo-couleur-2),
         inset 0 0 20px var(--halo-couleur-2);
 }
 
+
+/* =====================================================
+   ROTATION ANNEAU
+===================================================== */
+
 @keyframes rotateRing {
+
     from {
+
         transform:
             rotate(0deg);
     }
+
     to {
+
         transform:
             rotate(360deg);
     }
+
 }
+
 
 /* =====================================================
    SECOND ANNEAU
 ===================================================== */
+
 .logo-box::after {
+
     content: "";
+
     position: absolute;
+
     inset: -28px;
+
     border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.15);
+
+    border:
+        1px solid rgba(255,255,255,0.15);
+
     animation:
         pulseRing 2s ease-in-out infinite;
 }
 
+
+/* =====================================================
+   PULSATION ANNEAU
+===================================================== */
+
 @keyframes pulseRing {
+
     0%,
     100% {
-        transform: scale(0.95);
+
+        transform:
+            scale(0.95);
+
         opacity: 0.3;
     }
+
     50% {
-        transform: scale(1.05);
+
+        transform:
+            scale(1.05);
+
         opacity: 0.8;
     }
+
 }
+
 
 /* =====================================================
    LOGOS
 ===================================================== */
+
 .logo {
+
     position: relative;
+
     z-index: 5;
+
     width: 220px;
     height: 220px;
+
     object-fit: contain;
+
     opacity: 0;
 }
+
 
 /* =====================================================
    ANIMATION LOGO GAUCHE
 ===================================================== */
+
 .team-left .logo {
+
     animation:
         logoLeftIn 1.2s
         cubic-bezier(.17,.67,.3,1.3)
         forwards;
+
     animation-delay: 1.3s;
 }
 
+
+/* =====================================================
+   KEYFRAME LOGO GAUCHE
+===================================================== */
+
 @keyframes logoLeftIn {
+
     from {
+
         opacity: 0;
+
         transform:
             translateX(-500px)
             rotate(-30deg)
             scale(0.3);
     }
+
     to {
+
         opacity: 1;
+
         transform:
             translateX(0)
             rotate(0deg)
             scale(1);
     }
+
 }
+
 
 /* =====================================================
    ANIMATION LOGO DROIT
 ===================================================== */
+
 .team-right .logo {
+
     animation:
         logoRightIn 1.2s
         cubic-bezier(.17,.67,.3,1.3)
         forwards;
+
     animation-delay: 1.3s;
 }
 
+
+/* =====================================================
+   KEYFRAME LOGO DROIT
+===================================================== */
+
 @keyframes logoRightIn {
+
     from {
+
         opacity: 0;
+
         transform:
             translateX(500px)
             rotate(30deg)
             scale(0.3);
     }
+
     to {
+
         opacity: 1;
+
         transform:
             translateX(0)
             rotate(0deg)
             scale(1);
     }
+
 }
+
 
 /* =====================================================
    LUEUR AUTOUR DU LOGO
 ===================================================== */
+
 .team-left .logo-box {
+
     animation:
         bluePulse 2.5s ease-in-out infinite;
 }
 
+
 .team-right .logo-box {
+
     animation:
         orangePulse 2.5s ease-in-out infinite;
 }
 
+
+/* =====================================================
+   PULSATION GAUCHE
+===================================================== */
+
 @keyframes bluePulse {
+
     0%,
     100% {
+
         filter:
             drop-shadow(
-                0 0 15px var(--halo-couleur-1)
+                0 0 15px
+                var(--halo-couleur-1)
             );
     }
+
     50% {
+
         filter:
             drop-shadow(
-                0 0 50px var(--halo-couleur-1)
+                0 0 50px
+                var(--halo-couleur-1)
             );
     }
+
 }
 
+
+/* =====================================================
+   PULSATION DROITE
+===================================================== */
+
 @keyframes orangePulse {
+
     0%,
     100% {
+
         filter:
             drop-shadow(
-                0 0 15px var(--halo-couleur-2)
+                0 0 15px
+                var(--halo-couleur-2)
             );
     }
+
     50% {
+
         filter:
             drop-shadow(
-                0 0 50px var(--halo-couleur-2)
+                0 0 50px
+                var(--halo-couleur-2)
             );
     }
+
 }
+
 
 /* =====================================================
    VS CENTRAL
 ===================================================== */
+
 .vs {
+
     position: absolute;
+
     left: 50%;
     top: 50%;
+
     transform:
         translate(-50%, -50%)
         scale(0);
+
     z-index: 20;
+
     font-size: 90px;
+
     font-weight: 1000;
     font-style: italic;
+
     color: white;
+
     text-shadow:
         0 0 10px #fff,
         0 0 30px var(--halo-couleur-1),
         0 0 50px var(--halo-couleur-2);
+
     animation:
         vsAppear 0.8s
         cubic-bezier(.17,.67,.3,1.4)
         forwards;
+
     animation-delay: 2.3s;
 }
 
+
+/* =====================================================
+   ANIMATION VS
+===================================================== */
+
 @keyframes vsAppear {
+
     from {
+
         transform:
             translate(-50%, -50%)
             scale(0)
             rotate(-20deg);
+
         opacity: 0;
     }
+
     to {
+
         transform:
             translate(-50%, -50%)
             scale(1)
             rotate(0deg);
+
         opacity: 1;
     }
+
 }
+
 
 /* =====================================================
    NOMS DES ÉQUIPES
 ===================================================== */
+
 .team-name {
+
     position: absolute;
+
     bottom: -35px;
+
     font-size: 25px;
+
     font-weight: 900;
+
     letter-spacing: 4px;
+
     opacity: 0;
+
     animation:
         nameIn 0.8s ease forwards;
+
     animation-delay: 2.5s;
 }
 
+
 .team-left .team-name {
-    color: var(--halo-couleur-1);
+
+    color:
+        var(--halo-couleur-1);
+
     text-shadow:
         0 0 15px var(--halo-couleur-1);
 }
 
+
 .team-right .team-name {
-    color: var(--halo-couleur-2);
+
+    color:
+        var(--halo-couleur-2);
+
     text-shadow:
         0 0 15px var(--halo-couleur-2);
 }
 
+
+/* =====================================================
+   ANIMATION NOMS
+===================================================== */
+
 @keyframes nameIn {
+
     from {
+
         opacity: 0;
+
         transform:
             translateY(20px);
     }
+
     to {
+
         opacity: 1;
+
         transform:
             translateY(0);
     }
+
 }
+
 
 /* =====================================================
    INFORMATIONS DU MATCH
 ===================================================== */
+
 .match-info {
+
     position: absolute;
+
     bottom: 45px;
     left: 50%;
+
     transform:
         translateX(-50%);
+
     z-index: 30;
+
     text-align: center;
+
     opacity: 0;
+
     animation:
         infoIn 1s ease forwards;
+
     animation-delay: 2.8s;
 }
 
+
 .match-date {
+
     font-size: 20px;
+
     letter-spacing: 5px;
+
     font-weight: bold;
 }
 
+
 .match-time {
+
     margin-top: 5px;
+
     font-size: 40px;
+
     font-weight: 900;
+
     letter-spacing: 4px;
+
     background:
         linear-gradient(
             90deg,
@@ -577,36 +935,59 @@ body::after {
             white,
             var(--halo-couleur-2)
         );
+
     -webkit-background-clip: text;
+
     background-clip: text;
+
     color: transparent;
 }
 
+
+/* =====================================================
+   ANIMATION INFOS
+===================================================== */
+
 @keyframes infoIn {
+
     from {
+
         opacity: 0;
+
         transform:
             translateX(-50%)
             translateY(30px);
     }
+
     to {
+
         opacity: 1;
+
         transform:
             translateX(-50%)
             translateY(0);
     }
+
 }
+
 
 /* =====================================================
    PARTICULES
 ===================================================== */
+
 .particle {
+
     position: absolute;
+
     width: 5px;
     height: 5px;
+
     border-radius: 50%;
+
     background: white;
+
     opacity: 0;
+
     animation:
         particleFloat
         var(--duration)
@@ -614,319 +995,806 @@ body::after {
         infinite;
 }
 
+
+/* =====================================================
+   ANIMATION PARTICULES
+===================================================== */
+
 @keyframes particleFloat {
+
     0% {
+
         transform:
             translateY(100vh)
             translateX(0);
+
         opacity: 0;
     }
+
     20% {
+
         opacity: 0.8;
     }
+
     80% {
+
         opacity: 0.8;
     }
+
     100% {
+
         transform:
             translateY(-20vh)
             translateX(var(--move));
+
         opacity: 0;
     }
+
 }
+
 
 /* =====================================================
    RESPONSIVE
 ===================================================== */
+
 @media (max-width: 900px) {
+
     .teams {
         gap: 30px;
     }
+
     .team {
+
         width: 250px;
         height: 250px;
     }
+
     .logo-box {
+
         width: 210px;
         height: 210px;
     }
+
     .logo {
+
         width: 160px;
         height: 160px;
     }
+
     .vs {
+
         font-size: 60px;
     }
+
     .team-name {
+
         font-size: 18px;
     }
+
     .match-title {
-        font-size: clamp(25px, 6vw, 45px); /* Ajustement pour mobile */
+
+        font-size:
+            clamp(25px, 6vw, 45px);
     }
+
 }
 
+
 @media (max-width: 700px) {
+
     .championnat {
+
         font-size: 25px;
+
         letter-spacing: 5px;
     }
+
     .teams {
+
         gap: 10px;
     }
+
     .team {
+
         width: 150px;
         height: 150px;
     }
+
     .logo-box {
+
         width: 125px;
         height: 125px;
     }
+
     .logo {
+
         width: 100px;
         height: 100px;
     }
+
     .vs {
+
         font-size: 35px;
     }
+
     .team-name {
+
         font-size: 14px;
+
         letter-spacing: 2px;
+
         bottom: -28px;
     }
+
     .match-info {
+
         bottom: 25px;
     }
+
     .match-date {
+
         font-size: 14px;
+
         letter-spacing: 3px;
     }
+
     .match-time {
+
         font-size: 28px;
     }
+
     .match-title {
-        font-size: 25px; /* Taille fixe pour les petits écrans */
+
+        font-size: 25px;
     }
+
 }
+
 </style>
+
 </head>
 
+
 <body>
-<!-- PARTICULES -->
-<div class="particle" style="left:5%;--duration:8s;--move:80px;"></div>
-<div class="particle" style="left:15%;--duration:11s;--move:-100px;"></div>
-<div class="particle" style="left:25%;--duration:9s;--move:120px;"></div>
-<div class="particle" style="left:40%;--duration:13s;--move:-80px;"></div>
-<div class="particle" style="left:55%;--duration:10s;--move:100px;"></div>
-<div class="particle" style="left:70%;--duration:12s;--move:-120px;"></div>
-<div class="particle" style="left:82%;--duration:9s;--move:80px;"></div>
-<div class="particle" style="left:95%;--duration:11s;--move:-70px;"></div>
+
+
+<!-- =====================================================
+     PARTICULES
+===================================================== -->
+
+<div class="particle"
+     style="left:5%;--duration:8s;--move:80px;">
+</div>
+
+<div class="particle"
+     style="left:15%;--duration:11s;--move:-100px;">
+</div>
+
+<div class="particle"
+     style="left:25%;--duration:9s;--move:120px;">
+</div>
+
+<div class="particle"
+     style="left:40%;--duration:13s;--move:-80px;">
+</div>
+
+<div class="particle"
+     style="left:55%;--duration:10s;--move:100px;">
+</div>
+
+<div class="particle"
+     style="left:70%;--duration:12s;--move:-120px;">
+</div>
+
+<div class="particle"
+     style="left:82%;--duration:9s;--move:80px;">
+</div>
+
+<div class="particle"
+     style="left:95%;--duration:11s;--move:-70px;">
+</div>
+
+
+<!-- =====================================================
+     CONTENEUR PRINCIPAL
+===================================================== -->
 
 <div class="container">
-    <div id="championnat" class="championnat">
+
+
+    <div id="championnat"
+         class="championnat">
+
         CHAMPIONNAT
+
     </div>
 
-    <div id="titreMatch" class="match-title">
+
+    <div id="titreMatch"
+         class="match-title">
+
         MATCH DU SOIR
+
     </div>
+
 
     <div class="match-title-line"></div>
 
+
     <div class="teams">
-        <div id="team1" class="team team-left">
+
+
+        <!-- EQUIPE 1 -->
+
+        <div id="team1"
+             class="team team-left">
+
             <div class="logo-box">
-                <img id="logo1" class="logo" src="" alt="Équipe 1">
+
+                <img id="logo1"
+                     class="logo"
+                     src=""
+                     alt="Équipe 1">
+
             </div>
-            <div id="nom1" class="team-name">
+
+
+            <div id="nom1"
+                 class="team-name">
+
                 ÉQUIPE 1
+
             </div>
+
         </div>
 
-        <div class="vs">VS</div>
 
-        <div id="team2" class="team team-right">
+        <!-- VS -->
+
+        <div class="vs">
+            VS
+        </div>
+
+
+        <!-- EQUIPE 2 -->
+
+        <div id="team2"
+             class="team team-right">
+
             <div class="logo-box">
-                <img id="logo2" class="logo" src="" alt="Équipe 2">
+
+                <img id="logo2"
+                     class="logo"
+                     src=""
+                     alt="Équipe 2">
+
             </div>
-            <div id="nom2" class="team-name">
+
+
+            <div id="nom2"
+                 class="team-name">
+
                 ÉQUIPE 2
+
             </div>
+
         </div>
+
     </div>
 
-    <div id="infos" class="match-info">
-        <div id="date" class="match-date">SAMEDI</div>
-        <div id="heure" class="match-time">20H00</div>
+
+    <!-- INFORMATIONS MATCH -->
+
+    <div id="infos"
+         class="match-info">
+
+        <div id="date"
+             class="match-date">
+
+            SAMEDI
+
+        </div>
+
+
+        <div id="heure"
+             class="match-time">
+
+            20H00
+
+        </div>
+
     </div>
+
 </div>
 
+
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
+
 <script type="module">
+
+
 import { initializeApp }
+
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
+
 import {
+
     getDatabase,
     ref,
     onValue,
     set
+
 }
+
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
 
 /* =====================================================
    CONFIGURATION FIREBASE
 ===================================================== */
+
 const firebaseConfig = {
-    apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
-    authDomain: "diffusion-b9afa.firebaseapp.com",
-    databaseURL: "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "diffusion-b9afa",
-    storageBucket: "diffusion-b9afa.firebasestorage.app",
-    messagingSenderId: "674799570797",
-    appId: "1:674799570797:web:0d8b7a2a892f604eb7d464"
+
+    apiKey:
+        "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+
+    authDomain:
+        "diffusion-b9afa.firebaseapp.com",
+
+    databaseURL:
+        "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
+
+    projectId:
+        "diffusion-b9afa",
+
+    storageBucket:
+        "diffusion-b9afa.firebasestorage.app",
+
+    messagingSenderId:
+        "674799570797",
+
+    appId:
+        "1:674799570797:web:0d8b7a2a892f604eb7d464"
 };
+
 
 /* =====================================================
    INITIALISATION
 ===================================================== */
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+
+const app =
+    initializeApp(firebaseConfig);
+
+const db =
+    getDatabase(app);
+
 
 /* =====================================================
    ELEMENTS
 ===================================================== */
-const championnat = document.getElementById("championnat");
-const titreMatch = document.getElementById("titreMatch");
-const logo1 = document.getElementById("logo1");
-const logo2 = document.getElementById("logo2");
-const nom1 = document.getElementById("nom1");
-const nom2 = document.getElementById("nom2");
-const date = document.getElementById("date");
-const heure = document.getElementById("heure");
-const team1 = document.getElementById("team1");
-const team2 = document.getElementById("team2");
-const infos = document.getElementById("infos");
-const vs = document.querySelector(".vs");
-const titleLine = document.querySelector(".match-title-line");
-const root = document.documentElement;
+
+const championnat =
+    document.getElementById("championnat");
+
+const titreMatch =
+    document.getElementById("titreMatch");
+
+const logo1 =
+    document.getElementById("logo1");
+
+const logo2 =
+    document.getElementById("logo2");
+
+const nom1 =
+    document.getElementById("nom1");
+
+const nom2 =
+    document.getElementById("nom2");
+
+const date =
+    document.getElementById("date");
+
+const heure =
+    document.getElementById("heure");
+
+const team1 =
+    document.getElementById("team1");
+
+const team2 =
+    document.getElementById("team2");
+
+const infos =
+    document.getElementById("infos");
+
+const vs =
+    document.querySelector(".vs");
+
+const titleLine =
+    document.querySelector(".match-title-line");
+
+const root =
+    document.documentElement;
+
 
 /* =====================================================
-   FONCTION POUR CONVERTIR UNE COULEUR HEX EN RGB
+   CONVERSION HEX -> RGB
 ===================================================== */
+
 function hexToRgb(hex) {
-    hex = hex.replace('#', '');
-    const r = parseInt(hex.substring(0, 2), 16);
-    const g = parseInt(hex.substring(2, 4), 16);
-    const b = parseInt(hex.substring(4, 6), 16);
+
+    hex =
+        hex.replace("#", "");
+
+    const r =
+        parseInt(
+            hex.substring(0, 2),
+            16
+        );
+
+    const g =
+        parseInt(
+            hex.substring(2, 4),
+            16
+        );
+
+    const b =
+        parseInt(
+            hex.substring(4, 6),
+            16
+        );
+
     return `${r}, ${g}, ${b}`;
 }
+
 
 /* =====================================================
    REJOUER LES ANIMATIONS
 ===================================================== */
+
 function restartAnimations() {
+
     const animatedElements = [
+
         championnat,
         titreMatch,
         titleLine,
         logo1,
         logo2,
-        team1.querySelector(".team-name"),
-        team2.querySelector(".team-name"),
+
+        team1.querySelector(
+            ".team-name"
+        ),
+
+        team2.querySelector(
+            ".team-name"
+        ),
+
         infos,
         vs
+
     ];
 
-    animatedElements.forEach(element => {
-        if (!element) return;
-        element.style.animation = "none";
-    });
+
+    animatedElements.forEach(
+        element => {
+
+            if (!element) return;
+
+            element.style.animation =
+                "none";
+        }
+    );
+
 
     void document.body.offsetWidth;
 
-    animatedElements.forEach(element => {
-        if (!element) return;
-        element.style.animation = "";
-    });
+
+    animatedElements.forEach(
+        element => {
+
+            if (!element) return;
+
+            element.style.animation =
+                "";
+        }
+    );
+
 }
+
 
 /* =====================================================
    REFERENCE FIREBASE
 ===================================================== */
-const matchRef = ref(db, "matchdusoir");
+
+const matchRef =
+    ref(
+        db,
+        "matchdusoir"
+    );
+
 
 /* =====================================================
    ECOUTE EN TEMPS REEL
 ===================================================== */
-onValue(matchRef, (snapshot) => {
-    const data = snapshot.val();
 
-    if (!data) {
-        console.log("Aucun match enregistré.");
-        return;
+onValue(
+    matchRef,
+    (snapshot) => {
+
+        const data =
+            snapshot.val();
+
+
+        /* =============================================
+           SI AUCUNE DONNEE
+        ============================================= */
+
+        if (!data) {
+
+            console.log(
+                "Aucun match enregistré."
+            );
+
+            /*
+               Même dans ce cas on affiche
+               la page sans couleurs.
+            */
+
+            root.style.setProperty(
+                "--halo-couleur-1",
+                "transparent"
+            );
+
+            root.style.setProperty(
+                "--halo-couleur-2",
+                "transparent"
+            );
+
+            root.style.setProperty(
+                "--halo-couleur-1-rgb",
+                "0, 0, 0"
+            );
+
+            root.style.setProperty(
+                "--halo-couleur-2-rgb",
+                "0, 0, 0"
+            );
+
+            document.body.classList.add(
+                "loaded"
+            );
+
+            return;
+        }
+
+
+        /* =============================================
+           TEXTES
+        ============================================= */
+
+        championnat.textContent =
+            data.championnat ||
+            "CHAMPIONNAT";
+
+
+        titreMatch.textContent =
+            data.titreMatch ||
+            "MATCH DU SOIR";
+
+
+        nom1.textContent =
+            data.equipe1 ||
+            "ÉQUIPE 1";
+
+
+        nom2.textContent =
+            data.equipe2 ||
+            "ÉQUIPE 2";
+
+
+        date.textContent =
+            data.date ||
+            "";
+
+
+        heure.textContent =
+            data.heure ||
+            "";
+
+
+        /* =============================================
+           COULEURS DES HALOS
+           
+           IMPORTANT :
+           On n'utilise PLUS les couleurs
+           bleu/orange par défaut.
+        ============================================= */
+
+        const haloCouleur1 =
+            data.haloCouleur1 ||
+            "#ffffff";
+
+
+        const haloCouleur2 =
+            data.haloCouleur2 ||
+            "#ffffff";
+
+
+        root.style.setProperty(
+            "--halo-couleur-1",
+            haloCouleur1
+        );
+
+
+        root.style.setProperty(
+            "--halo-couleur-2",
+            haloCouleur2
+        );
+
+
+        root.style.setProperty(
+            "--halo-couleur-1-rgb",
+            hexToRgb(haloCouleur1)
+        );
+
+
+        root.style.setProperty(
+            "--halo-couleur-2-rgb",
+            hexToRgb(haloCouleur2)
+        );
+
+
+        /* =============================================
+           LOGO EQUIPE 1
+        ============================================= */
+
+        if (data.logo1) {
+
+            logo1.style.opacity = "0";
+
+            logo1.src =
+                data.logo1;
+
+
+            logo1.onerror = () => {
+
+                console.error(
+                    "Impossible de charger le logo 1 :",
+                    data.logo1
+                );
+
+                logo1.style.opacity =
+                    "0.3";
+            };
+
+
+            logo1.onload = () => {
+
+                logo1.style.opacity =
+                    "";
+            };
+
+        }
+
+
+        /* =============================================
+           LOGO EQUIPE 2
+        ============================================= */
+
+        if (data.logo2) {
+
+            logo2.style.opacity = "0";
+
+            logo2.src =
+                data.logo2;
+
+
+            logo2.onerror = () => {
+
+                console.error(
+                    "Impossible de charger le logo 2 :",
+                    data.logo2
+                );
+
+                logo2.style.opacity =
+                    "0.3";
+            };
+
+
+            logo2.onload = () => {
+
+                logo2.style.opacity =
+                    "";
+            };
+
+        }
+
+
+        /* =============================================
+           RELANCE DES ANIMATIONS
+        ============================================= */
+
+        requestAnimationFrame(() => {
+
+            restartAnimations();
+
+
+            /*
+               IMPORTANT :
+               On rend la page visible
+               seulement maintenant.
+
+               Firebase a déjà fourni :
+               - les couleurs
+               - les textes
+               - les logos
+            */
+
+            requestAnimationFrame(() => {
+
+                document.body.classList.add(
+                    "loaded"
+                );
+
+            });
+
+        });
+
+    },
+
+    /* =================================================
+       ERREUR FIREBASE
+    ================================================= */
+
+    (error) => {
+
+        console.error(
+            "Erreur Firebase :",
+            error
+        );
+
+
+        /*
+           En cas d'erreur Firebase,
+           on évite également tout flash
+           de bleu/orange.
+        */
+
+        root.style.setProperty(
+            "--halo-couleur-1",
+            "transparent"
+        );
+
+        root.style.setProperty(
+            "--halo-couleur-2",
+            "transparent"
+        );
+
+        root.style.setProperty(
+            "--halo-couleur-1-rgb",
+            "0, 0, 0"
+        );
+
+        root.style.setProperty(
+            "--halo-couleur-2-rgb",
+            "0, 0, 0"
+        );
+
+
+        document.body.classList.add(
+            "loaded"
+        );
+
     }
 
-    /* =================================================
-       TEXTES
-    ================================================= */
-    championnat.textContent = data.championnat || "CHAMPIONNAT";
-    titreMatch.textContent = data.titreMatch || "MATCH DU SOIR"; // Lecture du titre depuis Firebase
-    nom1.textContent = data.equipe1 || "ÉQUIPE 1";
-    nom2.textContent = data.equipe2 || "ÉQUIPE 2";
-    date.textContent = data.date || "";
-    heure.textContent = data.heure || "";
+);
 
-    /* =================================================
-       COULEURS DES HALOS
-    ================================================= */
-    const haloCouleur1 = data.haloCouleur1 || "#008cff";
-    const haloCouleur2 = data.haloCouleur2 || "#ff6500";
-
-    root.style.setProperty('--halo-couleur-1', haloCouleur1);
-    root.style.setProperty('--halo-couleur-2', haloCouleur2);
-    root.style.setProperty('--halo-couleur-1-rgb', hexToRgb(haloCouleur1));
-    root.style.setProperty('--halo-couleur-2-rgb', hexToRgb(haloCouleur2));
-
-    /* =================================================
-       LOGO ÉQUIPE 1
-    ================================================= */
-    if (data.logo1) {
-        logo1.style.opacity = "0";
-        logo1.src = data.logo1;
-
-        logo1.onerror = () => {
-            console.error("Impossible de charger le logo 1 :", data.logo1);
-            logo1.style.opacity = "0.3";
-        };
-
-        logo1.onload = () => {
-            logo1.style.opacity = "";
-        };
-    }
-
-    /* =================================================
-       LOGO ÉQUIPE 2
-    ================================================= */
-    if (data.logo2) {
-        logo2.style.opacity = "0";
-        logo2.src = data.logo2;
-
-        logo2.onerror = () => {
-            console.error("Impossible de charger le logo 2 :", data.logo2);
-            logo2.style.opacity = "0.3";
-        };
-
-        logo2.onload = () => {
-            logo2.style.opacity = "";
-        };
-    }
-
-    /* =================================================
-       REINITIALISATION + RELANCE DES EFFETS
-    ================================================= */
-    requestAnimationFrame(() => {
-        restartAnimations();
-    });
-});
 </script>
+
+
 </body>
+
 </html>
