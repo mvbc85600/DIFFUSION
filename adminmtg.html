@@ -621,7 +621,7 @@ body {
         <button class="tab-button" data-tab="matchdusoir">
             🏀 Match du Soir
         </button>
-        <button class="tab-button" data-tab="message">
+        <button class="tab-button" data-tab="message_mtg">
             📝 Message
         </button>
         <!-- NOUVEL ONGLET : PARTENAIRE DU MATCH -->
@@ -821,11 +821,11 @@ body {
     <!-- =================================================
          ONGLET : MESSAGE
     ================================================== -->
-    <div id="message" class="tab-content">
+    <div id="message_shl" class="tab-content">
         <div class="match-editor">
             <h2>📝 MESSAGE</h2>
             <div class="description">
-                Configure ici le message qui apparaîtra sur <strong>diffusionmtg.html</strong>.
+                Configure ici le message qui apparaîtra sur <strong>l'écran de Montaigu</strong>.
             </div>
 
             <!-- TITRE DU MESSAGE -->
@@ -1370,11 +1370,11 @@ window.diffuserMessage = function() {
         .then(() => {
             // Diffuser la scène "message"
             set(ref(db, "diffusion_mtg"), {
-                scene: "message",
+                scene: "message_mtg",
                 timestamp: Date.now()
             })
             .then(() => {
-                currentScene.textContent = "message";
+                currentScene.textContent = "message_mtg";
             })
             .catch((error) => {
                 console.error(error);
