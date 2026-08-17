@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Régie MVBC</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #111;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+/* =========================
+   CONNEXION
+========================= */
+
+#login {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 400px;
+    background: #222;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow:
+        0 10px 40px
+        rgba(0,0,0,0.5);
+}
+
+.login-box h1 {
+    text-align: center;
+    margin-top: 0;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+#loginButton {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+#loginError {
+    margin-top: 15px;
+    text-align: center;
+    color: #ff5555;
+}
+
+/* =========================
+   ADMIN
+========================= */
+#admin {
+    display: none;
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* =========================
+   ONGLETS
+========================= */
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.tab-button {
+    padding: 10px 15px;
+    background: #222;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 14px;
+}
+
+.tab-button:hover {
+    background: #333;
+}
+
+.tab-button.active {
+    background: #16a34a;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* =========================
+   STATUT
+========================= */
+.status {
+    background: #222;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+#currentScene {
+    color: #4ade80;
+    font-weight: bold;
+}
+
+/* =========================
+   BOUTONS DE DIFFUSION
+========================= */
+.scene-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.scene-button {
+    min-height: 100px;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.scene-button:hover {
+    transform: scale(1.03);
+}
+
+/* Couleurs des boutons : alternance jaune, rouge, bleu */
+.scene-button:nth-child(1) {
+    background: #ffd400; /* Jaune */
+    color: #000;
+}
+
+.scene-button:nth-child(2) {
+    background: #ff2020; /* Rouge */
+}
+
+.scene-button:nth-child(3) {
+    background: #168cff; /* Bleu */
+}
+
+.scene-button:nth-child(4) {
+    background: #ffd400; /* Jaune */
+    color: #000;
+}
+
+.scene-button:nth-child(5) {
+    background: #ff2020; /* Rouge */
+}
+
+.scene-button:nth-child(6) {
+    background: #168cff; /* Bleu */
+}
+
+.scene-button:nth-child(7) {
+    background: #ffd400; /* Jaune */
+    color: #000;
+}
+
+.scene-button:nth-child(8) {
+    background: #ff2020; /* Rouge */
+}
+
+.scene-button:nth-child(9) {
+    background: #168cff; /* Bleu */
+}
+
+.scene-button:nth-child(10) {
+    background: #ffd400; /* Jaune */
+    color: #000;
+}
+
+.scene-button:nth-child(11) {
+    background: #ff2020; /* Rouge */
+}
+
+.black {
+    background: black;
+    border: 1px solid #444;
+    color: white;
+}
+
+/* =========================
+   MATCH DU SOIR
+========================= */
+.match-editor {
+    margin-top: 20px;
+    padding: 25px;
+    background: #222;
+    border-radius: 15px;
+}
+
+.match-editor h2 {
+    margin-top: 0;
+    font-size: 28px;
+}
+
+.description {
+    color: #aaa;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+/* =========================
+   FORMULAIRE
+========================= */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 13px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+/* Style pour la case à cocher */
+.form-group label.check-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.form-group input[type="checkbox"] {
+    width: auto;
+    cursor: pointer;
+}
+
+/* =========================
+   DÉFILEMENT DES LOGOS DES PARTENAIRES (ADMIN)
+========================= */
+.partners-scroll-container-admin {
+    width: 100%;
+    height: 80px;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    margin-top: 20px;
+    border-radius: 10px;
+    border: 1px solid #333;
+}
+
+.partners-scroll-admin {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    animation: scrollAdmin 20s linear infinite;
+}
+
+.partners-scroll-admin img {
+    height: 50px;
+    margin: 0 20px;
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.partners-scroll-admin img:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+@keyframes scrollAdmin {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* =========================
+   APERCU LOGOS
+========================= */
+.logo-preview {
+    margin-top: 10px;
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    background: #000;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid #444;
+}
+
+/* =========================
+   SAUVEGARDE
+========================= */
+#saveMatchButton,
+#saveMessageButton,
+#savePartnerButton {
+    width: 100%;
+    padding: 17px;
+    border: none;
+    border-radius: 10px;
+    background: #16a34a;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#saveMatchButton:hover,
+#saveMessageButton:hover,
+#savePartnerButton:hover {
+    background: #22c55e;
+}
+
+#matchStatus,
+#messageStatus,
+#partnerStatus {
+    margin-top: 15px;
+    text-align: center;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.success {
+    color: #4ade80;
+}
+
+.error {
+    color: #f87171;
+}
+
+/* =========================
+   HALOS DES ÉQUIPES
+========================= */
+.halo-editor {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #181818;
+    border: 1px solid #333;
+    border-radius: 12px;
+}
+
+.halo-editor h3 {
+    margin: 0 0 8px 0;
+    font-size: 22px;
+}
+
+.halo-description {
+    color: #aaa;
+    line-height: 1.5;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.halo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.halo-team {
+    padding: 18px;
+    background: #222;
+    border-radius: 10px;
+    border: 1px solid #3a3a3a;
+}
+
+.halo-team label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: bold;
+}
+
+.color-control {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.color-control select {
+    flex: 1;
+    width: 100%;
+    padding: 13px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.halo-color-preview {
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #008cff;
+    box-shadow: 0 0 10px currentColor, 0 0 25px currentColor;
+}
+
+.halo-team-2 .halo-color-preview {
+    background: #ff6500;
+}
+
+/* =========================
+   ÉDITEUR DE TEXTE RICHE
+========================= */
+
+.message-editor {
+    border: 1px solid #444;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #222;
+}
+
+.message-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    padding: 8px;
+    background: #2b2b2b;
+    border-bottom: 1px solid #444;
+}
+
+.message-toolbar button,
+.message-toolbar select,
+.message-toolbar input[type="color"] {
+    height: 36px;
+    min-width: 36px;
+    border: 1px solid #555;
+    border-radius: 6px;
+    background: #333;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.message-toolbar button {
+    padding: 0 10px;
+    font-weight: 600;
+}
+
+.message-toolbar button:hover,
+.message-toolbar select:hover {
+    background: #444;
+}
+
+.message-toolbar .separator {
+    width: 1px;
+    height: 26px;
+    background: #555;
+    margin: 0 3px;
+}
+
+.message-toolbar select {
+    padding: 0 8px;
+    min-width: 100px;
+}
+
+.message-toolbar input[type="color"] {
+    padding: 3px;
+    width: 42px;
+}
+
+.message-content-editor {
+    min-height: 220px;
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 16px;
+    background: #333;
+    color: white;
+    outline: none;
+    font-size: 18px;
+    line-height: 1.6;
+    text-align: left;
+}
+
+.message-content-editor:empty::before {
+    content: attr(data-placeholder);
+    color: #888;
+    pointer-events: none;
+}
+
+.message-content-editor:focus {
+    box-shadow: inset 0 0 0 2px #16a34a;
+}
+
+.message-editor-help {
+    padding: 8px 12px;
+    color: #999;
+    font-size: 12px;
+    background: #282828;
+    border-top: 1px solid #444;
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media(max-width:600px) {
+    #admin {
+        padding: 12px;
+    }
+
+    .scene-grid {
+        grid-template-columns: repeat(2,1fr);
+        gap: 10px;
+    }
+
+    .scene-button {
+        min-height: 85px;
+        font-size: 13px;
+    }
+
+    .halo-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tabs {
+        justify-content: center;
+    }
+
+    .partners-scroll-container-admin {
+        height: 60px;
+    }
+
+    .partners-scroll-admin img {
+        height: 40px;
+        margin: 0 10px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     CONNEXION
+===================================================== -->
+
+<div id="login">
+    <div class="login-box">
+        <h1>🔐 Régie MVBC</h1>
+        <input
+            type="password"
+            id="password"
+            placeholder="Mot de passe">
+        <button id="loginButton">
+            Se connecter
+        </button>
+        <div id="loginError"></div>
+    </div>
+</div>
+
+<!-- =====================================================
+     ADMIN
+===================================================== -->
+
+<div id="admin">
+    <!-- =================================================
+         EN-TÊTE AVEC ONGLETS
+    ================================================== -->
+    <div class="header">
+        <h1>🎬 Régie de diffusion</h1>
+        <button id="logoutButton">Déconnexion</button>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-button active" data-tab="regie">
+            🎬 Régie
+        </button>
+        <button class="tab-button" data-tab="matchdusoir">
+            ⚽ Match du Soir
+        </button>
+        <button class="tab-button" data-tab="message">
+            📝 Message
+        </button>
+        <!-- NOUVEL ONGLET : PARTENAIRE DU MATCH -->
+        <button class="tab-button" data-tab="partenaire">
+            🤝 Partenaire du Match
+        </button>
+    </div>
+
+    <!-- STATUT -->
+    <div class="status">
+        Scène actuelle :
+        <span id="currentScene">Aucune</span>
+    </div>
+
+    <!-- =================================================
+         ONGLET : RÉGIE (BOUTONS DE DIFFUSION)
+    ================================================== -->
+    <div id="regie" class="tab-content active">
+        <div class="scene-grid">
+            <!-- Les 3 premiers boutons (VIDÉO 1, VIDÉO 2, DIAPORAMA) sont supprimés -->
+
+            <!-- Bouton PARTENAIRES (Jaune) -->
+            <button class="scene-button" onclick="diffuser('partenaires')">
+                🤝<br>PARTENAIRES
+            </button>
+
+            <!-- Bouton ÉVÉNEMENTS (Rouge) -->
+            <button class="scene-button" onclick="diffuser('evenements')">
+                📅<br>ÉVÉNEMENTS
+            </button>
+
+            <!-- Bouton VIDÉOS MVBC (Bleu) -->
+            <button class="scene-button" onclick="diffuser('videomvbc')">
+                🎥<br>VIDÉOS MVBC
+            </button>
+
+            <!-- Bouton MATCH DU SOIR (Jaune) -->
+            <button class="scene-button" onclick="diffuser('matchdusoir')">
+                🏀<br>MATCH DU SOIR
+            </button>
+
+            <!-- Bouton CLASSEMENT NM2 (Rouge) -->
+            <button class="scene-button" onclick="diffuser('classementnm2')">
+                🏆<br>CLASSEMENT NM2
+            </button>
+
+            <!-- Bouton NOS ÉQUIPES (Bleu) -->
+            <button class="scene-button" onclick="diffuser('nosequipes')">
+                👥<br>NOS ÉQUIPES
+            </button>
+
+            <!-- Bouton MESSAGE (Jaune) -->
+            <button class="scene-button" onclick="diffuserMessage()">
+                📝<br>MESSAGE
+            </button>
+
+            <!-- Bouton ÉCRAN NOIR (Noir) -->
+            <button class="scene-button black" onclick="diffuser('black')">
+                ⬛<br>ÉCRAN NOIR
+            </button>
+
+            <!-- Bouton PARTENAIRE DU MATCH (Rouge) -->
+            <button class="scene-button" onclick="diffuserPartenaire()">
+                🤝<br>PARTENAIRE DU MATCH
+            </button>
+        </div>
+    </div>
+
+    <!-- =================================================
+         ONGLET : MATCH DU SOIR
+    ================================================== -->
+    <div id="matchdusoir" class="tab-content">
+        <div class="match-editor">
+            <h2>🏀 MATCH DU SOIR</h2>
+            <div class="description">
+                Configure ici le match qui apparaîtra sur <strong>matchdusoir.html</strong>.
+                <br><br>
+                Les logos sont directement chargés depuis ton dossier <strong>logos/</strong> sur GitHub.
+                Firebase ne stocke donc aucune image.
+            </div>
+
+            <!-- TITRE DU MATCH -->
+            <div class="form-group">
+                <label>📌 Titre du match</label>
+                <select id="titreMatch">
+                    <option value="MATCH DU SOIR">MATCH DU SOIR</option>
+                    <option value="PROCHAIN MATCH">PROCHAIN MATCH</option>
+                </select>
+            </div>
+
+            <!-- CHAMPIONNAT -->
+            <div class="form-group">
+                <label>🏆 Championnat</label>
+                <input type="text" id="matchChampionnat" placeholder="Ex : CHAMPIONNAT NM2">
+            </div>
+
+            <!-- EQUIPE 1 -->
+            <div class="form-group">
+                <label>🔵 Équipe 1</label>
+                <input type="text" id="matchEquipe1" placeholder="Ex : MVBC">
+            </div>
+
+            <!-- LOGO 1 -->
+            <div class="form-group">
+                <label>🖼️ Logo équipe 1</label>
+                <select id="logoEquipe1">
+                    <option value="">-- Choisir un logo --</option>
+                    <option value="logos/mvbc.png">MVBC</option>
+                    <option value="logos/nantesbh.png">Nantes BH</option>
+                    <option value="logos/equipe3.png">Équipe 3</option>
+                    <option value="logos/equipe4.png">Équipe 4</option>
+                </select>
+                <img id="logoPreview1" class="logo-preview" src="" alt="Logo équipe 1">
+            </div>
+
+            <!-- EQUIPE 2 -->
+            <div class="form-group">
+                <label>🟠 Équipe 2</label>
+                <input type="text" id="matchEquipe2" placeholder="Ex : TOULOUSE">
+            </div>
+
+            <!-- LOGO 2 -->
+            <div class="form-group">
+                <label>🖼️ Logo équipe 2</label>
+                <select id="logoEquipe2">
+                    <option value="">-- Choisir un logo --</option>
+                    <option value="logos/mvbc.png">MVBC</option>
+                    <option value="logos/nantesbh.png">Nantes BH</option>
+                    <option value="logos/equipe3.png">Équipe 3</option>
+                    <option value="logos/equipe4.png">Équipe 4</option>
+                </select>
+                <img id="logoPreview2" class="logo-preview" src="" alt="Logo équipe 2">
+            </div>
+
+            <!-- COULEURS DES HALOS -->
+            <div class="halo-editor">
+                <h3>✨ Couleurs des halos</h3>
+                <p class="halo-description">
+                    Choisis indépendamment la couleur du halo lumineux de chaque équipe sur <strong>matchdusoir.html</strong>.
+                </p>
+                <div class="halo-grid">
+                    <div class="halo-team halo-team-1">
+                        <label for="haloCouleur1">🔵 Halo équipe 1</label>
+                        <div class="color-control">
+                            <span id="haloPreview1" class="halo-color-preview"></span>
+                            <select id="haloCouleur1">
+                                <option value="yellow">🟡 Jaune</option>
+                                <option value="black">⚫ Noir</option>
+                                <option value="blue" selected>🔵 Bleu</option>
+                                <option value="orange">🟠 Orange</option>
+                                <option value="red">🔴 Rouge</option>
+                                <option value="pink">🩷 Rose</option>
+                                <option value="green">🟢 Vert</option>
+                                <option value="white">⚪ Blanc</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="halo-team halo-team-2">
+                        <label for="haloCouleur2">🟠 Halo équipe 2</label>
+                        <div class="color-control">
+                            <span id="haloPreview2" class="halo-color-preview"></span>
+                            <select id="haloCouleur2">
+                                <option value="yellow">🟡 Jaune</option>
+                                <option value="black">⚫ Noir</option>
+                                <option value="blue">🔵 Bleu</option>
+                                <option value="orange" selected>🟠 Orange</option>
+                                <option value="red">🔴 Rouge</option>
+                                <option value="pink">🩷 Rose</option>
+                                <option value="green">🟢 Vert</option>
+                                <option value="white">⚪ Blanc</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DATE -->
+            <div class="form-group">
+                <label>📅 Date</label>
+                <input type="text" id="matchDate" placeholder="Ex : SAMEDI 23 NOVEMBRE">
+            </div>
+
+            <!-- HEURE -->
+            <div class="form-group">
+                <label>⏰ Heure</label>
+                <input type="text" id="matchHeure" placeholder="Ex : 20H00">
+            </div>
+
+            <!-- SAUVEGARDE -->
+            <button id="saveMatchButton">
+                💾 ENREGISTRER LE MATCH
+            </button>
+            <div id="matchStatus"></div>
+        </div>
+    </div>
+
+    <!-- =================================================
+         ONGLET : MESSAGE
+    ================================================== -->
+    <div id="message" class="tab-content">
+        <div class="match-editor">
+            <h2>📝 MESSAGE</h2>
+            <div class="description">
+                Configure ici le message qui apparaîtra sur <strong>diffusion.html</strong>.
+            </div>
+
+            <!-- TITRE DU MESSAGE -->
+            <div class="form-group">
+                <label>📌 Titre du message</label>
+                <input type="text" id="messageTitre" placeholder="Ex : Annonce importante">
+            </div>
+
+            <!-- CONTENU DU MESSAGE : ÉDITEUR DE TEXTE RICHE -->
+            <div class="form-group">
+                <label>📄 Contenu du message</label>
+
+                <div class="message-editor">
+                    <div class="message-toolbar" id="messageToolbar">
+                        <button type="button" data-command="undo" title="Annuler">↶</button>
+                        <button type="button" data-command="redo" title="Rétablir">↷</button>
+                        <span class="separator"></span>
+
+                        <button type="button" data-command="bold" title="Gras"><strong>G</strong></button>
+                        <button type="button" data-command="italic" title="Italique"><em>I</em></button>
+                        <button type="button" data-command="underline" title="Souligné"><u>S</u></button>
+                        <button type="button" data-command="strikeThrough" title="Barré"><s>ABC</s></button>
+                        <span class="separator"></span>
+
+                        <button type="button" data-command="justifyLeft" title="Aligner à gauche">☰</button>
+                        <button type="button" data-command="justifyCenter" title="Centrer">≡</button>
+                        <button type="button" data-command="justifyRight" title="Aligner à droite">☷</button>
+                        <button type="button" data-command="justifyFull" title="Justifier">▤</button>
+                        <span class="separator"></span>
+
+                        <button type="button" data-command="insertUnorderedList" title="Liste à puces">• Liste</button>
+                        <button type="button" data-command="insertOrderedList" title="Liste numérotée">1. Liste</button>
+                        <button type="button" data-command="outdent" title="Diminuer le retrait">⇤</button>
+                        <button type="button" data-command="indent" title="Augmenter le retrait">⇥</button>
+                        <span class="separator"></span>
+
+                        <select id="messageFormatBlock" title="Style de paragraphe">
+                            <option value="p">Paragraphe</option>
+                            <option value="h1">Titre 1</option>
+                            <option value="h2">Titre 2</option>
+                            <option value="h3">Titre 3</option>
+                            <option value="blockquote">Citation</option>
+                        </select>
+
+                        <select id="messageFontName" title="Police">
+                            <option value="">Police</option>
+                            <option value="Arial">Arial</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Times New Roman">Times New Roman</option>
+                            <option value="Verdana">Verdana</option>
+                            <option value="Trebuchet MS">Trebuchet MS</option>
+                            <option value="Courier New">Courier New</option>
+                        </select>
+
+                        <select id="messageFontSize" title="Taille">
+                            <option value="">Taille</option>
+                            <option value="1">Très petit</option>
+                            <option value="2">Petit</option>
+                            <option value="3">Normal</option>
+                            <option value="4">Grand</option>
+                            <option value="5">Très grand</option>
+                            <option value="6">Énorme</option>
+                            <option value="7">Maximum</option>
+                        </select>
+
+                        <label title="Couleur du texte">
+                            🎨 <input type="color" id="messageInlineColor" value="#ffffff">
+                        </label>
+
+                        <button type="button" id="messageHighlightButton" title="Surligner">🖍️</button>
+                        <button type="button" id="messageLinkButton" title="Insérer un lien">🔗</button>
+                        <button type="button" data-command="unlink" title="Supprimer le lien">⛓️‍💥</button>
+                        <button type="button" data-command="insertHorizontalRule" title="Ligne horizontale">―</button>
+                        <button type="button" id="messageClearFormat" title="Effacer la mise en forme">Tx</button>
+                        <button type="button" id="messageInsertBreak" title="Insérer un saut de ligne (<br>)">↵</button>
+                    </div>
+
+                    <div
+                        id="messageContenu"
+                        class="message-content-editor"
+                        contenteditable="true"
+                        role="textbox"
+                        aria-multiline="true"
+                        data-placeholder="Ex : Le match est reporté à demain..."
+                    ></div>
+
+                    <div class="message-editor-help">
+                        Entrée = nouveau paragraphe • Maj + Entrée = saut de ligne • Ctrl/Cmd + B = gras • Ctrl/Cmd + I = italique • Ctrl/Cmd + U = souligné
+                    </div>
+                </div>
+            </div>
+
+            <!-- COULEUR DU TEXTE -->
+            <div class="form-group">
+                <label>🎨 Couleur du texte</label>
+                <input type="color" id="messageCouleur" value="#ffffff">
+            </div>
+
+            <!-- COULEUR DE FOND -->
+            <div class="form-group">
+                <label>🖌️ Couleur de fond</label>
+                <input type="color" id="messageFond" value="#1e1e1e">
+            </div>
+
+            <!-- CASE À COCHER POUR LE DÉFILEMENT DES LOGOS -->
+            <div class="form-group">
+                <label class="check-label">
+                    <input type="checkbox" id="afficherDefilementLogos" checked>
+                    ✅ Afficher le défilement des logos des partenaires en bas de la page
+                </label>
+            </div>
+
+            <!-- SAUVEGARDE -->
+            <button id="saveMessageButton">
+                💾 ENREGISTRER LE MESSAGE
+            </button>
+            <div id="messageStatus"></div>
+
+            <!-- DÉFILEMENT DES LOGOS DES PARTENAIRES (APERÇU) -->
+            <div class="partners-scroll-container-admin">
+                <div class="partners-scroll-admin">
+                    <!-- Les logos seront ajoutés dynamiquement ici -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =================================================
+         ONGLET : PARTENAIRE DU MATCH (NOUVEAU)
+    ================================================== -->
+    <div id="partenaire" class="tab-content">
+        <div class="match-editor">
+            <h2>🤝 PARTENAIRE DU MATCH</h2>
+            <div class="description">
+                Configure ici le partenaire qui apparaîtra sur <strong>partenairedumatch.html</strong>.
+                <br><br>
+                Le logo sera affiché avec un halo lumineux dont tu peux choisir la couleur.
+            </div>
+
+            <!-- SÉLECTEUR DE PARTENAIRE -->
+            <div class="form-group">
+                <label>🏆 Partenaire</label>
+                <select id="partnerSelect">
+                    <option value="">-- Chargement des partenaires... --</option>
+                </select>
+            </div>
+
+            <!-- APERÇU DU LOGO -->
+            <div class="form-group">
+                <label>Aperçu du logo</label>
+                <img id="partnerLogoPreview" class="logo-preview" src="" alt="Logo partenaire">
+            </div>
+
+            <!-- COULEUR DU HALO -->
+            <div class="form-group">
+                <label>✨ Couleur du halo</label>
+                <div class="color-control">
+                    <span id="partnerHaloPreview" class="halo-color-preview" style="background: #008cff; box-shadow: 0 0 10px #008cff, 0 0 25px #008cff;"></span>
+                    <select id="partnerHaloColor">
+                        <option value="#008cff" selected>🔵 Bleu</option>
+                        <option value="#ffcc00">🟡 Jaune</option>
+                        <option value="#ff6500">🟠 Orange</option>
+                        <option value="#ff2020">🔴 Rouge</option>
+                        <option value="#16a34a">🟢 Vert</option>
+                        <option value="#ff4fa3">🩷 Rose</option>
+                        <option value="#ffffff">⚪ Blanc</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- SAUVEGARDE -->
+            <button id="savePartnerButton">
+                💾 ENREGISTRER LE PARTENAIRE
+            </button>
+            <div id="partnerStatus"></div>
+        </div>
+    </div>
+</div>
+
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+/* =====================================================
+   CONFIGURATION
+===================================================== */
+const firebaseConfig = {
+    apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+    authDomain: "diffusion-b9afa.firebaseapp.com",
+    databaseURL: "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "diffusion-b9afa",
+    storageBucket: "diffusion-b9afa.firebasestorage.app",
+    messagingSenderId: "674799570797",
+    appId: "1:674799570797:web:0d8b7a2a892f604eb7d464"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+/* =====================================================
+   MOT DE PASSE
+===================================================== */
+const MOT_DE_PASSE = "Mvbc85600@";
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+const login = document.getElementById("login");
+const admin = document.getElementById("admin");
+const password = document.getElementById("password");
+const loginButton = document.getElementById("loginButton");
+const loginError = document.getElementById("loginError");
+const logoutButton = document.getElementById("logoutButton");
+const currentScene = document.getElementById("currentScene");
+
+/* MATCH */
+const matchChampionnat = document.getElementById("matchChampionnat");
+const titreMatch = document.getElementById("titreMatch");
+const matchEquipe1 = document.getElementById("matchEquipe1");
+const matchEquipe2 = document.getElementById("matchEquipe2");
+const logoEquipe1 = document.getElementById("logoEquipe1");
+const logoEquipe2 = document.getElementById("logoEquipe2");
+const logoPreview1 = document.getElementById("logoPreview1");
+const logoPreview2 = document.getElementById("logoPreview2");
+const matchDate = document.getElementById("matchDate");
+const matchHeure = document.getElementById("matchHeure");
+const haloCouleur1 = document.getElementById("haloCouleur1");
+const haloCouleur2 = document.getElementById("haloCouleur2");
+const haloPreview1 = document.getElementById("haloPreview1");
+const haloPreview2 = document.getElementById("haloPreview2");
+const saveMatchButton = document.getElementById("saveMatchButton");
+const matchStatus = document.getElementById("matchStatus");
+
+/* MESSAGE */
+const messageTitre = document.getElementById("messageTitre");
+const messageContenu = document.getElementById("messageContenu");
+const messageToolbar = document.getElementById("messageToolbar");
+const messageFormatBlock = document.getElementById("messageFormatBlock");
+const messageFontName = document.getElementById("messageFontName");
+const messageFontSize = document.getElementById("messageFontSize");
+const messageInlineColor = document.getElementById("messageInlineColor");
+const messageHighlightButton = document.getElementById("messageHighlightButton");
+const messageLinkButton = document.getElementById("messageLinkButton");
+const messageClearFormat = document.getElementById("messageClearFormat");
+const messageInsertBreak = document.getElementById("messageInsertBreak");
+const messageCouleur = document.getElementById("messageCouleur");
+const messageFond = document.getElementById("messageFond");
+const saveMessageButton = document.getElementById("saveMessageButton");
+const messageStatus = document.getElementById("messageStatus");
+const afficherDefilementLogos = document.getElementById("afficherDefilementLogos");
+
+/* =====================================================
+   ÉDITEUR DE TEXTE RICHE
+===================================================== */
+
+let messageSavedRange = null;
+
+function sauvegarderSelectionEditeur() {
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0) return;
+    const range = selection.getRangeAt(0);
+    if (messageContenu.contains(range.commonAncestorContainer)) {
+        messageSavedRange = range.cloneRange();
+    }
+}
+
+function restaurerSelectionEditeur() {
+    if (!messageSavedRange) {
+        messageContenu.focus();
+        return;
+    }
+
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(messageSavedRange);
+    messageContenu.focus();
+}
+
+function executerCommande(command, value = null) {
+    restaurerSelectionEditeur();
+    document.execCommand(command, false, value);
+    sauvegarderSelectionEditeur();
+    messageContenu.focus();
+}
+
+function insererHTML(html) {
+    restaurerSelectionEditeur();
+    document.execCommand("insertHTML", false, html);
+    sauvegarderSelectionEditeur();
+    messageContenu.focus();
+}
+
+function nettoyerHTMLMessage(html) {
+    const template = document.createElement("template");
+    template.innerHTML = html;
+
+    const elementsAutorises = [
+        "B", "STRONG", "I", "EM", "U", "S", "STRIKE",
+        "BR", "DIV", "P", "H1", "H2", "H3",
+        "BLOCKQUOTE", "UL", "OL", "LI", "SPAN",
+        "A", "HR", "FONT"
+    ];
+
+    template.content.querySelectorAll("*").forEach(element => {
+        if (!elementsAutorises.includes(element.tagName)) {
+            element.replaceWith(...element.childNodes);
+            return;
+        }
+
+        [...element.attributes].forEach(attribute => {
+            const nom = attribute.name.toLowerCase();
+            const valeur = attribute.value;
+
+            if (nom === "href") {
+                if (!/^https?:\/\//i.test(valeur) && !/^mailto:/i.test(valeur)) {
+                    element.removeAttribute(attribute.name);
+                } else {
+                    element.setAttribute("target", "_blank");
+                    element.setAttribute("rel", "noopener noreferrer");
+                }
+            } else if (nom === "style") {
+                const stylesAutorises = [
+                    "text-align",
+                    "font-weight",
+                    "font-style",
+                    "text-decoration",
+                    "font-family",
+                    "font-size",
+                    "color",
+                    "background-color",
+                    "background",
+                    "margin-left"
+                ];
+
+                const styles = valeur.split(";")
+                    .map(part => part.trim())
+                    .filter(Boolean)
+                    .filter(part => {
+                        const nomStyle = part.split(":")[0].trim().toLowerCase();
+                        return stylesAutorises.includes(nomStyle);
+                    })
+                    .join("; ");
+
+                if (styles) {
+                    element.setAttribute("style", styles);
+                } else {
+                    element.removeAttribute("style");
+                }
+            } else if (!["target", "rel"].includes(nom)) {
+                element.removeAttribute(attribute.name);
+            }
+        });
+    });
+
+    return template.innerHTML.trim();
+}
+
+function insererSautDeLigne() {
+    restaurerSelectionEditeur();
+    document.execCommand("insertHTML", false, "<br>");
+    sauvegarderSelectionEditeur();
+    messageContenu.focus();
+}
+
+messageToolbar.addEventListener("mousedown", event => {
+    if (event.target.closest("button, select, input")) {
+        sauvegarderSelectionEditeur();
+    }
+});
+
+messageToolbar.querySelectorAll("[data-command]").forEach(button => {
+    button.addEventListener("click", () => {
+        executerCommande(button.dataset.command);
+    });
+});
+
+messageFormatBlock.addEventListener("change", () => {
+    if (messageFormatBlock.value) {
+        executerCommande("formatBlock", `<${messageFormatBlock.value}>`);
+    }
+    messageFormatBlock.value = "";
+});
+
+messageFontName.addEventListener("change", () => {
+    if (messageFontName.value) {
+        executerCommande("fontName", messageFontName.value);
+    }
+    messageFontName.value = "";
+});
+
+messageFontSize.addEventListener("change", () => {
+    if (messageFontSize.value) {
+        executerCommande("fontSize", messageFontSize.value);
+    }
+    messageFontSize.value = "";
+});
+
+messageInlineColor.addEventListener("input", () => {
+    executerCommande("foreColor", messageInlineColor.value);
+});
+
+messageHighlightButton.addEventListener("click", () => {
+    sauvegarderSelectionEditeur();
+    const couleur = prompt("Couleur du surlignage (ex. #ffff00) :", "#ffff00");
+    if (couleur) {
+        executerCommande("hiliteColor", couleur);
+    }
+});
+
+messageLinkButton.addEventListener("click", () => {
+    sauvegarderSelectionEditeur();
+    const url = prompt("Adresse du lien :", "https://");
+    if (url) {
+        executerCommande("createLink", url.trim());
+    }
+});
+
+messageClearFormat.addEventListener("click", () => {
+    executerCommande("removeFormat");
+    executerCommande("unlink");
+});
+
+messageInsertBreak.addEventListener("click", insererSautDeLigne);
+
+messageContenu.addEventListener("mouseup", sauvegarderSelectionEditeur);
+messageContenu.addEventListener("keyup", sauvegarderSelectionEditeur);
+messageContenu.addEventListener("input", sauvegarderSelectionEditeur);
+
+messageContenu.focus();
+messageContenu.addEventListener("keydown", event => {
+    if (event.key === "Enter" && !event.shiftKey) {
+        /*
+         * On utilise <br> plutôt que les blocs automatiques du
+         * contenteditable afin que les retours soient parfaitement
+         * prévisibles dans diffusion.html.
+         */
+        event.preventDefault();
+        insererSautDeLigne();
+    }
+});
+
+/* PARTENAIRE DU MATCH (NOUVEAU) */
+const partnerSelect = document.getElementById("partnerSelect");
+const partnerLogoPreview = document.getElementById("partnerLogoPreview");
+const partnerHaloColor = document.getElementById("partnerHaloColor");
+const partnerHaloPreview = document.getElementById("partnerHaloPreview");
+const savePartnerButton = document.getElementById("savePartnerButton");
+const partnerStatus = document.getElementById("partnerStatus");
+
+/* =====================================================
+   LOGOS DES PARTENAIRES
+   Les fichiers sont récupérés automatiquement depuis GitHub.
+   Plus besoin de maintenir manuellement la liste des 69 logos.
+===================================================== */
+
+const GITHUB_LOGO_API =
+    "https://api.github.com/repos/mvbc85600/DIFFUSION/contents/logo";
+
+const GITHUB_LOGO_RAW =
+    "https://raw.githubusercontent.com/mvbc85600/DIFFUSION/main/logo/";
+
+let partnerLogos = {};
+
+
+/* =====================================================
+   ONGLETS
+===================================================== */
+/* Les écouteurs sont installés plus bas, après le chargement du DOM. */
+
+/* =====================================================
+   CONNEXION
+===================================================== */
+if (sessionStorage.getItem("adminConnecte") === "true") {
+    afficherAdmin();
+}
+
+loginButton.addEventListener("click", verifierMotDePasse);
+password.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        verifierMotDePasse();
+    }
+});
+
+function verifierMotDePasse() {
+    if (password.value === MOT_DE_PASSE) {
+        sessionStorage.setItem("adminConnecte", "true");
+        afficherAdmin();
+        password.value = "";
+        loginError.textContent = "";
+    }
+    else {
+        loginError.textContent = "Mot de passe incorrect.";
+        password.value = "";
+    }
+}
+
+function afficherAdmin() {
+    login.style.display = "none";
+    admin.style.display = "block";
+}
+
+logoutButton.addEventListener("click", () => {
+    sessionStorage.removeItem("adminConnecte");
+    admin.style.display = "none";
+    login.style.display = "flex";
+});
+
+/* =====================================================
+   DIFFUSION
+===================================================== */
+window.diffuser = function(scene) {
+    set(ref(db, "diffusion"), {
+        scene: scene,
+        timestamp: Date.now()
+    })
+    .then(() => {
+        currentScene.textContent = scene;
+    })
+    .catch((error) => {
+        console.error(error);
+        alert("Erreur de diffusion : " + error.message);
+    });
+};
+
+// Fonction spécialisée pour le message
+window.diffuserMessage = function() {
+    // Sauvegarder les données du message dans Firebase
+    const donneesMessage = {
+        titre: messageTitre.value.trim(),
+        contenu: nettoyerHTMLMessage(messageContenu.innerHTML),
+        couleur: messageCouleur.value,
+        fond: messageFond.value,
+        afficherDefilementLogos: afficherDefilementLogos.checked,
+        timestamp: Date.now()
+    };
+
+    // Sauvegarder dans Firebase
+    set(ref(db, "message"), donneesMessage)
+        .then(() => {
+            // Diffuser la scène "message"
+            set(ref(db, "diffusion"), {
+                scene: "message",
+                timestamp: Date.now()
+            })
+            .then(() => {
+                currentScene.textContent = "message";
+            })
+            .catch((error) => {
+                console.error(error);
+                alert("Erreur de diffusion : " + error.message);
+            });
+        })
+        .catch((error) => {
+            console.error(error);
+            alert("Erreur lors de l'enregistrement du message : " + error.message);
+        });
+};
+
+// Fonction spécialisée pour le partenaire du match
+window.diffuserPartenaire = function() {
+    // Diffuser la scène "partenairedumatch"
+    set(ref(db, "diffusion"), {
+        scene: "partenairedumatch",
+        timestamp: Date.now()
+    })
+    .then(() => {
+        currentScene.textContent = "partenairedumatch";
+    })
+    .catch((error) => {
+        console.error(error);
+        alert("Erreur de diffusion : " + error.message);
+    });
+};
+
+/* =====================================================
+   REFERENCES FIREBASE
+===================================================== */
+const matchRef = ref(db, "matchdusoir");
+const messageRef = ref(db, "message");
+const partnerRef = ref(db, "partenairedumatch"); // Nouvelle référence pour le partenaire du match
+
+/* =====================================================
+   COULEURS DES HALOS
+===================================================== */
+const COULEURS_HALO = {
+    yellow: "#ffd400",
+    black: "#000000",
+    blue: "#008cff",
+    orange: "#ff6500",
+    red: "#ff3030",
+    pink: "#ff4fa3",
+    green: "#22c55e",
+    white: "#ffffff"
+};
+
+function mettreAJourApercuHalo(select, preview) {
+    const couleur = COULEURS_HALO[select.value] || "#ffffff";
+    preview.style.background = couleur;
+    preview.style.color = couleur;
+    preview.style.boxShadow = `0 0 10px ${couleur}, 0 0 25px ${couleur}`;
+    preview.style.border = select.value === "black" ? "1px solid #777" : "none";
+}
+
+function mettreAJourApercuHalos() {
+    mettreAJourApercuHalo(haloCouleur1, haloPreview1);
+    mettreAJourApercuHalo(haloCouleur2, haloPreview2);
+}
+
+/* =====================================================
+   ONGLET : PARTENAIRE DU MATCH (NOUVELLES FONCTIONS)
+===================================================== */
+
+let partnerDataEnregistree = null;
+
+// Mettre à jour l'aperçu du logo et du halo
+partnerSelect.addEventListener("change", () => {
+    const selectedPartner = partnerSelect.value;
+    if (selectedPartner && partnerLogos[selectedPartner]) {
+        partnerLogoPreview.src = partnerLogos[selectedPartner];
+    } else {
+        partnerLogoPreview.src = "";
+    }
+});
+
+/*
+ * Récupère automatiquement tous les PNG du dossier /logo du dépôt GitHub.
+ * Le nom du fichier devient le nom du partenaire.
+ */
+async function chargerPartenairesDepuisGithub() {
+    try {
+        const response = await fetch(GITHUB_LOGO_API, {
+            headers: {
+                "Accept": "application/vnd.github+json"
+            },
+            cache: "no-store"
+        });
+
+        if (!response.ok) {
+            throw new Error(`GitHub a répondu ${response.status}`);
+        }
+
+        const fichiers = await response.json();
+
+        partnerLogos = {};
+
+        fichiers
+            .filter(fichier =>
+                fichier.type === "file" &&
+                /\.(png|jpe?g|webp|gif|svg)$/i.test(fichier.name)
+            )
+            .sort((a, b) => a.name.localeCompare(b.name, "fr"))
+            .forEach(fichier => {
+                const nom = fichier.name.replace(/\.[^.]+$/, "");
+                partnerLogos[nom] = GITHUB_LOGO_RAW + encodeURIComponent(fichier.name).replace(/%20/g, "%20");
+            });
+
+        partnerSelect.innerHTML = '<option value="">-- Choisir un partenaire --</option>';
+
+        Object.keys(partnerLogos).forEach(nom => {
+            const option = document.createElement("option");
+            option.value = nom;
+            option.textContent = nom;
+            partnerSelect.appendChild(option);
+        });
+
+        chargerApercuLogosPartenaires();
+
+        if (partnerDataEnregistree && partnerDataEnregistree.nom) {
+            partnerSelect.value = partnerDataEnregistree.nom;
+            partnerLogoPreview.src =
+                partnerLogos[partnerDataEnregistree.nom] ||
+                partnerDataEnregistree.logo ||
+                "";
+        }
+
+        if (Object.keys(partnerLogos).length === 0) {
+            throw new Error("Aucun logo trouvé dans le dossier GitHub /logo.");
+        }
+
+    } catch (error) {
+        console.error("Erreur chargement partenaires GitHub :", error);
+
+        partnerSelect.innerHTML =
+            '<option value="">❌ Impossible de charger les partenaires</option>';
+
+        partnerStatus.className = "error";
+        partnerStatus.textContent =
+            "❌ Impossible de charger les logos depuis GitHub : " + error.message;
+    }
+}
+
+function creerLogoApercu(src) {
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = "Partenaire";
+    img.onerror = function () {
+        this.style.display = "none";
+    };
+    return img;
+}
+
+function chargerApercuLogosPartenaires() {
+    const container = document.querySelector(".partners-scroll-admin");
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    const logos = Object.values(partnerLogos);
+
+    /*
+     * Deux passages permettent de conserver l'animation de défilement.
+     */
+    [...logos, ...logos].forEach(logo => {
+        container.appendChild(creerLogoApercu(logo));
+    });
+}
+
+chargerPartenairesDepuisGithub();
+
+// Mettre à jour l'aperçu du halo
+partnerHaloColor.addEventListener("change", () => {
+    const couleur = partnerHaloColor.value;
+    partnerHaloPreview.style.background = couleur;
+    partnerHaloPreview.style.boxShadow = `0 0 10px ${couleur}, 0 0 25px ${couleur}`;
+});
+
+// Charger les données du partenaire depuis Firebase
+onValue(partnerRef, (snapshot) => {
+    const data = snapshot.val();
+    if (!data) return;
+
+    partnerDataEnregistree = data;
+
+    if (data.nom) {
+        partnerSelect.value = data.nom;
+        if (partnerLogos[data.nom]) {
+            partnerLogoPreview.src = partnerLogos[data.nom];
+        } else if (data.logo) {
+            partnerLogoPreview.src = data.logo;
+        }
+    }
+    if (data.couleur) {
+        partnerHaloColor.value = data.couleur;
+        partnerHaloPreview.style.background = data.couleur;
+        partnerHaloPreview.style.boxShadow = `0 0 10px ${data.couleur}, 0 0 25px ${data.couleur}`;
+    }
+});
+
+// Enregistrer le partenaire du match
+savePartnerButton.addEventListener("click", async () => {
+    try {
+        savePartnerButton.disabled = true;
+        savePartnerButton.textContent = "⏳ ENREGISTREMENT...";
+
+        const selectedPartner = partnerSelect.value;
+        if (!selectedPartner) {
+            throw new Error("Veuillez sélectionner un partenaire.");
+        }
+
+        const partnerData = {
+            nom: selectedPartner,
+            logo: partnerLogos[selectedPartner],
+            couleur: partnerHaloColor.value,
+            timestamp: Date.now()
+        };
+
+        await set(partnerRef, partnerData);
+        partnerStatus.className = "success";
+        partnerStatus.textContent = "✅ Partenaire enregistré !";
+        savePartnerButton.textContent = "✅ ENREGISTRÉ";
+
+        setTimeout(() => {
+            savePartnerButton.disabled = false;
+            savePartnerButton.textContent = "💾 ENREGISTRER LE PARTENAIRE";
+        }, 2000);
+    }
+    catch(error) {
+        console.error(error);
+        partnerStatus.className = "error";
+        partnerStatus.textContent = "❌ Erreur : " + error.message;
+        savePartnerButton.disabled = false;
+        savePartnerButton.textContent = "💾 ENREGISTRER LE PARTENAIRE";
+    }
+});
+
+/* =====================================================
+   CHARGER MATCH
+===================================================== */
+onValue(matchRef, (snapshot) => {
+    const data = snapshot.val();
+    if (!data) return;
+
+    if (data.championnat) matchChampionnat.value = data.championnat;
+    if (data.titreMatch) titreMatch.value = data.titreMatch;
+    if (data.equipe1) matchEquipe1.value = data.equipe1;
+    if (data.equipe2) matchEquipe2.value = data.equipe2;
+    if (data.logo1) {
+        logoEquipe1.value = data.logo1;
+        logoPreview1.src = data.logo1;
+    }
+    if (data.logo2) {
+        logoEquipe2.value = data.logo2;
+        logoPreview2.src = data.logo2;
+    }
+    if (data.date) matchDate.value = data.date;
+    if (data.heure) matchHeure.value = data.heure;
+    if (data.haloCouleur1) haloCouleur1.value = data.haloCouleur1;
+    if (data.haloCouleur2) haloCouleur2.value = data.haloCouleur2;
+
+    mettreAJourApercuHalos();
+});
+
+/* =====================================================
+   APERCU LOGOS
+===================================================== */
+logoEquipe1.addEventListener("change", () => {
+    if (logoEquipe1.value) logoPreview1.src = logoEquipe1.value;
+});
+
+logoEquipe2.addEventListener("change", () => {
+    if (logoEquipe2.value) logoPreview2.src = logoEquipe2.value;
+});
+
+/* =====================================================
+   COULEURS DES HALOS (ÉCOUTEURS)
+===================================================== */
+haloCouleur1.addEventListener("change", mettreAJourApercuHalos);
+haloCouleur2.addEventListener("change", mettreAJourApercuHalos);
+mettreAJourApercuHalos();
+
+/* =====================================================
+   ENREGISTRER MATCH
+===================================================== */
+saveMatchButton.addEventListener("click", async () => {
+    try {
+        saveMatchButton.disabled = true;
+        saveMatchButton.textContent = "⏳ ENREGISTREMENT...";
+
+        const donneesMatch = {
+            championnat: matchChampionnat.value.trim(),
+            titreMatch: titreMatch.value.trim(),
+            equipe1: matchEquipe1.value.trim(),
+            logo1: logoEquipe1.value,
+            equipe2: matchEquipe2.value.trim(),
+            logo2: logoEquipe2.value,
+            date: matchDate.value.trim(),
+            heure: matchHeure.value.trim(),
+            haloCouleur1: haloCouleur1.value,
+            haloCouleur2: haloCouleur2.value,
+            timestamp: Date.now()
+        };
+
+        await set(matchRef, donneesMatch);
+        matchStatus.className = "success";
+        matchStatus.textContent = "✅ Match enregistré !";
+        saveMatchButton.textContent = "✅ ENREGISTRÉ";
+
+        setTimeout(() => {
+            saveMatchButton.disabled = false;
+            saveMatchButton.textContent = "💾 ENREGISTRER LE MATCH";
+        }, 2000);
+    }
+    catch(error) {
+        console.error(error);
+        matchStatus.className = "error";
+        matchStatus.textContent = "❌ Erreur : " + error.message;
+        saveMatchButton.disabled = false;
+        saveMatchButton.textContent = "💾 ENREGISTRER LE MATCH";
+    }
+});
+
+/* =====================================================
+   CHARGER MESSAGE
+===================================================== */
+onValue(messageRef, (snapshot) => {
+    const data = snapshot.val();
+    if (!data) return;
+
+    if (data.titre) messageTitre.value = data.titre;
+
+    if (data.contenu !== undefined && data.contenu !== null) {
+        /*
+         * Compatibilité avec les anciens messages :
+         * s'il s'agit encore de texte brut, on l'affiche comme texte.
+         * Les nouveaux messages sont enregistrés en HTML.
+         */
+        if (/<[a-z][\s\S]*>/i.test(data.contenu)) {
+            messageContenu.innerHTML = data.contenu;
+        } else {
+            messageContenu.textContent = data.contenu;
+        }
+    }
+
+    if (data.couleur) messageCouleur.value = data.couleur;
+    if (data.fond) messageFond.value = data.fond;
+    if (data.afficherDefilementLogos !== undefined) {
+        afficherDefilementLogos.checked = data.afficherDefilementLogos;
+    }
+});
+
+/* =====================================================
+   ENREGISTRER MESSAGE
+===================================================== */
+saveMessageButton.addEventListener("click", async () => {
+    try {
+        saveMessageButton.disabled = true;
+        saveMessageButton.textContent = "⏳ ENREGISTREMENT...";
+
+        const donneesMessage = {
+            titre: messageTitre.value.trim(),
+            contenu: nettoyerHTMLMessage(messageContenu.innerHTML),
+            couleur: messageCouleur.value,
+            fond: messageFond.value,
+            afficherDefilementLogos: afficherDefilementLogos.checked,
+            timestamp: Date.now()
+        };
+
+        await set(messageRef, donneesMessage);
+        messageStatus.className = "success";
+        messageStatus.textContent = "✅ Message enregistré !";
+        saveMessageButton.textContent = "✅ ENREGISTRÉ";
+
+        setTimeout(() => {
+            saveMessageButton.disabled = false;
+            saveMessageButton.textContent = "💾 ENREGISTRER LE MESSAGE";
+        }, 2000);
+    }
+    catch(error) {
+        console.error(error);
+        messageStatus.className = "error";
+        messageStatus.textContent = "❌ Erreur : " + error.message;
+        saveMessageButton.disabled = false;
+        saveMessageButton.textContent = "💾 ENREGISTRER LE MESSAGE";
+    }
+});
+
+/* =====================================================
+   SELECTION DES ONGLETS
+===================================================== */
+const tabButtons = document.querySelectorAll('.tab-button');
+tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        // Désactiver tous les boutons d'onglets
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+
+        // Masquer tous les contenus d'onglets
+        const tabContents = document.querySelectorAll('.tab-content');
+        tabContents.forEach(content => content.classList.remove('active'));
+
+        // Activer le bouton cliqué
+        button.classList.add('active');
+
+        // Afficher le contenu de l'onglet correspondant
+        const tabId = button.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+    });
+});
+</script>
+</body>
+</html>
