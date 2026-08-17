@@ -1340,7 +1340,7 @@ logoutButton.addEventListener("click", () => {
    DIFFUSION
 ===================================================== */
 window.diffuser = function(scene) {
-    set(ref(db, "diffusion"), {
+    set(ref(db, "diffusion_mtg"), {
         scene: scene,
         timestamp: Date.now()
     })
@@ -1369,7 +1369,7 @@ window.diffuserMessage = function() {
     set(ref(db, "message"), donneesMessage)
         .then(() => {
             // Diffuser la scène "message"
-            set(ref(db, "diffusion"), {
+            set(ref(db, "diffusion_mtg"), {
                 scene: "message",
                 timestamp: Date.now()
             })
@@ -1390,7 +1390,7 @@ window.diffuserMessage = function() {
 // Fonction spécialisée pour le partenaire du match
 window.diffuserPartenaire = function() {
     // Diffuser la scène "partenairedumatch"
-    set(ref(db, "diffusion"), {
+    set(ref(db, "diffusion_mtg"), {
         scene: "partenairedumatch",
         timestamp: Date.now()
     })
