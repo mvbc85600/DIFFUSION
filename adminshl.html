@@ -619,7 +619,7 @@ body {
             🎬 Régie
         </button>
         <button class="tab-button" data-tab="matchdusoir">
-            ⚽ Match du Soir
+            🏀 Match du Soir
         </button>
         <button class="tab-button" data-tab="message">
             📝 Message
@@ -1366,7 +1366,7 @@ window.diffuserMessage = function() {
     };
 
     // Sauvegarder dans Firebase
-    set(ref(db, "message"), donneesMessage)
+    set(ref(db, "message_shl"), donneesMessage)
         .then(() => {
             // Diffuser la scène "message"
             set(ref(db, "diffusion_shl"), {
@@ -1406,9 +1406,9 @@ window.diffuserPartenaire = function() {
 /* =====================================================
    REFERENCES FIREBASE
 ===================================================== */
-const matchRef = ref(db, "matchdusoir");
-const messageRef = ref(db, "message");
-const partnerRef = ref(db, "partenairedumatch"); // Nouvelle référence pour le partenaire du match
+const matchRef = ref(db, "matchdusoir_shl");
+const messageRef = ref(db, "message_shl");
+const partnerRef = ref(db, "partenairedumatch_shl"); // Nouvelle référence pour le partenaire du match
 
 /* =====================================================
    COULEURS DES HALOS
