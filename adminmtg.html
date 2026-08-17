@@ -619,7 +619,7 @@ body {
             🎬 Régie
         </button>
         <button class="tab-button" data-tab="matchdusoir">
-            ⚽ Match du Soir
+            🏀 Match du Soir
         </button>
         <button class="tab-button" data-tab="message">
             📝 Message
@@ -1340,7 +1340,7 @@ logoutButton.addEventListener("click", () => {
    DIFFUSION
 ===================================================== */
 window.diffuser = function(scene) {
-    set(ref(db, "diffusion_mtg"), {
+    set((db, "diffusion_mtg"), {
         scene: scene,
         timestamp: Date.now()
     })
@@ -1366,7 +1366,7 @@ window.diffuserMessage = function() {
     };
 
     // Sauvegarder dans Firebase
-    set(ref(db, "message"), donneesMessage)
+    set((db, "message_mtg"), donneesMessage)
         .then(() => {
             // Diffuser la scène "message"
             set(ref(db, "diffusion_mtg"), {
@@ -1406,9 +1406,9 @@ window.diffuserPartenaire = function() {
 /* =====================================================
    REFERENCES FIREBASE
 ===================================================== */
-const matchRef = ref(db, "matchdusoir");
-const messageRef = ref(db, "message");
-const partnerRef = ref(db, "partenairedumatch"); // Nouvelle référence pour le partenaire du match
+const matchRef = ref(db, "matchdusoir_mtg");
+const messageRef = ref(db, "message_mtg");
+const partnerRef = ref(db, "partenairedumatch_mtg"); // Nouvelle référence pour le partenaire du match
 
 /* =====================================================
    COULEURS DES HALOS
