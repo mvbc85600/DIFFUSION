@@ -1360,10 +1360,17 @@ function afficherScene(scene) {
             break;
 
         case "partenaires":
-            afficherPage(
-                "partenaires.html"
-            );
-            break;
+
+    afficherPage(
+        "partenaires.html"
+    );
+
+    partnersScrollContainer.style.display =
+        "block";
+
+    demarrerCarrouselPartenaires();
+
+    break;
 
         case "evenements":
             afficherPage(
