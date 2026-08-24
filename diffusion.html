@@ -1733,6 +1733,81 @@ function arreterDiaporama() {
     }
 }
 
+/* =====================================================
+   EMPÊCHER LA MISE EN VEILLE DE L'ÉCRAN
+===================================================== */
+
+let wakeLock = null;
+
+async function activerWakeLock() {
+
+    try {
+
+        if ("wakeLock" in navigator) {
+
+            wakeLock =
+                await navigator.wakeLock.request(
+                    "screen"
+                );
+
+            console.log(
+                "Wake Lock activé : écran maintenu actif"
+            );
+
+            wakeLock.addEventListener(
+                "release",
+                () => {
+
+                    console.log(
+                        "Wake Lock désactivé"
+                    );
+
+                }
+            );
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Impossible d'activer le Wake Lock :",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   RÉACTIVER SI LA PAGE REDEVIENT VISIBLE
+===================================================== */
+
+document.addEventListener(
+    "visibilitychange",
+    async () => {
+
+        if (
+            document.visibilityState === "visible" &&
+            !wakeLock
+        ) {
+
+            await activerWakeLock();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ACTIVATION AUTOMATIQUE
+===================================================== */
+
+activerWakeLock();
+   
 </script>
 
 </body>
