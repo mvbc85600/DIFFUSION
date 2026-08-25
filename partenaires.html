@@ -9,7 +9,6 @@
 
 <title>Nos Partenaires</title>
 
-
 <style>
 
 /* =====================================================
@@ -19,7 +18,6 @@
 * {
     box-sizing: border-box;
 }
-
 
 html,
 body {
@@ -40,7 +38,6 @@ body {
 
 }
 
-
 /* =====================================================
    FOND
 ===================================================== */
@@ -60,7 +57,6 @@ body {
         );
 
 }
-
 
 /* =====================================================
    HALO CENTRAL DU FOND
@@ -92,10 +88,10 @@ body::before {
 
     pointer-events: none;
 
-    animation: halo 4s ease-in-out infinite;
+    animation:
+        halo 4s ease-in-out infinite;
 
 }
-
 
 /* =====================================================
    ANIMATION HALO
@@ -135,7 +131,6 @@ body::before {
 
 }
 
-
 /* =====================================================
    TITRE
 ===================================================== */
@@ -166,7 +161,6 @@ h1 {
 
 }
 
-
 /* =====================================================
    LIGNE SOUS LE TITRE
 ===================================================== */
@@ -193,7 +187,6 @@ h1::after {
         0 0 25px #ffffff;
 
 }
-
 
 /* =====================================================
    CARROUSEL
@@ -222,7 +215,6 @@ h1::after {
     perspective-origin: center center;
 
 }
-
 
 /* =====================================================
    LOGOS
@@ -260,7 +252,6 @@ h1::after {
     border-radius: 24px;
 
     transition:
-
         transform 0.9s cubic-bezier(.22,.61,.36,1),
         opacity 0.9s ease,
         filter 0.9s ease,
@@ -268,7 +259,6 @@ h1::after {
         border-color 0.9s ease;
 
 }
-
 
 /* =====================================================
    COULEUR JAUNE
@@ -280,7 +270,6 @@ h1::after {
 
 }
 
-
 /* =====================================================
    COULEUR ROUGE
 ===================================================== */
@@ -290,7 +279,6 @@ h1::after {
     border-color: #ff2020 !important;
 
 }
-
 
 /* =====================================================
    COULEUR BLEUE
@@ -302,7 +290,6 @@ h1::after {
 
 }
 
-
 /* =====================================================
    LOGO CENTRAL
 ===================================================== */
@@ -310,7 +297,6 @@ h1::after {
 .center {
 
     transform:
-
         translate(-50%, -50%)
         translateZ(300px)
         scale(1.10);
@@ -320,12 +306,10 @@ h1::after {
     opacity: 1;
 
     filter:
-
         brightness(1.15)
         contrast(1.08);
 
 }
-
 
 /* =====================================================
    HALO CENTRAL JAUNE
@@ -334,14 +318,12 @@ h1::after {
 .center.color-yellow {
 
     box-shadow:
-
         0 0 20px #ffcc00,
         0 0 45px #ffcc00,
         0 0 90px rgba(255,204,0,0.85),
         0 0 140px rgba(255,204,0,0.35);
 
 }
-
 
 /* =====================================================
    HALO CENTRAL ROUGE
@@ -350,14 +332,12 @@ h1::after {
 .center.color-red {
 
     box-shadow:
-
         0 0 20px #ff2020,
         0 0 45px #ff2020,
         0 0 90px rgba(255,32,32,0.85),
         0 0 140px rgba(255,32,32,0.35);
 
 }
-
 
 /* =====================================================
    HALO CENTRAL BLEU
@@ -366,14 +346,12 @@ h1::after {
 .center.color-blue {
 
     box-shadow:
-
         0 0 20px #168cff,
         0 0 45px #168cff,
         0 0 90px rgba(22,140,255,0.85),
         0 0 140px rgba(22,140,255,0.35);
 
 }
-
 
 /* =====================================================
    GAUCHE 1
@@ -382,7 +360,6 @@ h1::after {
 .left1 {
 
     transform:
-
         translate(-50%, -50%)
         translateX(-540px)
         translateZ(40px)
@@ -393,12 +370,10 @@ h1::after {
     opacity: 0.75;
 
     filter:
-
         brightness(0.75)
         contrast(0.95);
 
 }
-
 
 /* =====================================================
    GAUCHE 2
@@ -407,7 +382,6 @@ h1::after {
 .left2 {
 
     transform:
-
         translate(-50%, -50%)
         translateX(-860px)
         translateZ(-250px)
@@ -418,12 +392,32 @@ h1::after {
     opacity: 0.38;
 
     filter:
-
         brightness(0.55)
         blur(0.3px);
 
 }
 
+/* =====================================================
+   GAUCHE 3 (ajouté pour l'effet de défilement)
+===================================================== */
+
+.left3 {
+
+    transform:
+        translate(-50%, -50%)
+        translateX(-1100px)
+        translateZ(-400px)
+        scale(0.25);
+
+    z-index: 4;
+
+    opacity: 0.15;
+
+    filter:
+        brightness(0.40)
+        blur(1px);
+
+}
 
 /* =====================================================
    DROITE 1
@@ -432,7 +426,6 @@ h1::after {
 .right1 {
 
     transform:
-
         translate(-50%, -50%)
         translateX(540px)
         translateZ(40px)
@@ -443,12 +436,10 @@ h1::after {
     opacity: 0.75;
 
     filter:
-
         brightness(0.75)
         contrast(0.95);
 
 }
-
 
 /* =====================================================
    DROITE 2
@@ -457,7 +448,6 @@ h1::after {
 .right2 {
 
     transform:
-
         translate(-50%, -50%)
         translateX(860px)
         translateZ(-250px)
@@ -468,12 +458,32 @@ h1::after {
     opacity: 0.38;
 
     filter:
-
         brightness(0.55)
         blur(0.3px);
 
 }
 
+/* =====================================================
+   DROITE 3 (ajouté pour l'effet de défilement)
+===================================================== */
+
+.right3 {
+
+    transform:
+        translate(-50%, -50%)
+        translateX(1100px)
+        translateZ(-400px)
+        scale(0.25);
+
+    z-index: 4;
+
+    opacity: 0.15;
+
+    filter:
+        brightness(0.40)
+        blur(1px);
+
+}
 
 /* =====================================================
    LOGOS CACHÉS
@@ -482,7 +492,6 @@ h1::after {
 .hidden {
 
     transform:
-
         translate(-50%, -50%)
         translateZ(-700px)
         scale(0.15);
@@ -496,7 +505,6 @@ h1::after {
     pointer-events: none;
 
 }
-
 
 /* =====================================================
    BARRE LUMINEUSE
@@ -519,7 +527,6 @@ h1::after {
     background: #ffcc00;
 
     box-shadow:
-
         0 0 10px #ffcc00,
         0 0 25px #ffcc00,
         0 0 50px #ffcc00;
@@ -527,7 +534,6 @@ h1::after {
     z-index: 90;
 
 }
-
 
 /* =====================================================
    ÉCRANS 1600PX ET MOINS
@@ -543,22 +549,18 @@ h1::after {
 
     }
 
-
     .center {
 
         transform:
-
             translate(-50%, -50%)
             translateZ(250px)
             scale(1.02);
 
     }
 
-
     .left1 {
 
         transform:
-
             translate(-50%, -50%)
             translateX(-450px)
             translateZ(30px)
@@ -566,11 +568,9 @@ h1::after {
 
     }
 
-
     .right1 {
 
         transform:
-
             translate(-50%, -50%)
             translateX(450px)
             translateZ(30px)
@@ -578,11 +578,9 @@ h1::after {
 
     }
 
-
     .left2 {
 
         transform:
-
             translate(-50%, -50%)
             translateX(-700px)
             translateZ(-200px)
@@ -590,11 +588,9 @@ h1::after {
 
     }
 
-
     .right2 {
 
         transform:
-
             translate(-50%, -50%)
             translateX(700px)
             translateZ(-200px)
@@ -602,8 +598,28 @@ h1::after {
 
     }
 
-}
+    /* Ajout pour left3 et right3 */
+    .left3 {
 
+        transform:
+            translate(-50%, -50%)
+            translateX(-900px)
+            translateZ(-350px)
+            scale(0.22);
+
+    }
+
+    .right3 {
+
+        transform:
+            translate(-50%, -50%)
+            translateX(900px)
+            translateZ(-350px)
+            scale(0.22);
+
+    }
+
+}
 
 /* =====================================================
    ÉCRANS 1200PX ET MOINS
@@ -617,13 +633,11 @@ h1::after {
 
     }
 
-
     .carousel {
 
         min-height: 550px;
 
     }
-
 
     .carousel img {
 
@@ -633,22 +647,18 @@ h1::after {
 
     }
 
-
     .center {
 
         transform:
-
             translate(-50%, -50%)
             translateZ(180px)
             scale(0.98);
 
     }
 
-
     .left1 {
 
         transform:
-
             translate(-50%, -50%)
             translateX(-330px)
             translateZ(20px)
@@ -656,18 +666,15 @@ h1::after {
 
     }
 
-
     .right1 {
 
         transform:
-
             translate(-50%, -50%)
             translateX(330px)
             translateZ(20px)
             scale(0.48);
 
     }
-
 
     .left2,
     .right2 {
@@ -676,8 +683,15 @@ h1::after {
 
     }
 
-}
+    /* Masquer left3 et right3 sur les petits écrans */
+    .left3,
+    .right3 {
 
+        display: none;
+
+    }
+
+}
 
 /* =====================================================
    MOBILE
@@ -695,7 +709,6 @@ h1::after {
 
     }
 
-
     h1::after {
 
         width: 180px;
@@ -704,7 +717,6 @@ h1::after {
 
     }
 
-
     .carousel {
 
         height: calc(100vh - 120px);
@@ -712,7 +724,6 @@ h1::after {
         min-height: 400px;
 
     }
-
 
     .carousel img {
 
@@ -724,41 +735,36 @@ h1::after {
 
     }
 
-
     .center {
 
         transform:
-
             translate(-50%, -50%)
             scale(0.92);
 
     }
 
-
     .left1 {
 
         transform:
-
             translate(-50%, -50%)
             translateX(-190px)
             scale(0.40);
 
     }
 
-
     .right1 {
 
         transform:
-
             translate(-50%, -50%)
             translateX(190px)
             scale(0.40);
 
     }
 
-
     .left2,
-    .right2 {
+    .right2,
+    .left3,
+    .right3 {
 
         display: none;
 
@@ -770,9 +776,7 @@ h1::after {
 
 </head>
 
-
 <body>
-
 
 <!-- =====================================================
      TITRE
@@ -781,7 +785,6 @@ h1::after {
 <h1>
     🤝 NOS PARTENAIRES
 </h1>
-
 
 <!-- =====================================================
      CARROUSEL
@@ -792,13 +795,11 @@ h1::after {
     id="carousel">
 </div>
 
-
 <!-- =====================================================
      BARRE LUMINEUSE
 ===================================================== -->
 
 <div class="light-line"></div>
-
 
 <script>
 
@@ -812,53 +813,39 @@ const GITHUB_API =
 const GITHUB_RAW_BASE =
     "https://raw.githubusercontent.com/mvbc85600/DIFFUSION/main/logo/";
 
-
 /* =====================================================
    PARAMÈTRES
 ===================================================== */
 
 /*
    Nombre de logos réellement affichés simultanément :
-
    centre
    gauche 1
    gauche 2
+   gauche 3
    droite 1
    droite 2
+   droite 3
 
-   = 5 logos
+   = 7 logos
 */
-
-const VISIBLE_LOGOS = 5;
-
+const VISIBLE_LOGOS = 7;
 
 /*
    Nombre de logos supplémentaires à précharger
    en arrière-plan.
-
-   Cela permet d'avoir une transition fluide
-   sans télécharger les 69 logos immédiatement.
 */
-
 const PRELOAD_AHEAD = 4;
-
 
 /*
    Intervalle de rotation
 */
-
 const ROTATION_TIME = 2500;
-
 
 /*
    Cache de la liste GitHub
-
    10 minutes.
-
-   Cela évite de solliciter inutilement l'API
-   à chaque rechargement de la page.
 */
-
 const LIST_CACHE_KEY =
     "partenairesGithubLogoList";
 
@@ -867,7 +854,6 @@ const LIST_CACHE_TIME_KEY =
 
 const LIST_CACHE_DURATION =
     10 * 60 * 1000;
-
 
 /* =====================================================
    VARIABLES
@@ -883,21 +869,15 @@ let index = 0;
 
 let interval = null;
 
-
 /* =====================================================
    COULEURS
 ===================================================== */
 
 const colors = [
-
     "color-yellow",
-
     "color-red",
-
     "color-blue"
-
 ];
-
 
 /* =====================================================
    RÉCUPÉRATION DE LA LISTE GITHUB
@@ -921,7 +901,6 @@ async function getLogoFiles() {
                 LIST_CACHE_TIME_KEY
             );
 
-
         if (
             cachedList &&
             cachedTime &&
@@ -934,7 +913,6 @@ async function getLogoFiles() {
 
             const parsed =
                 JSON.parse(cachedList);
-
 
             if (
                 Array.isArray(parsed) &&
@@ -958,7 +936,6 @@ async function getLogoFiles() {
 
     }
 
-
     /*
        Appel de l'API GitHub
     */
@@ -973,7 +950,6 @@ async function getLogoFiles() {
                 }
             );
 
-
         if (!response.ok) {
 
             throw new Error(
@@ -983,17 +959,14 @@ async function getLogoFiles() {
 
         }
 
-
         const files =
             await response.json();
-
 
         /*
            On conserve uniquement les fichiers images.
         */
 
         const imageExtensions = [
-
             ".png",
             ".jpg",
             ".jpeg",
@@ -1001,13 +974,10 @@ async function getLogoFiles() {
             ".gif",
             ".avif",
             ".svg"
-
         ];
-
 
         const images =
             files
-
                 .filter(
                     file => {
 
@@ -1020,10 +990,8 @@ async function getLogoFiles() {
 
                         }
 
-
                         const name =
                             file.name.toLowerCase();
-
 
                         return imageExtensions.some(
                             extension =>
@@ -1034,12 +1002,7 @@ async function getLogoFiles() {
 
                     }
                 )
-
-                /*
-                   Tri alphabétique pour obtenir
-                   toujours le même ordre.
-                */
-
+                /* Tri alphabétique */
                 .sort(
                     (a, b) =>
                         a.name.localeCompare(
@@ -1051,11 +1014,9 @@ async function getLogoFiles() {
                             }
                         )
                 )
-
                 .map(
                     file => file.name
                 );
-
 
         /*
            Mise en cache
@@ -1066,12 +1027,10 @@ async function getLogoFiles() {
             JSON.stringify(images)
         );
 
-
         localStorage.setItem(
             LIST_CACHE_TIME_KEY,
             Date.now().toString()
         );
-
 
         return images;
 
@@ -1084,11 +1043,9 @@ async function getLogoFiles() {
             error
         );
 
-
         /*
-           Si GitHub est momentanément indisponible,
-           on tente d'utiliser l'ancien cache,
-           même s'il est expiré.
+           Si GitHub est indisponible,
+           on utilise l'ancien cache.
         */
 
         try {
@@ -1098,12 +1055,10 @@ async function getLogoFiles() {
                     LIST_CACHE_KEY
                 );
 
-
             if (oldCache) {
 
                 const parsed =
                     JSON.parse(oldCache);
-
 
                 if (
                     Array.isArray(parsed) &&
@@ -1113,7 +1068,6 @@ async function getLogoFiles() {
                     console.warn(
                         "Utilisation du cache GitHub expiré."
                     );
-
 
                     return parsed;
 
@@ -1132,13 +1086,11 @@ async function getLogoFiles() {
 
         }
 
-
         return [];
 
     }
 
 }
-
 
 /* =====================================================
    CRÉATION DE L'URL DU LOGO
@@ -1147,15 +1099,11 @@ async function getLogoFiles() {
 function getLogoURL(fileName) {
 
     return (
-
         GITHUB_RAW_BASE +
-
         encodeURIComponent(fileName)
-
     );
 
 }
-
 
 /* =====================================================
    PRÉCHARGEMENT D'UN LOGO
@@ -1169,17 +1117,8 @@ function preloadLogo(fileName) {
 
     }
 
-
     const image =
         new Image();
-
-
-    /*
-       fetchPriority low :
-
-       Le navigateur comprend que ce logo
-       n'est pas prioritaire sur le logo affiché.
-    */
 
     try {
 
@@ -1194,12 +1133,10 @@ function preloadLogo(fileName) {
 
     }
 
-
     image.src =
         getLogoURL(fileName);
 
 }
-
 
 /* =====================================================
    PRÉCHARGEMENT INTELLIGENT
@@ -1213,15 +1150,6 @@ function preloadNextLogos() {
 
     }
 
-
-    /*
-       On précharge uniquement quelques logos
-       autour de la position actuelle.
-
-       On ne télécharge donc jamais les 69 logos
-       simultanément au démarrage.
-    */
-
     for (
         let i = 1;
         i <= PRELOAD_AHEAD;
@@ -1233,22 +1161,11 @@ function preloadNextLogos() {
                 index + i
             ) % total;
 
-
         preloadLogo(
             logoFiles[nextIndex]
         );
 
     }
-
-
-    /*
-       On précharge également les logos
-       immédiatement précédents.
-
-       Cela permet de garder un carrousel
-       parfaitement fluide même si l'index
-       repart à zéro.
-    */
 
     for (
         let i = 1;
@@ -1261,7 +1178,6 @@ function preloadNextLogos() {
                 index - i + total
             ) % total;
 
-
         preloadLogo(
             logoFiles[previousIndex]
         );
@@ -1270,9 +1186,8 @@ function preloadNextLogos() {
 
 }
 
-
 /* =====================================================
-   CRÉATION DES 5 ÉLÉMENTS IMAGE
+   CRÉATION DES ÉLÉMENTS IMAGE
 ===================================================== */
 
 function createImageElements() {
@@ -1282,16 +1197,7 @@ function createImageElements() {
             "carousel"
         );
 
-
-    /*
-       On crée seulement 5 balises IMG.
-
-       IMPORTANT :
-
-       Les 69 images n'existent donc plus
-       simultanément dans le DOM.
-    */
-
+    /* On crée 7 balises IMG pour les 7 logos visibles */
     for (
         let i = 0;
         i < VISIBLE_LOGOS;
@@ -1303,29 +1209,14 @@ function createImageElements() {
                 "img"
             );
 
-
         img.alt =
             "Partenaire";
-
-
-        /*
-           Sécurité supplémentaire :
-           le navigateur ne charge pas
-           automatiquement une ressource
-           avant qu'on lui donne son src.
-        */
 
         img.decoding =
             "async";
 
-
         img.loading =
             "eager";
-
-
-        /*
-           Gestion des erreurs d'image
-        */
 
         img.onerror =
             function () {
@@ -1340,11 +1231,9 @@ function createImageElements() {
 
             };
 
-
         carousel.appendChild(
             img
         );
-
 
         logos.push(
             img
@@ -1353,7 +1242,6 @@ function createImageElements() {
     }
 
 }
-
 
 /* =====================================================
    COULEUR DU PARTENAIRE
@@ -1368,62 +1256,57 @@ function getColor(partnerIndex) {
 
 }
 
-
 /* =====================================================
    POSITION D'UN LOGO
 ===================================================== */
 
 function getPositionClass(position) {
 
-    if (
-        position === 0
-    ) {
+    if (position === 0) {
 
         return "center";
 
     }
 
-
-    if (
-        position === -1
-    ) {
+    if (position === -1) {
 
         return "left1";
 
     }
 
-
-    if (
-        position === -2
-    ) {
+    if (position === -2) {
 
         return "left2";
 
     }
 
+    if (position === -3) {
 
-    if (
-        position === 1
-    ) {
+        return "left3";
+
+    }
+
+    if (position === 1) {
 
         return "right1";
 
     }
 
-
-    if (
-        position === 2
-    ) {
+    if (position === 2) {
 
         return "right2";
 
     }
 
+    if (position === 3) {
+
+        return "right3";
+
+    }
 
     return "hidden";
 
 }
-
 
 /* =====================================================
    INDEX CIRCULAIRE
@@ -1438,7 +1321,6 @@ function circularIndex(value) {
     ) % total;
 
 }
-
 
 /* =====================================================
    CHARGEMENT D'UN LOGO DANS UN ÉLÉMENT
@@ -1459,19 +1341,12 @@ function setLogo(
 
     }
 
-
     const fileName =
         logoFiles[
             circularIndex(
                 partnerIndex
             )
         ];
-
-
-    /*
-       On évite de recharger le même fichier
-       s'il est déjà présent.
-    */
 
     if (
         element.dataset.file !==
@@ -1481,7 +1356,6 @@ function setLogo(
         element.dataset.file =
             fileName;
 
-
         element.alt =
             "Partenaire " +
             (
@@ -1490,21 +1364,12 @@ function setLogo(
                 ) + 1
             );
 
-
-        /*
-           On charge le logo.
-
-           Le navigateur utilisera son cache
-           s'il a déjà été préchargé.
-        */
-
         element.src =
             getLogoURL(
                 fileName
             );
 
     }
-
 
     element.className =
         className +
@@ -1517,7 +1382,6 @@ function setLogo(
 
 }
 
-
 /* =====================================================
    MISE À JOUR DE LA BARRE LUMINEUSE
 ===================================================== */
@@ -1529,17 +1393,14 @@ function updateLightLine() {
             ".light-line"
         );
 
-
     if (!lightLine) {
 
         return;
 
     }
 
-
     const currentColor =
         getColor(index);
-
 
     if (
         currentColor ===
@@ -1549,17 +1410,12 @@ function updateLightLine() {
         lightLine.style.background =
             "#ffcc00";
 
-
         lightLine.style.boxShadow =
-
             "0 0 10px #ffcc00," +
-
             "0 0 25px #ffcc00," +
-
             "0 0 50px #ffcc00";
 
     }
-
 
     else if (
         currentColor ===
@@ -1569,36 +1425,26 @@ function updateLightLine() {
         lightLine.style.background =
             "#ff2020";
 
-
         lightLine.style.boxShadow =
-
             "0 0 10px #ff2020," +
-
             "0 0 25px #ff2020," +
-
             "0 0 50px #ff2020";
 
     }
-
 
     else {
 
         lightLine.style.background =
             "#168cff";
 
-
         lightLine.style.boxShadow =
-
             "0 0 10px #168cff," +
-
             "0 0 25px #168cff," +
-
             "0 0 50px #168cff";
 
     }
 
 }
-
 
 /* =====================================================
    MISE À JOUR DU CARROUSEL
@@ -1614,121 +1460,83 @@ function updateCarousel() {
 
     }
 
+    /* Positions des logos */
+    const center = index;
+    const left1 = index - 1;
+    const left2 = index - 2;
+    const left3 = index - 3;
+    const right1 = index + 1;
+    const right2 = index + 2;
+    const right3 = index + 3;
 
-    /*
-       Positions des logos
-    */
-
-    const center =
-        index;
-
-
-    const left1 =
-        index - 1;
-
-
-    const left2 =
-        index - 2;
-
-
-    const right1 =
-        index + 1;
-
-
-    const right2 =
-        index + 2;
-
-
-    /*
-       Centre
-    */
-
+    /* Centre */
     setLogo(
         logos[0],
         center,
         "center"
     );
 
-
-    /*
-       Gauche 1
-    */
-
+    /* Gauche 1 */
     setLogo(
         logos[1],
         left1,
         "left1"
     );
 
-
-    /*
-       Gauche 2
-    */
-
+    /* Gauche 2 */
     setLogo(
         logos[2],
         left2,
         "left2"
     );
 
-
-    /*
-       Droite 1
-    */
-
+    /* Gauche 3 */
     setLogo(
         logos[3],
+        left3,
+        "left3"
+    );
+
+    /* Droite 1 */
+    setLogo(
+        logos[4],
         right1,
         "right1"
     );
 
-
-    /*
-       Droite 2
-    */
-
+    /* Droite 2 */
     setLogo(
-        logos[4],
+        logos[5],
         right2,
         "right2"
     );
 
+    /* Droite 3 */
+    setLogo(
+        logos[6],
+        right3,
+        "right3"
+    );
 
-    /*
-       Barre lumineuse
-    */
-
+    /* Barre lumineuse */
     updateLightLine();
 
-
-    /*
-       Sauvegarde de la position
-    */
-
+    /* Sauvegarde de la position */
     localStorage.setItem(
         "partenaireIndex",
         index
     );
 
-
-    /*
-       Préchargement intelligent
-    */
-
+    /* Préchargement intelligent */
     preloadNextLogos();
 
 }
-
 
 /* =====================================================
    ROTATION
 ===================================================== */
 
 function startCarousel() {
-
-    /*
-       On arrête un éventuel ancien intervalle.
-    */
 
     if (interval) {
 
@@ -1737,7 +1545,6 @@ function startCarousel() {
         );
 
     }
-
 
     interval =
         setInterval(
@@ -1748,7 +1555,6 @@ function startCarousel() {
                         index + 1
                     ) % total;
 
-
                 updateCarousel();
 
             },
@@ -1756,7 +1562,6 @@ function startCarousel() {
         );
 
 }
-
 
 /* =====================================================
    INITIALISATION
@@ -1768,18 +1573,8 @@ async function init() {
         "Chargement automatique des logos GitHub..."
     );
 
-
-    /*
-       Récupération automatique du dossier /logo
-    */
-
     logoFiles =
         await getLogoFiles();
-
-
-    /*
-       Vérification
-    */
 
     if (
         !logoFiles ||
@@ -1790,38 +1585,24 @@ async function init() {
             "Aucun logo trouvé dans le dossier GitHub /logo."
         );
 
-
         return;
 
     }
 
-
     total =
         logoFiles.length;
-
 
     console.log(
         total +
         " logos trouvés automatiquement."
     );
 
-
-    /*
-       Création des 5 éléments <img>
-    */
-
     createImageElements();
-
-
-    /*
-       Récupération de l'ancien index
-    */
 
     const savedIndex =
         localStorage.getItem(
             "partenaireIndex"
         );
-
 
     if (
         savedIndex !== null &&
@@ -1837,7 +1618,6 @@ async function init() {
                 savedIndex
             );
 
-
         index =
             circularIndex(
                 index
@@ -1851,22 +1631,11 @@ async function init() {
 
     }
 
-
-    /*
-       Affichage initial
-    */
-
     updateCarousel();
-
-
-    /*
-       Lancement de la rotation
-    */
 
     startCarousel();
 
 }
-
 
 /* =====================================================
    LANCEMENT
@@ -1891,7 +1660,6 @@ else {
 }
 
 </script>
-
 
 </body>
 
