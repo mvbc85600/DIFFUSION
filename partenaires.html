@@ -97,6 +97,10 @@ body::before {
 }
 
 
+/* =====================================================
+   ANIMATION HALO
+===================================================== */
+
 @keyframes halo {
 
     0% {
@@ -263,11 +267,6 @@ h1::after {
         box-shadow 0.9s ease,
         border-color 0.9s ease;
 
-    will-change:
-
-        transform,
-        opacity;
-
 }
 
 
@@ -314,7 +313,7 @@ h1::after {
 
         translate(-50%, -50%)
         translateZ(300px)
-        scale(1.10);
+        scale(1.05); /* Taille réduite ici */
 
     z-index: 20;
 
@@ -527,11 +526,6 @@ h1::after {
 
     z-index: 90;
 
-    transition:
-
-        background 0.9s ease,
-        box-shadow 0.9s ease;
-
 }
 
 
@@ -556,7 +550,7 @@ h1::after {
 
             translate(-50%, -50%)
             translateZ(250px)
-            scale(1.02);
+            scale(0.97); /* Ajusté ici */
 
     }
 
@@ -646,7 +640,7 @@ h1::after {
 
             translate(-50%, -50%)
             translateZ(180px)
-            scale(0.98);
+            scale(0.93); /* Ajusté ici */
 
     }
 
@@ -736,7 +730,7 @@ h1::after {
         transform:
 
             translate(-50%, -50%)
-            scale(0.92);
+            scale(0.87); /* Ajusté ici */
 
     }
 
@@ -806,7 +800,25 @@ h1::after {
 <div class="light-line"></div>
 
 
-<script>
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+    authDomain: "diffusion-b9afa.firebaseapp.com",
+    databaseURL: "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "diffusion-b9afa",
+    storageBucket: "diffusion-b9afa.firebasestorage.app",
+    messagingSenderId: "674799570797",
+    appId: "1:674799570797:web:0d8b7a2a892f604eb7d464"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const partnerDurationsRef = ref(db, "partnerDurations");
+
 
 /* =====================================================
    CONFIGURATION GITHUB
@@ -823,12 +835,47 @@ const GITHUB_RAW_BASE =
    PARAMÈTRES
 ===================================================== */
 
+/*
+   Nombre de logos réellement affichés simultanément :
+
+   centre
+   gauche 1
+   gauche 2
+   droite 1
+   droite 2
+
+   = 5 logos
+*/
+
+const VISIBLE_LOGOS = 5;
+
+
+/*
+   Nombre de logos supplémentaires à précharger
+   en arrière-plan.
+
+   Cela permet d'avoir une transition fluide
+   sans télécharger les 69 logos immédiatement.
+*/
+
+const PRELOAD_AHEAD = 4;
+
+
+/*
+   Intervalle de rotation
+*/
+
 const ROTATION_TIME = 2500;
 
 
-/* =====================================================
-   CACHE DE LA LISTE GITHUB
-===================================================== */
+/*
+   Cache de la liste GitHub
+
+   10 minutes.
+
+   Cela évite de solliciter inutilement l'API
+   à chaque rechargement de la page.
+*/
 
 const LIST_CACHE_KEY =
     "partenairesGithubLogoList";
@@ -848,29 +895,42 @@ let logoFiles = [];
 
 let logos = [];
 
+let total = 0;
+
 let index = 0;
 
-let interval = null;
+let rotationTimeout = null;
+
+let partnerDurationsData = {
+    defaultDuration: 2500,
+    durations: {}
+};
 
 
 /* =====================================================
-   COULEURS DES PARTENAIRES
+   COULEURS
 ===================================================== */
 
 const colors = [
 
     "color-yellow",
+
     "color-red",
+
     "color-blue"
 
 ];
 
 
 /* =====================================================
-   RÉCUPÉRATION DE LA LISTE DES LOGOS
+   RÉCUPÉRATION DE LA LISTE GITHUB
 ===================================================== */
 
 async function getLogoFiles() {
+
+    /*
+       Vérification du cache
+    */
 
     try {
 
@@ -886,7 +946,6 @@ async function getLogoFiles() {
 
 
         if (
-
             cachedList &&
             cachedTime &&
             (
@@ -894,7 +953,6 @@ async function getLogoFiles() {
                 parseInt(cachedTime)
             ) <
             LIST_CACHE_DURATION
-
         ) {
 
             const parsed =
@@ -924,6 +982,10 @@ async function getLogoFiles() {
     }
 
 
+    /*
+       Appel de l'API GitHub
+    */
+
     try {
 
         const response =
@@ -949,6 +1011,10 @@ async function getLogoFiles() {
             await response.json();
 
 
+        /*
+           On conserve uniquement les fichiers images.
+        */
+
         const imageExtensions = [
 
             ".png",
@@ -963,14 +1029,14 @@ async function getLogoFiles() {
 
 
         const images =
-
             files
 
                 .filter(
                     file => {
 
                         if (
-                            file.type !== "file"
+                            file.type !==
+                            "file"
                         ) {
 
                             return false;
@@ -992,6 +1058,11 @@ async function getLogoFiles() {
                     }
                 )
 
+                /*
+                   Tri alphabétique pour obtenir
+                   toujours le même ordre.
+                */
+
                 .sort(
                     (a, b) =>
                         a.name.localeCompare(
@@ -1008,6 +1079,10 @@ async function getLogoFiles() {
                     file => file.name
                 );
 
+
+        /*
+           Mise en cache
+        */
 
         localStorage.setItem(
             LIST_CACHE_KEY,
@@ -1034,7 +1109,9 @@ async function getLogoFiles() {
 
 
         /*
-           Tentative avec l'ancien cache
+           Si GitHub est momentanément indisponible,
+           on tente d'utiliser l'ancien cache,
+           même s'il est expiré.
         */
 
         try {
@@ -1057,8 +1134,9 @@ async function getLogoFiles() {
                 ) {
 
                     console.warn(
-                        "Utilisation du cache GitHub."
+                        "Utilisation du cache GitHub expiré."
                     );
+
 
                     return parsed;
 
@@ -1086,7 +1164,7 @@ async function getLogoFiles() {
 
 
 /* =====================================================
-   CRÉATION DE L'URL D'UN LOGO
+   CRÉATION DE L'URL DU LOGO
 ===================================================== */
 
 function getLogoURL(fileName) {
@@ -1095,9 +1173,7 @@ function getLogoURL(fileName) {
 
         GITHUB_RAW_BASE +
 
-        encodeURIComponent(
-            fileName
-        )
+        encodeURIComponent(fileName)
 
     );
 
@@ -1105,26 +1181,124 @@ function getLogoURL(fileName) {
 
 
 /* =====================================================
-   COULEUR D'UN LOGO
+   PRÉCHARGEMENT D'UN LOGO
 ===================================================== */
 
-function getColor(logoIndex) {
+function preloadLogo(fileName) {
 
-    return colors[
+    if (!fileName) {
 
-        logoIndex %
-        colors.length
+        return;
 
-    ];
+    }
+
+
+    const image =
+        new Image();
+
+
+    /*
+       fetchPriority low :
+
+       Le navigateur comprend que ce logo
+       n'est pas prioritaire sur le logo affiché.
+    */
+
+    try {
+
+        image.fetchPriority =
+            "low";
+
+    }
+
+    catch (error) {
+
+        /* Rien à faire */
+
+    }
+
+
+    image.src =
+        getLogoURL(fileName);
 
 }
 
 
 /* =====================================================
-   CRÉATION DE TOUS LES LOGOS
+   PRÉCHARGEMENT INTELLIGENT
 ===================================================== */
 
-function createAllLogos() {
+function preloadNextLogos() {
+
+    if (!total) {
+
+        return;
+
+    }
+
+
+    /*
+       On précharge uniquement quelques logos
+       autour de la position actuelle.
+
+       On ne télécharge donc jamais les 69 logos
+       simultanément au démarrage.
+    */
+
+    for (
+        let i = 1;
+        i <= PRELOAD_AHEAD;
+        i++
+    ) {
+
+        const nextIndex =
+            (
+                index + i
+            ) % total;
+
+
+        preloadLogo(
+            logoFiles[nextIndex]
+        );
+
+    }
+
+
+    /*
+       On précharge également les logos
+       immédiatement précédents.
+
+       Cela permet de garder un carrousel
+       parfaitement fluide même si l'index
+       repart à zéro.
+    */
+
+    for (
+        let i = 1;
+        i <= 2;
+        i++
+    ) {
+
+        const previousIndex =
+            (
+                index - i + total
+            ) % total;
+
+
+        preloadLogo(
+            logoFiles[previousIndex]
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   CRÉATION DES 5 ÉLÉMENTS IMAGE
+===================================================== */
+
+function createImageElements() {
 
     const carousel =
         document.getElementById(
@@ -1132,74 +1306,237 @@ function createAllLogos() {
         );
 
 
-    logoFiles.forEach(
+    /*
+       On crée seulement 5 balises IMG.
 
-        function (
-            fileName,
-            fileIndex
-        ) {
+       IMPORTANT :
 
-            const img =
-                document.createElement(
-                    "img"
-                );
+       Les 69 images n'existent donc plus
+       simultanément dans le DOM.
+    */
 
+    for (
+        let i = 0;
+        i < VISIBLE_LOGOS;
+        i++
+    ) {
 
-            img.alt =
-                "Partenaire";
-
-
-            img.decoding =
-                "async";
-
-
-            /*
-               Tous les logos sont présents
-               dans le DOM dès le départ.
-
-               C'est indispensable pour obtenir
-               un vrai déplacement d'un logo
-               vers une autre position.
-            */
-
-            img.className =
-
-                "hidden " +
-
-                getColor(
-                    fileIndex
-                );
-
-
-            img.src =
-                getLogoURL(
-                    fileName
-                );
-
-
-            img.onerror =
-                function () {
-
-                    console.warn(
-                        "Impossible de charger :",
-                        fileName
-                    );
-
-                };
-
-
-            carousel.appendChild(
-                img
+        const img =
+            document.createElement(
+                "img"
             );
 
 
-            logos.push(
-                img
+        img.alt =
+            "Partenaire";
+
+
+        /*
+           Sécurité supplémentaire :
+           le navigateur ne charge pas
+           automatiquement une ressource
+           avant qu'on lui donne son src.
+        */
+
+        img.decoding =
+            "async";
+
+
+        img.loading =
+            "eager";
+
+
+        /*
+           Gestion des erreurs d'image
+        */
+
+        img.onerror =
+            function () {
+
+                console.warn(
+                    "Impossible de charger le logo :",
+                    this.dataset.file
+                );
+
+                this.style.opacity =
+                    "0";
+
+            };
+
+
+        carousel.appendChild(
+            img
+        );
+
+
+        logos.push(
+            img
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   COULEUR DU PARTENAIRE
+===================================================== */
+
+function getColor(partnerIndex) {
+
+    return colors[
+        partnerIndex %
+        colors.length
+    ];
+
+}
+
+
+/* =====================================================
+   POSITION D'UN LOGO
+===================================================== */
+
+function getPositionClass(position) {
+
+    if (
+        position === 0
+    ) {
+
+        return "center";
+
+    }
+
+
+    if (
+        position === -1
+    ) {
+
+        return "left1";
+
+    }
+
+
+    if (
+        position === -2
+    ) {
+
+        return "left2";
+
+    }
+
+
+    if (
+        position === 1
+    ) {
+
+        return "right1";
+
+    }
+
+
+    if (
+        position === 2
+    ) {
+
+        return "right2";
+
+    }
+
+
+    return "hidden";
+
+}
+
+
+/* =====================================================
+   INDEX CIRCULAIRE
+===================================================== */
+
+function circularIndex(value) {
+
+    return (
+        (
+            value % total
+        ) + total
+    ) % total;
+
+}
+
+
+/* =====================================================
+   CHARGEMENT D'UN LOGO DANS UN ÉLÉMENT
+===================================================== */
+
+function setLogo(
+    element,
+    partnerIndex,
+    className
+) {
+
+    if (
+        !element ||
+        !logoFiles.length
+    ) {
+
+        return;
+
+    }
+
+
+    const fileName =
+        logoFiles[
+            circularIndex(
+                partnerIndex
+            )
+        ];
+
+
+    /*
+       On évite de recharger le même fichier
+       s'il est déjà présent.
+    */
+
+    if (
+        element.dataset.file !==
+        fileName
+    ) {
+
+        element.dataset.file =
+            fileName;
+
+
+        element.alt =
+            "Partenaire " +
+            (
+                circularIndex(
+                    partnerIndex
+                ) + 1
             );
 
-        }
 
-    );
+        /*
+           On charge le logo.
+
+           Le navigateur utilisera son cache
+           s'il a déjà été préchargé.
+        */
+
+        element.src =
+            getLogoURL(
+                fileName
+            );
+
+    }
+
+
+    element.className =
+        className +
+        " " +
+        getColor(
+            circularIndex(
+                partnerIndex
+            )
+        );
 
 }
 
@@ -1224,12 +1561,7 @@ function updateLightLine() {
 
 
     const currentColor =
-        getColor(
-            index
-        );
-
-
-    let color;
+        getColor(index);
 
 
     if (
@@ -1237,40 +1569,56 @@ function updateLightLine() {
         "color-yellow"
     ) {
 
-        color =
+        lightLine.style.background =
             "#ffcc00";
 
+
+        lightLine.style.boxShadow =
+
+            "0 0 10px #ffcc00," +
+
+            "0 0 25px #ffcc00," +
+
+            "0 0 50px #ffcc00";
+
     }
+
 
     else if (
         currentColor ===
         "color-red"
     ) {
 
-        color =
+        lightLine.style.background =
             "#ff2020";
 
+
+        lightLine.style.boxShadow =
+
+            "0 0 10px #ff2020," +
+
+            "0 0 25px #ff2020," +
+
+            "0 0 50px #ff2020";
+
     }
+
 
     else {
 
-        color =
+        lightLine.style.background =
             "#168cff";
 
+
+        lightLine.style.boxShadow =
+
+            "0 0 10px #168cff," +
+
+            "0 0 25px #168cff," +
+
+            "0 0 50px #168cff";
+
     }
-
-
-    lightLine.style.background =
-        color;
-
-
-    lightLine.style.boxShadow =
-
-        "0 0 10px " + color + "," +
-
-        "0 0 25px " + color + "," +
-
-        "0 0 50px " + color;
 
 }
 
@@ -1281,12 +1629,8 @@ function updateLightLine() {
 
 function updateCarousel() {
 
-    const total =
-        logos.length;
-
-
     if (
-        total === 0
+        !total
     ) {
 
         return;
@@ -1295,126 +1639,93 @@ function updateCarousel() {
 
 
     /*
-       Tous les logos sont d'abord cachés.
-
-       On ne modifie jamais leur SRC.
-
-       Le logo garde toujours sa propre image
-       et se déplace uniquement grâce aux
-       changements de classes CSS.
-    */
-
-    for (
-        let i = 0;
-        i < total;
-        i++
-    ) {
-
-        logos[i].className =
-
-            "hidden " +
-
-            getColor(i);
-
-    }
-
-
-    /*
-       CALCUL DES POSITIONS
+       Positions des logos
     */
 
     const center =
-        index % total;
+        index;
 
 
     const left1 =
-        (
-            index - 1 + total
-        ) % total;
+        index - 1;
 
 
     const left2 =
-        (
-            index - 2 + total
-        ) % total;
+        index - 2;
 
 
     const right1 =
-        (
-            index + 1
-        ) % total;
+        index + 1;
 
 
     const right2 =
-        (
-            index + 2
-        ) % total;
+        index + 2;
 
 
     /*
-       LOGO CENTRAL
+       Centre
     */
 
-    logos[center].className =
-
-        "center " +
-
-        getColor(center);
+    setLogo(
+        logos[0],
+        center,
+        "center"
+    );
 
 
     /*
-       LOGO GAUCHE 1
+       Gauche 1
     */
 
-    logos[left1].className =
-
-        "left1 " +
-
-        getColor(left1);
+    setLogo(
+        logos[1],
+        left1,
+        "left1"
+    );
 
 
     /*
-       LOGO GAUCHE 2
+       Gauche 2
     */
 
-    logos[left2].className =
-
-        "left2 " +
-
-        getColor(left2);
+    setLogo(
+        logos[2],
+        left2,
+        "left2"
+    );
 
 
     /*
-       LOGO DROITE 1
+       Droite 1
     */
 
-    logos[right1].className =
-
-        "right1 " +
-
-        getColor(right1);
+    setLogo(
+        logos[3],
+        right1,
+        "right1"
+    );
 
 
     /*
-       LOGO DROITE 2
+       Droite 2
     */
 
-    logos[right2].className =
-
-        "right2 " +
-
-        getColor(right2);
+    setLogo(
+        logos[4],
+        right2,
+        "right2"
+    );
 
 
     /*
-       MISE À JOUR DE LA BARRE
+       Barre lumineuse
     */
 
     updateLightLine();
 
 
     /*
-       SAUVEGARDE DE LA POSITION
+       Sauvegarde de la position
     */
 
     localStorage.setItem(
@@ -1422,62 +1733,103 @@ function updateCarousel() {
         index
     );
 
-}
 
+    /*
+       Préchargement intelligent
+    */
 
-/* =====================================================
-   ROTATION DU CARROUSEL
-===================================================== */
-
-function rotateCarousel() {
-
-    if (
-        logos.length === 0
-    ) {
-
-        return;
-
-    }
-
-
-    index =
-        (
-            index + 1
-        ) %
-        logos.length;
-
-
-    updateCarousel();
+    preloadNextLogos();
 
 }
 
 
 /* =====================================================
-   DÉMARRAGE DU CARROUSEL
+   ROTATION
 ===================================================== */
+
+function getCurrentDuration() {
+
+    const currentFile = logoFiles[index];
+
+    const configuredDuration =
+        currentFile &&
+        partnerDurationsData.durations
+            ? Number(
+                partnerDurationsData.durations[currentFile] ||
+                partnerDurationsData.durations[
+                    currentFile.replace(/\.[^.]+$/, "")
+                ]
+            )
+            : 0;
+
+    const defaultDuration =
+        Number(partnerDurationsData.defaultDuration) ||
+        ROTATION_TIME;
+
+    return Math.max(
+        1000,
+        configuredDuration || defaultDuration
+    );
+
+}
 
 function startCarousel() {
 
-    if (interval) {
-
-        clearInterval(
-            interval
-        );
-
+    if (rotationTimeout) {
+        clearTimeout(rotationTimeout);
     }
 
+    const duration = getCurrentDuration();
 
-    interval =
-        setInterval(
+    rotationTimeout =
+        setTimeout(
+            function () {
 
-            rotateCarousel,
+                index =
+                    (
+                        index + 1
+                    ) % total;
 
-            ROTATION_TIME
+                updateCarousel();
 
+                startCarousel();
+
+            },
+            duration
         );
 
 }
 
+
+/* =====================================================
+   DURÉES FIREBASE
+===================================================== */
+
+onValue(partnerDurationsRef, snapshot => {
+
+    const data = snapshot.val() || {};
+
+    partnerDurationsData = {
+        defaultDuration:
+            Number(data.defaultDuration) > 0
+                ? Number(data.defaultDuration)
+                : ROTATION_TIME,
+
+        durations:
+            data.durations || {}
+    };
+
+    /*
+       Si le carrousel est déjà lancé,
+       la nouvelle durée est appliquée
+       immédiatement au cycle en cours.
+    */
+
+    if (total > 0) {
+        startCarousel();
+    }
+
+});
 
 /* =====================================================
    INITIALISATION
@@ -1491,8 +1843,7 @@ async function init() {
 
 
     /*
-       Récupération automatique
-       du dossier /logo
+       Récupération automatique du dossier /logo
     */
 
     logoFiles =
@@ -1505,41 +1856,38 @@ async function init() {
 
     if (
         !logoFiles ||
-        logoFiles.length === 0
+        !logoFiles.length
     ) {
 
         console.error(
             "Aucun logo trouvé dans le dossier GitHub /logo."
         );
 
+
         return;
 
     }
 
 
+    total =
+        logoFiles.length;
+
+
     console.log(
-
-        logoFiles.length +
-
+        total +
         " logos trouvés automatiquement."
-
     );
 
 
     /*
-       Création de tous les logos.
-
-       IMPORTANT :
-       Contrairement à l'ancienne version,
-       les logos ne sont pas remplacés
-       pendant la rotation.
+       Création des 5 éléments <img>
     */
 
-    createAllLogos();
+    createImageElements();
 
 
     /*
-       Récupération de la dernière position
+       Récupération de l'ancien index
     */
 
     const savedIndex =
@@ -1549,15 +1897,12 @@ async function init() {
 
 
     if (
-
         savedIndex !== null &&
-
         !isNaN(
             parseInt(
                 savedIndex
             )
         )
-
     ) {
 
         index =
@@ -1567,12 +1912,9 @@ async function init() {
 
 
         index =
-            (
-                index %
-                logos.length +
-                logos.length
-            ) %
-            logos.length;
+            circularIndex(
+                index
+            );
 
     }
 
@@ -1584,14 +1926,14 @@ async function init() {
 
 
     /*
-       AFFICHAGE INITIAL
+       Affichage initial
     */
 
     updateCarousel();
 
 
     /*
-       DÉMARRAGE DE LA ROTATION
+       Lancement de la rotation
     */
 
     startCarousel();
@@ -1609,11 +1951,8 @@ if (
 ) {
 
     document.addEventListener(
-
         "DOMContentLoaded",
-
         init
-
     );
 
 }
