@@ -341,7 +341,8 @@ body {
 ========================= */
 #saveMatchButton,
 #saveMessageButton,
-#savePartnerButton {
+#savePartnerButton,
+#savePartnerDurationsButton {
     width: 100%;
     padding: 17px;
     border: none;
@@ -355,13 +356,15 @@ body {
 
 #saveMatchButton:hover,
 #saveMessageButton:hover,
-#savePartnerButton:hover {
+#savePartnerButton:hover,
+#savePartnerDurationsButton:hover {
     background: #22c55e;
 }
 
 #matchStatus,
 #messageStatus,
-#partnerStatus {
+#partnerStatus,
+#partnerDurationsStatus {
     margin-top: 15px;
     text-align: center;
     padding: 12px;
@@ -542,6 +545,59 @@ body {
     border-top: 1px solid #444;
 }
 
+
+
+/* =========================
+   DURÉE DES PARTENAIRES
+========================= */
+.partner-duration-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+    margin-top: 20px;
+}
+
+.partner-duration-card {
+    display: grid;
+    grid-template-columns: 70px 1fr 110px;
+    gap: 12px;
+    align-items: center;
+    padding: 12px;
+    background: #181818;
+    border: 1px solid #333;
+    border-radius: 12px;
+}
+
+.partner-duration-card img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    background: #000;
+    padding: 6px;
+    border-radius: 8px;
+}
+
+.partner-duration-name {
+    font-weight: bold;
+    word-break: break-word;
+}
+
+.partner-duration-card input {
+    width: 100%;
+    padding: 10px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+}
+
+.duration-help {
+    color: #aaa;
+    margin-top: 8px;
+    line-height: 1.5;
+}
+
+
 /* =========================
    MOBILE
 ========================= */
@@ -627,6 +683,9 @@ body {
         <!-- NOUVEL ONGLET : PARTENAIRE DU MATCH -->
         <button class="tab-button" data-tab="partenaire">
             🤝 Partenaire du Match
+        </button>
+        <button class="tab-button" data-tab="dureepartenaires">
+            ⏱ Durée Partenaires
         </button>
     </div>
 
@@ -1023,6 +1082,35 @@ body {
             <div id="partnerStatus"></div>
         </div>
     </div>
+
+    <!-- =================================================
+         ONGLET : DURÉE PARTENAIRES
+    ================================================== -->
+    <div id="dureepartenaires" class="tab-content">
+        <div class="match-editor">
+            <h2>⏱ DURÉE DES PARTENAIRES</h2>
+            <div class="description">
+                Gère ici le temps d'affichage de chaque logo dans <strong>partenaires.html</strong>.
+                Tous les logos présents dans le dossier <strong>logo/</strong> sont chargés automatiquement.
+                Si tu ajoutes un nouveau logo sur GitHub, il apparaîtra automatiquement ici avec la durée par défaut de 2,5 secondes.
+            </div>
+
+            <div class="form-group">
+                <label>⏱ Durée par défaut pour les nouveaux logos (secondes)</label>
+                <input type="number" id="defaultPartnerDuration" min="1" step="0.5" value="2.5">
+                <div class="duration-help">
+                    Exemple : 2,5 = 2,5 secondes. Tu peux ensuite modifier chaque partenaire individuellement.
+                </div>
+            </div>
+
+            <div id="partnerDurationList" class="partner-duration-list"></div>
+
+            <button id="savePartnerDurationsButton">
+                💾 ENREGISTRER LES DURÉES
+            </button>
+            <div id="partnerDurationsStatus"></div>
+        </div>
+    </div>
 </div>
 
 <!-- =====================================================
@@ -1298,6 +1386,16 @@ const partnerHaloPreview = document.getElementById("partnerHaloPreview");
 const savePartnerButton = document.getElementById("savePartnerButton");
 const partnerStatus = document.getElementById("partnerStatus");
 
+/* DURÉES PARTENAIRES */
+const partnerDurationList = document.getElementById("partnerDurationList");
+const defaultPartnerDuration = document.getElementById("defaultPartnerDuration");
+const savePartnerDurationsButton = document.getElementById("savePartnerDurationsButton");
+const partnerDurationsStatus = document.getElementById("partnerDurationsStatus");
+let partnerDurationsData = {
+    defaultDuration: 2500,
+    durations: {}
+};
+
 /* =====================================================
    LOGOS DES PARTENAIRES
    Les fichiers sont récupérés automatiquement depuis GitHub.
@@ -1428,7 +1526,8 @@ window.diffuserPartenaire = function() {
 ===================================================== */
 const matchRef = ref(db, "matchdusoir");
 const messageRef = ref(db, "message");
-const partnerRef = ref(db, "partenairedumatch"); // Nouvelle référence pour le partenaire du match
+const partnerRef = ref(db, "partenairedumatch");
+const partnerDurationsRef = ref(db, "partnerDurations");
 
 /* =====================================================
    COULEURS DES HALOS
@@ -1515,6 +1614,7 @@ async function chargerPartenairesDepuisGithub() {
         });
 
         chargerApercuLogosPartenaires();
+        renderPartnerDurationList();
 
         if (partnerDataEnregistree && partnerDataEnregistree.nom) {
             partnerSelect.value = partnerDataEnregistree.nom;
@@ -1567,6 +1667,119 @@ function chargerApercuLogosPartenaires() {
 }
 
 chargerPartenairesDepuisGithub();
+
+/* =====================================================
+   ONGLET : DURÉE PARTENAIRES
+===================================================== */
+
+function nomFichierDepuisNomPartenaire(nomPartenaire) {
+    return Object.keys(partnerLogos).find(nom => nom === nomPartenaire) || null;
+}
+
+function renderPartnerDurationList() {
+    if (!partnerDurationList) return;
+
+    partnerDurationList.innerHTML = "";
+
+    const noms = Object.keys(partnerLogos)
+        .sort((a, b) => a.localeCompare(b, "fr", { numeric: true, sensitivity: "base" }));
+
+    const defaultSeconds =
+        Number(defaultPartnerDuration.value) > 0
+            ? Number(defaultPartnerDuration.value)
+            : 2.5;
+
+    noms.forEach(nom => {
+        const card = document.createElement("div");
+        card.className = "partner-duration-card";
+
+        const img = document.createElement("img");
+        img.src = partnerLogos[nom];
+        img.alt = nom;
+
+        const name = document.createElement("div");
+        name.className = "partner-duration-name";
+        name.textContent = nom;
+
+        const input = document.createElement("input");
+        input.type = "number";
+        input.min = "1";
+        input.step = "0.5";
+        input.dataset.partner = nom;
+
+        const stored =
+            partnerDurationsData.durations &&
+            Number(partnerDurationsData.durations[nom]);
+
+        input.value = ((stored || defaultSeconds * 1000) / 1000).toString();
+
+        card.append(img, name, input);
+        partnerDurationList.appendChild(card);
+    });
+}
+
+onValue(partnerDurationsRef, snapshot => {
+    const data = snapshot.val() || {};
+
+    partnerDurationsData = {
+        defaultDuration:
+            Number(data.defaultDuration) > 0
+                ? Number(data.defaultDuration)
+                : 2500,
+        durations: data.durations || {}
+    };
+
+    defaultPartnerDuration.value =
+        (partnerDurationsData.defaultDuration / 1000).toString();
+
+    renderPartnerDurationList();
+});
+
+defaultPartnerDuration.addEventListener("change", () => {
+    renderPartnerDurationList();
+});
+
+savePartnerDurationsButton.addEventListener("click", async () => {
+    try {
+        savePartnerDurationsButton.disabled = true;
+        savePartnerDurationsButton.textContent = "⏳ ENREGISTREMENT...";
+
+        const defaultSeconds =
+            Math.max(1, Number(defaultPartnerDuration.value) || 2.5);
+
+        const durations = {};
+
+        partnerDurationList
+            .querySelectorAll('input[data-partner]')
+            .forEach(input => {
+                const seconds = Math.max(1, Number(input.value) || defaultSeconds);
+                durations[input.dataset.partner] = Math.round(seconds * 1000);
+            });
+
+        await set(partnerDurationsRef, {
+            defaultDuration: Math.round(defaultSeconds * 1000),
+            durations: durations,
+            timestamp: Date.now()
+        });
+
+        partnerDurationsStatus.className = "success";
+        partnerDurationsStatus.textContent = "✅ Durées enregistrées !";
+
+        savePartnerDurationsButton.textContent = "✅ ENREGISTRÉ";
+
+        setTimeout(() => {
+            savePartnerDurationsButton.disabled = false;
+            savePartnerDurationsButton.textContent = "💾 ENREGISTRER LES DURÉES";
+        }, 2000);
+
+    } catch (error) {
+        console.error(error);
+        partnerDurationsStatus.className = "error";
+        partnerDurationsStatus.textContent = "❌ Erreur : " + error.message;
+        savePartnerDurationsButton.disabled = false;
+        savePartnerDurationsButton.textContent = "💾 ENREGISTRER LES DURÉES";
+    }
+});
 
 // Mettre à jour l'aperçu du halo
 partnerHaloColor.addEventListener("change", () => {
