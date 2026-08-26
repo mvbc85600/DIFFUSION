@@ -5,9 +5,7 @@
 
 <meta charset="UTF-8">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Nos Partenaires</title>
 
@@ -52,6 +50,7 @@ body {
     position: relative;
 
     background:
+
         radial-gradient(
             circle at center,
             #252000 0%,
@@ -79,10 +78,10 @@ body::before {
     left: 50%;
     top: 52%;
 
-    transform:
-        translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 
     background:
+
         radial-gradient(
             circle,
             rgba(255,204,0,0.20) 0%,
@@ -93,14 +92,13 @@ body::before {
 
     pointer-events: none;
 
-    animation:
-        halo 4s ease-in-out infinite;
+    animation: halo 4s ease-in-out infinite;
 
 }
 
 
 /* =====================================================
-   ANIMATION HALO FOND
+   ANIMATION HALO
 ===================================================== */
 
 @keyframes halo {
@@ -115,7 +113,6 @@ body::before {
 
     }
 
-
     50% {
 
         transform:
@@ -125,7 +122,6 @@ body::before {
         opacity: 1;
 
     }
-
 
     100% {
 
@@ -160,15 +156,20 @@ h1 {
 
     letter-spacing: 7px;
 
-    color: #fff;
+    color: #ffffff;
 
     text-shadow:
-        0 0 10px #fff,
-        0 0 25px #fff,
+
+        0 0 10px #ffffff,
+        0 0 25px #ffffff,
         0 0 50px rgba(255,255,255,0.8);
 
 }
 
+
+/* =====================================================
+   LIGNE SOUS LE TITRE
+===================================================== */
 
 h1::after {
 
@@ -182,13 +183,14 @@ h1::after {
 
     margin: 15px auto 0;
 
-    background: #fff;
+    background: #ffffff;
 
     border-radius: 10px;
 
     box-shadow:
-        0 0 10px #fff,
-        0 0 25px #fff;
+
+        0 0 10px #ffffff,
+        0 0 25px #ffffff;
 
 }
 
@@ -217,6 +219,8 @@ h1::after {
 
     perspective: 1800px;
 
+    perspective-origin: center center;
+
 }
 
 
@@ -231,6 +235,8 @@ h1::after {
     left: 50%;
     top: 50%;
 
+    transform-origin: center center;
+
     width: auto;
     height: auto;
 
@@ -241,9 +247,8 @@ h1::after {
 
     object-fit: contain;
 
-    transform-origin: center center;
-
     background:
+
         linear-gradient(
             145deg,
             rgba(30,30,30,0.98),
@@ -255,21 +260,18 @@ h1::after {
     border-radius: 24px;
 
     transition:
+
         transform 0.9s cubic-bezier(.22,.61,.36,1),
         opacity 0.9s ease,
         filter 0.9s ease,
         box-shadow 0.9s ease,
-        border-color 0.6s ease;
-
-    will-change:
-        transform,
-        opacity;
+        border-color 0.9s ease;
 
 }
 
 
 /* =====================================================
-   COULEURS DES CONTOURS
+   COULEUR JAUNE
 ===================================================== */
 
 .color-yellow {
@@ -279,12 +281,20 @@ h1::after {
 }
 
 
+/* =====================================================
+   COULEUR ROUGE
+===================================================== */
+
 .color-red {
 
     border-color: #ff2020 !important;
 
 }
 
+
+/* =====================================================
+   COULEUR BLEUE
+===================================================== */
 
 .color-blue {
 
@@ -300,15 +310,17 @@ h1::after {
 .center {
 
     transform:
+
         translate(-50%, -50%)
         translateZ(300px)
-        scale(1.05);
+        scale(1.10);
 
     z-index: 20;
 
     opacity: 1;
 
     filter:
+
         brightness(1.15)
         contrast(1.08);
 
@@ -316,12 +328,13 @@ h1::after {
 
 
 /* =====================================================
-   HALO JAUNE
+   HALO CENTRAL JAUNE
 ===================================================== */
 
 .center.color-yellow {
 
     box-shadow:
+
         0 0 20px #ffcc00,
         0 0 45px #ffcc00,
         0 0 90px rgba(255,204,0,0.85),
@@ -331,12 +344,13 @@ h1::after {
 
 
 /* =====================================================
-   HALO ROUGE
+   HALO CENTRAL ROUGE
 ===================================================== */
 
 .center.color-red {
 
     box-shadow:
+
         0 0 20px #ff2020,
         0 0 45px #ff2020,
         0 0 90px rgba(255,32,32,0.85),
@@ -346,12 +360,13 @@ h1::after {
 
 
 /* =====================================================
-   HALO BLEU
+   HALO CENTRAL BLEU
 ===================================================== */
 
 .center.color-blue {
 
     box-shadow:
+
         0 0 20px #168cff,
         0 0 45px #168cff,
         0 0 90px rgba(22,140,255,0.85),
@@ -367,6 +382,7 @@ h1::after {
 .left1 {
 
     transform:
+
         translate(-50%, -50%)
         translateX(-540px)
         translateZ(40px)
@@ -377,6 +393,7 @@ h1::after {
     opacity: 0.75;
 
     filter:
+
         brightness(0.75)
         contrast(0.95);
 
@@ -390,6 +407,7 @@ h1::after {
 .left2 {
 
     transform:
+
         translate(-50%, -50%)
         translateX(-860px)
         translateZ(-250px)
@@ -400,6 +418,7 @@ h1::after {
     opacity: 0.38;
 
     filter:
+
         brightness(0.55)
         blur(0.3px);
 
@@ -413,6 +432,7 @@ h1::after {
 .right1 {
 
     transform:
+
         translate(-50%, -50%)
         translateX(540px)
         translateZ(40px)
@@ -423,6 +443,7 @@ h1::after {
     opacity: 0.75;
 
     filter:
+
         brightness(0.75)
         contrast(0.95);
 
@@ -436,6 +457,7 @@ h1::after {
 .right2 {
 
     transform:
+
         translate(-50%, -50%)
         translateX(860px)
         translateZ(-250px)
@@ -446,6 +468,7 @@ h1::after {
     opacity: 0.38;
 
     filter:
+
         brightness(0.55)
         blur(0.3px);
 
@@ -453,39 +476,20 @@ h1::after {
 
 
 /* =====================================================
-   CACHÉ À GAUCHE
+   LOGOS CACHÉS
 ===================================================== */
 
-.hidden-left {
+.hidden {
 
     transform:
+
         translate(-50%, -50%)
-        translateX(-1150px)
         translateZ(-700px)
         scale(0.15);
 
     opacity: 0;
 
-    z-index: 1;
-
-    pointer-events: none;
-
-}
-
-
-/* =====================================================
-   CACHÉ À DROITE
-===================================================== */
-
-.hidden-right {
-
-    transform:
-        translate(-50%, -50%)
-        translateX(1150px)
-        translateZ(-700px)
-        scale(0.15);
-
-    opacity: 0;
+    filter: blur(5px);
 
     z-index: 1;
 
@@ -506,8 +510,7 @@ h1::after {
 
     bottom: 0;
 
-    transform:
-        translateX(-50%);
+    transform: translateX(-50%);
 
     width: 65%;
 
@@ -516,13 +519,10 @@ h1::after {
     background: #ffcc00;
 
     box-shadow:
+
         0 0 10px #ffcc00,
         0 0 25px #ffcc00,
         0 0 50px #ffcc00;
-
-    transition:
-        background 0.8s ease,
-        box-shadow 0.8s ease;
 
     z-index: 90;
 
@@ -530,7 +530,7 @@ h1::after {
 
 
 /* =====================================================
-   ADAPTATION 1600PX
+   ÉCRANS 1600PX ET MOINS
 ===================================================== */
 
 @media (max-width: 1600px) {
@@ -538,6 +538,7 @@ h1::after {
     .carousel img {
 
         max-width: 680px;
+
         max-height: 510px;
 
     }
@@ -546,9 +547,10 @@ h1::after {
     .center {
 
         transform:
+
             translate(-50%, -50%)
             translateZ(250px)
-            scale(0.97);
+            scale(1.02);
 
     }
 
@@ -556,6 +558,7 @@ h1::after {
     .left1 {
 
         transform:
+
             translate(-50%, -50%)
             translateX(-450px)
             translateZ(30px)
@@ -567,6 +570,7 @@ h1::after {
     .right1 {
 
         transform:
+
             translate(-50%, -50%)
             translateX(450px)
             translateZ(30px)
@@ -578,6 +582,7 @@ h1::after {
     .left2 {
 
         transform:
+
             translate(-50%, -50%)
             translateX(-700px)
             translateZ(-200px)
@@ -589,10 +594,85 @@ h1::after {
     .right2 {
 
         transform:
+
             translate(-50%, -50%)
             translateX(700px)
             translateZ(-200px)
             scale(0.36);
+
+    }
+
+}
+
+
+/* =====================================================
+   ÉCRANS 1200PX ET MOINS
+===================================================== */
+
+@media (max-width: 1200px) {
+
+    h1 {
+
+        font-size: 42px;
+
+    }
+
+
+    .carousel {
+
+        min-height: 550px;
+
+    }
+
+
+    .carousel img {
+
+        max-width: 570px;
+
+        max-height: 430px;
+
+    }
+
+
+    .center {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateZ(180px)
+            scale(0.98);
+
+    }
+
+
+    .left1 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(-330px)
+            translateZ(20px)
+            scale(0.48);
+
+    }
+
+
+    .right1 {
+
+        transform:
+
+            translate(-50%, -50%)
+            translateX(330px)
+            translateZ(20px)
+            scale(0.48);
+
+    }
+
+
+    .left2,
+    .right2 {
+
+        opacity: 0;
 
     }
 
@@ -608,7 +688,9 @@ h1::after {
     h1 {
 
         font-size: 28px;
+
         letter-spacing: 3px;
+
         margin-top: 20px;
 
     }
@@ -617,6 +699,7 @@ h1::after {
     h1::after {
 
         width: 180px;
+
         margin-top: 10px;
 
     }
@@ -625,6 +708,7 @@ h1::after {
     .carousel {
 
         height: calc(100vh - 120px);
+
         min-height: 400px;
 
     }
@@ -633,7 +717,9 @@ h1::after {
     .carousel img {
 
         max-width: 85vw;
+
         max-height: 400px;
+
         padding: 15px;
 
     }
@@ -642,8 +728,9 @@ h1::after {
     .center {
 
         transform:
+
             translate(-50%, -50%)
-            scale(0.87);
+            scale(0.92);
 
     }
 
@@ -651,6 +738,7 @@ h1::after {
     .left1 {
 
         transform:
+
             translate(-50%, -50%)
             translateX(-190px)
             scale(0.40);
@@ -661,6 +749,7 @@ h1::after {
     .right1 {
 
         transform:
+
             translate(-50%, -50%)
             translateX(190px)
             scale(0.40);
@@ -671,7 +760,7 @@ h1::after {
     .left2,
     .right2 {
 
-        opacity: 0;
+        display: none;
 
     }
 
@@ -685,10 +774,18 @@ h1::after {
 <body>
 
 
+<!-- =====================================================
+     TITRE
+===================================================== -->
+
 <h1>
     🤝 NOS PARTENAIRES
 </h1>
 
+
+<!-- =====================================================
+     CARROUSEL
+===================================================== -->
 
 <div
     class="carousel"
@@ -696,9 +793,11 @@ h1::after {
 </div>
 
 
-<div
-    class="light-line">
-</div>
+<!-- =====================================================
+     BARRE LUMINEUSE
+===================================================== -->
+
+<div class="light-line"></div>
 
 
 <script>
@@ -710,30 +809,61 @@ h1::after {
 const GITHUB_API =
     "https://api.github.com/repos/mvbc85600/DIFFUSION/contents/logo";
 
+const GITHUB_RAW_BASE =
+    "https://raw.githubusercontent.com/mvbc85600/DIFFUSION/main/logo/";
+
 
 /* =====================================================
    PARAMÈTRES
 ===================================================== */
 
-const ROTATION_TIME =
-    2500;
+/*
+   Nombre de logos réellement affichés simultanément :
+
+   centre
+   gauche 1
+   gauche 2
+   droite 1
+   droite 2
+
+   = 5 logos
+*/
+
+const VISIBLE_LOGOS = 5;
 
 
-const TRANSITION_TIME =
-    900;
+/*
+   Nombre de logos supplémentaires à précharger
+   en arrière-plan.
+
+   Cela permet d'avoir une transition fluide
+   sans télécharger les 69 logos immédiatement.
+*/
+
+const PRELOAD_AHEAD = 4;
 
 
-/* =====================================================
-   CACHE
-===================================================== */
+/*
+   Intervalle de rotation
+*/
+
+const ROTATION_TIME = 2500;
+
+
+/*
+   Cache de la liste GitHub
+
+   10 minutes.
+
+   Cela évite de solliciter inutilement l'API
+   à chaque rechargement de la page.
+*/
 
 const LIST_CACHE_KEY =
-    "partenairesGithubLogoListV2";
-
+    "partenairesGithubLogoList";
 
 const LIST_CACHE_TIME_KEY =
-    "partenairesGithubLogoListTimeV2";
-
+    "partenairesGithubLogoListTime";
 
 const LIST_CACHE_DURATION =
     10 * 60 * 1000;
@@ -743,24 +873,15 @@ const LIST_CACHE_DURATION =
    VARIABLES
 ===================================================== */
 
-let logoFiles =
-    [];
+let logoFiles = [];
 
+let logos = [];
 
-let logos =
-    [];
+let total = 0;
 
+let index = 0;
 
-let total =
-    0;
-
-
-let index =
-    0;
-
-
-let interval =
-    null;
+let interval = null;
 
 
 /* =====================================================
@@ -770,17 +891,23 @@ let interval =
 const colors = [
 
     "color-yellow",
+
     "color-red",
+
     "color-blue"
 
 ];
 
 
 /* =====================================================
-   RÉCUPÉRATION DES LOGOS
+   RÉCUPÉRATION DE LA LISTE GITHUB
 ===================================================== */
 
 async function getLogoFiles() {
+
+    /*
+       Vérification du cache
+    */
 
     try {
 
@@ -789,7 +916,6 @@ async function getLogoFiles() {
                 LIST_CACHE_KEY
             );
 
-
         const cachedTime =
             localStorage.getItem(
                 LIST_CACHE_TIME_KEY
@@ -797,31 +923,22 @@ async function getLogoFiles() {
 
 
         if (
-
             cachedList &&
             cachedTime &&
-
             (
                 Date.now() -
                 parseInt(cachedTime)
-            )
-
-            <
+            ) <
             LIST_CACHE_DURATION
-
         ) {
 
             const parsed =
-                JSON.parse(
-                    cachedList
-                );
+                JSON.parse(cachedList);
 
 
             if (
-
                 Array.isArray(parsed) &&
                 parsed.length > 0
-
             ) {
 
                 return parsed;
@@ -835,33 +952,33 @@ async function getLogoFiles() {
     catch (error) {
 
         console.warn(
-            "Impossible de lire le cache."
+            "Impossible de lire le cache GitHub.",
+            error
         );
 
     }
 
 
+    /*
+       Appel de l'API GitHub
+    */
+
     try {
 
         const response =
             await fetch(
-
                 GITHUB_API,
-
                 {
                     cache: "no-store"
                 }
-
             );
 
 
         if (!response.ok) {
 
             throw new Error(
-
                 "Erreur GitHub : HTTP " +
                 response.status
-
             );
 
         }
@@ -870,6 +987,10 @@ async function getLogoFiles() {
         const files =
             await response.json();
 
+
+        /*
+           On conserve uniquement les fichiers images.
+        */
 
         const imageExtensions = [
 
@@ -885,15 +1006,14 @@ async function getLogoFiles() {
 
 
         const images =
-
             files
 
                 .filter(
-
                     file => {
 
                         if (
-                            file.type !== "file"
+                            file.type !==
+                            "file"
                         ) {
 
                             return false;
@@ -905,80 +1025,51 @@ async function getLogoFiles() {
                             file.name.toLowerCase();
 
 
-                        return
-
-                            imageExtensions.some(
-
-                                extension =>
-
-                                    name.endsWith(
-                                        extension
-                                    )
-
-                            );
+                        return imageExtensions.some(
+                            extension =>
+                                name.endsWith(
+                                    extension
+                                )
+                        );
 
                     }
-
                 )
 
+                /*
+                   Tri alphabétique pour obtenir
+                   toujours le même ordre.
+                */
+
                 .sort(
-
                     (a, b) =>
-
                         a.name.localeCompare(
-
                             b.name,
-
                             "fr",
-
                             {
                                 numeric: true,
                                 sensitivity: "base"
                             }
-
                         )
-
                 )
 
-                /*
-                   IMPORTANT :
-                   On conserve directement
-                   l'URL download_url fournie
-                   par GitHub.
-                */
-
                 .map(
-
-                    file => ({
-
-                        name:
-                            file.name,
-
-                        url:
-                            file.download_url
-
-                    })
-
+                    file => file.name
                 );
 
 
+        /*
+           Mise en cache
+        */
+
         localStorage.setItem(
-
             LIST_CACHE_KEY,
-
-            JSON.stringify(
-                images
-            )
-
+            JSON.stringify(images)
         );
 
 
         localStorage.setItem(
-
             LIST_CACHE_TIME_KEY,
-
             Date.now().toString()
-
         );
 
 
@@ -993,6 +1084,55 @@ async function getLogoFiles() {
             error
         );
 
+
+        /*
+           Si GitHub est momentanément indisponible,
+           on tente d'utiliser l'ancien cache,
+           même s'il est expiré.
+        */
+
+        try {
+
+            const oldCache =
+                localStorage.getItem(
+                    LIST_CACHE_KEY
+                );
+
+
+            if (oldCache) {
+
+                const parsed =
+                    JSON.parse(oldCache);
+
+
+                if (
+                    Array.isArray(parsed) &&
+                    parsed.length > 0
+                ) {
+
+                    console.warn(
+                        "Utilisation du cache GitHub expiré."
+                    );
+
+
+                    return parsed;
+
+                }
+
+            }
+
+        }
+
+        catch (cacheError) {
+
+            console.error(
+                "Cache indisponible.",
+                cacheError
+            );
+
+        }
+
+
         return [];
 
     }
@@ -1001,56 +1141,29 @@ async function getLogoFiles() {
 
 
 /* =====================================================
-   INDEX CIRCULAIRE
+   CRÉATION DE L'URL DU LOGO
 ===================================================== */
 
-function circularIndex(value) {
+function getLogoURL(fileName) {
 
-    return
+    return (
 
-        (
-            (
-                value % total
-            )
-            +
-            total
-        )
-        %
-        total;
+        GITHUB_RAW_BASE +
+
+        encodeURIComponent(fileName)
+
+    );
 
 }
 
 
 /* =====================================================
-   COULEUR
+   PRÉCHARGEMENT D'UN LOGO
 ===================================================== */
 
-function getColor(partnerIndex) {
+function preloadLogo(fileName) {
 
-    return
-
-        colors[
-            circularIndex(partnerIndex)
-            %
-            colors.length
-        ];
-
-}
-
-
-/* =====================================================
-   PRÉCHARGEMENT
-===================================================== */
-
-function preloadLogo(partnerIndex) {
-
-    const realIndex =
-        circularIndex(
-            partnerIndex
-        );
-
-
-    if (!logoFiles[realIndex]) {
+    if (!fileName) {
 
         return;
 
@@ -1061,11 +1174,36 @@ function preloadLogo(partnerIndex) {
         new Image();
 
 
+    /*
+       fetchPriority low :
+
+       Le navigateur comprend que ce logo
+       n'est pas prioritaire sur le logo affiché.
+    */
+
+    try {
+
+        image.fetchPriority =
+            "low";
+
+    }
+
+    catch (error) {
+
+        /* Rien à faire */
+
+    }
+
+
     image.src =
-        logoFiles[realIndex].url;
+        getLogoURL(fileName);
 
 }
 
+
+/* =====================================================
+   PRÉCHARGEMENT INTELLIGENT
+===================================================== */
 
 function preloadNextLogos() {
 
@@ -1076,18 +1214,56 @@ function preloadNextLogos() {
     }
 
 
+    /*
+       On précharge uniquement quelques logos
+       autour de la position actuelle.
+
+       On ne télécharge donc jamais les 69 logos
+       simultanément au démarrage.
+    */
+
     for (
-
-        let i = -4;
-
-        i <= 6;
-
+        let i = 1;
+        i <= PRELOAD_AHEAD;
         i++
-
     ) {
 
+        const nextIndex =
+            (
+                index + i
+            ) % total;
+
+
         preloadLogo(
-            index + i
+            logoFiles[nextIndex]
+        );
+
+    }
+
+
+    /*
+       On précharge également les logos
+       immédiatement précédents.
+
+       Cela permet de garder un carrousel
+       parfaitement fluide même si l'index
+       repart à zéro.
+    */
+
+    for (
+        let i = 1;
+        i <= 2;
+        i++
+    ) {
+
+        const previousIndex =
+            (
+                index - i + total
+            ) % total;
+
+
+        preloadLogo(
+            logoFiles[previousIndex]
         );
 
     }
@@ -1096,7 +1272,7 @@ function preloadNextLogos() {
 
 
 /* =====================================================
-   CRÉATION DES 7 ÉLÉMENTS
+   CRÉATION DES 5 ÉLÉMENTS IMAGE
 ===================================================== */
 
 function createImageElements() {
@@ -1107,14 +1283,19 @@ function createImageElements() {
         );
 
 
+    /*
+       On crée seulement 5 balises IMG.
+
+       IMPORTANT :
+
+       Les 69 images n'existent donc plus
+       simultanément dans le DOM.
+    */
+
     for (
-
         let i = 0;
-
-        i < 7;
-
+        i < VISIBLE_LOGOS;
         i++
-
     ) {
 
         const img =
@@ -1127,12 +1308,37 @@ function createImageElements() {
             "Partenaire";
 
 
+        /*
+           Sécurité supplémentaire :
+           le navigateur ne charge pas
+           automatiquement une ressource
+           avant qu'on lui donne son src.
+        */
+
         img.decoding =
             "async";
 
 
         img.loading =
             "eager";
+
+
+        /*
+           Gestion des erreurs d'image
+        */
+
+        img.onerror =
+            function () {
+
+                console.warn(
+                    "Impossible de charger le logo :",
+                    this.dataset.file
+                );
+
+                this.style.opacity =
+                    "0";
+
+            };
 
 
         carousel.appendChild(
@@ -1150,141 +1356,170 @@ function createImageElements() {
 
 
 /* =====================================================
-   CHARGEMENT D'UN LOGO
+   COULEUR DU PARTENAIRE
 ===================================================== */
 
-function setLogo(
+function getColor(partnerIndex) {
 
-    element,
+    return colors[
+        partnerIndex %
+        colors.length
+    ];
 
-    partnerIndex,
-
-    positionClass
-
-) {
-
-    const realIndex =
-        circularIndex(
-            partnerIndex
-        );
+}
 
 
-    const logo =
-        logoFiles[realIndex];
+/* =====================================================
+   POSITION D'UN LOGO
+===================================================== */
 
+function getPositionClass(position) {
 
-    if (!logo) {
+    if (
+        position === 0
+    ) {
 
-        return;
+        return "center";
 
     }
 
 
     if (
-
-        element.dataset.file !==
-        logo.name
-
+        position === -1
     ) {
 
-        element.dataset.file =
-            logo.name;
-
-
-        element.src =
-            logo.url;
+        return "left1";
 
     }
 
 
-    element.alt =
-        "Partenaire";
+    if (
+        position === -2
+    ) {
+
+        return "left2";
+
+    }
 
 
-    element.className =
+    if (
+        position === 1
+    ) {
 
-        positionClass +
+        return "right1";
 
-        " " +
+    }
 
-        getColor(
-            realIndex
-        );
+
+    if (
+        position === 2
+    ) {
+
+        return "right2";
+
+    }
+
+
+    return "hidden";
 
 }
 
 
 /* =====================================================
-   INITIALISATION DU CARROUSEL
+   INDEX CIRCULAIRE
 ===================================================== */
 
-function updateCarousel() {
+function circularIndex(value) {
 
-    if (!total) {
+    return (
+        (
+            value % total
+        ) + total
+    ) % total;
+
+}
+
+
+/* =====================================================
+   CHARGEMENT D'UN LOGO DANS UN ÉLÉMENT
+===================================================== */
+
+function setLogo(
+    element,
+    partnerIndex,
+    className
+) {
+
+    if (
+        !element ||
+        !logoFiles.length
+    ) {
 
         return;
 
     }
 
 
-    setLogo(
-        logos[0],
-        index - 3,
-        "hidden-left"
-    );
+    const fileName =
+        logoFiles[
+            circularIndex(
+                partnerIndex
+            )
+        ];
 
 
-    setLogo(
-        logos[1],
-        index - 2,
-        "left2"
-    );
+    /*
+       On évite de recharger le même fichier
+       s'il est déjà présent.
+    */
+
+    if (
+        element.dataset.file !==
+        fileName
+    ) {
+
+        element.dataset.file =
+            fileName;
 
 
-    setLogo(
-        logos[2],
-        index - 1,
-        "left1"
-    );
+        element.alt =
+            "Partenaire " +
+            (
+                circularIndex(
+                    partnerIndex
+                ) + 1
+            );
 
 
-    setLogo(
-        logos[3],
-        index,
-        "center"
-    );
+        /*
+           On charge le logo.
+
+           Le navigateur utilisera son cache
+           s'il a déjà été préchargé.
+        */
+
+        element.src =
+            getLogoURL(
+                fileName
+            );
+
+    }
 
 
-    setLogo(
-        logos[4],
-        index + 1,
-        "right1"
-    );
-
-
-    setLogo(
-        logos[5],
-        index + 2,
-        "right2"
-    );
-
-
-    setLogo(
-        logos[6],
-        index + 3,
-        "hidden-right"
-    );
-
-
-    updateLightLine();
-
-    preloadNextLogos();
+    element.className =
+        className +
+        " " +
+        getColor(
+            circularIndex(
+                partnerIndex
+            )
+        );
 
 }
 
 
 /* =====================================================
-   BARRE LUMINEUSE
+   MISE À JOUR DE LA BARRE LUMINEUSE
 ===================================================== */
 
 function updateLightLine() {
@@ -1295,80 +1530,205 @@ function updateLightLine() {
         );
 
 
+    if (!lightLine) {
+
+        return;
+
+    }
+
+
     const currentColor =
-        getColor(
-            index
-        );
+        getColor(index);
 
 
-    const colorMap = {
+    if (
+        currentColor ===
+        "color-yellow"
+    ) {
 
-        "color-yellow":
-            "#ffcc00",
-
-        "color-red":
-            "#ff2020",
-
-        "color-blue":
-            "#168cff"
-
-    };
+        lightLine.style.background =
+            "#ffcc00";
 
 
-    const color =
-        colorMap[currentColor];
+        lightLine.style.boxShadow =
+
+            "0 0 10px #ffcc00," +
+
+            "0 0 25px #ffcc00," +
+
+            "0 0 50px #ffcc00";
+
+    }
 
 
-    lightLine.style.background =
-        color;
+    else if (
+        currentColor ===
+        "color-red"
+    ) {
+
+        lightLine.style.background =
+            "#ff2020";
 
 
-    lightLine.style.boxShadow =
+        lightLine.style.boxShadow =
 
-        "0 0 10px " + color + "," +
+            "0 0 10px #ff2020," +
 
-        "0 0 25px " + color + "," +
+            "0 0 25px #ff2020," +
 
-        "0 0 50px " + color;
+            "0 0 50px #ff2020";
+
+    }
+
+
+    else {
+
+        lightLine.style.background =
+            "#168cff";
+
+
+        lightLine.style.boxShadow =
+
+            "0 0 10px #168cff," +
+
+            "0 0 25px #168cff," +
+
+            "0 0 50px #168cff";
+
+    }
 
 }
 
 
 /* =====================================================
-   ROTATION AVEC DÉROULEMENT
+   MISE À JOUR DU CARROUSEL
 ===================================================== */
 
-function rotateCarousel() {
+function updateCarousel() {
+
+    if (
+        !total
+    ) {
+
+        return;
+
+    }
+
 
     /*
-       On avance simplement l'index.
-
-       Les éléments restent les mêmes
-       et les classes changent de position.
+       Positions des logos
     */
 
-    index =
-        circularIndex(
-            index + 1
-        );
+    const center =
+        index;
 
 
-    updateCarousel();
+    const left1 =
+        index - 1;
 
+
+    const left2 =
+        index - 2;
+
+
+    const right1 =
+        index + 1;
+
+
+    const right2 =
+        index + 2;
+
+
+    /*
+       Centre
+    */
+
+    setLogo(
+        logos[0],
+        center,
+        "center"
+    );
+
+
+    /*
+       Gauche 1
+    */
+
+    setLogo(
+        logos[1],
+        left1,
+        "left1"
+    );
+
+
+    /*
+       Gauche 2
+    */
+
+    setLogo(
+        logos[2],
+        left2,
+        "left2"
+    );
+
+
+    /*
+       Droite 1
+    */
+
+    setLogo(
+        logos[3],
+        right1,
+        "right1"
+    );
+
+
+    /*
+       Droite 2
+    */
+
+    setLogo(
+        logos[4],
+        right2,
+        "right2"
+    );
+
+
+    /*
+       Barre lumineuse
+    */
+
+    updateLightLine();
+
+
+    /*
+       Sauvegarde de la position
+    */
 
     localStorage.setItem(
         "partenaireIndex",
         index
     );
 
+
+    /*
+       Préchargement intelligent
+    */
+
+    preloadNextLogos();
+
 }
 
 
 /* =====================================================
-   DÉMARRAGE
+   ROTATION
 ===================================================== */
 
 function startCarousel() {
+
+    /*
+       On arrête un éventuel ancien intervalle.
+    */
 
     if (interval) {
 
@@ -1381,11 +1741,18 @@ function startCarousel() {
 
     interval =
         setInterval(
+            function () {
 
-            rotateCarousel,
+                index =
+                    (
+                        index + 1
+                    ) % total;
 
+
+                updateCarousel();
+
+            },
             ROTATION_TIME
-
         );
 
 }
@@ -1398,24 +1765,31 @@ function startCarousel() {
 async function init() {
 
     console.log(
-        "Chargement automatique des logos..."
+        "Chargement automatique des logos GitHub..."
     );
 
+
+    /*
+       Récupération automatique du dossier /logo
+    */
 
     logoFiles =
         await getLogoFiles();
 
 
+    /*
+       Vérification
+    */
+
     if (
-
         !logoFiles ||
-        logoFiles.length === 0
-
+        !logoFiles.length
     ) {
 
         console.error(
-            "Aucun logo trouvé dans DIFFUSION/logo."
+            "Aucun logo trouvé dans le dossier GitHub /logo."
         );
+
 
         return;
 
@@ -1428,9 +1802,20 @@ async function init() {
 
     console.log(
         total +
-        " logos chargés."
+        " logos trouvés automatiquement."
     );
 
+
+    /*
+       Création des 5 éléments <img>
+    */
+
+    createImageElements();
+
+
+    /*
+       Récupération de l'ancien index
+    */
 
     const savedIndex =
         localStorage.getItem(
@@ -1439,35 +1824,46 @@ async function init() {
 
 
     if (
-
         savedIndex !== null &&
         !isNaN(
-            parseInt(savedIndex)
+            parseInt(
+                savedIndex
+            )
         )
-
     ) {
 
         index =
+            parseInt(
+                savedIndex
+            );
+
+
+        index =
             circularIndex(
-                parseInt(savedIndex)
+                index
             );
 
     }
 
+    else {
 
-    createImageElements();
+        index = 0;
 
+    }
+
+
+    /*
+       Affichage initial
+    */
 
     updateCarousel();
 
 
-    setTimeout(
+    /*
+       Lancement de la rotation
+    */
 
-        startCarousel,
-
-        500
-
-    );
+    startCarousel();
 
 }
 
@@ -1477,18 +1873,13 @@ async function init() {
 ===================================================== */
 
 if (
-
     document.readyState ===
     "loading"
-
 ) {
 
     document.addEventListener(
-
         "DOMContentLoaded",
-
         init
-
     );
 
 }
