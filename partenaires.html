@@ -1424,26 +1424,30 @@ function updateCarousel() {
    ROTATION DU CARROUSEL
 ===================================================== */
 
+/* =====================================================
+   ROTATION DU CARROUSEL (À MODIFIER)
+===================================================== */
 function rotateCarousel() {
-
-    if (
-        logos.length === 0
-    ) {
-
+    if (logos.length === 0) {
         return;
-
     }
 
-
-    index =
-        (
-            index + 1
-        ) %
-        logos.length;
-
-
+    index = (index + 1) % logos.length;
     updateCarousel();
 
+    // Récupérer la durée pour le prochain logo
+    const nextDuration = getLogoDuration(index);
+    restartCarouselWithDuration(nextDuration);
+}
+
+   /* =====================================================
+   REDÉMARRER LE CARROUSEL AVEC UNE DURÉE PERSONNALISÉE
+===================================================== */
+function restartCarouselWithDuration(durationMs) {
+    if (interval) {
+        clearInterval(interval);
+    }
+    interval = setInterval(rotateCarousel, durationMs);
 }
 
 
@@ -1451,26 +1455,17 @@ function rotateCarousel() {
    DÉMARRAGE DU CARROUSEL
 ===================================================== */
 
+/* =====================================================
+   DÉMARRAGE DU CARROUSEL (À MODIFIER)
+===================================================== */
 function startCarousel() {
-
     if (interval) {
-
-        clearInterval(
-            interval
-        );
-
+        clearInterval(interval);
     }
 
-
-    interval =
-        setInterval(
-
-            rotateCarousel,
-
-            ROTATION_TIME
-
-        );
-
+    // Utiliser la durée du premier logo
+    const firstDuration = getLogoDuration(0);
+    interval = setInterval(rotateCarousel, firstDuration);
 }
 
 
@@ -1621,7 +1616,58 @@ else {
 
 </script>
 
+<!-- =====================================================
+     FIREBASE (À AJOUTER)
+===================================================== -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
+  /* =====================================================
+     CONFIGURATION FIREBASE (À COPIER DEPUIS ADMIN.HTML)
+  =================================================== */
+  const firebaseConfig = {
+      apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+      authDomain: "diffusion-b9afa.firebaseapp.com",
+      databaseURL: "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "diffusion-b9afa",
+      storageBucket: "diffusion-b9afa.appspot.com",
+      messagingSenderId: "674799570797",
+      appId: "1:674799570797:web:0d8b7a2a892f604eb7d464"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const partnerDurationsRef = ref(db, "partnerDurations");
+
+  /* =====================================================
+     RÉCUPÉRATION DES DURÉES DEPUIS FIREBASE
+  =================================================== */
+  let partnerDurations = {};
+  let defaultRotationTime = 2500; // Valeur par défaut en ms
+
+  onValue(partnerDurationsRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+          partnerDurations = data.durations || {};
+          defaultRotationTime = data.defaultDuration || 2500;
+          console.log("Durées des partenaires chargées :", partnerDurations);
+      }
+  });
+
+  /* =====================================================
+     FONCTION POUR OBTENIR LA DURÉE D'UN LOGO
+  =================================================== */
+  function getLogoDuration(logoIndex) {
+      const logoFile = logoFiles[logoIndex];
+      if (!logoFile) return defaultRotationTime;
+
+      // Extraire le nom du partenaire depuis le nom du fichier (sans extension)
+      const partnerName = logoFile.replace(/\.[^/.]+$/, "");
+      const durationMs = partnerDurations[partnerName] || defaultRotationTime;
+      return durationMs;
+  }
+</script>
 </body>
 
 </html>
