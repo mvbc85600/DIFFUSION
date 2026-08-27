@@ -1409,7 +1409,6 @@ const GITHUB_LOGO_RAW =
     "https://raw.githubusercontent.com/mvbc85600/DIFFUSION/main/logo/";
 
 let partnerLogos = {};
-let partnerLogoFiles = {};
 
 
 /* =====================================================
@@ -1594,29 +1593,15 @@ async function chargerPartenairesDepuisGithub() {
 
         partnerLogos = {};
 
-        partnerLogoFiles = {};
-
         fichiers
             .filter(fichier =>
                 fichier.type === "file" &&
-                /\.(png|jpe?g|webp|gif|svg|avif)$/i.test(fichier.name)
+                /\.(png|jpe?g|webp|gif|svg)$/i.test(fichier.name)
             )
-            .sort((a, b) =>
-                a.name.localeCompare(
-                    b.name,
-                    "fr",
-                    { numeric: true, sensitivity: "base" }
-                )
-            )
+            .sort((a, b) => a.name.localeCompare(b.name, "fr"))
             .forEach(fichier => {
-                const fileName = fichier.name;
-                const nom = fileName.replace(/\.[^.]+$/, "");
-                const url =
-                    GITHUB_LOGO_RAW +
-                    encodeURIComponent(fileName);
-
-                partnerLogos[nom] = url;
-                partnerLogoFiles[fileName] = url;
+                const nom = fichier.name.replace(/\.[^.]+$/, "");
+                partnerLogos[nom] = GITHUB_LOGO_RAW + encodeURIComponent(fichier.name).replace(/%20/g, "%20");
             });
 
         partnerSelect.innerHTML = '<option value="">-- Choisir un partenaire --</option>';
@@ -1687,46 +1672,44 @@ chargerPartenairesDepuisGithub();
    ONGLET : DURÉE PARTENAIRES
 ===================================================== */
 
+function nomFichierDepuisNomPartenaire(nomPartenaire) {
+    return Object.keys(partnerLogos).find(nom => nom === nomPartenaire) || null;
+}
+
 function renderPartnerDurationList() {
     if (!partnerDurationList) return;
 
     partnerDurationList.innerHTML = "";
 
-    const fileNames = Object.keys(partnerLogoFiles)
-        .sort((a, b) =>
-            a.localeCompare(
-                b,
-                "fr",
-                { numeric: true, sensitivity: "base" }
-            )
-        );
+    const noms = Object.keys(partnerLogos)
+        .sort((a, b) => a.localeCompare(b, "fr", { numeric: true, sensitivity: "base" }));
 
     const defaultSeconds =
         Number(defaultPartnerDuration.value) > 0
             ? Number(defaultPartnerDuration.value)
             : 2.5;
 
-    fileNames.forEach(fileName => {
+    noms.forEach(nom => {
         const card = document.createElement("div");
         card.className = "partner-duration-card";
 
         const img = document.createElement("img");
-        img.src = partnerLogoFiles[fileName];
-        img.alt = fileName;
+        img.src = partnerLogos[nom];
+        img.alt = nom;
 
         const name = document.createElement("div");
         name.className = "partner-duration-name";
-        name.textContent = fileName.replace(/\.[^.]+$/, "");
+        name.textContent = nom;
 
         const input = document.createElement("input");
         input.type = "number";
         input.min = "1";
         input.step = "0.5";
-        input.dataset.partner = fileName;
+        input.dataset.partner = nom;
 
         const stored =
             partnerDurationsData.durations &&
-            Number(partnerDurationsData.durations[fileName]);
+            Number(partnerDurationsData.durations[nom]);
 
         input.value = ((stored || defaultSeconds * 1000) / 1000).toString();
 
