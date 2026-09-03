@@ -231,23 +231,23 @@ body {
 
 /* State: active animation */
 .stage.play .three {
-    animation: threeImpact 1.65s cubic-bezier(.16,.9,.25,1) forwards;
+    animation: threeImpact 2.5s cubic-bezier(.16,.9,.25,1) forwards;
 }
 
 .stage.play .echo {
-    animation: echoImpact 1.65s ease-out forwards;
+    animation: echoImpact 2.5s ease-out forwards;
 }
 
 .stage.play .slash {
-    animation: slashImpact 1.2s cubic-bezier(.16,1,.3,1) forwards;
+    animation: slashImpact 1.8s cubic-bezier(.16,1,.3,1) forwards;
 }
 
 .stage.play .three-word {
-    animation: wordImpact 1.45s cubic-bezier(.16,1,.3,1) .18s forwards;
+    animation: wordImpact 2s cubic-bezier(.16,1,.3,1) .18s forwards;
 }
 
 .stage.play .ring {
-    animation: ringImpact 1.15s cubic-bezier(.12,.75,.25,1) forwards;
+    animation: ringImpact 1.5s cubic-bezier(.12,.75,.25,1) forwards;
 }
 
 .stage.play .ring.red {
@@ -261,8 +261,9 @@ body {
 .stage.play .flash {
     animation: flashImpact .32s ease-out forwards;
 }
+
 .stage.play .line {
-    animation: lineImpact .65s cubic-bezier(.15,.8,.3,1) forwards;
+    animation: lineImpact .8s cubic-bezier(.15,.8,.3,1) forwards;
 }
 
 .stage.play .line:nth-child(2n) {
@@ -290,13 +291,16 @@ body {
     38% {
         transform: translate(-50%,-50%) scale(1.02) skewX(-5deg);
     }
-    72% {
+    70% {
         opacity: 1;
         transform: translate(-50%,-50%) scale(1) skewX(-5deg);
     }
-    100% {
+    90% {
         opacity: 0;
         transform: translate(-50%,-53%) scale(1.08) skewX(-5deg);
+    }
+    100% {
+        opacity: 0;
     }
 }
 
@@ -307,6 +311,9 @@ body {
     }
     18% {
         opacity: .8;
+    }
+    80% {
+        opacity: 0;
     }
     100% {
         opacity: 0;
@@ -342,9 +349,12 @@ body {
         opacity: 1;
         transform: translate(-50%, 0);
     }
-    100% {
+    90% {
         opacity: 0;
         transform: translate(-50%, -8px);
+    }
+    100% {
+        opacity: 0;
     }
 }
 
@@ -404,17 +414,13 @@ body {
     <div class="flash"></div>
 
     <div class="three" aria-live="polite">+3</div>
-    <div class="three-word">THREE!</div>
+    
 </div>
 
 <script>
 const stage = document.getElementById("stage");
 const lines = document.getElementById("lines");
 
-/*
- * Génère les lignes de vitesse une seule fois.
- * Elles partent du centre au moment du panier.
- */
 const angles = [
     0, 18, 36, 54, 72, 90, 108, 126, 144, 162,
     180, 198, 216, 234, 252, 270, 288, 306, 324, 342
@@ -427,45 +433,19 @@ angles.forEach(angle => {
     lines.appendChild(line);
 });
 
-/*
- * Lance l'animation.
- *
- * Tu peux appeler :
- *
- *     playThree();
- *
- * depuis ton système de détection de panier à 3 points.
- */
 function playThree() {
+    // Retire la classe pour réinitialiser l'animation
     stage.classList.remove("play");
-
-    // Force le navigateur à recalculer l'animation
+    // Force le recalcul du style
     void stage.offsetWidth;
-
+    // Ajoute la classe pour relancer l'animation
     stage.classList.add("play");
-
-    // Nettoyage après l'animation
-    setTimeout(() => {
-        stage.classList.remove("play");
-    }, 1800);
 }
 
-/*
- * Démo automatique.
- * SUPPRIME cette partie lorsque tu branches
- * l'animation à ton vrai détecteur de panier.
- */
+// Démarre la première animation après 500ms
 setTimeout(playThree, 500);
-
-setInterval(playThree, 4000);
-
-/*
- * Exemple :
- *
- * if (basket.value === 3) {
- *     playThree();
- * }
- */
+// Répète l'animation toutes les 2.5 secondes (durée de l'animation)
+setInterval(playThree, 2500);
 </script>
 
 </body>
