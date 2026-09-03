@@ -1,10 +1,10 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BOUTIQUE OFFICIELLE — Animation</title>
-    
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@500;700;800;900&display=swap');
@@ -84,22 +84,23 @@ body {
     );
 }
 
-/* Main impact */
+/* Titre : plus petit et centré en haut */
 .boutique-title {
     position: absolute;
     left: 50%;
-    top: 30%;
+    top: 9%;
     z-index: 10;
     margin: 0;
     transform: translate(-50%, -50%) scale(0.7);
     opacity: 0;
     font-family: "Barlow Condensed", sans-serif;
-    font-size: clamp(70px, 10vw, 180px);
+    font-size: clamp(55px, 7vw, 135px);
     font-weight: 900;
     line-height: 0.9;
     letter-spacing: -0.04em;
     color: var(--white);
     text-align: center;
+    white-space: nowrap;
     text-shadow:
         4px 4px 0 var(--black),
         7px 7px 0 var(--yellow),
@@ -108,11 +109,11 @@ body {
     will-change: transform, opacity, filter;
 }
 
-/* Accent slash behind title */
+/* Accent slash derrière le titre */
 .slash {
     position: absolute;
     left: 50%;
-    top: 30%;
+    top: 9%;
     z-index: 7;
     width: min(64vw, 850px);
     height: 18px;
@@ -139,7 +140,7 @@ body {
 .echo {
     position: absolute;
     left: 50%;
-    top: 30%;
+    top: 9%;
     z-index: 2;
     transform:
         translate(-50%, -50%)
@@ -147,7 +148,7 @@ body {
         skewX(-5deg);
     opacity: 0;
     font-family: "Barlow Condensed", sans-serif;
-    font-size: clamp(150px, 20vw, 300px);
+    font-size: clamp(130px, 17vw, 260px);
     font-weight: 900;
     line-height: 0.7;
     letter-spacing: -0.09em;
@@ -155,20 +156,20 @@ body {
     -webkit-text-stroke: 2px rgba(255,255,255,.07);
 }
 
-/* Image container */
+/* Image centrée au milieu de l'écran */
 .image-container {
     position: absolute;
-    top: 60%;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     z-index: 15;
     width: 80%;
     max-width: 800px;
     opacity: 0;
-    transition: opacity 1s ease-in-out;
 }
 
 .image-container img {
+    display: block;
     width: 100%;
     height: auto;
     border-radius: 8px;
@@ -246,8 +247,9 @@ body {
     animation: slashImpact 1.8s cubic-bezier(.16,1,.3,1) forwards;
 }
 
+/* Image : apparition rapide puis reste longtemps visible */
 .stage.play .image-container {
-    animation: imageFadeIn 2.5s ease-in-out 0.5s forwards;
+    animation: imageFadeIn 8s ease-in-out forwards;
 }
 
 .stage.play .ring {
@@ -284,34 +286,57 @@ body {
         transform: translate(-50%,-50%) scale(0.45) skewX(-5deg);
         filter: blur(8px);
     }
+
     12% {
         opacity: 1;
         transform: translate(-50%,-50%) scale(1.12) skewX(-5deg);
         filter: blur(0);
     }
+
     23% {
         transform: translate(-50%,-50%) scale(0.96) skewX(-5deg);
     }
+
     38% {
         transform: translate(-50%,-50%) scale(1.02) skewX(-5deg);
     }
+
     70% {
         opacity: 1;
         transform: translate(-50%,-50%) scale(1) skewX(-5deg);
     }
+
     90% {
         opacity: 0;
         transform: translate(-50%,-53%) scale(1.08) skewX(-5deg);
     }
+
     100% {
         opacity: 0;
     }
 }
 
+/* Image visible pendant environ 7 secondes */
 @keyframes imageFadeIn {
-    0% { opacity: 0; }
-    50% { opacity: 0; }
-    100% { opacity: 1; }
+    0% {
+        opacity: 0;
+    }
+
+    8% {
+        opacity: 0;
+    }
+
+    18% {
+        opacity: 1;
+    }
+
+    82% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }
 
 @keyframes echoImpact {
@@ -319,12 +344,15 @@ body {
         opacity: 0;
         transform: translate(-50%,-50%) scale(.6) skewX(-5deg);
     }
+
     18% {
         opacity: .8;
     }
+
     80% {
         opacity: 0;
     }
+
     100% {
         opacity: 0;
         transform: translate(-50%,-50%) scale(1.25) skewX(-5deg);
@@ -336,14 +364,17 @@ body {
         opacity: 0;
         transform: translate(-50%,-50%) rotate(-7deg) scaleX(0);
     }
+
     18% {
         opacity: 1;
         transform: translate(-50%,-50%) rotate(-7deg) scaleX(1);
     }
+
     65% {
         opacity: .8;
         transform: translate(-50%,-50%) rotate(-7deg) scaleX(1.05);
     }
+
     100% {
         opacity: 0;
         transform: translate(-50%,-50%) rotate(-7deg) scaleX(1.18);
@@ -355,6 +386,7 @@ body {
         opacity: .8;
         transform: translate(-50%,-50%) scale(.1);
     }
+
     100% {
         opacity: 0;
         transform: translate(-50%,-50%) scale(12);
@@ -366,9 +398,11 @@ body {
         opacity: 0;
         transform: rotate(var(--angle)) translateX(10px) scaleX(0);
     }
+
     20% {
         opacity: .9;
     }
+
     100% {
         opacity: 0;
         transform: rotate(var(--angle)) translateX(30px) scaleX(1);
@@ -376,9 +410,17 @@ body {
 }
 
 @keyframes flashImpact {
-    0% { opacity: 0; }
-    12% { opacity: .75; }
-    100% { opacity: 0; }
+    0% {
+        opacity: 0;
+    }
+
+    12% {
+        opacity: .75;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }
 
 /* Respect reduced motion */
@@ -389,27 +431,35 @@ body {
     }
 }
 </style>
+
 </head>
 
 <body>
+
 <div class="stage" id="stage">
-    <div class="echo">BOUTIQUE OFFICIELLE</div>
-    <div class="slash"></div>
 
-    <div class="lines" id="lines"></div>
+```
+<div class="echo">BOUTIQUE OFFICIELLE</div>
+<div class="slash"></div>
 
-    <div class="ring"></div>
-    <div class="ring red"></div>
-    <div class="ring blue"></div>
+<div class="lines" id="lines"></div>
 
-    <div class="flash"></div>
+<div class="ring"></div>
+<div class="ring red"></div>
+<div class="ring blue"></div>
 
-    <div class="boutique-title" aria-live="polite">BOUTIQUE OFFICIELLE</div>
+<div class="flash"></div>
 
-    <!-- Conteneur pour l'image -->
-    <div class="image-container">
-        <img src="photos/BOUTIQUE.png" >
-    </div>
+<div class="boutique-title" aria-live="polite">
+    BOUTIQUE OFFICIELLE
+</div>
+
+<!-- Image centrée -->
+<div class="image-container">
+    <img src="photos/BOUTIQUE.png">
+</div>
+```
+
 </div>
 
 <script>
@@ -434,8 +484,17 @@ function playAnimation() {
     stage.classList.add("play");
 }
 
+/*
+ * Lancement initial après 500 ms
+ */
 setTimeout(playAnimation, 500);
-setInterval(playAnimation, 2500);
+
+/*
+ * Nouvelle animation toutes les 8 secondes
+ * afin de laisser l'image affichée beaucoup plus longtemps.
+ */
+setInterval(playAnimation, 8000);
 </script>
+
 </body>
 </html>
