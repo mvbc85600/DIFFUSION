@@ -1,500 +1,641 @@
 <!DOCTYPE html>
-
 <html lang="fr">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BOUTIQUE OFFICIELLE — Animation</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LA BOUTIQUE</title>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@500;700;800;900&display=swap');
+    <!-- Importation de la police Barlow Condensed -->
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@500;700;800;900&display=swap" rel="stylesheet">
 
-:root {
-    --white: #f7f7f5;
-    --black: #050608;
-    --red: #ed174c;
-    --blue: #1769ff;
-    --yellow: #ffd400;
-}
+    <style>
+        /* =====================================================
+           RESET
+        ===================================================== */
+        * {
+            box-sizing: border-box;
+        }
 
-* {
-    box-sizing: border-box;
-}
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden !important;
+            background: #000;
+            color: #fff;
+            font-family: Arial, Helvetica, sans-serif;
+        }
 
-html,
-body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-}
+        /* =====================================================
+           FOND
+        ===================================================== */
+        body {
+            position: relative;
+            background:
+                radial-gradient(
+                    circle at center,
+                    #252000 0%,
+                    #100e00 35%,
+                    #050500 65%,
+                    #000 100%
+                );
+        }
 
-body {
-    overflow: hidden;
-    background:
-        radial-gradient(circle at 50% 48%, rgba(23,105,255,.13), transparent 28%),
-        radial-gradient(circle at 50% 100%, rgba(237,23,76,.09), transparent 38%),
-        #050608;
-    font-family: Inter, sans-serif;
-    color: var(--white);
-}
+        /* =====================================================
+           HALO CENTRAL DU FOND
+        ===================================================== */
+        body::before {
+            content: "";
+            position: fixed;
+            width: 900px;
+            height: 900px;
+            left: 50%;
+            top: 52%;
+            transform: translate(-50%, -50%);
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(255,204,0,0.20) 0%,
+                    rgba(255,204,0,0.08) 25%,
+                    rgba(255,204,0,0.02) 50%,
+                    transparent 70%
+                );
+            pointer-events: none;
+            animation: halo 4s ease-in-out infinite;
+        }
 
-.stage {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    isolation: isolate;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
+        @keyframes halo {
+            0% {
+                transform: translate(-50%, -50%) scale(0.90);
+                opacity: 0.65;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.10);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(0.90);
+                opacity: 0.65;
+            }
+        }
 
-/* Subtle arena atmosphere */
-.stage::before {
-    content: "";
-    position: absolute;
-    inset: -20%;
-    z-index: -3;
-    background:
-        repeating-linear-gradient(
-            90deg,
-            transparent 0 90px,
-            rgba(255,255,255,.012) 91px 92px
-        ),
-        radial-gradient(
-            ellipse at 50% 45%,
-            rgba(255,255,255,.06),
-            transparent 48%
-        );
-    transform: perspective(800px) rotateX(58deg) scale(1.35);
-    transform-origin: center bottom;
-}
+        /* =====================================================
+           NOUVEAU STYLE POUR LE TITRE (inspiré de boutique.html)
+        ===================================================== */
+        :root {
+            --white: #f7f7f5;
+            --black: #050608;
+            --red: #ed174c;
+            --blue: #1769ff;
+            --yellow: #ffd400;
+        }
 
-.stage::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 20;
-    pointer-events: none;
-    background: radial-gradient(
-        ellipse at center,
-        transparent 35%,
-        rgba(0,0,0,.48) 100%
-    );
-}
+        /* Conteneur pour le titre */
+        .title-container {
+            position: relative;
+            width: 100%;
+            height: auto;
+            margin-top: 20px;
+            z-index: 100;
+            text-align: center;
+        }
 
-/* Titre : plus petit et centré en haut */
-.boutique-title {
-    position: absolute;
-    left: 50%;
-    top: 9%;
-    z-index: 10;
-    margin: 0;
-    transform: translate(-50%, -50%) scale(0.7);
-    opacity: 0;
-    font-family: "Barlow Condensed", sans-serif;
-    font-size: clamp(55px, 7vw, 135px);
-    font-weight: 900;
-    line-height: 0.9;
-    letter-spacing: -0.04em;
-    color: var(--white);
-    text-align: center;
-    white-space: nowrap;
-    text-shadow:
-        4px 4px 0 var(--black),
-        7px 7px 0 var(--yellow),
-        11px 11px 0 rgba(237,23,76,.9),
-        15px 15px 0 rgba(23,105,255,.5);
-    will-change: transform, opacity, filter;
-}
+        /* Titre principal */
+        .partner-title {
+            font-family: "Barlow Condensed", sans-serif;
+            font-size: clamp(40px, 6vw, 100px);
+            font-weight: 900;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            color: var(--white);
+            text-align: center;
+            white-space: nowrap;
+            text-shadow:
+                4px 4px 0 var(--black),
+                7px 7px 0 var(--yellow),
+                11px 11px 0 rgba(237,23,76,.9),
+                15px 15px 0 rgba(23,105,255,.5);
+        }
 
-/* Accent slash derrière le titre */
-.slash {
-    position: absolute;
-    left: 50%;
-    top: 9%;
-    z-index: 7;
-    width: min(64vw, 850px);
-    height: 18px;
-    transform:
-        translate(-50%, -50%)
-        rotate(-7deg)
-        scaleX(0);
-    transform-origin: center;
-    opacity: 0;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        var(--blue) 12%,
-        var(--yellow) 35%,
-        var(--white) 50%,
-        var(--yellow) 65%,
-        var(--red) 88%,
-        transparent
-    );
-    box-shadow: 0 0 40px rgba(23,105,255,.45);
-}
+        /* Barre colorée derrière le titre */
+        .slash {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-7deg);
+            width: min(64vw, 850px);
+            height: 18px;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                var(--blue) 12%,
+                var(--yellow) 35%,
+                var(--white) 50%,
+                var(--yellow) 65%,
+                var(--red) 88%,
+                transparent
+            );
+            box-shadow: 0 0 40px rgba(23,105,255,.45);
+            z-index: -1;
+        }
 
-/* Giant background number */
-.echo {
-    position: absolute;
-    left: 50%;
-    top: 9%;
-    z-index: 2;
-    transform:
-        translate(-50%, -50%)
-        scale(0.9)
-        skewX(-5deg);
-    opacity: 0;
-    font-family: "Barlow Condensed", sans-serif;
-    font-size: clamp(130px, 17vw, 260px);
-    font-weight: 900;
-    line-height: 0.7;
-    letter-spacing: -0.09em;
-    color: transparent;
-    -webkit-text-stroke: 2px rgba(255,255,255,.07);
-}
+        /* =====================================================
+           CARROUSEL
+        ===================================================== */
+        .carousel {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 150px); /* Réduit pour laisser de la place au titre */
+            min-height: 500px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1800px;
+            perspective-origin: center center;
+        }
 
-/* Image centrée au milieu de l'écran */
-.image-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 15;
-    width: 80%;
-    max-width: 800px;
-    opacity: 0;
-}
+        /* =====================================================
+           LOGOS
+        ===================================================== */
+        .carousel img {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform-origin: center center;
+            width: auto;
+            height: auto;
+            max-width: 740px;
+            max-height: 495px;
+            padding: 22px;
+            object-fit: contain;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(30,30,30,0.98),
+                    rgba(5,5,5,0.98)
+                );
+            border: 4px solid;
+            border-radius: 24px;
+            transition:
+                transform 0.9s cubic-bezier(.22,.61,.36,1),
+                opacity 0.9s ease,
+                filter 0.9s ease,
+                box-shadow 0.9s ease,
+                border-color 0.9s ease;
+            will-change: transform, opacity;
+        }
 
-.image-container img {
-    display: block;
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
+        /* =====================================================
+           COULEURS DES PARTENAIRES
+        ===================================================== */
+        .color-yellow { border-color: #ffcc00 !important; }
+        .color-red { border-color: #ff2020 !important; }
+        .color-blue { border-color: #168cff !important; }
 
-/* Radial impact rings */
-.ring {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    z-index: 5;
-    width: 40px;
-    height: 40px;
-    border: 2px solid rgba(255,255,255,.85);
-    border-radius: 50%;
-    transform: translate(-50%, -50%) scale(.1);
-    opacity: 0;
-}
+        /* =====================================================
+           POSITIONS DES LOGOS
+        ===================================================== */
+        .center {
+            transform: translate(-50%, -50%) translateZ(300px) scale(1.10);
+            z-index: 20;
+            opacity: 1;
+            filter: brightness(1.15) contrast(1.08);
+        }
 
-.ring.red {
-    border-color: rgba(237,23,76,.8);
-}
+        .left1 {
+            transform: translate(-50%, -50%) translateX(-540px) translateZ(40px) scale(0.62);
+            z-index: 12;
+            opacity: 0.75;
+            filter: brightness(0.75) contrast(0.95);
+        }
 
-.ring.blue {
-    border-color: rgba(23,105,255,.8);
-}
+        .right1 {
+            transform: translate(-50%, -50%) translateX(540px) translateZ(40px) scale(0.62);
+            z-index: 12;
+            opacity: 0.75;
+            filter: brightness(0.75) contrast(0.95);
+        }
 
-/* Speed lines */
-.lines {
-    position: absolute;
-    inset: 0;
-    z-index: 4;
-    pointer-events: none;
-    overflow: hidden;
-}
+        .left2 {
+            transform: translate(-50%, -50%) translateX(-860px) translateZ(-250px) scale(0.41);
+            z-index: 8;
+            opacity: 0.38;
+            filter: brightness(0.55) blur(0.3px);
+        }
 
-.line {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    height: 2px;
-    width: clamp(100px, 20vw, 300px);
-    transform-origin: 0 50%;
-    transform: rotate(var(--angle)) translateX(20px) scaleX(0);
-    opacity: 0;
-    background: linear-gradient(
-        90deg,
-        rgba(255,255,255,.85),
-        transparent
-    );
-}
+        .right2 {
+            transform: translate(-50%, -50%) translateX(860px) translateZ(-250px) scale(0.41);
+            z-index: 8;
+            opacity: 0.38;
+            filter: brightness(0.55) blur(0.3px);
+        }
 
-/* Flash */
-.flash {
-    position: absolute;
-    inset: 0;
-    z-index: 18;
-    pointer-events: none;
-    opacity: 0;
-    background: rgba(255,255,255,.9);
-    mix-blend-mode: screen;
-}
+        .hidden {
+            transform: translate(-50%, -50%) translateZ(-700px) scale(0.15);
+            opacity: 0;
+            filter: blur(5px);
+            z-index: 1;
+            pointer-events: none;
+        }
 
-/* State: active animation */
-.stage.play .boutique-title {
-    animation: titleImpact 2.5s cubic-bezier(.16,.9,.25,1) forwards;
-}
+        /* =====================================================
+           BARRE LUMINEUSE
+        ===================================================== */
+        .light-line {
+            position: fixed;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 65%;
+            height: 3px;
+            background: #ffcc00;
+            box-shadow:
+                0 0 10px #ffcc00,
+                0 0 25px #ffcc00,
+                0 0 50px #ffcc00;
+            z-index: 90;
+            transition:
+                background 0.9s ease,
+                box-shadow 0.9s ease;
+        }
 
-.stage.play .echo {
-    animation: echoImpact 2.5s ease-out forwards;
-}
+        /* =====================================================
+           ÉCRANS 1600PX ET MOINS
+        ===================================================== */
+        @media (max-width: 1600px) {
+            .carousel img {
+                max-width: 680px;
+                max-height: 460px;
+            }
+            .center {
+                transform: translate(-50%, -50%) translateZ(250px) scale(1.02);
+            }
+            .left1 {
+                transform: translate(-50%, -50%) translateX(-450px) translateZ(30px) scale(0.55);
+            }
+            .right1 {
+                transform: translate(-50%, -50%) translateX(450px) translateZ(30px) scale(0.55);
+            }
+            .left2 {
+                transform: translate(-50%, -50%) translateX(-700px) translateZ(-200px) scale(0.36);
+            }
+            .right2 {
+                transform: translate(-50%, -50%) translateX(700px) translateZ(-200px) scale(0.36);
+            }
+        }
 
-.stage.play .slash {
-    animation: slashImpact 1.8s cubic-bezier(.16,1,.3,1) forwards;
-}
+        /* =====================================================
+           ÉCRANS 1200PX ET MOINS
+        ===================================================== */
+        @media (max-width: 1200px) {
+            .partner-title {
+                font-size: clamp(30px, 5vw, 80px);
+            }
+            .carousel {
+                min-height: 500px;
+            }
+            .carousel img {
+                max-width: 570px;
+                max-height: 387px;
+            }
+            .center {
+                transform: translate(-50%, -50%) translateZ(180px) scale(0.98);
+            }
+            .left1 {
+                transform: translate(-50%, -50%) translateX(-330px) translateZ(20px) scale(0.48);
+            }
+            .right1 {
+                transform: translate(-50%, -50%) translateX(330px) translateZ(20px) scale(0.48);
+            }
+            .left2, .right2 {
+                opacity: 0;
+            }
+        }
 
-/* Image : apparition rapide puis reste longtemps visible */
-.stage.play .image-container {
-    animation: imageFadeIn 8s ease-in-out forwards;
-}
-
-.stage.play .ring {
-    animation: ringImpact 1.5s cubic-bezier(.12,.75,.25,1) forwards;
-}
-
-.stage.play .ring.red {
-    animation-delay: .06s;
-}
-
-.stage.play .ring.blue {
-    animation-delay: .12s;
-}
-
-.stage.play .flash {
-    animation: flashImpact .32s ease-out forwards;
-}
-
-.stage.play .line {
-    animation: lineImpact .8s cubic-bezier(.15,.8,.3,1) forwards;
-}
-
-.stage.play .line:nth-child(2n) {
-    animation-delay: .035s;
-}
-
-.stage.play .line:nth-child(3n) {
-    animation-delay: .07s;
-}
-
-@keyframes titleImpact {
-    0% {
-        opacity: 0;
-        transform: translate(-50%,-50%) scale(0.45) skewX(-5deg);
-        filter: blur(8px);
-    }
-
-    12% {
-        opacity: 1;
-        transform: translate(-50%,-50%) scale(1.12) skewX(-5deg);
-        filter: blur(0);
-    }
-
-    23% {
-        transform: translate(-50%,-50%) scale(0.96) skewX(-5deg);
-    }
-
-    38% {
-        transform: translate(-50%,-50%) scale(1.02) skewX(-5deg);
-    }
-
-    70% {
-        opacity: 1;
-        transform: translate(-50%,-50%) scale(1) skewX(-5deg);
-    }
-
-    90% {
-        opacity: 0;
-        transform: translate(-50%,-53%) scale(1.08) skewX(-5deg);
-    }
-
-    100% {
-        opacity: 0;
-    }
-}
-
-/* Image visible pendant environ 7 secondes */
-@keyframes imageFadeIn {
-    0% {
-        opacity: 0;
-    }
-
-    8% {
-        opacity: 0;
-    }
-
-    18% {
-        opacity: 1;
-    }
-
-    82% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0;
-    }
-}
-
-@keyframes echoImpact {
-    0% {
-        opacity: 0;
-        transform: translate(-50%,-50%) scale(.6) skewX(-5deg);
-    }
-
-    18% {
-        opacity: .8;
-    }
-
-    80% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 0;
-        transform: translate(-50%,-50%) scale(1.25) skewX(-5deg);
-    }
-}
-
-@keyframes slashImpact {
-    0% {
-        opacity: 0;
-        transform: translate(-50%,-50%) rotate(-7deg) scaleX(0);
-    }
-
-    18% {
-        opacity: 1;
-        transform: translate(-50%,-50%) rotate(-7deg) scaleX(1);
-    }
-
-    65% {
-        opacity: .8;
-        transform: translate(-50%,-50%) rotate(-7deg) scaleX(1.05);
-    }
-
-    100% {
-        opacity: 0;
-        transform: translate(-50%,-50%) rotate(-7deg) scaleX(1.18);
-    }
-}
-
-@keyframes ringImpact {
-    0% {
-        opacity: .8;
-        transform: translate(-50%,-50%) scale(.1);
-    }
-
-    100% {
-        opacity: 0;
-        transform: translate(-50%,-50%) scale(12);
-    }
-}
-
-@keyframes lineImpact {
-    0% {
-        opacity: 0;
-        transform: rotate(var(--angle)) translateX(10px) scaleX(0);
-    }
-
-    20% {
-        opacity: .9;
-    }
-
-    100% {
-        opacity: 0;
-        transform: rotate(var(--angle)) translateX(30px) scaleX(1);
-    }
-}
-
-@keyframes flashImpact {
-    0% {
-        opacity: 0;
-    }
-
-    12% {
-        opacity: .75;
-    }
-
-    100% {
-        opacity: 0;
-    }
-}
-
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-    .stage.play * {
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-    }
-}
-</style>
-
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+        @media (max-width: 700px) {
+            .partner-title {
+                font-size: clamp(24px, 6vw, 50px);
+                letter-spacing: -0.02em;
+            }
+            .slash {
+                height: 12px;
+            }
+            .carousel {
+                height: calc(100vh - 120px);
+                min-height: 400px;
+            }
+            .carousel img {
+                max-width: 85vw;
+                max-height: 360px;
+                padding: 15px;
+            }
+            .center {
+                transform: translate(-50%, -50%) scale(0.92);
+            }
+            .left1 {
+                transform: translate(-50%, -50%) translateX(-190px) scale(0.40);
+            }
+            .right1 {
+                transform: translate(-50%, -50%) translateX(190px) scale(0.40);
+            }
+            .left2, .right2 {
+                display: none;
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Titre avec effet statique -->
+    <div class="title-container">
+        <div class="slash"></div>
+        <h1 class="partner-title">LA   BOUTIQUE</h1>
+    </div>
 
-<div class="stage" id="stage">
+    <!-- Carrousel -->
+    <div class="carousel" id="carousel"></div>
 
-```
-<div class="echo">BOUTIQUE OFFICIELLE</div>
-<div class="slash"></div>
+    <!-- Barre lumineuse -->
+    <div class="light-line"></div>
 
-<div class="lines" id="lines"></div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-<div class="ring"></div>
-<div class="ring red"></div>
-<div class="ring blue"></div>
+        /* =====================================================
+           FIREBASE
+        ===================================================== */
+        const firebaseConfig = {
+            apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+            authDomain: "diffusion-b9afa.firebaseapp.com",
+            databaseURL: "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "diffusion-b9afa",
+            storageBucket: "diffusion-b9afa.appspot.com",
+            messagingSenderId: "674799570797",
+            appId: "1:674799570797:web:0d8b7a2a892f604eb7d464"
+        };
 
-<div class="flash"></div>
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const partnerDurationsRef = ref(db, "partnerDurations");
 
-<div class="boutique-title" aria-live="polite">
-    BOUTIQUE OFFICIELLE
-</div>
+        /* =====================================================
+           CONFIGURATION GITHUB (MISE À JOUR : DOSSIER "boutique")
+        ===================================================== */
+        const GITHUB_API = "https://api.github.com/repos/mvbc85600/DIFFUSION/contents/boutique";
+        const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/mvbc85600/DIFFUSION/main/boutique/";
 
-<!-- Image centrée -->
-<div class="image-container">
-    <img src="photos/BOUTIQUE.png">
-</div>
-```
+        /* =====================================================
+           PARAMÈTRES
+        ===================================================== */
+        let partnerDurationsData = {
+            defaultDuration: 2500,
+            durations: {}
+        };
 
-</div>
+        function getPartnerDuration(fileName) {
+            const partnerName = fileName.replace(/\.[^/.]+$/, "");
+            const specificDuration = partnerDurationsData.durations[partnerName];
+            if (specificDuration && specificDuration > 0) {
+                return specificDuration;
+            }
+            return partnerDurationsData.defaultDuration > 0 ? partnerDurationsData.defaultDuration : 2500;
+        }
 
-<script>
-const stage = document.getElementById("stage");
-const lines = document.getElementById("lines");
+        /* =====================================================
+           CACHE DE LA LISTE GITHUB
+        ===================================================== */
+        const LIST_CACHE_KEY = "partenairesGithubLogoList";
+        const LIST_CACHE_TIME_KEY = "partenairesGithubLogoListTime";
+        const LIST_CACHE_DURATION = 10 * 60 * 1000;
 
-const angles = [
-    0, 18, 36, 54, 72, 90, 108, 126, 144, 162,
-    180, 198, 216, 234, 252, 270, 288, 306, 324, 342
-];
+        /* =====================================================
+           VARIABLES
+        ===================================================== */
+        let logoFiles = [];
+        let logos = [];
+        let index = 0;
+        let interval = null;
+        let carouselStarted = false;
 
-angles.forEach(angle => {
-    const line = document.createElement("div");
-    line.className = "line";
-    line.style.setProperty("--angle", `${angle}deg`);
-    lines.appendChild(line);
-});
+        /* =====================================================
+           COULEURS DES PARTENAIRES
+        ===================================================== */
+        const colors = ["color-yellow", "color-red", "color-blue"];
 
-function playAnimation() {
-    stage.classList.remove("play");
-    void stage.offsetWidth;
-    stage.classList.add("play");
-}
+        /* =====================================================
+           RÉCUPÉRATION DE LA LISTE DES LOGOS
+        ===================================================== */
+        async function getLogoFiles() {
+            try {
+                const cachedList = localStorage.getItem(LIST_CACHE_KEY);
+                const cachedTime = localStorage.getItem(LIST_CACHE_TIME_KEY);
 
-/*
- * Lancement initial après 500 ms
- */
-setTimeout(playAnimation, 500);
+                if (cachedList && cachedTime && (Date.now() - parseInt(cachedTime)) < LIST_CACHE_DURATION) {
+                    const parsed = JSON.parse(cachedList);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        return parsed;
+                    }
+                }
+            } catch (error) {
+                console.warn("Impossible de lire le cache GitHub.", error);
+            }
 
-/*
- * Nouvelle animation toutes les 8 secondes
- * afin de laisser l'image affichée beaucoup plus longtemps.
- */
-setInterval(playAnimation, 8000);
-</script>
+            try {
+                const response = await fetch(GITHUB_API, { cache: "no-store" });
+                if (!response.ok) {
+                    throw new Error("Erreur GitHub : HTTP " + response.status);
+                }
+                const files = await response.json();
+                const imageExtensions = [".png", ".jpg", ".jpeg", ".webp", ".gif", ".avif", ".svg"];
+                const images = files
+                    .filter(file => {
+                        if (file.type !== "file") return false;
+                        const name = file.name.toLowerCase();
+                        return imageExtensions.some(extension => name.endsWith(extension));
+                    })
+                    .sort((a, b) => a.name.localeCompare(b.name, "fr", { numeric: true, sensitivity: "base" }))
+                    .map(file => file.name);
 
+                localStorage.setItem(LIST_CACHE_KEY, JSON.stringify(images));
+                localStorage.setItem(LIST_CACHE_TIME_KEY, Date.now().toString());
+                return images;
+            } catch (error) {
+                console.error("Impossible de récupérer les logos GitHub.", error);
+                try {
+                    const oldCache = localStorage.getItem(LIST_CACHE_KEY);
+                    if (oldCache) {
+                        const parsed = JSON.parse(oldCache);
+                        if (Array.isArray(parsed) && parsed.length > 0) {
+                            console.warn("Utilisation du cache GitHub.");
+                            return parsed;
+                        }
+                    }
+                } catch (cacheError) {
+                    console.error("Cache indisponible.", cacheError);
+                }
+                return [];
+            }
+        }
+
+        /* =====================================================
+           CRÉATION DE L'URL D'UN LOGO
+        ===================================================== */
+        function getLogoURL(fileName) {
+            return GITHUB_RAW_BASE + encodeURIComponent(fileName);
+        }
+
+        /* =====================================================
+           COULEUR D'UN LOGO
+        ===================================================== */
+        function getColor(logoIndex) {
+            return colors[logoIndex % colors.length];
+        }
+
+        /* =====================================================
+           CRÉATION DE TOUS LES LOGOS
+        ===================================================== */
+        function createAllLogos() {
+            const carousel = document.getElementById("carousel");
+            logoFiles.forEach(function (fileName, fileIndex) {
+                const img = document.createElement("img");
+                img.alt = "Partenaire";
+                img.decoding = "async";
+                img.className = "hidden " + getColor(fileIndex);
+                img.src = getLogoURL(fileName);
+                img.onerror = function () {
+                    console.warn("Impossible de charger :", fileName);
+                };
+                carousel.appendChild(img);
+                logos.push(img);
+            });
+        }
+
+        /* =====================================================
+           MISE À JOUR DE LA BARRE LUMINEUSE
+        ===================================================== */
+        function updateLightLine() {
+            const lightLine = document.querySelector(".light-line");
+            if (!lightLine) return;
+
+            const currentColor = getColor(index);
+            let color;
+            if (currentColor === "color-yellow") color = "#ffcc00";
+            else if (currentColor === "color-red") color = "#ff2020";
+            else color = "#168cff";
+
+            lightLine.style.background = color;
+            lightLine.style.boxShadow = "0 0 10px " + color + ", 0 0 25px " + color + ", 0 0 50px " + color;
+        }
+
+        /* =====================================================
+           MISE À JOUR DU CARROUSEL
+        ===================================================== */
+        function updateCarousel() {
+            const total = logos.length;
+            if (total === 0) return;
+
+            for (let i = 0; i < total; i++) {
+                logos[i].className = "hidden " + getColor(i);
+            }
+
+            const center = index % total;
+            const left1 = (index - 1 + total) % total;
+            const left2 = (index - 2 + total) % total;
+            const right1 = (index + 1) % total;
+            const right2 = (index + 2) % total;
+
+            logos[center].className = "center " + getColor(center);
+            logos[left1].className = "left1 " + getColor(left1);
+            logos[left2].className = "left2 " + getColor(left2);
+            logos[right1].className = "right1 " + getColor(right1);
+            logos[right2].className = "right2 " + getColor(right2);
+
+            updateLightLine();
+            localStorage.setItem("partenaireIndex", index);
+        }
+
+        /* =====================================================
+           ROTATION DU CARROUSEL
+        ===================================================== */
+        function rotateCarousel() {
+            if (logos.length === 0) return;
+            index = (index + 1) % logos.length;
+            updateCarousel();
+        }
+
+        /* =====================================================
+           DÉMARRAGE DU CARROUSEL
+        ===================================================== */
+        function startCarousel() {
+            if (interval) {
+                clearTimeout(interval);
+                interval = null;
+            }
+            if (!carouselStarted || logos.length === 0) return;
+
+            const currentFileName = logoFiles[index % logoFiles.length];
+            const duration = getPartnerDuration(currentFileName);
+            interval = setTimeout(() => {
+                rotateCarousel();
+                startCarousel();
+            }, duration);
+        }
+
+        /* =====================================================
+           DURÉES DES PARTENAIRES - FIREBASE
+        ===================================================== */
+        onValue(partnerDurationsRef, snapshot => {
+            const data = snapshot.val() || {};
+            partnerDurationsData = {
+                defaultDuration: Number(data.defaultDuration) > 0 ? Number(data.defaultDuration) : 2500,
+                durations: data.durations || {}
+            };
+            if (carouselStarted) {
+                startCarousel();
+            }
+        });
+
+        /* =====================================================
+           INITIALISATION
+        ===================================================== */
+        async function init() {
+            console.log("Chargement automatique des logos GitHub...");
+            logoFiles = await getLogoFiles();
+            if (!logoFiles || logoFiles.length === 0) {
+                console.error("Aucun logo trouvé dans le dossier GitHub /boutique.");
+                return;
+            }
+            console.log(logoFiles.length + " logos trouvés automatiquement.");
+            createAllLogos();
+
+            const savedIndex = localStorage.getItem("partenaireIndex");
+            if (savedIndex !== null && !isNaN(parseInt(savedIndex))) {
+                index = parseInt(savedIndex);
+                index = ((index % logos.length) + logos.length) % logos.length;
+            } else {
+                index = 0;
+            }
+
+            updateCarousel();
+            carouselStarted = true;
+            startCarousel();
+        }
+
+        /* =====================================================
+           LANCEMENT
+        ===================================================== */
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", init);
+        } else {
+            init();
+        }
+    </script>
 </body>
 </html>
