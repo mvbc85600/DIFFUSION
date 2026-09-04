@@ -2,7 +2,6 @@
 <html lang="fr">
 
 <head>
-    
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -216,7 +215,7 @@ body {
     background: #ff2020; /* Rouge */
 }
 
-    .scene-button:nth-child(12) {
+.scene-button:nth-child(12) {
     background: #168cff; /* Bleu */
 }
 
@@ -229,7 +228,7 @@ body {
     background: #ff2020; /* Rouge */
 }
 
-    .scene-button:nth-child(15) {
+.scene-button:nth-child(15) {
     background: #168cff; /* Bleu */
 }
 
@@ -240,6 +239,10 @@ body {
 
 .scene-button:nth-child(17) {
     background: #ff2020; /* Rouge */
+}
+
+.scene-button:nth-child(18) {
+    background: #168cff; /* Bleu */
 }
 
 .black {
@@ -282,18 +285,6 @@ body {
     font-weight: bold;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 13px;
-    background: #333;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-}
-
 /* Style pour la case à cocher */
 .form-group label.check-label {
     display: flex;
@@ -305,6 +296,18 @@ body {
 .form-group input[type="checkbox"] {
     width: auto;
     cursor: pointer;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 13px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
 }
 
 /* =========================
@@ -369,7 +372,8 @@ body {
 #saveMatchButton,
 #saveMessageButton,
 #savePartnerButton,
-#savePartnerDurationsButton {
+#savePartnerDurationsButton,
+#savePlayersButton {
     width: 100%;
     padding: 17px;
     border: none;
@@ -384,14 +388,16 @@ body {
 #saveMatchButton:hover,
 #saveMessageButton:hover,
 #savePartnerButton:hover,
-#savePartnerDurationsButton:hover {
+#savePartnerDurationsButton:hover,
+#savePlayersButton:hover {
     background: #22c55e;
 }
 
 #matchStatus,
 #messageStatus,
 #partnerStatus,
-#partnerDurationsStatus {
+#partnerDurationsStatus,
+#playersStatus {
     margin-top: 15px;
     text-align: center;
     padding: 12px;
@@ -572,8 +578,6 @@ body {
     border-top: 1px solid #444;
 }
 
-
-
 /* =========================
    DURÉE DES PARTENAIRES
 ========================= */
@@ -624,6 +628,47 @@ body {
     line-height: 1.5;
 }
 
+/* =========================
+   LISTE DES JOUEURS (5 MAJEUR)
+========================= */
+#playersList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 10px;
+    background: #181818;
+    border-radius: 10px;
+    border: 1px solid #333;
+}
+
+.player-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: #222;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.player-checkbox:hover {
+    background: #2a2a2a;
+}
+
+.player-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.player-checkbox label {
+    cursor: pointer;
+    flex: 1;
+    font-size: 16px;
+}
 
 /* =========================
    MOBILE
@@ -707,12 +752,15 @@ body {
         <button class="tab-button" data-tab="message">
             📝 Message
         </button>
-        <!-- NOUVEL ONGLET : PARTENAIRE DU MATCH -->
         <button class="tab-button" data-tab="partenaire">
             🤝 Partenaire du Match
         </button>
         <button class="tab-button" data-tab="dureepartenaires">
             ⏱ Durée Partenaires
+        </button>
+        <!-- NOUVEL ONGLET : 5 MAJEUR -->
+        <button class="tab-button" data-tab="cinqmajeur">
+            🏀 5 Majeur
         </button>
     </div>
 
@@ -727,8 +775,6 @@ body {
     ================================================== -->
     <div id="regie" class="tab-content active">
         <div class="scene-grid">
-            <!-- Les 3 premiers boutons (VIDÉO 1, VIDÉO 2, DIAPORAMA) sont supprimés -->
-
             <!-- Bouton PARTENAIRES (Jaune) -->
             <button class="scene-button" onclick="diffuser('partenaires')">
                 🤝<br>PARTENAIRES
@@ -779,19 +825,24 @@ body {
                 🎯<br>+3
             </button>
 
-              <!-- Bouton DUNK (Jaune) -->
+            <!-- Bouton DUNK (Jaune) -->
             <button class="scene-button" onclick="diffuser('dunk')">
                 🎯<br>DUNK
             </button>
 
-             <!-- Bouton GOGOGO MVBC -->
+            <!-- Bouton GOGOGO MVBC -->
             <button class="scene-button" onclick="diffuser('gogogo')">
                 🎯<br>GOGOGO MVBC
             </button>
 
-              <!-- Bouton boutique -->
+            <!-- Bouton boutique -->
             <button class="scene-button" onclick="diffuser('boutique')">
                 🛍️<br>BOUTIQUE
+            </button>
+
+            <!-- Bouton 5 MAJEUR (Bleu) -->
+            <button class="scene-button" onclick="diffuserCinqMajeur()">
+                🏀<br>5 MAJEUR
             </button>
         </div>
     </div>
@@ -835,20 +886,20 @@ body {
                 <label>🖼️ Logo équipe 1</label>
                 <select id="logoEquipe1">
                     <option value="">-- Choisir un logo --</option>
-                    <option value="logos/mvbc.png">MVBC</option>
-                    <option value="logos/nantesbh.png">Nantes BH</option>
-                    <option value="logos/bbm.png">BB Marmande</option>
-                    <option value="logos/dax.png">Dax</option>
-                    <option value="logos/esms.png">ESMS</option>
-                    <option value="logos/garonne.png">Garonne</option>
-                    <option value="logos/niort.png">Niort</option>
-                    <option value="logos/rezé.png">Rezé</option>
-                    <option value="logos/brissac.png">Brissac</option>
-                    <option value="logos/toulouse.png">Toulouse</option>
-                    <option value="logos/pornic">Pornic</option>
-                    <option value="logos/challans">CTC Challans</option>
-                    <option value="logos/stmedard">St Médard</option>
-                    <option value="logos/asch">Horsarrieu</option>
+                    <option value="boutique/mvbc.png">MVBC</option>
+                    <option value="boutique/nantesbh.png">Nantes BH</option>
+                    <option value="boutique/bbm.png">BB Marmande</option>
+                    <option value="boutique/dax.png">Dax</option>
+                    <option value="boutique/esms.png">ESMS</option>
+                    <option value="boutique/garonne.png">Garonne</option>
+                    <option value="boutique/niort.png">Niort</option>
+                    <option value="boutique/rezé.png">Rezé</option>
+                    <option value="boutique/brissac.png">Brissac</option>
+                    <option value="boutique/toulouse.png">Toulouse</option>
+                    <option value="boutique/pornic.png">Pornic</option>
+                    <option value="boutique/challans.png">CTC Challans</option>
+                    <option value="boutique/stmedard.png">St Médard</option>
+                    <option value="boutique/asch.png">Horsarrieu</option>
                 </select>
                 <img id="logoPreview1" class="logo-preview" src="" alt="Logo équipe 1">
             </div>
@@ -864,20 +915,20 @@ body {
                 <label>🖼️ Logo équipe 2</label>
                 <select id="logoEquipe2">
                     <option value="">-- Choisir un logo --</option>
-                   <option value="logos/mvbc.png">MVBC</option>
-                    <option value="logos/nantesbh.png">Nantes BH</option>
-                    <option value="logos/bbm.png">BB Marmande</option>
-                    <option value="logos/dax.png">Dax</option>
-                    <option value="logos/esms.png">ESMS</option>
-                    <option value="logos/garonne.png">Garonne</option>
-                    <option value="logos/niort.png">Niort</option>
-                    <option value="logos/rezé.png">Rezé</option>
-                    <option value="logos/brissac.png">Brissac</option>
-                    <option value="logos/toulouse.png">Toulouse</option>
-                    <option value="logos/pornic">Pornic</option>
-                    <option value="logos/challans">CTC Challans</option>
-                    <option value="logos/stmedard">St Médard</option>
-                    <option value="logos/asch">Horsarrieu</option>
+                    <option value="boutique/mvbc.png">MVBC</option>
+                    <option value="boutique/nantesbh.png">Nantes BH</option>
+                    <option value="boutique/bbm.png">BB Marmande</option>
+                    <option value="boutique/dax.png">Dax</option>
+                    <option value="boutique/esms.png">ESMS</option>
+                    <option value="boutique/garonne.png">Garonne</option>
+                    <option value="boutique/niort.png">Niort</option>
+                    <option value="boutique/rezé.png">Rezé</option>
+                    <option value="boutique/brissac.png">Brissac</option>
+                    <option value="boutique/toulouse.png">Toulouse</option>
+                    <option value="boutique/pornic.png">Pornic</option>
+                    <option value="boutique/challans.png">CTC Challans</option>
+                    <option value="boutique/stmedard.png">St Médard</option>
+                    <option value="boutique/asch.png">Horsarrieu</option>
                 </select>
                 <img id="logoPreview2" class="logo-preview" src="" alt="Logo équipe 2">
             </div>
@@ -1138,7 +1189,7 @@ body {
             <h2>⏱ DURÉE DES PARTENAIRES</h2>
             <div class="description">
                 Gère ici le temps d'affichage de chaque logo dans <strong>partenaires.html</strong>.
-                Tous les logos présents dans le dossier <strong>logo/</strong> sont chargés automatiquement.
+                Tous les logos présents dans le dossier <strong>boutique/</strong> sont chargés automatiquement.
                 Si tu ajoutes un nouveau logo sur GitHub, il apparaîtra automatiquement ici avec la durée par défaut de 2,5 secondes.
             </div>
 
@@ -1156,6 +1207,32 @@ body {
                 💾 ENREGISTRER LES DURÉES
             </button>
             <div id="partnerDurationsStatus"></div>
+        </div>
+    </div>
+
+    <!-- =================================================
+         ONGLET : 5 MAJEUR (NOUVEAU)
+    ================================================== -->
+    <div id="cinqmajeur" class="tab-content">
+        <div class="match-editor">
+            <h2>🏀 5 MAJEUR</h2>
+            <div class="description">
+                Sélectionne les 5 joueurs de départ pour les afficher sur <strong>5majeur.html</strong>.
+            </div>
+
+            <!-- LISTE DES JOUEURS -->
+            <div class="form-group">
+                <label>✅ Joueurs sélectionnés</label>
+                <div id="playersList">
+                    <!-- Les joueurs seront ajoutés dynamiquement ici -->
+                </div>
+            </div>
+
+            <!-- SAUVEGARDE -->
+            <button id="savePlayersButton">
+                💾 ENREGISTRER LE 5 MAJEUR
+            </button>
+            <div id="playersStatus"></div>
         </div>
     </div>
 </div>
@@ -1235,10 +1312,57 @@ const saveMessageButton = document.getElementById("saveMessageButton");
 const messageStatus = document.getElementById("messageStatus");
 const afficherDefilementLogos = document.getElementById("afficherDefilementLogos");
 
+/* PARTENAIRE DU MATCH */
+const partnerSelect = document.getElementById("partnerSelect");
+const partnerLogoPreview = document.getElementById("partnerLogoPreview");
+const partnerHaloColor = document.getElementById("partnerHaloColor");
+const partnerHaloPreview = document.getElementById("partnerHaloPreview");
+const savePartnerButton = document.getElementById("savePartnerButton");
+const partnerStatus = document.getElementById("partnerStatus");
+
+/* DURÉES PARTENAIRES */
+const partnerDurationList = document.getElementById("partnerDurationList");
+const defaultPartnerDuration = document.getElementById("defaultPartnerDuration");
+const savePartnerDurationsButton = document.getElementById("savePartnerDurationsButton");
+const partnerDurationsStatus = document.getElementById("partnerDurationsStatus");
+let partnerDurationsData = {
+    defaultDuration: 2500,
+    durations: {}
+};
+
+/* 5 MAJEUR */
+const savePlayersButton = document.getElementById("savePlayersButton");
+const playersStatus = document.getElementById("playersStatus");
+const cinqMajeurRef = ref(db, "cinqmajeur");
+
+// Liste des joueurs (à personnaliser)
+const players = [
+    "Joueur 1",
+    "Joueur 2",
+    "Joueur 3",
+    "Joueur 4",
+    "Joueur 5",
+    "Joueur 6",
+    "Joueur 7",
+    "Joueur 8",
+    "Joueur 9",
+    "Joueur 10",
+    "Joueur 11",
+    "Joueur 12"
+];
+
+/* =====================================================
+   LOGOS DES PARTENAIRES
+   Les fichiers sont récupérés automatiquement depuis GitHub.
+===================================================== */
+const GITHUB_LOGO_API = "https://api.github.com/repos/mvbc85600/DIFFUSION/contents/boutique";
+const GITHUB_LOGO_RAW = "https://raw.githubusercontent.com/mvbc85600/DIFFUSION/main/boutique/";
+
+let partnerLogos = {};
+
 /* =====================================================
    ÉDITEUR DE TEXTE RICHE
 ===================================================== */
-
 let messageSavedRange = null;
 
 function sauvegarderSelectionEditeur() {
@@ -1425,157 +1549,6 @@ messageContenu.addEventListener("keydown", event => {
     }
 });
 
-/* PARTENAIRE DU MATCH (NOUVEAU) */
-const partnerSelect = document.getElementById("partnerSelect");
-const partnerLogoPreview = document.getElementById("partnerLogoPreview");
-const partnerHaloColor = document.getElementById("partnerHaloColor");
-const partnerHaloPreview = document.getElementById("partnerHaloPreview");
-const savePartnerButton = document.getElementById("savePartnerButton");
-const partnerStatus = document.getElementById("partnerStatus");
-
-/* DURÉES PARTENAIRES */
-const partnerDurationList = document.getElementById("partnerDurationList");
-const defaultPartnerDuration = document.getElementById("defaultPartnerDuration");
-const savePartnerDurationsButton = document.getElementById("savePartnerDurationsButton");
-const partnerDurationsStatus = document.getElementById("partnerDurationsStatus");
-let partnerDurationsData = {
-    defaultDuration: 2500,
-    durations: {}
-};
-
-/* =====================================================
-   LOGOS DES PARTENAIRES
-   Les fichiers sont récupérés automatiquement depuis GitHub.
-   Plus besoin de maintenir manuellement la liste des 69 logos.
-===================================================== */
-
-const GITHUB_LOGO_API =
-    "https://api.github.com/repos/mvbc85600/DIFFUSION/contents/logo";
-
-const GITHUB_LOGO_RAW =
-    "https://raw.githubusercontent.com/mvbc85600/DIFFUSION/main/logo/";
-
-let partnerLogos = {};
-
-
-/* =====================================================
-   ONGLETS
-===================================================== */
-/* Les écouteurs sont installés plus bas, après le chargement du DOM. */
-
-/* =====================================================
-   CONNEXION
-===================================================== */
-if (sessionStorage.getItem("adminConnecte") === "true") {
-    afficherAdmin();
-}
-
-loginButton.addEventListener("click", verifierMotDePasse);
-password.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        verifierMotDePasse();
-    }
-});
-
-function verifierMotDePasse() {
-    if (password.value === MOT_DE_PASSE) {
-        sessionStorage.setItem("adminConnecte", "true");
-        afficherAdmin();
-        password.value = "";
-        loginError.textContent = "";
-    }
-    else {
-        loginError.textContent = "Mot de passe incorrect.";
-        password.value = "";
-    }
-}
-
-function afficherAdmin() {
-    login.style.display = "none";
-    admin.style.display = "block";
-}
-
-logoutButton.addEventListener("click", () => {
-    sessionStorage.removeItem("adminConnecte");
-    admin.style.display = "none";
-    login.style.display = "flex";
-});
-
-/* =====================================================
-   DIFFUSION
-===================================================== */
-window.diffuser = function(scene) {
-    set(ref(db, "diffusion"), {
-        scene: scene,
-        timestamp: Date.now()
-    })
-    .then(() => {
-        currentScene.textContent = scene;
-    })
-    .catch((error) => {
-        console.error(error);
-        alert("Erreur de diffusion : " + error.message);
-    });
-};
-
-// Fonction spécialisée pour le message
-window.diffuserMessage = function() {
-    // Sauvegarder les données du message dans Firebase
-    const donneesMessage = {
-        titre: messageTitre.value.trim(),
-        contenu: nettoyerHTMLMessage(messageContenu.innerHTML),
-        couleur: messageCouleur.value,
-        fond: messageFond.value,
-        afficherDefilementLogos: afficherDefilementLogos.checked,
-        timestamp: Date.now()
-    };
-
-    // Sauvegarder dans Firebase
-    set(ref(db, "message"), donneesMessage)
-        .then(() => {
-            // Diffuser la scène "message"
-            set(ref(db, "diffusion"), {
-                scene: "message",
-                timestamp: Date.now()
-            })
-            .then(() => {
-                currentScene.textContent = "message";
-            })
-            .catch((error) => {
-                console.error(error);
-                alert("Erreur de diffusion : " + error.message);
-            });
-        })
-        .catch((error) => {
-            console.error(error);
-            alert("Erreur lors de l'enregistrement du message : " + error.message);
-        });
-};
-
-// Fonction spécialisée pour le partenaire du match
-window.diffuserPartenaire = function() {
-    // Diffuser la scène "partenairedumatch"
-    set(ref(db, "diffusion"), {
-        scene: "partenairedumatch",
-        timestamp: Date.now()
-    })
-    .then(() => {
-        currentScene.textContent = "partenairedumatch";
-    })
-    .catch((error) => {
-        console.error(error);
-        alert("Erreur de diffusion : " + error.message);
-    });
-};
-
-/* =====================================================
-   REFERENCES FIREBASE
-===================================================== */
-const matchRef = ref(db, "matchdusoir");
-const messageRef = ref(db, "message");
-const partnerRef = ref(db, "partenairedumatch");
-const partnerDurationsRef = ref(db, "partnerDurations");
-
 /* =====================================================
    COULEURS DES HALOS
 ===================================================== */
@@ -1604,9 +1577,77 @@ function mettreAJourApercuHalos() {
 }
 
 /* =====================================================
+   ONGLET : 5 MAJEUR (NOUVELLES FONCTIONS)
+===================================================== */
+function chargerListeJoueurs() {
+    const playersList = document.getElementById("playersList");
+    if (!playersList) return;
+
+    playersList.innerHTML = "";
+    players.forEach((player, index) => {
+        const div = document.createElement("div");
+        div.className = "player-checkbox";
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = `player-${index}`;
+        checkbox.dataset.player = player;
+
+        const label = document.createElement("label");
+        label.htmlFor = `player-${index}`;
+        label.textContent = player;
+
+        div.appendChild(checkbox);
+        div.appendChild(label);
+        playersList.appendChild(div);
+    });
+
+    // Charger les joueurs sélectionnés depuis Firebase
+    onValue(cinqMajeurRef, (snapshot) => {
+        const data = snapshot.val() || {};
+        const selectedPlayers = data.players || [];
+
+        document.querySelectorAll("#playersList input[type='checkbox']").forEach(checkbox => {
+            checkbox.checked = selectedPlayers.includes(checkbox.dataset.player);
+        });
+    });
+}
+
+savePlayersButton.addEventListener("click", async () => {
+    try {
+        savePlayersButton.disabled = true;
+        savePlayersButton.textContent = "⏳ ENREGISTREMENT...";
+
+        const selectedPlayers = [];
+        document.querySelectorAll("#playersList input[type='checkbox']:checked").forEach(checkbox => {
+            selectedPlayers.push(checkbox.dataset.player);
+        });
+
+        await set(cinqMajeurRef, {
+            players: selectedPlayers,
+            timestamp: Date.now()
+        });
+
+        playersStatus.className = "success";
+        playersStatus.textContent = "✅ 5 Majeur enregistré !";
+        savePlayersButton.textContent = "✅ ENREGISTRÉ";
+
+        setTimeout(() => {
+            savePlayersButton.disabled = false;
+            savePlayersButton.textContent = "💾 ENREGISTRER LE 5 MAJEUR";
+        }, 2000);
+    } catch (error) {
+        console.error(error);
+        playersStatus.className = "error";
+        playersStatus.textContent = "❌ Erreur : " + error.message;
+        savePlayersButton.disabled = false;
+        savePlayersButton.textContent = "💾 ENREGISTRER LE 5 MAJEUR";
+    }
+});
+
+/* =====================================================
    ONGLET : PARTENAIRE DU MATCH (NOUVELLES FONCTIONS)
 ===================================================== */
-
 let partnerDataEnregistree = null;
 
 // Mettre à jour l'aperçu du logo et du halo
@@ -1620,7 +1661,7 @@ partnerSelect.addEventListener("change", () => {
 });
 
 /*
- * Récupère automatiquement tous les PNG du dossier /logo du dépôt GitHub.
+ * Récupère automatiquement tous les PNG du dossier /boutique du dépôt GitHub.
  * Le nom du fichier devient le nom du partenaire.
  */
 async function chargerPartenairesDepuisGithub() {
@@ -1672,7 +1713,7 @@ async function chargerPartenairesDepuisGithub() {
         }
 
         if (Object.keys(partnerLogos).length === 0) {
-            throw new Error("Aucun logo trouvé dans le dossier GitHub /logo.");
+            throw new Error("Aucun logo trouvé dans le dossier GitHub /boutique.");
         }
 
     } catch (error) {
@@ -1895,6 +1936,134 @@ savePartnerButton.addEventListener("click", async () => {
 });
 
 /* =====================================================
+   RÉFÉRENCES FIREBASE
+===================================================== */
+const matchRef = ref(db, "matchdusoir");
+const messageRef = ref(db, "message");
+const partnerRef = ref(db, "partenairedumatch");
+const partnerDurationsRef = ref(db, "partnerDurations");
+
+/* =====================================================
+   CONNEXION
+===================================================== */
+if (sessionStorage.getItem("adminConnecte") === "true") {
+    afficherAdmin();
+}
+
+loginButton.addEventListener("click", verifierMotDePasse);
+password.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        verifierMotDePasse();
+    }
+});
+
+function verifierMotDePasse() {
+    if (password.value === MOT_DE_PASSE) {
+        sessionStorage.setItem("adminConnecte", "true");
+        afficherAdmin();
+        password.value = "";
+        loginError.textContent = "";
+    }
+    else {
+        loginError.textContent = "Mot de passe incorrect.";
+        password.value = "";
+    }
+}
+
+function afficherAdmin() {
+    login.style.display = "none";
+    admin.style.display = "block";
+}
+
+logoutButton.addEventListener("click", () => {
+    sessionStorage.removeItem("adminConnecte");
+    admin.style.display = "none";
+    login.style.display = "flex";
+});
+
+/* =====================================================
+   DIFFUSION
+===================================================== */
+window.diffuser = function(scene) {
+    set(ref(db, "diffusion"), {
+        scene: scene,
+        timestamp: Date.now()
+    })
+    .then(() => {
+        currentScene.textContent = scene;
+    })
+    .catch((error) => {
+        console.error(error);
+        alert("Erreur de diffusion : " + error.message);
+    });
+};
+
+// Fonction spécialisée pour le message
+window.diffuserMessage = function() {
+    // Sauvegarder les données du message dans Firebase
+    const donneesMessage = {
+        titre: messageTitre.value.trim(),
+        contenu: nettoyerHTMLMessage(messageContenu.innerHTML),
+        couleur: messageCouleur.value,
+        fond: messageFond.value,
+        afficherDefilementLogos: afficherDefilementLogos.checked,
+        timestamp: Date.now()
+    };
+
+    // Sauvegarder dans Firebase
+    set(ref(db, "message"), donneesMessage)
+        .then(() => {
+            // Diffuser la scène "message"
+            set(ref(db, "diffusion"), {
+                scene: "message",
+                timestamp: Date.now()
+            })
+            .then(() => {
+                currentScene.textContent = "message";
+            })
+            .catch((error) => {
+                console.error(error);
+                alert("Erreur de diffusion : " + error.message);
+            });
+        })
+        .catch((error) => {
+            console.error(error);
+            alert("Erreur lors de l'enregistrement du message : " + error.message);
+        });
+};
+
+// Fonction spécialisée pour le partenaire du match
+window.diffuserPartenaire = function() {
+    // Diffuser la scène "partenairedumatch"
+    set(ref(db, "diffusion"), {
+        scene: "partenairedumatch",
+        timestamp: Date.now()
+    })
+    .then(() => {
+        currentScene.textContent = "partenairedumatch";
+    })
+    .catch((error) => {
+        console.error(error);
+        alert("Erreur de diffusion : " + error.message);
+    });
+};
+
+// Fonction pour diffuser le 5 majeur
+window.diffuserCinqMajeur = function() {
+    set(ref(db, "diffusion"), {
+        scene: "cinqmajeur",
+        timestamp: Date.now()
+    })
+    .then(() => {
+        currentScene.textContent = "cinqmajeur";
+    })
+    .catch((error) => {
+        console.error(error);
+        alert("Erreur de diffusion : " + error.message);
+    });
+};
+
+/* =====================================================
    CHARGER MATCH
 ===================================================== */
 onValue(matchRef, (snapshot) => {
@@ -2066,6 +2235,11 @@ tabButtons.forEach(button => {
         document.getElementById(tabId).classList.add('active');
     });
 });
+
+/* =====================================================
+   CHARGEMENT INITIAL DES JOUEURS
+===================================================== */
+chargerListeJoueurs();
 </script>
 </body>
 </html>
