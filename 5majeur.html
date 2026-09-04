@@ -339,15 +339,11 @@
                 const playerDiv = document.createElement("div");
                 playerDiv.className = "player";
 
-                const numberSpan = document.createElement("span");
-                numberSpan.className = "player-number";
-                numberSpan.textContent = index + 1;
 
                 const nameSpan = document.createElement("span");
                 nameSpan.textContent = player;
 
-                playerDiv.appendChild(numberSpan);
-                playerDiv.appendChild(nameSpan);
+                               playerDiv.appendChild(nameSpan);
                 playersList.appendChild(playerDiv);
             });
         });
