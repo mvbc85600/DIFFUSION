@@ -84,7 +84,7 @@
         }
 
         /* =====================================================
-           STYLE POUR LE TITRE (inspiré de boutique.html)
+           STYLE POUR LE TITRE
         ===================================================== */
         :root {
             --white: #f7f7f5;
@@ -94,7 +94,6 @@
             --yellow: #ffd400;
         }
 
-        /* Conteneur pour le titre */
         .title-container {
             position: relative;
             width: 100%;
@@ -104,7 +103,6 @@
             text-align: center;
         }
 
-        /* Titre principal */
         .partner-title {
             font-family: "Barlow Condensed", sans-serif;
             font-size: clamp(40px, 6vw, 100px);
@@ -121,7 +119,6 @@
                 15px 15px 0 rgba(23,105,255,.5);
         }
 
-        /* Barre colorée derrière le titre */
         .slash {
             position: absolute;
             left: 50%;
@@ -182,15 +179,14 @@
                     rgba(30,30,30,0.98),
                     rgba(5,5,5,0.98)
                 );
-            border: 3px solid #ffd400;
             border-radius: 15px;
             font-size: clamp(18px, 2.5vw, 28px);
             font-weight: 700;
             color: #fff;
             text-align: center;
             box-shadow:
-                0 0 15px rgba(255, 212, 0, 0.5),
-                0 0 30px rgba(255, 212, 0, 0.3);
+                0 0 15px rgba(255, 255, 255, 0.5),
+                0 0 30px rgba(0, 0, 0, 0.3);
             transition:
                 transform 0.3s ease,
                 box-shadow 0.3s ease;
@@ -205,17 +201,10 @@
         }
 
         .player-number {
-            display: inline-block;
-            width: 35px;
-            height: 35px;
-            background: #ffd400;
             color: #000;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 35px;
             font-weight: bold;
-            margin-right: 15px;
-            font-size: 1.1em;
+            margin-right: 10px;
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff; /* Halo blanc uniquement sur le numéro */
         }
 
         /* =====================================================
@@ -276,13 +265,6 @@
                 font-size: clamp(14px, 4vw, 20px);
                 padding: 12px 20px;
             }
-
-            .player-number {
-                width: 28px;
-                height: 28px;
-                line-height: 28px;
-                font-size: 1em;
-            }
         }
     </style>
 </head>
@@ -331,19 +313,29 @@
         onValue(cinqMajeurRef, (snapshot) => {
             const data = snapshot.val() || {};
             const players = data.players || [];
+            const playerNumbers = data.playerNumbers || {}; // Récupération des numéros de maillot
 
             const playersList = document.getElementById("playersList");
             playersList.innerHTML = "";
 
-            players.forEach((player, index) => {
+            players.forEach((player) => {
                 const playerDiv = document.createElement("div");
                 playerDiv.className = "player";
 
+                // Récupération du numéro de maillot depuis playerNumbers
+                const playerNumber = playerNumbers[player];
+                if (playerNumber !== undefined) {
+                    const numberSpan = document.createElement("span");
+                    numberSpan.className = "player-number";
+                    numberSpan.textContent = `#${playerNumber}`;
+                    playerDiv.appendChild(numberSpan);
+                }
 
                 const nameSpan = document.createElement("span");
                 nameSpan.textContent = player;
+                nameSpan.style.color = "#fff"; // Nom en blanc
 
-                               playerDiv.appendChild(nameSpan);
+                playerDiv.appendChild(nameSpan);
                 playersList.appendChild(playerDiv);
             });
         });
