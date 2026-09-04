@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5 Majeur - MVBC</title>
+
+    <!-- Importation de la police Barlow Condensed -->
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@500;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* =====================================================
+           RESET
+        ===================================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden !important;
+            background: #000;
+            color: #fff;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* =====================================================
+           FOND
+        ===================================================== */
+        body {
+            position: relative;
+            background:
+                radial-gradient(
+                    circle at center,
+                    #252000 0%,
+                    #100e00 35%,
+                    #050500 65%,
+                    #000 100%
+                );
+        }
+
+        /* =====================================================
+           HALO CENTRAL DU FOND
+        ===================================================== */
+        body::before {
+            content: "";
+            position: fixed;
+            width: 900px;
+            height: 900px;
+            left: 50%;
+            top: 52%;
+            transform: translate(-50%, -50%);
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(255,204,0,0.20) 0%,
+                    rgba(255,204,0,0.08) 25%,
+                    rgba(255,204,0,0.02) 50%,
+                    transparent 70%
+                );
+            pointer-events: none;
+            animation: halo 4s ease-in-out infinite;
+        }
+
+        @keyframes halo {
+            0% {
+                transform: translate(-50%, -50%) scale(0.90);
+                opacity: 0.65;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.10);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(0.90);
+                opacity: 0.65;
+            }
+        }
+
+        /* =====================================================
+           STYLE POUR LE TITRE (inspiré de boutique.html)
+        ===================================================== */
+        :root {
+            --white: #f7f7f5;
+            --black: #050608;
+            --red: #ed174c;
+            --blue: #1769ff;
+            --yellow: #ffd400;
+        }
+
+        /* Conteneur pour le titre */
+        .title-container {
+            position: relative;
+            width: 100%;
+            height: auto;
+            margin-top: 20px;
+            z-index: 100;
+            text-align: center;
+        }
+
+        /* Titre principal */
+        .partner-title {
+            font-family: "Barlow Condensed", sans-serif;
+            font-size: clamp(40px, 6vw, 100px);
+            font-weight: 900;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            color: var(--white);
+            text-align: center;
+            white-space: nowrap;
+            text-shadow:
+                4px 4px 0 var(--black),
+                7px 7px 0 var(--yellow),
+                11px 11px 0 rgba(237,23,76,.9),
+                15px 15px 0 rgba(23,105,255,.5);
+        }
+
+        /* Barre colorée derrière le titre */
+        .slash {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-7deg);
+            width: min(64vw, 850px);
+            height: 18px;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                var(--blue) 12%,
+                var(--yellow) 35%,
+                var(--white) 50%,
+                var(--yellow) 65%,
+                var(--red) 88%,
+                transparent
+            );
+            box-shadow: 0 0 40px rgba(23,105,255,.45);
+            z-index: -1;
+        }
+
+        /* =====================================================
+           CONTENEUR DES JOUEURS
+        ===================================================== */
+        .players-container {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 150px);
+            min-height: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* =====================================================
+           LISTE DES JOUEURS
+        ===================================================== */
+        .players-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 30px;
+        }
+
+        .player {
+            position: relative;
+            width: 100%;
+            padding: 20px 30px;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(30,30,30,0.98),
+                    rgba(5,5,5,0.98)
+                );
+            border: 3px solid #ffd400;
+            border-radius: 15px;
+            font-size: clamp(18px, 2.5vw, 28px);
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            box-shadow:
+                0 0 15px rgba(255, 212, 0, 0.5),
+                0 0 30px rgba(255, 212, 0, 0.3);
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+            will-change: transform, box-shadow;
+        }
+
+        .player:hover {
+            transform: scale(1.03);
+            box-shadow:
+                0 0 20px rgba(255, 212, 0, 0.7),
+                0 0 40px rgba(255, 212, 0, 0.4);
+        }
+
+        .player-number {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: #ffd400;
+            color: #000;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 1.1em;
+        }
+
+        /* =====================================================
+           BARRE LUMINEUSE
+        ===================================================== */
+        .light-line {
+            position: fixed;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 65%;
+            height: 3px;
+            background: #ffcc00;
+            box-shadow:
+                0 0 10px #ffcc00,
+                0 0 25px #ffcc00,
+                0 0 50px #ffcc00;
+            z-index: 90;
+        }
+
+        /* =====================================================
+           ÉCRANS 1200PX ET MOINS
+        ===================================================== */
+        @media (max-width: 1200px) {
+            .partner-title {
+                font-size: clamp(30px, 5vw, 80px);
+            }
+
+            .players-container {
+                min-height: 450px;
+            }
+
+            .player {
+                font-size: clamp(16px, 2.2vw, 24px);
+                padding: 15px 25px;
+            }
+        }
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+        @media (max-width: 700px) {
+            .partner-title {
+                font-size: clamp(24px, 6vw, 50px);
+                letter-spacing: -0.02em;
+            }
+
+            .slash {
+                height: 12px;
+            }
+
+            .players-container {
+                height: calc(100vh - 120px);
+                min-height: 400px;
+            }
+
+            .player {
+                font-size: clamp(14px, 4vw, 20px);
+                padding: 12px 20px;
+            }
+
+            .player-number {
+                width: 28px;
+                height: 28px;
+                line-height: 28px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Titre avec effet statique -->
+    <div class="title-container">
+        <div class="slash"></div>
+        <h1 class="partner-title">5 MAJEUR</h1>
+    </div>
+
+    <!-- Conteneur des joueurs -->
+    <div class="players-container">
+        <div class="players-list" id="playersList">
+            <!-- Les joueurs seront chargés dynamiquement ici -->
+        </div>
+    </div>
+
+    <!-- Barre lumineuse -->
+    <div class="light-line"></div>
+
+    <script type="module">
+        /* =====================================================
+           CONFIGURATION FIREBASE
+        ===================================================== */
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+            authDomain: "diffusion-b9afa.firebaseapp.com",
+            databaseURL: "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "diffusion-b9afa",
+            storageBucket: "diffusion-b9afa.firebasestorage.app",
+            messagingSenderId: "674799570797",
+            appId: "1:674799570797:web:0d8b7a2a892f604eb7d464"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const cinqMajeurRef = ref(db, "cinqmajeur");
+
+        /* =====================================================
+           CHARGEMENT DES JOUEURS
+        ===================================================== */
+        onValue(cinqMajeurRef, (snapshot) => {
+            const data = snapshot.val() || {};
+            const players = data.players || [];
+
+            const playersList = document.getElementById("playersList");
+            playersList.innerHTML = "";
+
+            players.forEach((player, index) => {
+                const playerDiv = document.createElement("div");
+                playerDiv.className = "player";
+
+                const numberSpan = document.createElement("span");
+                numberSpan.className = "player-number";
+                numberSpan.textContent = index + 1;
+
+                const nameSpan = document.createElement("span");
+                nameSpan.textContent = player;
+
+                playerDiv.appendChild(numberSpan);
+                playerDiv.appendChild(nameSpan);
+                playersList.appendChild(playerDiv);
+            });
+        });
+    </script>
+</body>
+</html>
