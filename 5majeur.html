@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5 Majeur - MVBC</title>
 
-```
+
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@500;700;800;900&display=swap" rel="stylesheet">
 
 <style>
@@ -44,7 +44,7 @@
         --blue: #1769ff;
         --yellow: #ffd400;
 
-        --court-line: rgba(255, 255, 255, 0.72);
+        --court-line: rgba(255, 255, 255, 0.75);
     }
 
 
@@ -64,6 +64,7 @@
                 #000 100%
             );
     }
+
 
     body::before {
         content: "";
@@ -91,6 +92,7 @@
 
         animation: halo 4s ease-in-out infinite;
     }
+
 
     @keyframes halo {
 
@@ -129,6 +131,7 @@
         text-align: center;
     }
 
+
     .partner-title {
         position: relative;
 
@@ -154,6 +157,7 @@
             11px 11px 0 rgba(237, 23, 76, .9),
             15px 15px 0 rgba(23, 105, 255, .5);
     }
+
 
     .slash {
         position: absolute;
@@ -189,8 +193,7 @@
 
 
     /* =====================================================
-       ZONE DU TERRAIN
-       OPTIMISÉE POUR 16:9
+       ZONE DU TERRAIN — FORMAT 16:9
     ===================================================== */
 
     .players-container {
@@ -206,62 +209,42 @@
 
         align-items: flex-start;
 
-        padding-top: 5px;
+        padding-top: 4px;
     }
 
 
     /* =====================================================
        DEMI-TERRAIN
-       
-       Proportions proches d'un vrai demi-terrain :
-       largeur ≈ 15 m
-       profondeur ≈ 14 m
+
+       IMPORTANT :
+       Aucun contour extérieur.
+
+       Le terrain est uniquement matérialisé
+       par les lignes de jeu intérieures.
     ===================================================== */
 
     .court {
         position: relative;
 
-        /*
-         * On privilégie une largeur suffisamment importante
-         * sur écran 16:9 tout en conservant les proportions.
-         */
-        width: min(72vw, 880px);
+        width: min(66vw, 900px);
 
-        height: min(68vh, 690px);
+        height: min(70vh, 700px);
 
         aspect-ratio: 15 / 14;
-
-        /*
-         * Pas de border-top :
-         * la ligne extérieure éloignée du panier est supprimée.
-         */
-
-        border-left:
-            3px solid var(--court-line);
-
-        border-right:
-            3px solid var(--court-line);
-
-        border-bottom:
-            3px solid var(--court-line);
 
         background:
             linear-gradient(
                 180deg,
-                rgba(255, 212, 0, .025),
-                rgba(255, 212, 0, .008)
+                rgba(255, 212, 0, .018),
+                rgba(255, 212, 0, .006)
             );
-
-        box-shadow:
-            inset 0 0 70px rgba(255, 212, 0, .035),
-            0 0 30px rgba(255, 255, 255, .04);
 
         overflow: visible;
     }
 
 
     /* =====================================================
-       LIGNE CENTRALE
+       LIGNE CENTRALE VISUELLE TRÈS DISCRÈTE
     ===================================================== */
 
     .court::after {
@@ -272,13 +255,13 @@
         left: 50%;
         top: 0;
 
-        width: 2px;
+        width: 1px;
         height: 100%;
 
         transform: translateX(-50%);
 
         background:
-            rgba(255,255,255,.035);
+            rgba(255,255,255,.025);
 
         pointer-events: none;
     }
@@ -286,10 +269,11 @@
 
     /* =====================================================
        RAQUETTE
-       
-       Dimension visuelle :
-       largeur ≈ 4,9 m
-       profondeur ≈ 5,8 m
+
+       Largeur ≈ 33% du terrain
+       Hauteur ≈ 41% du demi-terrain
+
+       Le panier est en bas.
     ===================================================== */
 
     .paint {
@@ -297,10 +281,9 @@
 
         width: 32.7%;
 
-        height: 41.4%;
+        height: 41%;
 
         left: 50%;
-
         bottom: 0;
 
         transform: translateX(-50%);
@@ -318,7 +301,7 @@
             linear-gradient(
                 180deg,
                 rgba(255,255,255,.035),
-                rgba(255,212,0,.015)
+                rgba(255,212,0,.012)
             );
 
         box-shadow:
@@ -328,8 +311,6 @@
 
     /* =====================================================
        LIGNE DES LANCERS FRANCS
-       
-       La ligne se situe à environ 5,8 m du panier.
     ===================================================== */
 
     .free-throw-line {
@@ -337,7 +318,7 @@
 
         left: 50%;
 
-        bottom: 41.4%;
+        bottom: 41%;
 
         width: 32.7%;
 
@@ -349,14 +330,18 @@
             var(--court-line);
 
         box-shadow:
-            0 0 7px rgba(255,255,255,.15);
+            0 0 8px rgba(255,255,255,.12);
     }
 
 
     /* =====================================================
-       CERCLE DES LANCERS FRANCS
-       
-       Centre exactement sur la ligne des lancers.
+       DEMI-CERCLE DES LANCERS
+
+       UNIQUEMENT UN DEMI-ARC.
+
+       Il est centré sur la ligne des lancers
+       et visible dans la partie supérieure
+       de la raquette.
     ===================================================== */
 
     .free-throw-circle {
@@ -364,36 +349,39 @@
 
         width: 32.7%;
 
-        aspect-ratio: 1;
+        height: 16.35%;
 
         left: 50%;
 
-        bottom: 25.2%;
+        bottom: 41%;
 
         transform: translateX(-50%);
 
         border:
             3px solid var(--court-line);
 
-        border-radius: 50%;
+        border-bottom: none;
 
-        box-shadow:
-            0 0 10px rgba(255,255,255,.035);
+        border-radius:
+            100% 100% 0 0;
+
+        pointer-events: none;
     }
 
 
     /* =====================================================
-       DEMI-CERCLE SOUS LE PANIER
-       
-       Zone restrictive proche du panier.
+       ZONE RESTRICTIVE
+
+       Petit demi-cercle immédiatement
+       autour du panier.
     ===================================================== */
 
     .restricted-area {
         position: absolute;
 
-        width: 14%;
+        width: 13%;
 
-        height: 7%;
+        height: 6.5%;
 
         left: 50%;
 
@@ -408,6 +396,8 @@
 
         border-radius:
             100px 100px 0 0;
+
+        pointer-events: none;
     }
 
 
@@ -441,6 +431,7 @@
         animation:
             basketPulse 2.4s ease-in-out infinite;
     }
+
 
     @keyframes basketPulse {
 
@@ -489,27 +480,25 @@
 
 
     /* =====================================================
-       ARC DES 3 POINTS
-       
-       Géométrie basée sur la distance réelle du panier.
-       
-       Le panier est le centre de l'arc.
+       LIGNE À 3 POINTS
+
+       Le panier constitue le centre de l'arc.
+
+       L'arc remonte suffisamment pour que
+       les positions 1 / 2 / 3 soient
+       À L'EXTÉRIEUR de la ligne.
     ===================================================== */
 
     .three-point {
         position: absolute;
 
-        /*
-         * Le rayon de 3 points est beaucoup plus large
-         * que la raquette.
-         */
-        width: 90%;
+        width: 94%;
 
-        height: 81%;
+        height: 91%;
 
         left: 50%;
 
-        bottom: -2px;
+        bottom: -1px;
 
         transform: translateX(-50%);
 
@@ -525,15 +514,15 @@
 
         filter:
             drop-shadow(
-                0 0 4px
-                rgba(255,255,255,.08)
+                0 0 5px
+                rgba(255,255,255,.10)
             );
     }
 
 
     /*
-     * Masque le raccord inférieur
-     * autour du panier.
+     * Masque uniquement le raccord
+     * au niveau du panier.
      */
 
     .three-point::after {
@@ -545,9 +534,9 @@
 
         bottom: -5px;
 
-        width: 20%;
+        width: 18%;
 
-        height: 8px;
+        height: 9px;
 
         transform: translateX(-50%);
 
@@ -571,11 +560,12 @@
         z-index: 10;
     }
 
+
     .player {
         position: absolute;
 
         width:
-            clamp(145px, 15vw, 215px);
+            clamp(150px, 14.5vw, 215px);
 
         padding:
             13px 16px;
@@ -598,7 +588,7 @@
             sans-serif;
 
         font-size:
-            clamp(18px, 1.7vw, 27px);
+            clamp(18px, 1.65vw, 27px);
 
         font-weight:
             800;
@@ -637,67 +627,70 @@
 
 
     /* =====================================================
-       POSITION 1
-       
-       Meneur :
-       au sommet, derrière les intérieurs.
+       JOUEUR 1 — MENEUR
+
+       À L'EXTÉRIEUR de la ligne à 3 points.
     ===================================================== */
 
     .player.position-1 {
         left: 50%;
-        top: 17%;
+
+        /*
+         * Plus haut que le sommet de l'arc.
+         */
+        top: 7%;
     }
 
 
     /* =====================================================
-       POSITION 2
-       
-       Aile gauche.
+       JOUEUR 2 — AILE GAUCHE
+
+       À l'extérieur de la ligne à 3 points.
     ===================================================== */
 
     .player.position-2 {
-        left: 19%;
-        top: 43%;
+        left: 10%;
+
+        top: 35%;
     }
 
 
     /* =====================================================
-       POSITION 3
-       
-       Aile droite.
+       JOUEUR 3 — AILE DROITE
+
+       À l'extérieur de la ligne à 3 points.
     ===================================================== */
 
     .player.position-3 {
-        left: 81%;
-        top: 43%;
+        left: 90%;
+
+        top: 35%;
     }
 
 
     /* =====================================================
-       POSITION 4
-       
-       INTÉRIEUR GAUCHE
-       
-       Nettement rapproché du panier.
+       JOUEUR 4 — INTÉRIEUR GAUCHE
+
+       Beaucoup plus proche du panier.
     ===================================================== */
 
     .player.position-4 {
-        left: 38%;
-        top: 70%;
+        left: 39%;
+
+        top: 78%;
     }
 
 
     /* =====================================================
-       POSITION 5
-       
-       INTÉRIEUR DROIT
-       
-       Nettement rapproché du panier.
+       JOUEUR 5 — INTÉRIEUR DROIT
+
+       Beaucoup plus proche du panier.
     ===================================================== */
 
     .player.position-5 {
-        left: 62%;
-        top: 70%;
+        left: 61%;
+
+        top: 78%;
     }
 
 
@@ -723,7 +716,7 @@
 
 
     /* =====================================================
-       POINT LUMINEUX SOUS LES JOUEURS
+       POINT LUMINEUX
     ===================================================== */
 
     .player::after {
@@ -754,6 +747,7 @@
         animation:
             playerDot 2s ease-in-out infinite;
     }
+
 
     @keyframes playerDot {
 
@@ -806,7 +800,7 @@
 
 
     /* =====================================================
-       ÉCRAN 16:9 — GRAND ÉCRAN
+       ÉCRAN 16:9 — 1920 × 1080
     ===================================================== */
 
     @media (min-width: 1200px) {
@@ -816,7 +810,13 @@
         }
 
         .court {
-            width: min(65vw, 900px);
+            /*
+             * Largeur volontairement maîtrisée
+             * pour conserver les proportions du
+             * demi-terrain sur un écran 16:9.
+             */
+            width:
+                min(66vw, 900px);
 
             height:
                 min(
@@ -837,7 +837,7 @@
 
 
     /* =====================================================
-       TABLETTE / PETIT ÉCRAN
+       TABLETTE
     ===================================================== */
 
     @media (max-width: 900px) {
@@ -871,22 +871,28 @@
                 );
         }
 
+        .player.position-1 {
+            top: 7%;
+        }
+
         .player.position-2 {
-            left: 17%;
+            left: 10%;
+            top: 35%;
         }
 
         .player.position-3 {
-            left: 83%;
+            left: 90%;
+            top: 35%;
         }
 
         .player.position-4 {
-            left: 37%;
-            top: 70%;
+            left: 38%;
+            top: 78%;
         }
 
         .player.position-5 {
-            left: 63%;
-            top: 70%;
+            left: 62%;
+            top: 78%;
         }
     }
 
@@ -955,27 +961,27 @@
         }
 
         .player.position-1 {
-            top: 17%;
+            top: 7%;
         }
 
         .player.position-2 {
-            left: 16%;
-            top: 43%;
+            left: 9%;
+            top: 35%;
         }
 
         .player.position-3 {
-            left: 84%;
-            top: 43%;
+            left: 91%;
+            top: 35%;
         }
 
         .player.position-4 {
-            left: 36%;
-            top: 70%;
+            left: 37%;
+            top: 78%;
         }
 
         .player.position-5 {
-            left: 64%;
-            top: 70%;
+            left: 63%;
+            top: 78%;
         }
     }
 
@@ -1027,14 +1033,14 @@
 
 
 <!-- =====================================================
-     DEMI TERRAIN
+     DEMI-TERRAIN
 ===================================================== -->
 
 <div class="players-container">
 
     <div class="court">
 
-        <!-- Arc des 3 points -->
+        <!-- Ligne à 3 points -->
         <div class="three-point"></div>
 
         <!-- Raquette -->
@@ -1043,7 +1049,7 @@
         <!-- Ligne des lancers francs -->
         <div class="free-throw-line"></div>
 
-        <!-- Cercle des lancers francs -->
+        <!-- Demi-cercle des lancers francs -->
         <div class="free-throw-circle"></div>
 
         <!-- Zone restrictive -->
@@ -1159,11 +1165,6 @@
             playersList.innerHTML = "";
 
 
-            /*
-             * Les 5 joueurs sont placés
-             * automatiquement dans leurs positions.
-             */
-
             players
                 .slice(0, 5)
                 .forEach(
@@ -1179,7 +1180,7 @@
                             `player position-${index + 1}`;
 
 
-                        /* Numéro */
+                        /* Numéro du joueur */
 
                         const playerNumber =
                             playerNumbers[player];
@@ -1209,7 +1210,7 @@
                         }
 
 
-                        /* Nom */
+                        /* Nom du joueur */
 
                         const nameSpan =
                             document.createElement(
@@ -1241,7 +1242,7 @@
     );
 
 </script>
-```
+
 
 </body>
 
