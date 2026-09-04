@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 
 <head>
@@ -6,133 +7,170 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5 Majeur - MVBC</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@500;700;800;900&display=swap" rel="stylesheet">
+```
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@500;700;800;900&display=swap" rel="stylesheet">
 
-    <style>
-        /* =====================================================
-           RESET
-        ===================================================== */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+<style>
+
+    /* =====================================================
+       RESET
+    ===================================================== */
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #000;
+        color: #fff;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+
+    /* =====================================================
+       VARIABLES
+    ===================================================== */
+
+    :root {
+        --white: #f7f7f5;
+        --black: #050608;
+        --red: #ed174c;
+        --blue: #1769ff;
+        --yellow: #ffd400;
+
+        --court-line: rgba(255, 255, 255, 0.72);
+    }
+
+
+    /* =====================================================
+       FOND
+    ===================================================== */
+
+    body {
+        position: relative;
+
+        background:
+            radial-gradient(
+                circle at center 55% 55%,
+                #252000 0%,
+                #100e00 35%,
+                #050500 65%,
+                #000 100%
+            );
+    }
+
+    body::before {
+        content: "";
+
+        position: fixed;
+
+        width: 900px;
+        height: 900px;
+
+        left: 50%;
+        top: 55%;
+
+        transform: translate(-50%, -50%);
+
+        background:
+            radial-gradient(
+                circle,
+                rgba(255, 204, 0, 0.20) 0%,
+                rgba(255, 204, 0, 0.08) 25%,
+                rgba(255, 204, 0, 0.02) 50%,
+                transparent 70%
+            );
+
+        pointer-events: none;
+
+        animation: halo 4s ease-in-out infinite;
+    }
+
+    @keyframes halo {
+
+        0% {
+            transform: translate(-50%, -50%) scale(0.90);
+            opacity: 0.65;
         }
 
-        html,
-        body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: #000;
-            color: #fff;
-            font-family: Arial, Helvetica, sans-serif;
+        50% {
+            transform: translate(-50%, -50%) scale(1.10);
+            opacity: 1;
         }
 
-        /* =====================================================
-           VARIABLES
-        ===================================================== */
-        :root {
-            --white: #f7f7f5;
-            --black: #050608;
-            --red: #ed174c;
-            --blue: #1769ff;
-            --yellow: #ffd400;
-
-            --court-line: rgba(255, 255, 255, 0.72);
-            --court-glow: rgba(255, 212, 0, 0.18);
+        100% {
+            transform: translate(-50%, -50%) scale(0.90);
+            opacity: 0.65;
         }
+    }
 
-        /* =====================================================
-           FOND
-        ===================================================== */
-        body {
-            position: relative;
-            background:
-                radial-gradient(
-                    circle at center 55% 55%,
-                    #252000 0%,
-                    #100e00 35%,
-                    #050500 65%,
-                    #000 100%
-                );
-        }
 
-        body::before {
-            content: "";
-            position: fixed;
-            width: 900px;
-            height: 900px;
-            left: 50%;
-            top: 55%;
-            transform: translate(-50%, -50%);
-            background:
-                radial-gradient(
-                    circle,
-                    rgba(255, 204, 0, 0.20) 0%,
-                    rgba(255, 204, 0, 0.08) 25%,
-                    rgba(255, 204, 0, 0.02) 50%,
-                    transparent 70%
-                );
-            pointer-events: none;
-            animation: halo 4s ease-in-out infinite;
-        }
+    /* =====================================================
+       TITRE
+       STYLE CONSERVÉ
+    ===================================================== */
 
-        @keyframes halo {
-            0% {
-                transform: translate(-50%, -50%) scale(0.90);
-                opacity: 0.65;
-            }
+    .title-container {
+        position: relative;
 
-            50% {
-                transform: translate(-50%, -50%) scale(1.10);
-                opacity: 1;
-            }
+        width: 100%;
+        height: 105px;
 
-            100% {
-                transform: translate(-50%, -50%) scale(0.90);
-                opacity: 0.65;
-            }
-        }
+        margin-top: 12px;
 
-        /* =====================================================
-           TITRE
-        ===================================================== */
-        .title-container {
-            position: relative;
-            width: 100%;
-            height: 105px;
-            margin-top: 12px;
-            z-index: 100;
-            text-align: center;
-        }
+        z-index: 100;
 
-        .partner-title {
-            position: relative;
-            font-family: "Barlow Condensed", sans-serif;
-            font-size: clamp(42px, 6vw, 90px);
-            font-weight: 900;
-            line-height: 0.9;
-            letter-spacing: -0.04em;
-            color: var(--white);
-            text-align: center;
-            white-space: nowrap;
+        text-align: center;
+    }
 
-            text-shadow:
-                4px 4px 0 var(--black),
-                7px 7px 0 var(--yellow),
-                11px 11px 0 rgba(237, 23, 76, .9),
-                15px 15px 0 rgba(23, 105, 255, .5);
-        }
+    .partner-title {
+        position: relative;
 
-        .slash {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%) rotate(-7deg);
-            width: min(64vw, 850px);
-            height: 18px;
+        font-family: "Barlow Condensed", sans-serif;
 
-            background: linear-gradient(
+        font-size: clamp(42px, 6vw, 90px);
+
+        font-weight: 900;
+
+        line-height: 0.9;
+
+        letter-spacing: -0.04em;
+
+        color: var(--white);
+
+        text-align: center;
+
+        white-space: nowrap;
+
+        text-shadow:
+            4px 4px 0 var(--black),
+            7px 7px 0 var(--yellow),
+            11px 11px 0 rgba(237, 23, 76, .9),
+            15px 15px 0 rgba(23, 105, 255, .5);
+    }
+
+    .slash {
+        position: absolute;
+
+        left: 50%;
+        top: 50%;
+
+        transform:
+            translate(-50%, -50%)
+            rotate(-7deg);
+
+        width: min(64vw, 850px);
+
+        height: 18px;
+
+        background:
+            linear-gradient(
                 90deg,
                 transparent,
                 var(--blue) 12%,
@@ -143,650 +181,1068 @@
                 transparent
             );
 
-            box-shadow: 0 0 40px rgba(23, 105, 255, .45);
-            z-index: -1;
-        }
+        box-shadow:
+            0 0 40px rgba(23, 105, 255, .45);
 
-        /* =====================================================
-           ZONE DU TERRAIN
-        ===================================================== */
-        .players-container {
-            position: relative;
-            width: 100%;
-            height: calc(100vh - 125px);
+        z-index: -1;
+    }
 
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
 
-            padding-top: 10px;
-        }
+    /* =====================================================
+       ZONE DU TERRAIN
+       OPTIMISÉE POUR 16:9
+    ===================================================== */
 
-        /* =====================================================
-      =====================================================
-           RAQUETTE
-        ===================================================== */
-        .paint {
-            position: absolute;
+    .players-container {
+        position: relative;
 
-            width: 25%;
-            height: 27%;
+        width: 100%;
 
-            left: 50%;
-            bottom: 0;
+        height: calc(100vh - 125px);
 
-            transform: translateX(-50%);
+        display: flex;
 
-            border-left: 3px solid var(--court-line);
-            border-right: 3px solid var(--court-line);
-            border-top: 3px solid var(--court-line);
+        justify-content: center;
 
-            background: rgba(255,255,255,.025);
-        }
+        align-items: flex-start;
 
-        /* =====================================================
-           CERCLE DE RAQUETTE
-        ===================================================== */
-        .free-throw-circle {
-            position: absolute;
+        padding-top: 5px;
+    }
 
-            width: 18%;
-            aspect-ratio: 1;
 
-            left: 50%;
-            top: 47%;
+    /* =====================================================
+       DEMI-TERRAIN
+       
+       Proportions proches d'un vrai demi-terrain :
+       largeur ≈ 15 m
+       profondeur ≈ 14 m
+    ===================================================== */
 
-            transform: translateX(-50%);
+    .court {
+        position: relative;
 
-            border: 3px solid var(--court-line);
-            border-radius: 50%;
-        }
+        /*
+         * On privilégie une largeur suffisamment importante
+         * sur écran 16:9 tout en conservant les proportions.
+         */
+        width: min(72vw, 880px);
 
-        /* =====================================================
-           DEMI-CERCLE SOUS LE PANIER
-        ===================================================== */
-        .restricted-area {
-            position: absolute;
+        height: min(68vh, 690px);
 
-            width: 10%;
-            aspect-ratio: 2 / 1;
+        aspect-ratio: 15 / 14;
 
-            left: 50%;
-            bottom: 0;
+        /*
+         * Pas de border-top :
+         * la ligne extérieure éloignée du panier est supprimée.
+         */
 
-            transform: translateX(-50%);
+        border-left:
+            3px solid var(--court-line);
 
-            border: 3px solid var(--court-line);
-            border-bottom: none;
+        border-right:
+            3px solid var(--court-line);
 
-            border-radius: 100px 100px 0 0;
-        }
+        border-bottom:
+            3px solid var(--court-line);
 
-        /* =====================================================
-           PANIER
-        ===================================================== */
-        .basket {
-            position: absolute;
+        background:
+            linear-gradient(
+                180deg,
+                rgba(255, 212, 0, .025),
+                rgba(255, 212, 0, .008)
+            );
 
-            left: 50%;
-            bottom: -4px;
+        box-shadow:
+            inset 0 0 70px rgba(255, 212, 0, .035),
+            0 0 30px rgba(255, 255, 255, .04);
 
-            transform: translateX(-50%);
+        overflow: visible;
+    }
 
-            width: 7%;
-            height: 7px;
 
-            background: var(--red);
+    /* =====================================================
+       LIGNE CENTRALE
+    ===================================================== */
 
-            border-radius: 10px;
+    .court::after {
+        content: "";
 
+        position: absolute;
+
+        left: 50%;
+        top: 0;
+
+        width: 2px;
+        height: 100%;
+
+        transform: translateX(-50%);
+
+        background:
+            rgba(255,255,255,.035);
+
+        pointer-events: none;
+    }
+
+
+    /* =====================================================
+       RAQUETTE
+       
+       Dimension visuelle :
+       largeur ≈ 4,9 m
+       profondeur ≈ 5,8 m
+    ===================================================== */
+
+    .paint {
+        position: absolute;
+
+        width: 32.7%;
+
+        height: 41.4%;
+
+        left: 50%;
+
+        bottom: 0;
+
+        transform: translateX(-50%);
+
+        border-left:
+            3px solid var(--court-line);
+
+        border-right:
+            3px solid var(--court-line);
+
+        border-top:
+            3px solid var(--court-line);
+
+        background:
+            linear-gradient(
+                180deg,
+                rgba(255,255,255,.035),
+                rgba(255,212,0,.015)
+            );
+
+        box-shadow:
+            inset 0 0 30px rgba(255,212,0,.025);
+    }
+
+
+    /* =====================================================
+       LIGNE DES LANCERS FRANCS
+       
+       La ligne se situe à environ 5,8 m du panier.
+    ===================================================== */
+
+    .free-throw-line {
+        position: absolute;
+
+        left: 50%;
+
+        bottom: 41.4%;
+
+        width: 32.7%;
+
+        height: 3px;
+
+        transform: translateX(-50%);
+
+        background:
+            var(--court-line);
+
+        box-shadow:
+            0 0 7px rgba(255,255,255,.15);
+    }
+
+
+    /* =====================================================
+       CERCLE DES LANCERS FRANCS
+       
+       Centre exactement sur la ligne des lancers.
+    ===================================================== */
+
+    .free-throw-circle {
+        position: absolute;
+
+        width: 32.7%;
+
+        aspect-ratio: 1;
+
+        left: 50%;
+
+        bottom: 25.2%;
+
+        transform: translateX(-50%);
+
+        border:
+            3px solid var(--court-line);
+
+        border-radius: 50%;
+
+        box-shadow:
+            0 0 10px rgba(255,255,255,.035);
+    }
+
+
+    /* =====================================================
+       DEMI-CERCLE SOUS LE PANIER
+       
+       Zone restrictive proche du panier.
+    ===================================================== */
+
+    .restricted-area {
+        position: absolute;
+
+        width: 14%;
+
+        height: 7%;
+
+        left: 50%;
+
+        bottom: 0;
+
+        transform: translateX(-50%);
+
+        border:
+            3px solid var(--court-line);
+
+        border-bottom: none;
+
+        border-radius:
+            100px 100px 0 0;
+    }
+
+
+    /* =====================================================
+       PANIER
+    ===================================================== */
+
+    .basket {
+        position: absolute;
+
+        left: 50%;
+
+        bottom: -4px;
+
+        transform: translateX(-50%);
+
+        width: 8%;
+
+        height: 7px;
+
+        background:
+            var(--red);
+
+        border-radius: 10px;
+
+        box-shadow:
+            0 0 8px var(--red),
+            0 0 20px rgba(237,23,76,.7),
+            0 0 35px rgba(237,23,76,.25);
+
+        animation:
+            basketPulse 2.4s ease-in-out infinite;
+    }
+
+    @keyframes basketPulse {
+
+        0%,
+        100% {
             box-shadow:
                 0 0 8px var(--red),
                 0 0 20px rgba(237,23,76,.7);
         }
 
-        /* =====================================================
-           LIGNE DES LANCERS
-        ===================================================== */
-        .backboard {
-            position: absolute;
-
-            left: 50%;
-            bottom: 22px;
-
-            transform: translateX(-50%);
-
-            width: 10%;
-            height: 5px;
-
-            background: var(--white);
-
+        50% {
             box-shadow:
-                0 0 8px rgba(255,255,255,.5);
+                0 0 12px var(--red),
+                0 0 30px rgba(237,23,76,.9),
+                0 0 45px rgba(237,23,76,.3);
         }
+    }
 
-        /* =====================================================
-           ARC DES 3 POINTS
-        ===================================================== */
-        .three-point {
-            position: absolute;
 
-            width: 78%;
-            height: 68%;
+    /* =====================================================
+       PANNEAU
+    ===================================================== */
 
-            left: 50%;
-            bottom: -2%;
+    .backboard {
+        position: absolute;
 
-            transform: translateX(-50%);
+        left: 50%;
 
-            border: 3px solid var(--court-line);
+        bottom: 18px;
 
-            border-bottom: none;
+        transform: translateX(-50%);
 
-            border-radius: 50% 50% 0 0;
+        width: 13%;
 
-            pointer-events: none;
-        }
+        height: 5px;
+
+        background:
+            var(--white);
+
+        border-radius: 3px;
+
+        box-shadow:
+            0 0 8px rgba(255,255,255,.5),
+            0 0 18px rgba(255,255,255,.15);
+    }
+
+
+    /* =====================================================
+       ARC DES 3 POINTS
+       
+       Géométrie basée sur la distance réelle du panier.
+       
+       Le panier est le centre de l'arc.
+    ===================================================== */
+
+    .three-point {
+        position: absolute;
 
         /*
-         * Masque la partie basse de l'arc des 3 points
-         * afin de donner un rendu de véritable demi-terrain.
+         * Le rayon de 3 points est beaucoup plus large
+         * que la raquette.
          */
-        .three-point::after {
-            content: "";
+        width: 90%;
 
-            position: absolute;
+        height: 81%;
 
-            left: 50%;
-            bottom: -5px;
+        left: 50%;
 
-            width: 30%;
-            height: 8px;
+        bottom: -2px;
 
-            transform: translateX(-50%);
+        transform: translateX(-50%);
 
-            background: #100e00;
+        border:
+            3px solid var(--court-line);
+
+        border-bottom: none;
+
+        border-radius:
+            50% 50% 0 0;
+
+        pointer-events: none;
+
+        filter:
+            drop-shadow(
+                0 0 4px
+                rgba(255,255,255,.08)
+            );
+    }
+
+
+    /*
+     * Masque le raccord inférieur
+     * autour du panier.
+     */
+
+    .three-point::after {
+        content: "";
+
+        position: absolute;
+
+        left: 50%;
+
+        bottom: -5px;
+
+        width: 20%;
+
+        height: 8px;
+
+        transform: translateX(-50%);
+
+        background:
+            #100e00;
+    }
+
+
+    /* =====================================================
+       JOUEURS
+    ===================================================== */
+
+    .players-list {
+        position: absolute;
+
+        inset: 0;
+
+        width: 100%;
+        height: 100%;
+
+        z-index: 10;
+    }
+
+    .player {
+        position: absolute;
+
+        width:
+            clamp(145px, 15vw, 215px);
+
+        padding:
+            13px 16px;
+
+        background:
+            linear-gradient(
+                145deg,
+                rgba(35,35,35,.98),
+                rgba(5,5,5,.98)
+            );
+
+        border:
+            2px solid rgba(255,255,255,.75);
+
+        border-radius:
+            14px;
+
+        font-family:
+            "Inter",
+            sans-serif;
+
+        font-size:
+            clamp(18px, 1.7vw, 27px);
+
+        font-weight:
+            800;
+
+        color:
+            #fff;
+
+        text-align:
+            center;
+
+        box-shadow:
+            0 0 12px rgba(255,255,255,.35),
+            0 0 30px rgba(0,0,0,.65);
+
+        transform:
+            translate(-50%, -50%);
+
+        z-index:
+            20;
+
+        transition:
+            transform .3s ease,
+            box-shadow .3s ease;
+    }
+
+
+    .player:hover {
+        transform:
+            translate(-50%, -50%)
+            scale(1.08);
+
+        box-shadow:
+            0 0 20px rgba(255,212,0,.8),
+            0 0 45px rgba(255,212,0,.45);
+    }
+
+
+    /* =====================================================
+       POSITION 1
+       
+       Meneur :
+       au sommet, derrière les intérieurs.
+    ===================================================== */
+
+    .player.position-1 {
+        left: 50%;
+        top: 17%;
+    }
+
+
+    /* =====================================================
+       POSITION 2
+       
+       Aile gauche.
+    ===================================================== */
+
+    .player.position-2 {
+        left: 19%;
+        top: 43%;
+    }
+
+
+    /* =====================================================
+       POSITION 3
+       
+       Aile droite.
+    ===================================================== */
+
+    .player.position-3 {
+        left: 81%;
+        top: 43%;
+    }
+
+
+    /* =====================================================
+       POSITION 4
+       
+       INTÉRIEUR GAUCHE
+       
+       Nettement rapproché du panier.
+    ===================================================== */
+
+    .player.position-4 {
+        left: 38%;
+        top: 70%;
+    }
+
+
+    /* =====================================================
+       POSITION 5
+       
+       INTÉRIEUR DROIT
+       
+       Nettement rapproché du panier.
+    ===================================================== */
+
+    .player.position-5 {
+        left: 62%;
+        top: 70%;
+    }
+
+
+    /* =====================================================
+       NUMÉRO DE POSITION
+    ===================================================== */
+
+    .player-number {
+        display: inline-block;
+
+        margin-right: 8px;
+
+        color:
+            var(--yellow);
+
+        font-weight:
+            900;
+
+        text-shadow:
+            0 0 5px rgba(255,212,0,.7),
+            0 0 12px rgba(255,212,0,.4);
+    }
+
+
+    /* =====================================================
+       POINT LUMINEUX SOUS LES JOUEURS
+    ===================================================== */
+
+    .player::after {
+        content: "";
+
+        position: absolute;
+
+        left: 50%;
+
+        bottom: -16px;
+
+        width: 9px;
+        height: 9px;
+
+        transform:
+            translateX(-50%);
+
+        background:
+            var(--yellow);
+
+        border-radius:
+            50%;
+
+        box-shadow:
+            0 0 8px var(--yellow),
+            0 0 18px var(--yellow);
+
+        animation:
+            playerDot 2s ease-in-out infinite;
+    }
+
+    @keyframes playerDot {
+
+        0%,
+        100% {
+            opacity: .7;
+
+            transform:
+                translateX(-50%)
+                scale(.8);
         }
 
-        /* =====================================================
-           JOUEURS
-        ===================================================== */
-        .players-list {
-            position: absolute;
+        50% {
+            opacity: 1;
 
-            inset: 0;
+            transform:
+                translateX(-50%)
+                scale(1.2);
+        }
+    }
 
-            width: 100%;
-            height: 100%;
+
+    /* =====================================================
+       BARRE LUMINEUSE
+    ===================================================== */
+
+    .light-line {
+        position: fixed;
+
+        left: 50%;
+        bottom: 0;
+
+        transform:
+            translateX(-50%);
+
+        width: 65%;
+
+        height: 3px;
+
+        background:
+            var(--yellow);
+
+        box-shadow:
+            0 0 10px var(--yellow),
+            0 0 25px var(--yellow),
+            0 0 50px var(--yellow);
+
+        z-index: 90;
+    }
+
+
+    /* =====================================================
+       ÉCRAN 16:9 — GRAND ÉCRAN
+    ===================================================== */
+
+    @media (min-width: 1200px) {
+
+        .players-container {
+            padding-top: 0;
+        }
+
+        .court {
+            width: min(65vw, 900px);
+
+            height:
+                min(
+                    calc(100vh - 145px),
+                    700px
+                );
         }
 
         .player {
-            position: absolute;
+            width:
+                clamp(
+                    160px,
+                    14vw,
+                    220px
+                );
+        }
+    }
 
-            width: clamp(145px, 18vw, 230px);
 
-            padding: 14px 18px;
+    /* =====================================================
+       TABLETTE / PETIT ÉCRAN
+    ===================================================== */
 
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(35,35,35,.98),
-                    rgba(5,5,5,.98)
+    @media (max-width: 900px) {
+
+        .court {
+            width: 82vw;
+
+            height:
+                min(
+                    calc(100vh - 120px),
+                    620px
+                );
+        }
+
+        .player {
+            width:
+                clamp(
+                    120px,
+                    19vw,
+                    180px
                 );
 
-            border: 2px solid rgba(255,255,255,.75);
+            padding:
+                11px 10px;
 
-            border-radius: 14px;
-
-            font-family: "Inter", sans-serif;
-
-            font-size: clamp(18px, 2.1vw, 28px);
-
-            font-weight: 800;
-
-            color: #fff;
-
-            text-align: center;
-
-            box-shadow:
-                0 0 12px rgba(255,255,255,.35),
-                0 0 30px rgba(0,0,0,.65);
-
-            transform: translate(-50%, -50%);
-
-            z-index: 20;
-
-            transition:
-                transform .3s ease,
-                box-shadow .3s ease;
+            font-size:
+                clamp(
+                    15px,
+                    2.8vw,
+                    22px
+                );
         }
 
-        .player:hover {
-            transform: translate(-50%, -50%) scale(1.08);
-
-            box-shadow:
-                0 0 20px rgba(255,212,0,.8),
-                0 0 45px rgba(255,212,0,.45);
+        .player.position-2 {
+            left: 17%;
         }
 
-        /* =====================================================
-           POSITION 1
-           Meneur - sommet des 3 points
-        ===================================================== */
+        .player.position-3 {
+            left: 83%;
+        }
+
+        .player.position-4 {
+            left: 37%;
+            top: 70%;
+        }
+
+        .player.position-5 {
+            left: 63%;
+            top: 70%;
+        }
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 600px) {
+
+        .title-container {
+            height: 75px;
+            margin-top: 8px;
+        }
+
+        .partner-title {
+            font-size:
+                clamp(
+                    30px,
+                    9vw,
+                    48px
+                );
+        }
+
+        .slash {
+            height: 10px;
+        }
+
+        .players-container {
+            height:
+                calc(100vh - 90px);
+
+            padding-top: 5px;
+        }
+
+        .court {
+            width: 94vw;
+
+            height:
+                min(
+                    calc(100vh - 100px),
+                    560px
+                );
+        }
+
+        .player {
+            width:
+                clamp(
+                    105px,
+                    25vw,
+                    145px
+                );
+
+            padding:
+                9px 6px;
+
+            font-size:
+                clamp(
+                    13px,
+                    3.5vw,
+                    18px
+                );
+
+            border-radius:
+                10px;
+        }
+
         .player.position-1 {
-            left: 50%;
             top: 17%;
         }
 
-        /* =====================================================
-           POSITION 2
-           Aile gauche à 45°
-        ===================================================== */
         .player.position-2 {
-            left: 20%;
-            top: 39%;
+            left: 16%;
+            top: 43%;
         }
 
-        /* =====================================================
-           POSITION 3
-           Aile droite à 45°
-        ===================================================== */
         .player.position-3 {
-            left: 80%;
-            top: 39%;
+            left: 84%;
+            top: 43%;
         }
 
-        /* =====================================================
-           POSITION 4
-           Intérieur gauche
-        ===================================================== */
         .player.position-4 {
-            left: 35%;
-            top: 69%;
+            left: 36%;
+            top: 70%;
         }
 
-        /* =====================================================
-           POSITION 5
-           Intérieur droit
-        ===================================================== */
         .player.position-5 {
-            left: 65%;
-            top: 69%;
+            left: 64%;
+            top: 70%;
+        }
+    }
+
+
+    /* =====================================================
+       TRÈS PETITS ÉCRANS
+    ===================================================== */
+
+    @media (max-width: 400px) {
+
+        .court {
+            width: 95vw;
+
+            height:
+                calc(100vh - 100px);
         }
 
-        /* =====================================================
-           NUMÉRO DE POSITION
-        ===================================================== */
-        .player-number {
-            display: inline-block;
+        .player {
+            width: 100px;
 
-            margin-right: 8px;
+            font-size: 13px;
 
-            color: var(--yellow);
-
-            font-weight: 900;
-
-            text-shadow:
-                0 0 5px rgba(255,212,0,.7),
-                0 0 12px rgba(255,212,0,.4);
+            padding:
+                8px 4px;
         }
+    }
 
-        /* =====================================================
-           LIGNES DE POSITIONNEMENT
-           Petits points lumineux sous les joueurs
-        ===================================================== */
-        .player::after {
-            content: "";
+</style>
+```
 
-            position: absolute;
-
-            left: 50%;
-            bottom: -16px;
-
-            width: 9px;
-            height: 9px;
-
-            transform: translateX(-50%);
-
-            background: var(--yellow);
-
-            border-radius: 50%;
-
-            box-shadow:
-                0 0 8px var(--yellow),
-                0 0 18px var(--yellow);
-        }
-
-        /* =====================================================
-           BARRE LUMINEUSE
-        ===================================================== */
-        .light-line {
-            position: fixed;
-
-            left: 50%;
-            bottom: 0;
-
-            transform: translateX(-50%);
-
-            width: 65%;
-            height: 3px;
-
-            background: var(--yellow);
-
-            box-shadow:
-                0 0 10px var(--yellow),
-                0 0 25px var(--yellow),
-                0 0 50px var(--yellow);
-
-            z-index: 90;
-        }
-
-        /* =====================================================
-           TABLETTES
-        ===================================================== */
-        @media (max-width: 900px) {
-
-            .court {
-                width: 94vw;
-                height: 68vh;
-                min-height: 450px;
-            }
-
-            .player {
-                width: clamp(120px, 20vw, 180px);
-                padding: 11px 10px;
-                font-size: clamp(15px, 2.8vw, 22px);
-            }
-
-            .player.position-2 {
-                left: 18%;
-            }
-
-            .player.position-3 {
-                left: 82%;
-            }
-
-            .player.position-4 {
-                left: 34%;
-            }
-
-            .player.position-5 {
-                left: 66%;
-            }
-        }
-
-        /* =====================================================
-           MOBILE
-        ===================================================== */
-        @media (max-width: 600px) {
-
-            .title-container {
-                height: 75px;
-                margin-top: 8px;
-            }
-
-            .partner-title {
-                font-size: clamp(30px, 9vw, 48px);
-            }
-
-            .slash {
-                height: 10px;
-            }
-
-            .players-container {
-                height: calc(100vh - 90px);
-                padding-top: 5px;
-            }
-
-            .court {
-                width: 96vw;
-                height: 74vh;
-                min-height: 430px;
-            }
-
-            .player {
-                width: clamp(105px, 25vw, 145px);
-                padding: 9px 6px;
-                font-size: clamp(13px, 3.5vw, 18px);
-                border-radius: 10px;
-            }
-
-            .player.position-1 {
-                top: 16%;
-            }
-
-            .player.position-2 {
-                left: 17%;
-                top: 38%;
-            }
-
-            .player.position-3 {
-                left: 83%;
-                top: 38%;
-            }
-
-            .player.position-4 {
-                left: 32%;
-                top: 68%;
-            }
-
-            .player.position-5 {
-                left: 68%;
-                top: 68%;
-            }
-        }
-
-        /* =====================================================
-           TRÈS PETITS ÉCRANS
-        ===================================================== */
-        @media (max-width: 400px) {
-
-            .court {
-                height: 72vh;
-                min-height: 400px;
-            }
-
-            .player {
-                width: 100px;
-                font-size: 13px;
-                padding: 8px 4px;
-            }
-        }
-
-    </style>
 </head>
 
 <body>
 
-    <!-- =====================================================
-         TITRE
-    ===================================================== -->
+```
+<!-- =====================================================
+     TITRE
+===================================================== -->
 
-    <div class="title-container">
+<div class="title-container">
 
-        <div class="slash"></div>
+    <div class="slash"></div>
 
-        <h1 class="partner-title">
-            LE 5
-        </h1>
+    <h1 class="partner-title">
+        5 MAJEUR
+    </h1>
 
-    </div>
+</div>
 
 
-    <!-- =====================================================
-         DEMI TERRAIN
-    ===================================================== -->
+<!-- =====================================================
+     DEMI TERRAIN
+===================================================== -->
 
-    <div class="players-container">
+<div class="players-container">
 
-        <div class="court">
+    <div class="court">
 
-            <!-- Arc des 3 points -->
-            <div class="three-point"></div>
+        <!-- Arc des 3 points -->
+        <div class="three-point"></div>
 
-            <!-- Raquette -->
-            <div class="paint"></div>
+        <!-- Raquette -->
+        <div class="paint"></div>
 
-            <!-- Cercle des lancers francs -->
-            <div class="free-throw-circle"></div>
+        <!-- Ligne des lancers francs -->
+        <div class="free-throw-line"></div>
 
-            <!-- Zone restrictive -->
-            <div class="restricted-area"></div>
+        <!-- Cercle des lancers francs -->
+        <div class="free-throw-circle"></div>
 
-            <!-- Panneau -->
-            <div class="backboard"></div>
+        <!-- Zone restrictive -->
+        <div class="restricted-area"></div>
 
-            <!-- Panier -->
-            <div class="basket"></div>
+        <!-- Panneau -->
+        <div class="backboard"></div>
 
-            <!-- Joueurs -->
-            <div class="players-list" id="playersList"></div>
+        <!-- Panier -->
+        <div class="basket"></div>
 
+        <!-- Joueurs -->
+        <div
+            class="players-list"
+            id="playersList">
         </div>
 
     </div>
 
-
-    <!-- =====================================================
-         BARRE LUMINEUSE
-    ===================================================== -->
-
-    <div class="light-line"></div>
+</div>
 
 
-    <!-- =====================================================
-         FIREBASE
-    ===================================================== -->
+<!-- =====================================================
+     BARRE LUMINEUSE
+===================================================== -->
 
-    <script type="module">
-
-        import {
-            initializeApp
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-        import {
-            getDatabase,
-            ref,
-            onValue
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+<div class="light-line"></div>
 
 
-        const firebaseConfig = {
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
 
-            apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+<script type="module">
 
-            authDomain: "diffusion-b9afa.firebaseapp.com",
+    import {
+        initializeApp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-            databaseURL:
-                "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
-
-            projectId: "diffusion-b9afa",
-
-            storageBucket:
-                "diffusion-b9afa.firebasestorage.app",
-
-            messagingSenderId:
-                "674799570797",
-
-            appId:
-                "1:674799570797:web:0d8b7a2a892f604eb7d464"
-        };
+    import {
+        getDatabase,
+        ref,
+        onValue
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 
-        const app = initializeApp(firebaseConfig);
+    const firebaseConfig = {
 
-        const db = getDatabase(app);
+        apiKey:
+            "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
 
-        const cinqMajeurRef =
-            ref(db, "cinqmajeur");
+        authDomain:
+            "diffusion-b9afa.firebaseapp.com",
+
+        databaseURL:
+            "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
+
+        projectId:
+            "diffusion-b9afa",
+
+        storageBucket:
+            "diffusion-b9afa.firebasestorage.app",
+
+        messagingSenderId:
+            "674799570797",
+
+        appId:
+            "1:674799570797:web:0d8b7a2a892f604eb7d464"
+    };
 
 
-        /* =====================================================
-           CHARGEMENT DES JOUEURS
-        ===================================================== */
+    const app =
+        initializeApp(firebaseConfig);
 
-        onValue(cinqMajeurRef, (snapshot) => {
 
-            const data = snapshot.val() || {};
+    const db =
+        getDatabase(app);
+
+
+    const cinqMajeurRef =
+        ref(
+            db,
+            "cinqmajeur"
+        );
+
+
+    /* =====================================================
+       CHARGEMENT DES JOUEURS
+    ===================================================== */
+
+    onValue(
+        cinqMajeurRef,
+        (snapshot) => {
+
+            const data =
+                snapshot.val() || {};
+
 
             const players =
                 data.players || [];
+
 
             const playerNumbers =
                 data.playerNumbers || {};
 
 
             const playersList =
-                document.getElementById("playersList");
+                document.getElementById(
+                    "playersList"
+                );
 
 
             playersList.innerHTML = "";
 
 
             /*
-             * On prend les 5 joueurs dans l'ordre :
-             *
-             * joueur 0 = position 1
-             * joueur 1 = position 2
-             * joueur 2 = position 3
-             * joueur 3 = position 4
-             * joueur 4 = position 5
+             * Les 5 joueurs sont placés
+             * automatiquement dans leurs positions.
              */
 
-            players.slice(0, 5).forEach((player, index) => {
+            players
+                .slice(0, 5)
+                .forEach(
+                    (player, index) => {
 
-                const playerDiv =
-                    document.createElement("div");
-
-
-                playerDiv.className =
-                    `player position-${index + 1}`;
-
-
-                /* Numéro de maillot */
-
-                const playerNumber =
-                    playerNumbers[player];
+                        const playerDiv =
+                            document.createElement(
+                                "div"
+                            );
 
 
-                if (playerNumber !== undefined) {
-
-                    const numberSpan =
-                        document.createElement("span");
-
-                    numberSpan.className =
-                        "player-number";
-
-                    numberSpan.textContent =
-                        `#${playerNumber}`;
-
-                    playerDiv.appendChild(numberSpan);
-                }
+                        playerDiv.className =
+                            `player position-${index + 1}`;
 
 
-                /* Nom du joueur */
+                        /* Numéro */
 
-                const nameSpan =
-                    document.createElement("span");
-
-                nameSpan.textContent =
-                    player;
-
-                nameSpan.style.color =
-                    "#fff";
+                        const playerNumber =
+                            playerNumbers[player];
 
 
-                playerDiv.appendChild(nameSpan);
+                        if (
+                            playerNumber !== undefined
+                        ) {
 
-                playersList.appendChild(playerDiv);
+                            const numberSpan =
+                                document.createElement(
+                                    "span"
+                                );
 
-            });
 
-        });
+                            numberSpan.className =
+                                "player-number";
 
-    </script>
+
+                            numberSpan.textContent =
+                                `#${playerNumber}`;
+
+
+                            playerDiv.appendChild(
+                                numberSpan
+                            );
+                        }
+
+
+                        /* Nom */
+
+                        const nameSpan =
+                            document.createElement(
+                                "span"
+                            );
+
+
+                        nameSpan.textContent =
+                            player;
+
+
+                        nameSpan.style.color =
+                            "#fff";
+
+
+                        playerDiv.appendChild(
+                            nameSpan
+                        );
+
+
+                        playersList.appendChild(
+                            playerDiv
+                        );
+
+                    }
+                );
+
+        }
+    );
+
+</script>
+```
 
 </body>
 
 </html>
-
