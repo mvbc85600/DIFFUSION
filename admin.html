@@ -1715,76 +1715,47 @@ function mettreAJourApercuHalos() {
     mettreAJourApercuHalo(haloCouleur2, haloPreview2);
 }
 
-/* =====================================================
-   ONGLET : 5 MAJEUR (NOUVELLES FONCTIONS)
-===================================================== */
-function chargerListeJoueurs() {
-    const playersList = document.getElementById("playersList");
-    if (!playersList) return;
+/* 
+<!-- =================================================
+     ONGLET : 5 MAJEUR (MODIFIÉ)
+================================================= -->
+<div id="cinqmajeur" class="tab-content">
+    <div class="match-editor">
+        <h2>🏀 5 MAJEUR</h2>
+        <div class="description">
+            Sélectionne les 5 joueurs de départ pour les afficher sur <strong>5majeur.html</strong>.
+            <br><br>
+            <strong>Nouveau :</strong> Ajoute manuellement un joueur avec son numéro et son ordre d'apparition.
+        </div>
 
-    playersList.innerHTML = "";
-    players.forEach((player, index) => {
-        const div = document.createElement("div");
-        div.className = "player-checkbox";
+        <!-- FORMULAIRE POUR AJOUTER UN JOUEUR MANUELLEMENT -->
+        <div class="form-group">
+            <label>➕ Ajouter un joueur manuellement</label>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <input type="text" id="newPlayerName" placeholder="Nom du joueur" style="flex: 1;">
+                <input type="number" id="newPlayerNumber" placeholder="N°" min="0" max="99" style="width: 80px;">
+                <input type="number" id="newPlayerOrder" placeholder="Ordre" min="1" max="5" style="width: 80px;">
+                <button id="addPlayerButton" style="padding: 10px 15px; background: #16a34a; border: none; border-radius: 8px; color: white; cursor: pointer;">
+                    ✅ Ajouter
+                </button>
+            </div>
+        </div>
 
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.id = `player-${index}`;
-        checkbox.dataset.player = player;
+        <!-- LISTE DES JOUEURS (MODIFIÉE) -->
+        <div class="form-group">
+            <label>✅ Joueurs sélectionnés (cliquez pour modifier l'ordre)</label>
+            <div id="playersList">
+                <!-- Les joueurs seront ajoutés dynamiquement ici -->
+            </div>
+        </div>
 
-        const label = document.createElement("label");
-        label.htmlFor = `player-${index}`;
-        label.textContent = player;
-
-        div.appendChild(checkbox);
-        div.appendChild(label);
-        playersList.appendChild(div);
-    });
-
-    // Charger les joueurs sélectionnés depuis Firebase
-    onValue(cinqMajeurRef, (snapshot) => {
-        const data = snapshot.val() || {};
-        const selectedPlayers = data.players || [];
-
-        document.querySelectorAll("#playersList input[type='checkbox']").forEach(checkbox => {
-            checkbox.checked = selectedPlayers.includes(checkbox.dataset.player);
-        });
-    });
-}
-
-savePlayersButton.addEventListener("click", async () => {
-    try {
-        savePlayersButton.disabled = true;
-        savePlayersButton.textContent = "⏳ ENREGISTREMENT...";
-
-        const selectedPlayers = [];
-        document.querySelectorAll("#playersList input[type='checkbox']:checked").forEach(checkbox => {
-            selectedPlayers.push(checkbox.dataset.player);
-        });
-
-        await set(cinqMajeurRef, {
-            players: selectedPlayers,
-            timestamp: Date.now()
-        });
-
-        playersStatus.className = "success";
-        playersStatus.textContent = "✅ 5 Majeur enregistré !";
-        savePlayersButton.textContent = "✅ ENREGISTRÉ";
-
-        setTimeout(() => {
-            savePlayersButton.disabled = false;
-            savePlayersButton.textContent = "💾 ENREGISTRER LE 5 MAJEUR";
-        }, 2000);
-    } catch (error) {
-        console.error(error);
-        playersStatus.className = "error";
-        playersStatus.textContent = "❌ Erreur : " + error.message;
-        savePlayersButton.disabled = false;
-        savePlayersButton.textContent = "💾 ENREGISTRER LE 5 MAJEUR";
-    }
-});
-
-/* =====================================================
+        <!-- SAUVEGARDE -->
+        <button id="savePlayersButton">
+            💾 ENREGISTRER LE 5 MAJEUR
+        </button>
+        <div id="playersStatus"></div>
+    </div>
+</div>
 
 /* =====================================================
    ONGLET : PARTENAIRE DU MATCH (NOUVELLES FONCTIONS)
