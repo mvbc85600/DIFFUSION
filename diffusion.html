@@ -754,6 +754,28 @@ body
     }
 }
 
+   /* =====================================================
+   MESSAGE — AGRANDISSEMENT TEXTE + LOGOS
+   ===================================================== */
+
+#message .message-title {
+    font-size: 3.5em !important;
+}
+
+#message .message-content {
+    font-size: 2em !important;
+}
+
+/* Logos plus grands pendant le message */
+.message-active-partners #partners-scroll-container {
+    height: 240px;
+}
+
+.message-active-partners #partners-scroll img {
+    max-width: 300px;
+    max-height: 165px;
+}
+
 </style>
 
 </head>
@@ -1312,6 +1334,9 @@ onValue(
 
 function afficherScene(scene) {
 
+    /* Retirer le mode spécial message */
+    document.body.classList.remove("message-active-partners");
+
     /* TOUT MASQUER */
     video.style.display =
         "none";
@@ -1433,17 +1458,24 @@ case "trois":
             break;
 
         case "message":
-            afficherMessagePersonnalise();
-            if (
-                currentMessageData &&
-                currentMessageData
-                    .afficherDefilementLogos
-            ) {
-                partnersScrollContainer.style.display =
-                    "block";
-                demarrerCarrouselPartenaires();
-            }
-            break;
+
+    /* Activer le mode message agrandi */
+    document.body.classList.add("message-active-partners");
+
+    afficherMessagePersonnalise();
+
+    if (
+        currentMessageData &&
+        currentMessageData
+            .afficherDefilementLogos
+    ) {
+        partnersScrollContainer.style.display =
+            "block";
+
+        demarrerCarrouselPartenaires();
+    }
+
+    break;
 
         case "black":
             document.body.style.background =
