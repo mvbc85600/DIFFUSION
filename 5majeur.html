@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5 Majeur - MVBC</title>
 
-
+```
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@500;700;800;900&display=swap" rel="stylesheet">
 
 <style>
@@ -65,7 +65,6 @@
             );
     }
 
-
     body::before {
         content: "";
 
@@ -92,7 +91,6 @@
 
         animation: halo 4s ease-in-out infinite;
     }
-
 
     @keyframes halo {
 
@@ -131,7 +129,6 @@
         text-align: center;
     }
 
-
     .partner-title {
         position: relative;
 
@@ -157,7 +154,6 @@
             11px 11px 0 rgba(237, 23, 76, .9),
             15px 15px 0 rgba(23, 105, 255, .5);
     }
-
 
     .slash {
         position: absolute;
@@ -216,11 +212,8 @@
     /* =====================================================
        DEMI-TERRAIN
 
-       IMPORTANT :
        Aucun contour extérieur.
-
-       Le terrain est uniquement matérialisé
-       par les lignes de jeu intérieures.
+       Seules les lignes de jeu sont affichées.
     ===================================================== */
 
     .court {
@@ -244,7 +237,7 @@
 
 
     /* =====================================================
-       LIGNE CENTRALE VISUELLE TRÈS DISCRÈTE
+       LIGNE CENTRALE DISCRÈTE
     ===================================================== */
 
     .court::after {
@@ -269,11 +262,6 @@
 
     /* =====================================================
        RAQUETTE
-
-       Largeur ≈ 33% du terrain
-       Hauteur ≈ 41% du demi-terrain
-
-       Le panier est en bas.
     ===================================================== */
 
     .paint {
@@ -284,6 +272,7 @@
         height: 41%;
 
         left: 50%;
+
         bottom: 0;
 
         transform: translateX(-50%);
@@ -335,21 +324,20 @@
 
 
     /* =====================================================
-       DEMI-CERCLE DES LANCERS
+       PETIT DEMI-ARC DES LANCERS
 
-       UNIQUEMENT UN DEMI-ARC.
-
-       Il est centré sur la ligne des lancers
-       et visible dans la partie supérieure
-       de la raquette.
+       IMPORTANT :
+       - ce n'est plus un cercle complet
+       - il est plus petit que la raquette
+       - il est centré dans la raquette
     ===================================================== */
 
     .free-throw-circle {
         position: absolute;
 
-        width: 32.7%;
+        width: 25%;
 
-        height: 16.35%;
+        height: 12.5%;
 
         left: 50%;
 
@@ -370,10 +358,7 @@
 
 
     /* =====================================================
-       ZONE RESTRICTIVE
-
-       Petit demi-cercle immédiatement
-       autour du panier.
+       PETIT DEMI-CERCLE SOUS LE PANIER
     ===================================================== */
 
     .restricted-area {
@@ -432,7 +417,6 @@
             basketPulse 2.4s ease-in-out infinite;
     }
 
-
     @keyframes basketPulse {
 
         0%,
@@ -482,23 +466,30 @@
     /* =====================================================
        LIGNE À 3 POINTS
 
-       Le panier constitue le centre de l'arc.
-
-       L'arc remonte suffisamment pour que
-       les positions 1 / 2 / 3 soient
-       À L'EXTÉRIEUR de la ligne.
+       ABAISSÉE POUR PASSER SOUS
+       LES POINTS DES JOUEURS 1 / 2 / 3
     ===================================================== */
 
     .three-point {
         position: absolute;
 
+        /*
+         * Avant : 91% de hauteur
+         *
+         * Maintenant : 72%
+         *
+         * Cela rapproche le sommet de l'arc
+         * du panier et place les joueurs 1/2/3
+         * au-dessus de la ligne.
+         */
+
         width: 94%;
 
-        height: 91%;
+        height: 72%;
 
         left: 50%;
 
-        bottom: -1px;
+        bottom: 0;
 
         transform: translateX(-50%);
 
@@ -521,8 +512,7 @@
 
 
     /*
-     * Masque uniquement le raccord
-     * au niveau du panier.
+     * Masque le raccord sous le panier.
      */
 
     .three-point::after {
@@ -627,25 +617,24 @@
 
 
     /* =====================================================
-       JOUEUR 1 — MENEUR
-
-       À L'EXTÉRIEUR de la ligne à 3 points.
+       JOUEUR 1
+       
+       MENEUR
+       AU-DESSUS DE LA LIGNE À 3 POINTS
     ===================================================== */
 
     .player.position-1 {
         left: 50%;
 
-        /*
-         * Plus haut que le sommet de l'arc.
-         */
         top: 7%;
     }
 
 
     /* =====================================================
-       JOUEUR 2 — AILE GAUCHE
-
-       À l'extérieur de la ligne à 3 points.
+       JOUEUR 2
+       
+       AILE GAUCHE
+       AU-DESSUS / À L'EXTÉRIEUR DE L'ARC
     ===================================================== */
 
     .player.position-2 {
@@ -656,9 +645,10 @@
 
 
     /* =====================================================
-       JOUEUR 3 — AILE DROITE
-
-       À l'extérieur de la ligne à 3 points.
+       JOUEUR 3
+       
+       AILE DROITE
+       AU-DESSUS / À L'EXTÉRIEUR DE L'ARC
     ===================================================== */
 
     .player.position-3 {
@@ -669,28 +659,32 @@
 
 
     /* =====================================================
-       JOUEUR 4 — INTÉRIEUR GAUCHE
+       JOUEUR 4
+       
+       INTÉRIEUR GAUCHE
 
-       Beaucoup plus proche du panier.
+       Descendu et légèrement écarté.
     ===================================================== */
 
     .player.position-4 {
-        left: 39%;
+        left: 37%;
 
-        top: 78%;
+        top: 80%;
     }
 
 
     /* =====================================================
-       JOUEUR 5 — INTÉRIEUR DROIT
+       JOUEUR 5
+       
+       INTÉRIEUR DROIT
 
-       Beaucoup plus proche du panier.
+       Descendu et légèrement écarté.
     ===================================================== */
 
     .player.position-5 {
-        left: 61%;
+        left: 63%;
 
-        top: 78%;
+        top: 80%;
     }
 
 
@@ -716,7 +710,7 @@
 
 
     /* =====================================================
-       POINT LUMINEUX
+       POINT DE LOCALISATION
     ===================================================== */
 
     .player::after {
@@ -800,7 +794,7 @@
 
 
     /* =====================================================
-       ÉCRAN 16:9 — 1920 × 1080
+       GRAND ÉCRAN 16:9
     ===================================================== */
 
     @media (min-width: 1200px) {
@@ -810,11 +804,6 @@
         }
 
         .court {
-            /*
-             * Largeur volontairement maîtrisée
-             * pour conserver les proportions du
-             * demi-terrain sur un écran 16:9.
-             */
             width:
                 min(66vw, 900px);
 
@@ -886,13 +875,13 @@
         }
 
         .player.position-4 {
-            left: 38%;
-            top: 78%;
+            left: 37%;
+            top: 80%;
         }
 
         .player.position-5 {
-            left: 62%;
-            top: 78%;
+            left: 63%;
+            top: 80%;
         }
     }
 
@@ -975,13 +964,13 @@
         }
 
         .player.position-4 {
-            left: 37%;
-            top: 78%;
+            left: 36%;
+            top: 80%;
         }
 
         .player.position-5 {
-            left: 63%;
-            top: 78%;
+            left: 64%;
+            top: 80%;
         }
     }
 
@@ -1026,7 +1015,7 @@
     <div class="slash"></div>
 
     <h1 class="partner-title">
-        5 MAJEUR
+        LE 5
     </h1>
 
 </div>
@@ -1049,7 +1038,7 @@
         <!-- Ligne des lancers francs -->
         <div class="free-throw-line"></div>
 
-        <!-- Demi-cercle des lancers francs -->
+        <!-- Petit demi-arc des lancers francs -->
         <div class="free-throw-circle"></div>
 
         <!-- Zone restrictive -->
@@ -1180,7 +1169,7 @@
                             `player position-${index + 1}`;
 
 
-                        /* Numéro du joueur */
+                        /* Numéro */
 
                         const playerNumber =
                             playerNumbers[player];
@@ -1210,7 +1199,7 @@
                         }
 
 
-                        /* Nom du joueur */
+                        /* Nom */
 
                         const nameSpan =
                             document.createElement(
@@ -1242,7 +1231,7 @@
     );
 
 </script>
-
+```
 
 </body>
 
