@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LA BOUTIQUE</title>
+    <title>Nos Partenaires</title>
 
     <!-- Importation de la police Barlow Condensed -->
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@500;700;800;900&display=swap" rel="stylesheet">
@@ -147,7 +147,7 @@
         .carousel {
             position: relative;
             width: 100%;
-            height: calc(100vh - 150px); /* Réduit pour laisser de la place au titre */
+            height: calc(100vh - 150px);
             min-height: 500px;
             margin: 0 auto;
             display: flex;
@@ -355,7 +355,7 @@
     <!-- Titre avec effet statique -->
     <div class="title-container">
         <div class="slash"></div>
-        <h1 class="partner-title">LA   BOUTIQUE</h1>
+        <h1 class="partner-title">LA BOUTIQUE</h1>
     </div>
 
     <!-- Carrousel -->
@@ -365,58 +365,14 @@
     <div class="light-line"></div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
         /* =====================================================
-           FIREBASE
-        ===================================================== */
-        const firebaseConfig = {
-            apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
-            authDomain: "diffusion-b9afa.firebaseapp.com",
-            databaseURL: "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "diffusion-b9afa",
-            storageBucket: "diffusion-b9afa.appspot.com",
-            messagingSenderId: "674799570797",
-            appId: "1:674799570797:web:0d8b7a2a892f604eb7d464"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-        const partnerDurationsRef = ref(db, "partnerDurations");
-
-        /* =====================================================
-           CONFIGURATION GITHUB (MISE À JOUR : DOSSIER "boutique")
+           CONFIGURATION GITHUB (DOSSIER "boutique")
         ===================================================== */
         const GITHUB_API = "https://api.github.com/repos/mvbc85600/DIFFUSION/contents/boutique";
         const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/mvbc85600/DIFFUSION/main/boutique/";
 
         /* =====================================================
            PARAMÈTRES
-        ===================================================== */
-        let partnerDurationsData = {
-            defaultDuration: 2500,
-            durations: {}
-        };
-
-        function getPartnerDuration(fileName) {
-            const partnerName = fileName.replace(/\.[^/.]+$/, "");
-            const specificDuration = partnerDurationsData.durations[partnerName];
-            if (specificDuration && specificDuration > 0) {
-                return specificDuration;
-            }
-            return partnerDurationsData.defaultDuration > 0 ? partnerDurationsData.defaultDuration : 2500;
-        }
-
-        /* =====================================================
-           CACHE DE LA LISTE GITHUB
-        ===================================================== */
-        const LIST_CACHE_KEY = "partenairesGithubLogoList";
-        const LIST_CACHE_TIME_KEY = "partenairesGithubLogoListTime";
-        const LIST_CACHE_DURATION = 10 * 60 * 1000;
-
-        /* =====================================================
-           VARIABLES
         ===================================================== */
         let logoFiles = [];
         let logos = [];
@@ -428,6 +384,18 @@
            COULEURS DES PARTENAIRES
         ===================================================== */
         const colors = ["color-yellow", "color-red", "color-blue"];
+
+        /* =====================================================
+           DURÉE PAR DÉFAUT (sans Firebase)
+        ===================================================== */
+        const DEFAULT_DURATION = 2500; // Durée fixe pour tous les logos
+
+        /* =====================================================
+           CACHE DE LA LISTE GITHUB
+        ===================================================== */
+        const LIST_CACHE_KEY = "boutiqueGithubLogoList";
+        const LIST_CACHE_TIME_KEY = "boutiqueGithubLogoListTime";
+        const LIST_CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
 
         /* =====================================================
            RÉCUPÉRATION DE LA LISTE DES LOGOS
@@ -558,7 +526,7 @@
             logos[right2].className = "right2 " + getColor(right2);
 
             updateLightLine();
-            localStorage.setItem("partenaireIndex", index);
+            localStorage.setItem("boutiqueIndex", index);
         }
 
         /* =====================================================
@@ -580,33 +548,18 @@
             }
             if (!carouselStarted || logos.length === 0) return;
 
-            const currentFileName = logoFiles[index % logoFiles.length];
-            const duration = getPartnerDuration(currentFileName);
+            // Durée fixe pour tous les logos (sans Firebase)
             interval = setTimeout(() => {
                 rotateCarousel();
                 startCarousel();
-            }, duration);
+            }, DEFAULT_DURATION);
         }
-
-        /* =====================================================
-           DURÉES DES PARTENAIRES - FIREBASE
-        ===================================================== */
-        onValue(partnerDurationsRef, snapshot => {
-            const data = snapshot.val() || {};
-            partnerDurationsData = {
-                defaultDuration: Number(data.defaultDuration) > 0 ? Number(data.defaultDuration) : 2500,
-                durations: data.durations || {}
-            };
-            if (carouselStarted) {
-                startCarousel();
-            }
-        });
 
         /* =====================================================
            INITIALISATION
         ===================================================== */
         async function init() {
-            console.log("Chargement automatique des logos GitHub...");
+            console.log("Chargement automatique des logos GitHub depuis /boutique...");
             logoFiles = await getLogoFiles();
             if (!logoFiles || logoFiles.length === 0) {
                 console.error("Aucun logo trouvé dans le dossier GitHub /boutique.");
@@ -615,7 +568,7 @@
             console.log(logoFiles.length + " logos trouvés automatiquement.");
             createAllLogos();
 
-            const savedIndex = localStorage.getItem("partenaireIndex");
+            const savedIndex = localStorage.getItem("boutiqueIndex");
             if (savedIndex !== null && !isNaN(parseInt(savedIndex))) {
                 index = parseInt(savedIndex);
                 index = ((index % logos.length) + logos.length) % logos.length;
