@@ -1773,192 +1773,490 @@ function mettreAJourApercuHalos() {
  * - etc.
  * Si un joueur est décoché puis recoché, il revient en dernier.
  */
+/* =====================================================
+   ONGLET : 5 MAJEUR
+===================================================== */
+
 let selectionOrder = [];
 
+/*
+ * Mémoire permanente des numéros de maillot.
+ * Chaque joueur garde son numéro indépendamment
+ * du 5 majeur actuellement sélectionné.
+ */
+let playerNumbersMemory = {};
+
+/*
+ * Affichage de l'ordre des joueurs sélectionnés
+ */
 function mettreAJourAffichageOrdre() {
-    const checkboxes = document.querySelectorAll("#playersList input[type='checkbox']");
+
+    const checkboxes = document.querySelectorAll(
+        "#playersList input[type='checkbox']"
+    );
+
     checkboxes.forEach(checkbox => {
+
         const row = checkbox.closest(".player-checkbox");
         const orderElement = row?.querySelector(".player-order");
-        const order = selectionOrder.indexOf(checkbox.dataset.player) + 1;
+
+        const order =
+            selectionOrder.indexOf(checkbox.dataset.player) + 1;
 
         if (checkbox.checked && order > 0) {
+
             row?.classList.add("selected");
-            if (orderElement) orderElement.textContent = order;
+
+            if (orderElement) {
+                orderElement.textContent = order;
+            }
+
         } else {
+
             row?.classList.remove("selected");
-            if (orderElement) orderElement.textContent = "—";
+
+            if (orderElement) {
+                orderElement.textContent = "—";
+            }
         }
     });
 
     const count = selectionOrder.length;
-    const help = document.getElementById("playersSelectionHelp");
+
+    const help =
+        document.getElementById("playersSelectionHelp");
+
     if (help) {
-        help.textContent = `${count} / 5 joueurs sélectionnés` +
-            (count === 5 ? " — ordre prêt pour la diffusion" : "");
+
+        help.textContent =
+            `${count} / 5 joueurs sélectionnés` +
+            (count === 5
+                ? " — ordre prêt pour la diffusion"
+                : "");
     }
 }
 
+
+/*
+ * Gestion du clic sur un joueur
+ */
 function gererClicJoueur(checkbox) {
+
     const joueur = checkbox.dataset.player;
 
     if (checkbox.checked) {
+
         if (!selectionOrder.includes(joueur)) {
+
             if (selectionOrder.length >= 5) {
+
                 checkbox.checked = false;
-                alert("Tu peux sélectionner exactement 5 joueurs maximum.");
+
+                alert(
+                    "Tu peux sélectionner exactement 5 joueurs maximum."
+                );
+
                 return;
             }
+
             selectionOrder.push(joueur);
         }
+
     } else {
-        selectionOrder = selectionOrder.filter(nom => nom !== joueur);
+
+        selectionOrder =
+            selectionOrder.filter(nom => nom !== joueur);
     }
 
     mettreAJourAffichageOrdre();
 }
 
+
+/*
+ * Création de la liste des joueurs
+ */
 function chargerListeJoueurs() {
-    const playersList = document.getElementById("playersList");
+
+    const playersList =
+        document.getElementById("playersList");
+
     if (!playersList) return;
 
     playersList.innerHTML = "";
 
     players.forEach((player, index) => {
-        const div = document.createElement("div");
+
+        const div =
+            document.createElement("div");
+
         div.className = "player-checkbox";
 
-        const checkbox = document.createElement("input");
+
+        /* CHECKBOX */
+
+        const checkbox =
+            document.createElement("input");
+
         checkbox.type = "checkbox";
         checkbox.id = `player-${index}`;
         checkbox.dataset.player = player;
 
-        const label = document.createElement("label");
+
+        /* NOM DU JOUEUR */
+
+        const label =
+            document.createElement("label");
+
         label.htmlFor = `player-${index}`;
         label.textContent = player;
 
-        const numberInput = document.createElement("input");
+
+        /* NUMÉRO DE MAILLOT */
+
+        const numberInput =
+            document.createElement("input");
+
         numberInput.type = "number";
         numberInput.min = "0";
         numberInput.max = "99";
         numberInput.step = "1";
-        numberInput.className = "player-number-input";
+
+        numberInput.className =
+            "player-number-input";
+
         numberInput.placeholder = "N°";
-        numberInput.title = `Numéro de maillot de ${player}`;
+
+        numberInput.title =
+            `Numéro de maillot de ${player}`;
+
         numberInput.dataset.player = player;
 
-        const orderElement = document.createElement("div");
-        orderElement.className = "player-order";
-        orderElement.textContent = "—";
-        orderElement.title = "Ordre d'apparition";
 
-        checkbox.addEventListener("change", () => {
-            gererClicJoueur(checkbox);
+        /*
+         * Dès que l'utilisateur modifie le numéro,
+         * on le mémorise localement dans la variable.
+         */
+        numberInput.addEventListener("input", () => {
+
+            const valeur =
+                numberInput.value.trim();
+
+            if (valeur !== "") {
+
+                playerNumbersMemory[player] =
+                    Number(valeur);
+
+            } else {
+
+                delete playerNumbersMemory[player];
+            }
         });
 
-        // Empêche le champ du numéro de déclencher involontairement la sélection.
+
+        /*
+         * Empêche le clic sur le numéro
+         * de sélectionner/désélectionner le joueur.
+         */
         numberInput.addEventListener("click", event => {
             event.stopPropagation();
         });
+
+
+        /* ORDRE */
+
+        const orderElement =
+            document.createElement("div");
+
+        orderElement.className =
+            "player-order";
+
+        orderElement.textContent = "—";
+
+        orderElement.title =
+            "Ordre d'apparition";
+
+
+        /*
+         * Sélection du joueur
+         */
+        checkbox.addEventListener("change", () => {
+
+            gererClicJoueur(checkbox);
+
+        });
+
 
         div.appendChild(checkbox);
         div.appendChild(label);
         div.appendChild(numberInput);
         div.appendChild(orderElement);
+
         playersList.appendChild(div);
     });
 
-    // Charger la configuration sauvegardée.
-    onValue(cinqMajeurRef, (snapshot) => {
-        const data = snapshot.val() || {};
-        const selectedPlayers = Array.isArray(data.players) ? data.players : [];
 
-        // L'ancien format "players: [nom, nom, ...]" reste compatible.
-        selectionOrder = selectedPlayers.filter(player => players.includes(player));
+    /*
+     * Charger les données sauvegardées dans Firebase
+     */
+    onValue(cinqMajeurRef, snapshot => {
 
-        document.querySelectorAll("#playersList input[type='checkbox']").forEach(checkbox => {
-            checkbox.checked = selectionOrder.includes(checkbox.dataset.player);
-        });
+        const data =
+            snapshot.val() || {};
 
-        document.querySelectorAll(".player-number-input").forEach(input => {
-            input.value = data.playerNumbers?.[input.dataset.player] ?? "";
-        });
+
+        /*
+         * =============================================
+         * RÉCUPÉRATION DE TOUS LES NUMÉROS
+         * =============================================
+         *
+         * On récupère la mémoire complète des numéros.
+         */
+        if (data.playerNumbers) {
+
+            playerNumbersMemory =
+                { ...data.playerNumbers };
+
+        }
+
+
+        /*
+         * =============================================
+         * RÉCUPÉRATION DU 5 MAJEUR
+         * =============================================
+         */
+
+        const selectedPlayers =
+            Array.isArray(data.players)
+                ? data.players
+                : [];
+
+
+        selectionOrder =
+            selectedPlayers.filter(player =>
+                players.includes(player)
+            );
+
+
+        /*
+         * Cocher les joueurs actuellement
+         * dans le 5 majeur.
+         */
+        document
+            .querySelectorAll(
+                "#playersList input[type='checkbox']"
+            )
+            .forEach(checkbox => {
+
+                checkbox.checked =
+                    selectionOrder.includes(
+                        checkbox.dataset.player
+                    );
+            });
+
+
+        /*
+         * =============================================
+         * RESTAURATION DES NUMÉROS
+         * =============================================
+         *
+         * Chaque joueur récupère automatiquement
+         * son numéro mémorisé.
+         */
+
+        document
+            .querySelectorAll(
+                ".player-number-input"
+            )
+            .forEach(input => {
+
+                const joueur =
+                    input.dataset.player;
+
+                if (
+                    playerNumbersMemory[joueur] !==
+                    undefined
+                ) {
+
+                    input.value =
+                        playerNumbersMemory[joueur];
+
+                } else {
+
+                    input.value = "";
+                }
+            });
+
 
         mettreAJourAffichageOrdre();
     });
 }
 
-savePlayersButton.addEventListener("click", async () => {
-    try {
-        if (selectionOrder.length !== 5) {
-            playersStatus.className = "error";
-            playersStatus.textContent =
-                `❌ Sélectionne exactement 5 joueurs (${selectionOrder.length}/5 actuellement).`;
-            return;
-        }
 
-        // Vérifier que chaque joueur sélectionné possède un numéro.
-        const playerNumbers = {};
-        let numeroManquant = null;
+/*
+ * =====================================================
+ * ENREGISTRER LE 5 MAJEUR
+ * =====================================================
+ */
 
-        selectionOrder.forEach(player => {
-            const input = document.querySelector(
-                `.player-number-input[data-player="${CSS.escape(player)}"]`
-            );
+savePlayersButton.addEventListener(
+    "click",
+    async () => {
 
-            const value = input ? input.value.trim() : "";
+        try {
 
-            if (!value) {
-                numeroManquant = player;
-            } else {
-                playerNumbers[player] = Number(value);
+            /*
+             * Vérifier qu'il y a exactement 5 joueurs.
+             */
+            if (selectionOrder.length !== 5) {
+
+                playersStatus.className =
+                    "error";
+
+                playersStatus.textContent =
+                    `❌ Sélectionne exactement 5 joueurs (${selectionOrder.length}/5 actuellement).`;
+
+                return;
             }
-        });
 
-        if (numeroManquant) {
-            playersStatus.className = "error";
+
+            /*
+             * Mettre à jour la mémoire des numéros
+             * avec les valeurs actuellement affichées.
+             *
+             * IMPORTANT :
+             * on ne repart PAS de zéro.
+             * Les anciens numéros sont conservés.
+             */
+
+            document
+                .querySelectorAll(
+                    ".player-number-input"
+                )
+                .forEach(input => {
+
+                    const joueur =
+                        input.dataset.player;
+
+                    const valeur =
+                        input.value.trim();
+
+                    if (valeur !== "") {
+
+                        playerNumbersMemory[joueur] =
+                            Number(valeur);
+                    }
+                });
+
+
+            /*
+             * Vérifier que les 5 joueurs ont
+             * bien un numéro.
+             */
+
+            let numeroManquant = null;
+
+            selectionOrder.forEach(player => {
+
+                const numero =
+                    playerNumbersMemory[player];
+
+                if (
+                    numero === undefined ||
+                    numero === null ||
+                    numero === ""
+                ) {
+
+                    numeroManquant = player;
+                }
+            });
+
+
+            if (numeroManquant) {
+
+                playersStatus.className =
+                    "error";
+
+                playersStatus.textContent =
+                    `❌ Indique le numéro de maillot de ${numeroManquant}.`;
+
+                return;
+            }
+
+
+            /*
+             * Désactiver le bouton pendant
+             * l'enregistrement.
+             */
+
+            savePlayersButton.disabled = true;
+
+            savePlayersButton.textContent =
+                "⏳ ENREGISTREMENT...";
+
+
+            /*
+             * Enregistrement Firebase
+             *
+             * playerNumbers contient maintenant
+             * TOUS les numéros connus.
+             */
+
+            await set(cinqMajeurRef, {
+
+                players:
+                    [...selectionOrder],
+
+                playerNumbers:
+                    { ...playerNumbersMemory },
+
+                selectionOrder:
+                    [...selectionOrder],
+
+                timestamp:
+                    Date.now()
+            });
+
+
+            playersStatus.className =
+                "success";
+
             playersStatus.textContent =
-                `❌ Indique le numéro de maillot de ${numeroManquant}.`;
-            return;
+                "✅ 5 Majeur enregistré ! Les numéros des joueurs sont maintenant mémorisés.";
+
+            savePlayersButton.textContent =
+                "✅ ENREGISTRÉ";
+
+
+            setTimeout(() => {
+
+                savePlayersButton.disabled =
+                    false;
+
+                savePlayersButton.textContent =
+                    "💾 ENREGISTRER LE 5 MAJEUR";
+
+            }, 2000);
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            playersStatus.className =
+                "error";
+
+            playersStatus.textContent =
+                "❌ Erreur : " +
+                error.message;
+
+            savePlayersButton.disabled =
+                false;
+
+            savePlayersButton.textContent =
+                "💾 ENREGISTRER LE 5 MAJEUR";
         }
-
-        savePlayersButton.disabled = true;
-        savePlayersButton.textContent = "⏳ ENREGISTREMENT...";
-
-        /*
-         * IMPORTANT :
-         * "players" reste un simple tableau de noms, dans l'ordre de clic.
-         * Cela conserve la compatibilité avec la page 5majeur.html existante.
-         *
-         * "playerNumbers" contient les numéros saisis manuellement.
-         * "selectionOrder" contient explicitement le même ordre pour
-         * permettre à la page de diffusion de l'exploiter.
-         */
-        await set(cinqMajeurRef, {
-            players: [...selectionOrder],
-            playerNumbers: playerNumbers,
-            selectionOrder: [...selectionOrder],
-            timestamp: Date.now()
-        });
-
-        playersStatus.className = "success";
-        playersStatus.textContent =
-            "✅ 5 Majeur enregistré dans l'ordre de sélection !";
-        savePlayersButton.textContent = "✅ ENREGISTRÉ";
-
-        setTimeout(() => {
-            savePlayersButton.disabled = false;
-            savePlayersButton.textContent = "💾 ENREGISTRER LE 5 MAJEUR";
-        }, 2000);
-
-    } catch (error) {
-        console.error(error);
-        playersStatus.className = "error";
-        playersStatus.textContent = "❌ Erreur : " + error.message;
-        savePlayersButton.disabled = false;
-        savePlayersButton.textContent = "💾 ENREGISTRER LE 5 MAJEUR";
     }
-});
+);
 
 /* =====================================================
 
