@@ -1,31 +1,43 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MATCH DU SOIR — MVBC</title>
+
+<!-- =====================================================
+     POLICES — MÊME TYPOGRAPHIE QUE GO GO GO / THREE
+     ===================================================== -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@500;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 
 /* =====================================================
-   VARIABLES CSS
-===================================================== */
+   VARIABLES
+   ===================================================== */
 
 :root {
-    /* AUCUNE COULEUR PAR DEFAUT ICI */
-    --halo-couleur-1: transparent;
-    --halo-couleur-2: transparent;
+    --white: #f7f7f5;
+    --black: #050608;
 
-    --halo-couleur-1-rgb: 0, 0, 0;
-    --halo-couleur-2-rgb: 0, 0, 0;
+    --blue: #1769ff;
+    --red: #ed174c;
+    --yellow: #ffd400;
+
+    --halo1: #ffffff;
+    --halo2: #ffffff;
+
+    --halo1-rgb: 255,255,255;
+    --halo2-rgb: 255,255,255;
 }
 
 
 /* =====================================================
    RESET
-===================================================== */
+   ===================================================== */
 
 * {
     box-sizing: border-box;
@@ -33,37 +45,38 @@
 
 html,
 body {
-    margin: 0;
-    padding: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #050505;
-    color: white;
+    margin: 0;
+    padding: 0;
 }
 
-
-/* =====================================================
-   ECRAN DE CHARGEMENT
-===================================================== */
-
-/*
-   La page reste complètement noire tant que
-   Firebase n'a pas envoyé les données.
-*/
+html {
+    overflow: hidden;
+}
 
 body {
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(255,255,255,.035),
+            transparent 32%
+        ),
+        #050608;
+
+    color: var(--white);
+
+    font-family: "Inter", sans-serif;
+
     visibility: hidden;
     opacity: 0;
-    transition: opacity 0.25s ease;
+
+    transition:
+        opacity .35s ease,
+        visibility .35s ease;
 }
-
-
-/*
-   Classe ajoutée uniquement lorsque Firebase
-   a terminé le chargement.
-*/
 
 body.loaded {
     visibility: visible;
@@ -72,364 +85,487 @@ body.loaded {
 
 
 /* =====================================================
-   FOND
-===================================================== */
+   SCÈNE
+   ===================================================== */
 
-body {
+.stage {
     position: relative;
-    background:
-        radial-gradient(
-            circle at 20% 50%,
-            rgba(var(--halo-couleur-1-rgb), 0.30),
-            transparent 35%
-        ),
-        radial-gradient(
-            circle at 80% 50%,
-            rgba(var(--halo-couleur-2-rgb), 0.30),
-            transparent 35%
-        ),
-        linear-gradient(
-            90deg,
-            #020611,
-            #080808,
-            #110703
-        );
-}
-
-
-/* =====================================================
-   LUMIÈRES D'ARRIÈRE-PLAN
-===================================================== */
-
-body::before {
-    content: "";
-    position: absolute;
-    width: 600px;
-    height: 600px;
-    left: -250px;
-    top: 25%;
-
-    background:
-        rgba(
-            var(--halo-couleur-1-rgb),
-            0.25
-        );
-
-    filter: blur(100px);
-    border-radius: 50%;
-
-    animation:
-        blueGlow 4s infinite alternate;
-}
-
-body::after {
-    content: "";
-    position: absolute;
-    width: 600px;
-    height: 600px;
-    right: -250px;
-    top: 25%;
-
-    background:
-        rgba(
-            var(--halo-couleur-2-rgb),
-            0.25
-        );
-
-    filter: blur(100px);
-    border-radius: 50%;
-
-    animation:
-        orangeGlow 4s infinite alternate;
-}
-
-
-/* =====================================================
-   ANIMATION HALO GAUCHE
-===================================================== */
-
-@keyframes blueGlow {
-
-    from {
-        transform: scale(0.9);
-        opacity: 0.5;
-    }
-
-    to {
-        transform: scale(1.2);
-        opacity: 1;
-    }
-
-}
-
-
-/* =====================================================
-   ANIMATION HALO DROIT
-===================================================== */
-
-@keyframes orangeGlow {
-
-    from {
-        transform: scale(0.9);
-        opacity: 0.5;
-    }
-
-    to {
-        transform: scale(1.2);
-        opacity: 1;
-    }
-
-}
-
-
-/* =====================================================
-   CONTENEUR PRINCIPAL
-===================================================== */
-
-.container {
-    position: relative;
-    z-index: 5;
 
     width: 100%;
-    height: 100vh;
+    height: 100dvh;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
+    overflow: hidden;
 
-    padding-top: 50px;
+    isolation: isolate;
 }
 
 
 /* =====================================================
-   PETIT TITRE
-===================================================== */
+   HALO ÉQUIPE GAUCHE
+   ===================================================== */
 
-.championnat {
-    font-size: 20px;
-    letter-spacing: 8px;
-    font-weight: bold;
-    color: #ffffff;
+.stage::before {
+    content: "";
 
-    opacity: 0;
+    position: absolute;
 
-    animation:
-        subtitleIn 1s ease forwards;
+    left: -18%;
+    top: 5%;
 
-    animation-delay: 0.2s;
-}
+    width: 70%;
+    height: 90%;
 
-
-/* =====================================================
-   ANIMATION PETIT TITRE
-===================================================== */
-
-@keyframes subtitleIn {
-
-    from {
-        opacity: 0;
-        transform: translateY(-30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-}
-
-
-/* =====================================================
-   TITRE PRINCIPAL
-===================================================== */
-
-.match-title {
-
-    margin-top: 10px;
-
-    font-size: clamp(30px, 5vw, 60px);
-
-    font-weight: 900;
-    font-style: italic;
-
-    letter-spacing: 3px;
-
-    text-transform: uppercase;
-
-    text-align: center;
+    z-index: -5;
 
     background:
-        linear-gradient(
-            90deg,
-            #ffffff,
-            #aee7ff,
-            #ffffff,
-            #ffb36b,
-            #ffffff
+        radial-gradient(
+            ellipse at center,
+            rgba(var(--halo1-rgb), .20),
+            rgba(var(--halo1-rgb), .08) 30%,
+            transparent 68%
         );
 
-    background-size: 300% auto;
+    filter: blur(70px);
 
-    -webkit-background-clip: text;
-    background-clip: text;
-
-    color: transparent;
-
-    animation:
-        titleIn 1.2s ease forwards,
-        titleShine 5s linear infinite;
-
-    opacity: 0;
-
-    text-shadow:
-        0 0 20px rgba(255,255,255,0.25);
+    pointer-events: none;
 }
 
 
 /* =====================================================
-   ANIMATION TITRE
-===================================================== */
+   HALO ÉQUIPE DROITE
+   ===================================================== */
 
-@keyframes titleIn {
+.stage::after {
+    content: "";
 
-    from {
+    position: absolute;
 
-        opacity: 0;
+    right: -18%;
+    top: 5%;
 
-        transform:
-            scale(0.7)
-            translateY(-30px);
-    }
+    width: 70%;
+    height: 90%;
 
-    to {
+    z-index: -5;
 
-        opacity: 1;
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(var(--halo2-rgb), .20),
+            rgba(var(--halo2-rgb), .08) 30%,
+            transparent 68%
+        );
 
-        transform:
-            scale(1)
-            translateY(0);
-    }
+    filter: blur(70px);
 
+    pointer-events: none;
 }
 
 
 /* =====================================================
-   ANIMATION REFLET TITRE
-===================================================== */
+   ATMOSPHÈRE ARENA
+   ===================================================== */
 
-@keyframes titleShine {
+.arena-grid {
+    position: absolute;
 
-    0% {
-        background-position: 0% center;
-    }
+    inset: -20%;
 
-    100% {
-        background-position: 300% center;
-    }
+    z-index: -4;
 
+    pointer-events: none;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            transparent 0 90px,
+            rgba(255,255,255,.012) 91px 92px
+        ),
+        radial-gradient(
+            ellipse at center,
+            rgba(255,255,255,.045),
+            transparent 50%
+        );
+
+    transform:
+        perspective(800px)
+        rotateX(58deg)
+        scale(1.35);
+
+    transform-origin: center bottom;
 }
 
 
 /* =====================================================
-   LIGNE SOUS LE TITRE
-===================================================== */
+   VIGNETTE
+   ===================================================== */
 
-.match-title-line {
+.vignette {
+    position: absolute;
 
-    width: 500px;
-    max-width: 70%;
+    inset: 0;
 
-    height: 3px;
+    z-index: 30;
 
-    margin-top: 20px;
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 35%,
+            rgba(0,0,0,.48) 100%
+        );
+}
+
+
+/* =====================================================
+   LIGNES TECHNIQUES
+   ===================================================== */
+
+.tech-lines {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 2;
+
+    pointer-events: none;
+
+    opacity: .5;
+}
+
+.tech-lines::before,
+.tech-lines::after {
+    content: "";
+
+    position: absolute;
+
+    left: 5%;
+    right: 5%;
+
+    height: 1px;
 
     background:
         linear-gradient(
             90deg,
             transparent,
-            var(--halo-couleur-1),
-            white,
-            var(--halo-couleur-2),
+            rgba(255,255,255,.25),
+            transparent
+        );
+}
+
+.tech-lines::before {
+    top: 8%;
+}
+
+.tech-lines::after {
+    bottom: 8%;
+}
+
+
+/* =====================================================
+   PETITES LIGNES LATÉRALES
+   ===================================================== */
+
+.side-mark {
+    position: absolute;
+
+    width: 70px;
+    height: 4px;
+
+    z-index: 5;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--white)
+        );
+
+    opacity: .7;
+}
+
+.side-mark.left {
+    left: 4%;
+    top: 50%;
+}
+
+.side-mark.right {
+    right: 4%;
+    top: 50%;
+
+    transform: rotate(180deg);
+}
+
+
+/* =====================================================
+   CONTENU
+   ===================================================== */
+
+.content {
+    position: relative;
+
+    z-index: 10;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding:
+        clamp(25px, 4vh, 55px)
+        4vw
+        clamp(25px, 4vh, 45px);
+
+    min-height: 0;
+}
+
+
+/* =====================================================
+   CHAMPIONNAT
+   ===================================================== */
+
+.championnat-wrap {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: min(80vw, 800px);
+
+    margin-bottom: clamp(10px, 2vh, 24px);
+
+    opacity: 0;
+    transform: translateY(-25px);
+}
+
+.championnat-wrap::before,
+.championnat-wrap::after {
+    content: "";
+
+    width: clamp(35px, 8vw, 120px);
+    height: 2px;
+
+    margin: 0 15px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--white)
+        );
+
+    opacity: .55;
+}
+
+.championnat-wrap::after {
+    transform: rotate(180deg);
+}
+
+.championnat {
+    padding:
+        7px
+        18px;
+
+    border:
+        1px solid rgba(255,255,255,.35);
+
+    background:
+        rgba(255,255,255,.035);
+
+    font-family: "Inter", sans-serif;
+
+    font-size: clamp(12px, 1.1vw, 18px);
+
+    font-weight: 900;
+
+    letter-spacing: .28em;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+}
+
+
+/* =====================================================
+   TITRE MATCH DU SOIR
+   ===================================================== */
+
+.match-title {
+    position: relative;
+
+    margin: 0;
+
+    font-family: "Barlow Condensed", sans-serif;
+
+    font-size: clamp(
+        75px,
+        12vw,
+        190px
+    );
+
+    font-weight: 900;
+
+    line-height: .76;
+
+    letter-spacing: -.075em;
+
+    text-align: center;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+
+    font-style: italic;
+
+    transform:
+        skewX(-5deg)
+        scale(.65);
+
+    opacity: 0;
+
+    color: var(--white);
+
+    text-shadow:
+        5px 5px 0 var(--black),
+        10px 10px 0 var(--yellow),
+        16px 16px 0 rgba(237,23,76,.75),
+        22px 22px 0 rgba(23,105,255,.45);
+
+    will-change:
+        transform,
+        opacity;
+}
+
+
+/* =====================================================
+   TRAIT SOUS LE TITRE
+   ===================================================== */
+
+.match-title-line {
+    position: relative;
+
+    width: min(65vw, 900px);
+
+    height: 5px;
+
+    margin-top: clamp(12px, 2vh, 25px);
+
+    transform:
+        scaleX(0)
+        skewX(-15deg);
+
+    transform-origin: center;
+
+    opacity: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--blue) 15%,
+            var(--yellow) 35%,
+            var(--white) 50%,
+            var(--yellow) 65%,
+            var(--red) 85%,
             transparent
         );
 
     box-shadow:
-        0 0 15px var(--halo-couleur-1),
-        0 0 15px var(--halo-couleur-2);
-
-    transform: scaleX(0);
-
-    animation:
-        lineIn 1s ease forwards;
-
-    animation-delay: 1s;
+        0 0 25px rgba(23,105,255,.35);
 }
 
 
 /* =====================================================
-   ANIMATION LIGNE
-===================================================== */
-
-@keyframes lineIn {
-
-    to {
-        transform: scaleX(1);
-    }
-
-}
-
-
-/* =====================================================
-   ZONE DES ÉQUIPES
-===================================================== */
+   ZONE ÉQUIPES
+   ===================================================== */
 
 .teams {
-
     position: relative;
 
-    width: 100%;
-    max-width: 1500px;
-
     flex: 1;
+
+    min-height: 0;
+
+    width: 100%;
 
     display: flex;
 
     align-items: center;
     justify-content: center;
 
-    gap: 100px;
+    gap: clamp(
+        50px,
+        9vw,
+        180px
+    );
+
+    margin-top: clamp(10px, 2vh, 25px);
 }
 
 
 /* =====================================================
    ÉQUIPE
-===================================================== */
+   ===================================================== */
 
 .team {
-
     position: relative;
 
-    width: 340px;
-    height: 340px;
+    width: clamp(
+        220px,
+        25vw,
+        390px
+    );
+
+    height: clamp(
+        300px,
+        43vh,
+        450px
+    );
 
     display: flex;
+    flex-direction: column;
 
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+
+    opacity: 0;
+}
+
+.team.left {
+    transform:
+        translateX(-80px)
+        skewX(-3deg);
+}
+
+.team.right {
+    transform:
+        translateX(80px)
+        skewX(3deg);
 }
 
 
 /* =====================================================
-   CADRE LOGO
-===================================================== */
+   LOGO BOX
+   ===================================================== */
 
 .logo-box {
-
     position: relative;
 
-    width: 290px;
-    height: 290px;
+    width: clamp(
+        190px,
+        23vw,
+        340px
+    );
+
+    height: clamp(
+        190px,
+        23vw,
+        340px
+    );
 
     display: flex;
 
@@ -441,900 +577,1456 @@ body::after {
     background:
         radial-gradient(
             circle,
-            rgba(255,255,255,0.08),
-            rgba(0,0,0,0.8)
+            rgba(255,255,255,.10),
+            rgba(0,0,0,.7) 65%
         );
 
-    overflow: visible;
+    border:
+        2px solid rgba(255,255,255,.22);
+
+    box-shadow:
+        0 0 0 8px rgba(255,255,255,.025),
+        inset 0 0 50px rgba(0,0,0,.8);
+
+    isolation: isolate;
 }
 
 
-/* =====================================================
-   CERCLE EXTÉRIEUR
-===================================================== */
+/* Anneau principal */
 
 .logo-box::before {
-
     content: "";
 
     position: absolute;
 
-    inset: -12px;
-
-    border-radius: 50%;
-
-    border: 3px solid;
-
-    animation:
-        rotateRing 5s linear infinite;
-}
-
-
-.team-left .logo-box::before {
-
-    border-color:
-        var(--halo-couleur-1);
-
-    box-shadow:
-        0 0 15px var(--halo-couleur-1),
-        0 0 35px var(--halo-couleur-1),
-        inset 0 0 20px var(--halo-couleur-1);
-}
-
-
-.team-right .logo-box::before {
-
-    border-color:
-        var(--halo-couleur-2);
-
-    box-shadow:
-        0 0 15px var(--halo-couleur-2),
-        0 0 35px var(--halo-couleur-2),
-        inset 0 0 20px var(--halo-couleur-2);
-}
-
-
-/* =====================================================
-   ROTATION ANNEAU
-===================================================== */
-
-@keyframes rotateRing {
-
-    from {
-
-        transform:
-            rotate(0deg);
-    }
-
-    to {
-
-        transform:
-            rotate(360deg);
-    }
-
-}
-
-
-/* =====================================================
-   SECOND ANNEAU
-===================================================== */
-
-.logo-box::after {
-
-    content: "";
-
-    position: absolute;
-
-    inset: -28px;
+    inset: -13px;
 
     border-radius: 50%;
 
     border:
-        1px solid rgba(255,255,255,0.15);
+        4px solid transparent;
+
+    border-top-color: var(--halo);
+    border-right-color: var(--halo);
+
+    transform: rotate(0deg);
 
     animation:
-        pulseRing 2s ease-in-out infinite;
+        rotateRing 7s linear infinite;
+}
+
+
+/* Anneau secondaire */
+
+.logo-box::after {
+    content: "";
+
+    position: absolute;
+
+    inset: -25px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid var(--halo);
+
+    opacity: .45;
+
+    animation:
+        pulseRing 2.5s ease-in-out infinite;
 }
 
 
 /* =====================================================
-   PULSATION ANNEAU
-===================================================== */
-
-@keyframes pulseRing {
-
-    0%,
-    100% {
-
-        transform:
-            scale(0.95);
-
-        opacity: 0.3;
-    }
-
-    50% {
-
-        transform:
-            scale(1.05);
-
-        opacity: 0.8;
-    }
-
-}
-
-
-/* =====================================================
-   LOGOS
-===================================================== */
+   LOGO
+   ===================================================== */
 
 .logo {
-
     position: relative;
 
-    z-index: 5;
+    z-index: 3;
 
-    width: 220px;
-    height: 220px;
+    width: 72%;
+    height: 72%;
 
     object-fit: contain;
+
+    filter:
+        drop-shadow(
+            0 10px 18px rgba(0,0,0,.65)
+        );
 
     opacity: 0;
 }
 
+.team.left .logo {
+    transform:
+        translateX(-80px)
+        scale(.75);
+}
 
-/* =====================================================
-   ANIMATION LOGO GAUCHE
-===================================================== */
-
-.team-left .logo {
-
-    animation:
-        logoLeftIn 1.2s
-        cubic-bezier(.17,.67,.3,1.3)
-        forwards;
-
-    animation-delay: 1.3s;
+.team.right .logo {
+    transform:
+        translateX(80px)
+        scale(.75);
 }
 
 
 /* =====================================================
-   KEYFRAME LOGO GAUCHE
-===================================================== */
+   NOM ÉQUIPE
+   ===================================================== */
 
-@keyframes logoLeftIn {
+.team-name {
+    position: relative;
 
-    from {
+    z-index: 10;
 
-        opacity: 0;
+    min-width: 230px;
 
-        transform:
-            translateX(-500px)
-            rotate(-30deg)
-            scale(0.3);
-    }
+    max-width: 32vw;
 
-    to {
+    margin-top: clamp(
+        30px,
+        4vh,
+        50px
+    );
 
-        opacity: 1;
+    padding:
+        10px
+        24px
+        7px;
 
-        transform:
-            translateX(0)
-            rotate(0deg)
-            scale(1);
-    }
+    text-align: center;
 
-}
+    font-family:
+        "Barlow Condensed",
+        sans-serif;
 
+    font-size: clamp(
+        30px,
+        4.2vw,
+        65px
+    );
 
-/* =====================================================
-   ANIMATION LOGO DROIT
-===================================================== */
+    font-weight: 900;
 
-.team-right .logo {
+    line-height: .9;
 
-    animation:
-        logoRightIn 1.2s
-        cubic-bezier(.17,.67,.3,1.3)
-        forwards;
+    letter-spacing: -.025em;
 
-    animation-delay: 1.3s;
-}
+    text-transform: uppercase;
 
+    white-space: nowrap;
 
-/* =====================================================
-   KEYFRAME LOGO DROIT
-===================================================== */
+    background:
+        rgba(0,0,0,.78);
 
-@keyframes logoRightIn {
+    border-bottom:
+        5px solid var(--halo);
 
-    from {
+    box-shadow:
+        8px 8px 0 rgba(0,0,0,.7);
 
-        opacity: 0;
+    text-shadow:
+        3px 3px 0 #000;
 
-        transform:
-            translateX(500px)
-            rotate(30deg)
-            scale(0.3);
-    }
-
-    to {
-
-        opacity: 1;
-
-        transform:
-            translateX(0)
-            rotate(0deg)
-            scale(1);
-    }
-
-}
-
-
-/* =====================================================
-   LUEUR AUTOUR DU LOGO
-===================================================== */
-
-.team-left .logo-box {
-
-    animation:
-        bluePulse 2.5s ease-in-out infinite;
-}
-
-
-.team-right .logo-box {
-
-    animation:
-        orangePulse 2.5s ease-in-out infinite;
-}
-
-
-/* =====================================================
-   PULSATION GAUCHE
-===================================================== */
-
-@keyframes bluePulse {
-
-    0%,
-    100% {
-
-        filter:
-            drop-shadow(
-                0 0 15px
-                var(--halo-couleur-1)
-            );
-    }
-
-    50% {
-
-        filter:
-            drop-shadow(
-                0 0 50px
-                var(--halo-couleur-1)
-            );
-    }
-
-}
-
-
-/* =====================================================
-   PULSATION DROITE
-===================================================== */
-
-@keyframes orangePulse {
-
-    0%,
-    100% {
-
-        filter:
-            drop-shadow(
-                0 0 15px
-                var(--halo-couleur-2)
-            );
-    }
-
-    50% {
-
-        filter:
-            drop-shadow(
-                0 0 50px
-                var(--halo-couleur-2)
-            );
-    }
-
+    opacity: 0;
+    transform: translateY(30px);
 }
 
 
 /* =====================================================
    VS CENTRAL
-===================================================== */
+   ===================================================== */
 
-.vs {
-
+.vs-container {
     position: absolute;
 
     left: 50%;
     top: 50%;
 
+    z-index: 15;
+
+    width: clamp(
+        110px,
+        10vw,
+        165px
+    );
+
+    height: clamp(
+        110px,
+        10vw,
+        165px
+    );
+
     transform:
         translate(-50%, -50%)
-        scale(0);
+        scale(.2);
 
-    z-index: 20;
+    opacity: 0;
+}
 
-    font-size: 90px;
 
-    font-weight: 1000;
+/* Cercle VS */
+
+.vs-container::before,
+.vs-container::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    border-radius: 50%;
+
+    border: 2px solid rgba(255,255,255,.5);
+}
+
+.vs-container::before {
+    border-top-color: var(--blue);
+    border-bottom-color: var(--red);
+
+    animation:
+        rotateVS 5s linear infinite;
+}
+
+.vs-container::after {
+    inset: 10px;
+
+    border-left-color: var(--yellow);
+    border-right-color: var(--white);
+
+    animation:
+        rotateVS 3s linear infinite reverse;
+}
+
+
+/* Texte VS */
+
+.vs {
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-family:
+        "Barlow Condensed",
+        sans-serif;
+
+    font-size: clamp(
+        55px,
+        6vw,
+        90px
+    );
+
+    font-weight: 900;
+
     font-style: italic;
 
-    color: white;
+    letter-spacing: -.05em;
+
+    transform: skewX(-5deg);
+
+    color: var(--white);
 
     text-shadow:
-        0 0 10px #fff,
-        0 0 30px var(--halo-couleur-1),
-        0 0 50px var(--halo-couleur-2);
-
-    animation:
-        vsAppear 0.8s
-        cubic-bezier(.17,.67,.3,1.4)
-        forwards;
-
-    animation-delay: 2.3s;
+        4px 4px 0 #000,
+        7px 7px 0 var(--yellow),
+        10px 10px 0 rgba(237,23,76,.7);
 }
 
 
 /* =====================================================
-   ANIMATION VS
-===================================================== */
-
-@keyframes vsAppear {
-
-    from {
-
-        transform:
-            translate(-50%, -50%)
-            scale(0)
-            rotate(-20deg);
-
-        opacity: 0;
-    }
-
-    to {
-
-        transform:
-            translate(-50%, -50%)
-            scale(1)
-            rotate(0deg);
-
-        opacity: 1;
-    }
-
-}
-
-
-/* =====================================================
-   NOMS DES ÉQUIPES
-===================================================== */
-
-.team-name {
-
-    position: absolute;
-
-    bottom: -35px;
-
-    font-size: 25px;
-
-    font-weight: 900;
-
-    letter-spacing: 4px;
-
-    opacity: 0;
-
-    animation:
-        nameIn 0.8s ease forwards;
-
-    animation-delay: 2.5s;
-}
-
-
-.team-left .team-name {
-
-    color:
-        var(--halo-couleur-1);
-
-    text-shadow:
-        0 0 15px var(--halo-couleur-1);
-}
-
-
-.team-right .team-name {
-
-    color:
-        var(--halo-couleur-2);
-
-    text-shadow:
-        0 0 15px var(--halo-couleur-2);
-}
-
-
-/* =====================================================
-   ANIMATION NOMS
-===================================================== */
-
-@keyframes nameIn {
-
-    from {
-
-        opacity: 0;
-
-        transform:
-            translateY(20px);
-    }
-
-    to {
-
-        opacity: 1;
-
-        transform:
-            translateY(0);
-    }
-
-}
-
-
-/* =====================================================
-   INFORMATIONS DU MATCH
-===================================================== */
+   INFOS MATCH
+   ===================================================== */
 
 .match-info {
+    position: relative;
 
-    position: absolute;
+    z-index: 12;
 
-    bottom: 45px;
-    left: 50%;
+    display: flex;
 
-    transform:
-        translateX(-50%);
+    align-items: center;
+    justify-content: center;
 
-    z-index: 30;
+    gap: clamp(
+        20px,
+        4vw,
+        60px
+    );
 
-    text-align: center;
+    margin-top: auto;
+
+    padding:
+        10px 28px;
+
+    border:
+        1px solid rgba(255,255,255,.25);
+
+    background:
+        rgba(0,0,0,.65);
+
+    box-shadow:
+        7px 7px 0 rgba(0,0,0,.55);
 
     opacity: 0;
 
-    animation:
-        infoIn 1s ease forwards;
-
-    animation-delay: 2.8s;
+    transform:
+        translateY(30px);
 }
 
 
-.match-date {
+/* Ligne info */
 
-    font-size: 20px;
+.info-block {
+    display: flex;
 
-    letter-spacing: 5px;
+    align-items: center;
 
-    font-weight: bold;
+    gap: 12px;
 }
 
-
-.match-time {
-
-    margin-top: 5px;
-
-    font-size: 40px;
+.info-label {
+    font-size: clamp(
+        10px,
+        .8vw,
+        14px
+    );
 
     font-weight: 900;
 
-    letter-spacing: 4px;
+    letter-spacing: .22em;
+
+    opacity: .55;
+}
+
+.info-value {
+    font-family:
+        "Barlow Condensed",
+        sans-serif;
+
+    font-size: clamp(
+        24px,
+        2.4vw,
+        40px
+    );
+
+    font-weight: 900;
+
+    letter-spacing: .02em;
+}
+
+
+/* Séparateur */
+
+.info-separator {
+    width: 2px;
+
+    height: 35px;
+
+    background:
+        linear-gradient(
+            180deg,
+            transparent,
+            rgba(255,255,255,.6),
+            transparent
+        );
+}
+
+
+/* =====================================================
+   SLASH CENTRAL
+   ===================================================== */
+
+.slash {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    z-index: 4;
+
+    width: min(70vw, 1100px);
+
+    height: 12px;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(-7deg)
+        scaleX(0);
+
+    transform-origin: center;
+
+    opacity: 0;
 
     background:
         linear-gradient(
             90deg,
-            var(--halo-couleur-1),
-            white,
-            var(--halo-couleur-2)
+            transparent,
+            var(--blue) 12%,
+            var(--yellow) 35%,
+            var(--white) 50%,
+            var(--yellow) 65%,
+            var(--red) 88%,
+            transparent
         );
 
-    -webkit-background-clip: text;
+    box-shadow:
+        0 0 30px rgba(23,105,255,.35);
 
-    background-clip: text;
-
-    color: transparent;
+    pointer-events: none;
 }
 
 
 /* =====================================================
-   ANIMATION INFOS
-===================================================== */
+   SPEED LINES
+   ===================================================== */
 
-@keyframes infoIn {
+.speed-lines {
+    position: absolute;
 
-    from {
+    inset: 0;
 
-        opacity: 0;
+    z-index: 3;
 
-        transform:
-            translateX(-50%)
-            translateY(30px);
-    }
+    overflow: hidden;
 
-    to {
+    pointer-events: none;
+}
 
-        opacity: 1;
+.speed-line {
+    position: absolute;
 
-        transform:
-            translateX(-50%)
-            translateY(0);
-    }
+    left: 50%;
+    top: 50%;
 
+    width: clamp(
+        120px,
+        18vw,
+        300px
+    );
+
+    height: 2px;
+
+    transform-origin: 0 50%;
+
+    transform:
+        rotate(var(--angle))
+        translateX(20px)
+        scaleX(0);
+
+    opacity: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.85),
+            transparent
+        );
+}
+
+
+/* =====================================================
+   FLASH
+   ===================================================== */
+
+.flash {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 25;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        rgba(255,255,255,.8);
+
+    mix-blend-mode: screen;
 }
 
 
 /* =====================================================
    PARTICULES
-===================================================== */
+   ===================================================== */
 
-.particle {
-
+.particles {
     position: absolute;
 
-    width: 5px;
-    height: 5px;
+    inset: 0;
+
+    z-index: 1;
+
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+
+    width: 3px;
+    height: 3px;
 
     border-radius: 50%;
 
-    background: white;
+    background: rgba(255,255,255,.55);
 
     opacity: 0;
 
     animation:
         particleFloat
         var(--duration)
-        linear
+        ease-in-out
         infinite;
+
+    animation-delay:
+        var(--delay);
 }
 
 
 /* =====================================================
-   ANIMATION PARTICULES
-===================================================== */
+   ANIMATIONS
+   ===================================================== */
+
+.stage.loaded .championnat-wrap {
+    animation:
+        championshipIn
+        .8s
+        cubic-bezier(.16,.9,.25,1)
+        .15s
+        forwards;
+}
+
+.stage.loaded .match-title {
+    animation:
+        titleImpact
+        1.5s
+        cubic-bezier(.16,.9,.25,1)
+        .25s
+        forwards;
+}
+
+.stage.loaded .match-title-line {
+    animation:
+        lineReveal
+        1s
+        cubic-bezier(.16,1,.3,1)
+        .65s
+        forwards;
+}
+
+.stage.loaded .team.left {
+    animation:
+        teamLeftIn
+        1s
+        cubic-bezier(.16,.9,.25,1)
+        .45s
+        forwards;
+}
+
+.stage.loaded .team.right {
+    animation:
+        teamRightIn
+        1s
+        cubic-bezier(.16,.9,.25,1)
+        .45s
+        forwards;
+}
+
+.stage.loaded .team.left .logo {
+    animation:
+        logoLeftIn
+        1s
+        cubic-bezier(.16,.9,.25,1)
+        .65s
+        forwards;
+}
+
+.stage.loaded .team.right .logo {
+    animation:
+        logoRightIn
+        1s
+        cubic-bezier(.16,.9,.25,1)
+        .65s
+        forwards;
+}
+
+.stage.loaded .team-name {
+    animation:
+        nameIn
+        .8s
+        cubic-bezier(.16,.9,.25,1)
+        1s
+        forwards;
+}
+
+.stage.loaded .vs-container {
+    animation:
+        vsImpact
+        1s
+        cubic-bezier(.16,.9,.25,1)
+        1.05s
+        forwards;
+}
+
+.stage.loaded .match-info {
+    animation:
+        infoIn
+        .8s
+        cubic-bezier(.16,.9,.25,1)
+        1.25s
+        forwards;
+}
+
+.stage.loaded .slash {
+    animation:
+        slashImpact
+        1.2s
+        cubic-bezier(.16,1,.3,1)
+        .65s
+        forwards;
+}
+
+.stage.loaded .speed-line {
+    animation:
+        speedImpact
+        .8s
+        cubic-bezier(.15,.8,.3,1)
+        forwards;
+}
+
+
+/* =====================================================
+   KEYFRAMES
+   ===================================================== */
+
+@keyframes championshipIn {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateY(-30px);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+@keyframes titleImpact {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            skewX(-5deg)
+            scale(.45);
+
+        filter: blur(8px);
+    }
+
+    15% {
+        opacity: 1;
+
+        transform:
+            skewX(-5deg)
+            scale(1.08);
+
+        filter: blur(0);
+    }
+
+    28% {
+        transform:
+            skewX(-5deg)
+            scale(.96);
+    }
+
+    42% {
+        transform:
+            skewX(-5deg)
+            scale(1.02);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            skewX(-5deg)
+            scale(1);
+    }
+}
+
+
+@keyframes lineReveal {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            scaleX(0)
+            skewX(-15deg);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            scaleX(1)
+            skewX(-15deg);
+    }
+}
+
+
+@keyframes teamLeftIn {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateX(-100px)
+            skewX(-3deg);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translateX(0)
+            skewX(-3deg);
+    }
+}
+
+
+@keyframes teamRightIn {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateX(100px)
+            skewX(3deg);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translateX(0)
+            skewX(3deg);
+    }
+}
+
+
+@keyframes logoLeftIn {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateX(-100px)
+            scale(.7);
+    }
+
+    65% {
+        opacity: 1;
+
+        transform:
+            translateX(10px)
+            scale(1.04);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translateX(0)
+            scale(1);
+    }
+}
+
+
+@keyframes logoRightIn {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateX(100px)
+            scale(.7);
+    }
+
+    65% {
+        opacity: 1;
+
+        transform:
+            translateX(-10px)
+            scale(1.04);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translateX(0)
+            scale(1);
+    }
+}
+
+
+@keyframes nameIn {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+@keyframes vsImpact {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translate(-50%, -50%)
+            scale(.2);
+
+        filter: blur(8px);
+    }
+
+    55% {
+        opacity: 1;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1.15);
+
+        filter: blur(0);
+    }
+
+    75% {
+        transform:
+            translate(-50%, -50%)
+            scale(.94);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+    }
+}
+
+
+@keyframes infoIn {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+@keyframes slashImpact {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translate(-50%, -50%)
+            rotate(-7deg)
+            scaleX(0);
+    }
+
+    20% {
+        opacity: 1;
+
+        transform:
+            translate(-50%, -50%)
+            rotate(-7deg)
+            scaleX(1);
+    }
+
+    65% {
+        opacity: .75;
+
+        transform:
+            translate(-50%, -50%)
+            rotate(-7deg)
+            scaleX(1.05);
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate(-50%, -50%)
+            rotate(-7deg)
+            scaleX(1.15);
+    }
+}
+
+
+@keyframes speedImpact {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            rotate(var(--angle))
+            translateX(10px)
+            scaleX(0);
+    }
+
+    20% {
+        opacity: .8;
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            rotate(var(--angle))
+            translateX(30px)
+            scaleX(1);
+    }
+}
+
+
+@keyframes rotateRing {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+@keyframes rotateVS {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+@keyframes pulseRing {
+
+    0%,
+    100% {
+        transform: scale(.95);
+
+        opacity: .25;
+    }
+
+    50% {
+        transform: scale(1.05);
+
+        opacity: .65;
+    }
+}
+
 
 @keyframes particleFloat {
 
     0% {
+        opacity: 0;
 
         transform:
-            translateY(100vh)
-            translateX(0);
-
-        opacity: 0;
+            translateY(20px)
+            scale(.5);
     }
 
-    20% {
-
-        opacity: 0.8;
+    30% {
+        opacity: .6;
     }
 
-    80% {
-
-        opacity: 0.8;
+    70% {
+        opacity: .35;
     }
 
     100% {
+        opacity: 0;
 
         transform:
-            translateY(-20vh)
-            translateX(var(--move));
-
-        opacity: 0;
+            translateY(-100px)
+            scale(1);
     }
-
 }
 
 
 /* =====================================================
    RESPONSIVE
-===================================================== */
+   ===================================================== */
 
 @media (max-width: 900px) {
 
     .teams {
-        gap: 30px;
-    }
-
-    .team {
-
-        width: 250px;
-        height: 250px;
+        gap: 40px;
     }
 
     .logo-box {
-
         width: 210px;
         height: 210px;
     }
 
-    .logo {
-
-        width: 160px;
-        height: 160px;
-    }
-
-    .vs {
-
-        font-size: 60px;
-    }
-
     .team-name {
-
-        font-size: 18px;
+        min-width: 180px;
     }
 
     .match-title {
-
-        font-size:
-            clamp(25px, 6vw, 45px);
+        font-size: clamp(
+            65px,
+            13vw,
+            130px
+        );
     }
-
 }
 
 
-@media (max-width: 700px) {
+@media (max-width: 600px) {
+
+    .content {
+        padding:
+            20px
+            3vw
+            20px;
+    }
+
+    .championnat-wrap {
+        margin-bottom: 8px;
+    }
+
+    .championnat-wrap::before,
+    .championnat-wrap::after {
+        width: 30px;
+
+        margin: 0 8px;
+    }
 
     .championnat {
+        font-size: 10px;
 
-        font-size: 25px;
+        letter-spacing: .18em;
 
-        letter-spacing: 5px;
+        padding:
+            6px 10px;
+    }
+
+    .match-title {
+        font-size: clamp(
+            58px,
+            16vw,
+            100px
+        );
+
+        line-height: .78;
+    }
+
+    .match-title-line {
+        width: 75vw;
     }
 
     .teams {
-
         gap: 10px;
+
+        margin-top: 10px;
     }
 
     .team {
+        width: 45vw;
+        height: 300px;
+    }
 
+    .logo-box {
         width: 150px;
         height: 150px;
     }
 
-    .logo-box {
+    .logo-box::before {
+        inset: -8px;
+    }
 
+    .logo-box::after {
+        inset: -15px;
+    }
+
+    .team-name {
+        min-width: 0;
+
+        max-width: 43vw;
+
+        margin-top: 25px;
+
+        padding:
+            8px 10px 6px;
+
+        font-size: clamp(
+            24px,
+            7vw,
+            40px
+        );
+
+        border-bottom-width: 3px;
+    }
+
+    .vs-container {
+        width: 75px;
+        height: 75px;
+    }
+
+    .vs {
+        font-size: 38px;
+    }
+
+    .match-info {
+        gap: 15px;
+
+        padding:
+            7px 14px;
+    }
+
+    .info-label {
+        display: none;
+    }
+
+    .info-value {
+        font-size: 22px;
+    }
+
+    .info-separator {
+        height: 25px;
+    }
+}
+
+
+@media (max-width: 400px) {
+
+    .logo-box {
         width: 125px;
         height: 125px;
     }
 
-    .logo {
-
-        width: 100px;
-        height: 100px;
-    }
-
-    .vs {
-
-        font-size: 35px;
+    .team {
+        height: 260px;
     }
 
     .team-name {
-
-        font-size: 14px;
-
-        letter-spacing: 2px;
-
-        bottom: -28px;
-    }
-
-    .match-info {
-
-        bottom: 25px;
-    }
-
-    .match-date {
-
-        font-size: 14px;
-
-        letter-spacing: 3px;
-    }
-
-    .match-time {
-
-        font-size: 28px;
+        font-size: 22px;
     }
 
     .match-title {
-
-        font-size: 25px;
+        font-size: 55px;
     }
 
+    .vs-container {
+        width: 65px;
+        height: 65px;
+    }
+
+    .vs {
+        font-size: 32px;
+    }
+}
+
+
+/* =====================================================
+   GRANDS ÉCRANS LED
+   ===================================================== */
+
+@media (min-width: 1600px) {
+
+    .match-title {
+        font-size:
+            clamp(
+                150px,
+                11vw,
+                220px
+            );
+    }
+
+    .logo-box {
+        width:
+            clamp(
+                280px,
+                20vw,
+                360px
+            );
+
+        height:
+            clamp(
+                280px,
+                20vw,
+                360px
+            );
+    }
+
+    .team-name {
+        font-size:
+            clamp(
+                48px,
+                3.5vw,
+                68px
+            );
+    }
+}
+
+
+/* =====================================================
+   ACCESSIBILITÉ
+   ===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        animation-duration: .01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        scroll-behavior: auto !important;
+    }
 }
 
 </style>
-
 </head>
 
 
 <body>
 
+<div class="stage" id="stage">
 
-<!-- =====================================================
-     PARTICULES
-===================================================== -->
+    <!-- Atmosphère -->
+    <div class="arena-grid"></div>
 
-<div class="particle"
-     style="left:5%;--duration:8s;--move:80px;">
-</div>
+    <!-- Lignes -->
+    <div class="tech-lines"></div>
 
-<div class="particle"
-     style="left:15%;--duration:11s;--move:-100px;">
-</div>
+    <div class="side-mark left"></div>
+    <div class="side-mark right"></div>
 
-<div class="particle"
-     style="left:25%;--duration:9s;--move:120px;">
-</div>
+    <!-- Speed lines -->
+    <div class="speed-lines" id="speedLines"></div>
 
-<div class="particle"
-     style="left:40%;--duration:13s;--move:-80px;">
-</div>
+    <!-- Slash central -->
+    <div class="slash"></div>
 
-<div class="particle"
-     style="left:55%;--duration:10s;--move:100px;">
-</div>
+    <!-- Flash -->
+    <div class="flash"></div>
 
-<div class="particle"
-     style="left:70%;--duration:12s;--move:-120px;">
-</div>
+    <!-- Contenu principal -->
+    <main class="content">
 
-<div class="particle"
-     style="left:82%;--duration:9s;--move:80px;">
-</div>
+        <!-- Championnat -->
+        <div class="championnat-wrap">
 
-<div class="particle"
-     style="left:95%;--duration:11s;--move:-70px;">
-</div>
-
-
-<!-- =====================================================
-     CONTENEUR PRINCIPAL
-===================================================== -->
-
-<div class="container">
-
-
-    <div id="championnat"
-         class="championnat">
-
-        CHAMPIONNAT
-
-    </div>
-
-
-    <div id="titreMatch"
-         class="match-title">
-
-        MATCH DU SOIR
-
-    </div>
-
-
-    <div class="match-title-line"></div>
-
-
-    <div class="teams">
-
-
-        <!-- EQUIPE 1 -->
-
-        <div id="team1"
-             class="team team-left">
-
-            <div class="logo-box">
-
-                <img id="logo1"
-                     class="logo"
-                     src=""
-                     alt="Équipe 1">
-
-            </div>
-
-
-            <div id="nom1"
-                 class="team-name">
-
-                ÉQUIPE 1
-
+            <div
+                class="championnat"
+                id="championnat"
+            >
+                CHAMPIONNAT
             </div>
 
         </div>
 
 
-        <!-- VS -->
+        <!-- Titre -->
+        <h1
+            class="match-title"
+            id="titreMatch"
+        >
+            MATCH DU SOIR
+        </h1>
 
-        <div class="vs">
-            VS
-        </div>
+
+        <div class="match-title-line"></div>
 
 
-        <!-- EQUIPE 2 -->
+        <!-- ÉQUIPES -->
+        <section class="teams">
 
-        <div id="team2"
-             class="team team-right">
+            <!-- ÉQUIPE 1 -->
+            <div
+                class="team left"
+                id="team1"
+                style="--halo:#1769ff;"
+            >
 
-            <div class="logo-box">
+                <div class="logo-box">
 
-                <img id="logo2"
-                     class="logo"
-                     src=""
-                     alt="Équipe 2">
+                    <img
+                        id="logo1"
+                        class="logo"
+                        src=""
+                        alt="Équipe 1"
+                    >
+
+                </div>
+
+                <div
+                    class="team-name"
+                    id="nom1"
+                >
+                    ÉQUIPE 1
+                </div>
 
             </div>
 
 
-            <div id="nom2"
-                 class="team-name">
+            <!-- VS -->
+            <div class="vs-container">
 
-                ÉQUIPE 2
+                <div class="vs">
+                    VS
+                </div>
+
+            </div>
+
+
+            <!-- ÉQUIPE 2 -->
+            <div
+                class="team right"
+                id="team2"
+                style="--halo:#ed174c;"
+            >
+
+                <div class="logo-box">
+
+                    <img
+                        id="logo2"
+                        class="logo"
+                        src=""
+                        alt="Équipe 2"
+                    >
+
+                </div>
+
+                <div
+                    class="team-name"
+                    id="nom2"
+                >
+                    ÉQUIPE 2
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- INFORMATIONS -->
+        <div class="match-info">
+
+            <div class="info-block">
+
+                <span class="info-label">
+                    DATE
+                </span>
+
+                <span
+                    class="info-value"
+                    id="date"
+                >
+                    SAMEDI
+                </span>
+
+            </div>
+
+
+            <div class="info-separator"></div>
+
+
+            <div class="info-block">
+
+                <span class="info-label">
+                    COUP D'ENVOI
+                </span>
+
+                <span
+                    class="info-value"
+                    id="heure"
+                >
+                    20H00
+                </span>
 
             </div>
 
         </div>
 
-    </div>
+    </main>
 
 
-    <!-- INFORMATIONS MATCH -->
+    <!-- Vignette -->
+    <div class="vignette"></div>
 
-    <div id="infos"
-         class="match-info">
-
-        <div id="date"
-             class="match-date">
-
-            SAMEDI
-
-        </div>
-
-
-        <div id="heure"
-             class="match-time">
-
-            20H00
-
-        </div>
-
-    </div>
+    <!-- Particules -->
+    <div
+        class="particles"
+        id="particles"
+    ></div>
 
 </div>
 
 
 <!-- =====================================================
      FIREBASE
-===================================================== -->
+     ===================================================== -->
 
 <script type="module">
 
-
-import { initializeApp }
-
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
-
     getDatabase,
     ref,
-    onValue,
-    set
-
-}
-
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    onValue
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 
 /* =====================================================
-   CONFIGURATION FIREBASE
-===================================================== */
+   CONFIG FIREBASE
+   ===================================================== */
 
 const firebaseConfig = {
 
@@ -1363,18 +2055,27 @@ const firebaseConfig = {
 
 /* =====================================================
    INITIALISATION
-===================================================== */
+   ===================================================== */
 
-const app =
-    initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-const db =
-    getDatabase(app);
+const db = getDatabase(app);
+
+const matchRef = ref(
+    db,
+    "matchdusoir"
+);
 
 
 /* =====================================================
-   ELEMENTS
-===================================================== */
+   DOM
+   ===================================================== */
+
+const body =
+    document.body;
+
+const stage =
+    document.getElementById("stage");
 
 const championnat =
     document.getElementById("championnat");
@@ -1382,17 +2083,17 @@ const championnat =
 const titreMatch =
     document.getElementById("titreMatch");
 
-const logo1 =
-    document.getElementById("logo1");
-
-const logo2 =
-    document.getElementById("logo2");
-
 const nom1 =
     document.getElementById("nom1");
 
 const nom2 =
     document.getElementById("nom2");
+
+const logo1 =
+    document.getElementById("logo1");
+
+const logo2 =
+    document.getElementById("logo2");
 
 const date =
     document.getElementById("date");
@@ -1406,174 +2107,381 @@ const team1 =
 const team2 =
     document.getElementById("team2");
 
-const infos =
-    document.getElementById("infos");
+const speedLines =
+    document.getElementById("speedLines");
 
-const vs =
-    document.querySelector(".vs");
-
-const titleLine =
-    document.querySelector(".match-title-line");
-
-const root =
-    document.documentElement;
+const particles =
+    document.getElementById("particles");
 
 
 /* =====================================================
-   CONVERSION HEX -> RGB
-===================================================== */
+   SPEED LINES
+   ===================================================== */
 
-function hexToRgb(hex) {
+const angles = [
 
-    hex =
-        hex.replace("#", "");
+    0,
+    18,
+    36,
+    54,
+    72,
+    90,
+    108,
+    126,
+    144,
+    162,
+    180,
+    198,
+    216,
+    234,
+    252,
+    270,
+    288,
+    306,
+    324,
+    342
 
-    const r =
-        parseInt(
-            hex.substring(0, 2),
-            16
+];
+
+
+angles.forEach(
+    angle => {
+
+        const line =
+            document.createElement("div");
+
+        line.className =
+            "speed-line";
+
+        line.style.setProperty(
+            "--angle",
+            `${angle}deg`
         );
 
-    const g =
-        parseInt(
-            hex.substring(2, 4),
-            16
-        );
+        line.style.animationDelay =
+            `${Math.random() * .18}s`;
 
-    const b =
-        parseInt(
-            hex.substring(4, 6),
-            16
-        );
+        speedLines.appendChild(line);
 
-    return `${r}, ${g}, ${b}`;
+    }
+);
+
+
+/* =====================================================
+   PARTICULES
+   ===================================================== */
+
+for (
+    let i = 0;
+    i < 30;
+    i++
+) {
+
+    const particle =
+        document.createElement("div");
+
+    particle.className =
+        "particle";
+
+    particle.style.left =
+        `${Math.random() * 100}%`;
+
+    particle.style.top =
+        `${Math.random() * 100}%`;
+
+    particle.style.setProperty(
+        "--duration",
+        `${3 + Math.random() * 5}s`
+    );
+
+    particle.style.setProperty(
+        "--delay",
+        `${Math.random() * 5}s`
+    );
+
+    particles.appendChild(
+        particle
+    );
 }
 
 
 /* =====================================================
-   REJOUER LES ANIMATIONS
-===================================================== */
+   HEX → RGB
+   ===================================================== */
+
+function hexToRgb(hex) {
+
+    if (
+        typeof hex !== "string"
+    ) {
+        return {
+            r: 255,
+            g: 255,
+            b: 255
+        };
+    }
+
+    let value =
+        hex.replace("#", "").trim();
+
+    if (
+        value.length === 3
+    ) {
+
+        value =
+            value
+                .split("")
+                .map(
+                    c => c + c
+                )
+                .join("");
+
+    }
+
+    if (
+        !/^[0-9a-fA-F]{6}$/.test(value)
+    ) {
+
+        return {
+            r: 255,
+            g: 255,
+            b: 255
+        };
+
+    }
+
+    return {
+
+        r: parseInt(
+            value.substring(0, 2),
+            16
+        ),
+
+        g: parseInt(
+            value.substring(2, 4),
+            16
+        ),
+
+        b: parseInt(
+            value.substring(4, 6),
+            16
+        )
+
+    };
+
+}
+
+
+/* =====================================================
+   ANIMATIONS
+   ===================================================== */
 
 function restartAnimations() {
 
     const animatedElements = [
 
-        championnat,
+        document.querySelector(
+            ".championnat-wrap"
+        ),
+
         titreMatch,
-        titleLine,
+
+        document.querySelector(
+            ".match-title-line"
+        ),
+
+        team1,
+
+        team2,
+
         logo1,
+
         logo2,
 
-        team1.querySelector(
-            ".team-name"
+        document.querySelector(
+            ".team.left .team-name"
         ),
 
-        team2.querySelector(
-            ".team-name"
+        document.querySelector(
+            ".team.right .team-name"
         ),
 
-        infos,
-        vs
+        document.querySelector(
+            ".vs-container"
+        ),
+
+        document.querySelector(
+            ".match-info"
+        ),
+
+        document.querySelector(
+            ".slash"
+        )
 
     ];
 
 
+    stage.classList.remove(
+        "loaded"
+    );
+
     animatedElements.forEach(
         element => {
 
-            if (!element) return;
+            if (!element) {
+                return;
+            }
 
             element.style.animation =
                 "none";
+
+            void element.offsetWidth;
+
+            element.style.animation =
+                "";
+
         }
     );
 
 
-    void document.body.offsetWidth;
+    document
+        .querySelectorAll(".speed-line")
+        .forEach(
+            line => {
+
+                line.style.animation =
+                    "none";
+
+                void line.offsetWidth;
+
+                line.style.animation =
+                    "";
+
+            }
+        );
 
 
-    animatedElements.forEach(
-        element => {
+    void stage.offsetWidth;
 
-            if (!element) return;
-
-            element.style.animation =
-                "";
-        }
+    stage.classList.add(
+        "loaded"
     );
 
 }
 
 
 /* =====================================================
-   REFERENCE FIREBASE
-===================================================== */
+   MISE À JOUR HALOS
+   ===================================================== */
 
-const matchRef =
-    ref(
-        db,
-        "matchdusoir"
+function setHalo(
+    element,
+    color
+) {
+
+    const safeColor =
+        color || "#ffffff";
+
+    const rgb =
+        hexToRgb(
+            safeColor
+        );
+
+    element.style.setProperty(
+        "--halo",
+        safeColor
     );
+
+    element.style.setProperty(
+        "--halo-rgb",
+        `${rgb.r},${rgb.g},${rgb.b}`
+    );
+
+}
 
 
 /* =====================================================
-   ECOUTE EN TEMPS REEL
-===================================================== */
+   FIREBASE
+   ===================================================== */
 
 onValue(
     matchRef,
-    (snapshot) => {
+
+    snapshot => {
 
         const data =
             snapshot.val();
 
 
-        /* =============================================
-           SI AUCUNE DONNEE
-        ============================================= */
+        /* ---------------------------------------------
+           PAS DE DONNÉES
+           --------------------------------------------- */
 
         if (!data) {
 
-            console.log(
-                "Aucun match enregistré."
+            championnat.textContent =
+                "CHAMPIONNAT";
+
+            titreMatch.textContent =
+                "MATCH DU SOIR";
+
+            nom1.textContent =
+                "ÉQUIPE 1";
+
+            nom2.textContent =
+                "ÉQUIPE 2";
+
+            date.textContent =
+                "SAMEDI";
+
+            heure.textContent =
+                "20H00";
+
+
+            logo1.removeAttribute(
+                "src"
             );
 
-            /*
-               Même dans ce cas on affiche
-               la page sans couleurs.
-            */
-
-            root.style.setProperty(
-                "--halo-couleur-1",
-                "transparent"
+            logo2.removeAttribute(
+                "src"
             );
 
-            root.style.setProperty(
-                "--halo-couleur-2",
-                "transparent"
+
+            document.documentElement.style.setProperty(
+                "--halo1-rgb",
+                "255,255,255"
             );
 
-            root.style.setProperty(
-                "--halo-couleur-1-rgb",
-                "0, 0, 0"
+            document.documentElement.style.setProperty(
+                "--halo2-rgb",
+                "255,255,255"
             );
 
-            root.style.setProperty(
-                "--halo-couleur-2-rgb",
-                "0, 0, 0"
+
+            setHalo(
+                team1,
+                "#ffffff"
             );
 
-            document.body.classList.add(
+            setHalo(
+                team2,
+                "#ffffff"
+            );
+
+
+            body.classList.add(
                 "loaded"
             );
+
+            restartAnimations();
 
             return;
         }
 
 
-        /* =============================================
+        /* ---------------------------------------------
            TEXTES
-        ============================================= */
+           --------------------------------------------- */
 
         championnat.textContent =
             data.championnat ||
@@ -1597,204 +2505,140 @@ onValue(
 
         date.textContent =
             data.date ||
-            "";
+            "SAMEDI";
 
 
         heure.textContent =
             data.heure ||
-            "";
+            "20H00";
 
 
-        /* =============================================
-           COULEURS DES HALOS
-           
-           IMPORTANT :
-           On n'utilise PLUS les couleurs
-           bleu/orange par défaut.
-        ============================================= */
+        /* ---------------------------------------------
+           COULEURS
+           --------------------------------------------- */
 
-        const haloCouleur1 =
+        const couleur1 =
             data.haloCouleur1 ||
-            "#ffffff";
+            "#1769ff";
 
-
-        const haloCouleur2 =
+        const couleur2 =
             data.haloCouleur2 ||
-            "#ffffff";
+            "#ed174c";
 
 
-        root.style.setProperty(
-            "--halo-couleur-1",
-            haloCouleur1
+        const rgb1 =
+            hexToRgb(
+                couleur1
+            );
+
+        const rgb2 =
+            hexToRgb(
+                couleur2
+            );
+
+
+        document.documentElement.style.setProperty(
+            "--halo1",
+            couleur1
+        );
+
+        document.documentElement.style.setProperty(
+            "--halo2",
+            couleur2
         );
 
 
-        root.style.setProperty(
-            "--halo-couleur-2",
-            haloCouleur2
+        document.documentElement.style.setProperty(
+            "--halo1-rgb",
+            `${rgb1.r},${rgb1.g},${rgb1.b}`
+        );
+
+        document.documentElement.style.setProperty(
+            "--halo2-rgb",
+            `${rgb2.r},${rgb2.g},${rgb2.b}`
         );
 
 
-        root.style.setProperty(
-            "--halo-couleur-1-rgb",
-            hexToRgb(haloCouleur1)
+        setHalo(
+            team1,
+            couleur1
+        );
+
+        setHalo(
+            team2,
+            couleur2
         );
 
 
-        root.style.setProperty(
-            "--halo-couleur-2-rgb",
-            hexToRgb(haloCouleur2)
-        );
+        /* ---------------------------------------------
+           LOGOS
+           --------------------------------------------- */
 
-
-        /* =============================================
-           LOGO EQUIPE 1
-        ============================================= */
-
-        if (data.logo1) {
-
-            logo1.style.opacity = "0";
+        if (
+            data.logo1
+        ) {
 
             logo1.src =
                 data.logo1;
 
+        } else {
 
-            logo1.onerror = () => {
-
-                console.error(
-                    "Impossible de charger le logo 1 :",
-                    data.logo1
-                );
-
-                logo1.style.opacity =
-                    "0.3";
-            };
-
-
-            logo1.onload = () => {
-
-                logo1.style.opacity =
-                    "";
-            };
+            logo1.removeAttribute(
+                "src"
+            );
 
         }
 
 
-        /* =============================================
-           LOGO EQUIPE 2
-        ============================================= */
-
-        if (data.logo2) {
-
-            logo2.style.opacity = "0";
+        if (
+            data.logo2
+        ) {
 
             logo2.src =
                 data.logo2;
 
+        } else {
 
-            logo2.onerror = () => {
-
-                console.error(
-                    "Impossible de charger le logo 2 :",
-                    data.logo2
-                );
-
-                logo2.style.opacity =
-                    "0.3";
-            };
-
-
-            logo2.onload = () => {
-
-                logo2.style.opacity =
-                    "";
-            };
+            logo2.removeAttribute(
+                "src"
+            );
 
         }
 
 
-        /* =============================================
-           RELANCE DES ANIMATIONS
-        ============================================= */
+        /* ---------------------------------------------
+           AFFICHAGE
+           --------------------------------------------- */
 
-        requestAnimationFrame(() => {
+        body.classList.add(
+            "loaded"
+        );
 
-            restartAnimations();
 
-
-            /*
-               IMPORTANT :
-               On rend la page visible
-               seulement maintenant.
-
-               Firebase a déjà fourni :
-               - les couleurs
-               - les textes
-               - les logos
-            */
-
-            requestAnimationFrame(() => {
-
-                document.body.classList.add(
-                    "loaded"
-                );
-
-            });
-
-        });
+        restartAnimations();
 
     },
 
-    /* =================================================
-       ERREUR FIREBASE
-    ================================================= */
-
-    (error) => {
+    error => {
 
         console.error(
-            "Erreur Firebase :",
+            "Erreur Firebase matchdusoir :",
             error
         );
 
 
-        /*
-           En cas d'erreur Firebase,
-           on évite également tout flash
-           de bleu/orange.
-        */
-
-        root.style.setProperty(
-            "--halo-couleur-1",
-            "transparent"
+        body.classList.add(
+            "loaded"
         );
 
-        root.style.setProperty(
-            "--halo-couleur-2",
-            "transparent"
-        );
-
-        root.style.setProperty(
-            "--halo-couleur-1-rgb",
-            "0, 0, 0"
-        );
-
-        root.style.setProperty(
-            "--halo-couleur-2-rgb",
-            "0, 0, 0"
-        );
-
-
-        document.body.classList.add(
+        stage.classList.add(
             "loaded"
         );
 
     }
-
 );
 
 </script>
 
-
 </body>
-
 </html>
