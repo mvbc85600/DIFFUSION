@@ -552,66 +552,80 @@
 
     .player {
         position: absolute;
-
-        width:
-            clamp(150px, 14.5vw, 215px);
-
-        padding:
-            13px 16px;
-
-        background:
-            linear-gradient(
-                145deg,
-                rgba(35,35,35,.98),
-                rgba(5,5,5,.98)
-            );
-
-        border:
-            2px solid rgba(255,255,255,.75);
-
-        border-radius:
-            14px;
-
-        font-family:
-            "Inter",
-            sans-serif;
-
-        font-size:
-            clamp(18px, 1.65vw, 27px);
-
-        font-weight:
-            800;
-
-        color:
-            #fff;
-
-        text-align:
-            center;
-
-        box-shadow:
-            0 0 12px rgba(255,255,255,.35),
-            0 0 30px rgba(0,0,0,.65);
-
-        transform:
-            translate(-50%, -50%);
-
-        z-index:
-            20;
-
-        transition:
-            transform .3s ease,
-            box-shadow .3s ease;
+        width: clamp(165px, 15.5vw, 235px);
+        height: clamp(150px, 12vw, 185px);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        background: linear-gradient(135deg, rgba(28,30,34,.96), rgba(7,8,10,.98));
+        border: 1px solid rgba(255,255,255,.22);
+        border-radius: 16px;
+        font-family: "Inter", sans-serif;
+        color: #fff;
+        box-shadow: 0 10px 28px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.10);
+        transform: translate(-50%, -50%);
+        z-index: 20;
+        overflow: hidden;
+        transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
     }
 
+    /* Image du joueur : seule la partie haute est affichée. */
+    .player-photo {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 68%;
+        object-fit: cover;
+        object-position: center top;
+        opacity: .92;
+        filter: saturate(.9) contrast(1.04);
+        pointer-events: none;
+    }
+
+    /* Fondu de l'image vers le nom. */
+    .player::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 18%;
+        bottom: 0;
+        background: linear-gradient(180deg, transparent 0%, rgba(5,6,8,.18) 28%, rgba(5,6,8,.84) 72%, rgba(5,6,8,1) 100%);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    /* Liseré lumineux. */
+    .player::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 12px;
+        bottom: 12px;
+        width: 3px;
+        background: linear-gradient(180deg, var(--yellow), var(--red));
+        border-radius: 0 4px 4px 0;
+        box-shadow: 0 0 10px rgba(255,212,0,.45);
+        pointer-events: none;
+        z-index: 4;
+    }
+
+    .player-info {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        min-height: 42%;
+        padding: 8px 12px 10px 54px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
     .player:hover {
-        transform:
-            translate(-50%, -50%)
-            scale(1.08);
-
-        box-shadow:
-            0 0 20px rgba(255,212,0,.8),
-            0 0 45px rgba(255,212,0,.45);
+        transform: translate(-50%, -50%) scale(1.045);
+        border-color: rgba(255,212,0,.65);
+        box-shadow: 0 14px 35px rgba(0,0,0,.55), 0 0 24px rgba(255,212,0,.28), inset 0 1px 0 rgba(255,255,255,.14);
     }
 
 
@@ -687,28 +701,93 @@
     }
 
 
+    .player-name {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--white);
+        font-size: clamp(16px, 1.4vw, 23px);
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: -.025em;
+        text-shadow: 0 1px 10px rgba(0,0,0,.65);
+    }
+
+
     /* =====================================================
        NUMÉRO DE POSITION
     ===================================================== */
 
     .player-number {
-        display: inline-block;
-
-        margin-right: 8px;
-
-        color:
-            var(--yellow);
-
-        font-weight:
-            900;
-
-        text-shadow:
-            0 0 5px rgba(255,212,0,.7),
-            0 0 12px rgba(255,212,0,.4);
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: translateY(-50%);
+        margin: 0;
+        background: linear-gradient(145deg, var(--yellow), #ff9f00);
+        border: 2px solid rgba(255,255,255,.85);
+        border-radius: 10px;
+        color: var(--black);
+        font-size: .72em;
+        font-weight: 900;
+        letter-spacing: -.03em;
+        text-shadow: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,.35), 0 0 14px rgba(255,212,0,.25);
     }
 
 
-    /* =====================================================
+    @media (max-width: 900px) {
+        .player {
+            width: clamp(125px, 19vw, 180px);
+            height: clamp(120px, 15vw, 155px);
+        }
+
+        .player-info {
+            padding: 7px 9px 8px 46px;
+        }
+
+        .player-number {
+            width: 30px;
+            height: 30px;
+        }
+    }
+
+
+    @media (max-width: 600px) {
+        .player-number {
+            left: 8px;
+
+            width: 29px;
+            height: 29px;
+
+            border-radius:
+                8px;
+        }
+    }
+
+
+    @media (max-width: 400px) {
+        .player-number {
+            left: 6px;
+
+            width: 26px;
+            height: 26px;
+
+            border-radius:
+                7px;
+        }
+    }
+
+
+        /* =====================================================
        POINT DE LOCALISATION
     ===================================================== */
 
@@ -721,8 +800,8 @@
 
         bottom: -16px;
 
-        width: 9px;
-        height: 9px;
+        width: 8px;
+        height: 8px;
 
         transform:
             translateX(-50%);
@@ -730,12 +809,15 @@
         background:
             var(--yellow);
 
+        border:
+            2px solid var(--black);
+
         border-radius:
             50%;
 
         box-shadow:
             0 0 8px var(--yellow),
-            0 0 18px var(--yellow);
+            0 0 18px rgba(255,212,0,.65);
 
         animation:
             playerDot 2s ease-in-out infinite;
@@ -849,7 +931,10 @@
                 );
 
             padding:
-                11px 10px;
+                10px 12px 10px 48px;
+
+            min-height:
+                52px;
 
             font-size:
                 clamp(
@@ -890,6 +975,23 @@
     ===================================================== */
 
     @media (max-width: 600px) {
+
+        .player {
+            width: clamp(105px, 25vw, 145px);
+            height: clamp(105px, 28vw, 135px);
+            border-radius: 12px;
+        }
+
+        .player-info {
+            padding: 6px 7px 7px 40px;
+        }
+
+        .player-number {
+            left: 7px;
+            width: 27px;
+            height: 27px;
+            border-radius: 8px;
+        }
 
         .title-container {
             height: 75px;
@@ -935,7 +1037,10 @@
                 );
 
             padding:
-                9px 6px;
+                8px 8px 8px 42px;
+
+            min-height:
+                46px;
 
             font-size:
                 clamp(
@@ -980,6 +1085,26 @@
 
     @media (max-width: 400px) {
 
+        .player {
+            width: 100px;
+            height: 100px;
+        }
+
+        .player-info {
+            padding: 5px 5px 6px 34px;
+        }
+
+        .player-number {
+            left: 6px;
+            width: 24px;
+            height: 24px;
+            border-radius: 7px;
+        }
+
+        .player-name {
+            font-size: 12px;
+        }
+
         .court {
             width: 95vw;
 
@@ -993,7 +1118,10 @@
             font-size: 13px;
 
             padding:
-                8px 4px;
+                7px 6px 7px 38px;
+
+            min-height:
+                42px;
         }
     }
 
@@ -1169,31 +1297,60 @@
                             `player position-${index + 1}`;
 
 
-                        /* Numéro */
+                        /* Image : joueursnm2/prenom.png */
+
+                        const firstName =
+                            player.trim().split(/\s+/)[0].toLowerCase();
+
+                        const playerImage =
+                            document.createElement("img");
+
+                        playerImage.className =
+                            "player-photo";
+
+                        playerImage.src =
+                            `joueursnm2/${encodeURIComponent(firstName)}.png`;
+
+                        playerImage.alt =
+                            player;
+
+                        playerImage.loading =
+                            "eager";
+
+                        playerImage.onerror = () => {
+                            playerImage.style.display = "none";
+                        };
+
+                        playerDiv.appendChild(
+                            playerImage
+                        );
+
+
+                        /* Zone basse : numéro + nom */
+
+                        const playerInfo =
+                            document.createElement("div");
+
+                        playerInfo.className =
+                            "player-info";
 
                         const playerNumber =
                             playerNumbers[player];
-
 
                         if (
                             playerNumber !== undefined
                         ) {
 
                             const numberSpan =
-                                document.createElement(
-                                    "span"
-                                );
-
+                                document.createElement("span");
 
                             numberSpan.className =
                                 "player-number";
 
-
                             numberSpan.textContent =
                                 `#${playerNumber}`;
 
-
-                            playerDiv.appendChild(
+                            playerInfo.appendChild(
                                 numberSpan
                             );
                         }
@@ -1202,21 +1359,20 @@
                         /* Nom */
 
                         const nameSpan =
-                            document.createElement(
-                                "span"
-                            );
+                            document.createElement("span");
 
+                        nameSpan.className =
+                            "player-name";
 
                         nameSpan.textContent =
                             player;
 
-
-                        nameSpan.style.color =
-                            "#fff";
-
+                        playerInfo.appendChild(
+                            nameSpan
+                        );
 
                         playerDiv.appendChild(
-                            nameSpan
+                            playerInfo
                         );
 
 
