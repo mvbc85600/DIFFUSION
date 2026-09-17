@@ -1,100 +1,192 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Apollo Run - Caméra Plein Écran</title>
+    <meta charset="UTF-8">
+    <title>MVBC - Caméra Plein Écran</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #111;
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: #111;
-  color: white;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
+        /* Caméra en plein écran */
+        #camera-container {
+            flex: 1;
+            background: #000;
+            position: relative;
+        }
 
-/* Caméra en plein écran */
-#camera-container {
-  flex: 1;
-  background: #000;
-}
+        #camera-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
 
-#camera-container iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
+        /* Cadre image (dancecam.png / birthdaycam.png) */
+        .camera-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: fill; /* le cadre s'étire sur tout l'écran */
+            pointer-events: none;
+            z-index: 998;
+            display: none;
+        }
 
-/* Slider des partenaires */
-.partners-slider {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-  background: #111;
-  border-top: 2px solid #feef22;
-  z-index: 999;
-  height: 120px; /* Légèrement plus haut pour les logos plus grands */
-}
+        .camera-frame.visible {
+            display: block;
+        }
 
-.partners-track {
-  display: flex;
-  width: max-content;
-  animation: scroll 30s linear infinite;
-  height: 100%;
-  align-items: center;
-}
+        /* Slider des partenaires */
+        .partners-slider {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            background: rgba(17, 17, 17, 0.9);
+            border-top: 2px solid #feef22;
+            z-index: 999;
+            height: 120px;
+        }
 
-.partners-track img {
-  height: 100px; /* Logos agrandis */
-  margin: 0 50px; /* Espacement augmenté pour équilibrer */
-  object-fit: contain;
-  flex-shrink: 0;
-  filter: grayscale(100%) brightness(1.5);
-  transition: filter 0.3s;
-}
+        .partners-track {
+            display: flex;
+            width: max-content;
+            animation: scroll 30s linear infinite;
+            height: 100%;
+            align-items: center;
+        }
 
-.partners-track img:hover {
-  filter: grayscale(0%) brightness(1);
-}
+        .partners-track img {
+            height: 100px;
+            margin: 0 50px;
+            object-fit: contain;
+            flex-shrink: 0;
+            filter: grayscale(100%) brightness(1.5);
+            transition: filter 0.3s;
+        }
 
-@keyframes scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-</style>
+        .partners-track img:hover {
+            filter: grayscale(0%) brightness(1);
+        }
+
+        @keyframes scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        .partners-slider.hidden {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
-  <!-- Caméra en plein écran -->
-  <div id="camera-container">
-    <iframe src="https://vdo.ninja/?view=ApolloRunAcam1&cleanoutput&transparent&autoplay" allow="camera; microphone; autoplay"></iframe>
-  </div>
+    <!-- Caméra en plein écran -->
+    <div id="camera-container">
+        <iframe src="https://vdo.ninja/?view=ApolloRunAcam1&cleanoutput&transparent&autoplay" allow="camera; microphone; autoplay"></iframe>
 
-  <!-- Slider des partenaires -->
-  <div class="partners-slider">
-    <div class="partners-track">
-      <img src="Z1.png">
-      <img src="Z2.png">
-      <img src="Z3.png">
-      <img src="Z4.png">
-      <img src="Z5.png">
-      <img src="Z6.png">
-      <img src="Z7.png">
-      <img src="Z8.png">
-      <!-- Duplication pour une boucle infinie -->
-      <img src="Z1.png">
-      <img src="Z2.png">
-      <img src="Z3.png">
-      <img src="Z4.png">
-      <img src="Z5.png">
-      <img src="Z6.png">
-      <img src="Z7.png">
-      <img src="Z8.png">
+        <!-- Cadres (affichés selon le type choisi dans l'admin) -->
+        <img id="frameDance" class="camera-frame" src="cameracadre/dancecam.png" alt="">
+        <img id="frameBirthday" class="camera-frame" src="cameracadre/birthdaycam.png" alt="">
     </div>
-  </div>
+
+    <!-- Slider des partenaires -->
+    <div class="partners-slider" id="partnersSlider">
+        <div class="partners-track" id="partnersTrack"></div>
+    </div>
+
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+            authDomain: "diffusion-b9afa.firebaseapp.com",
+            databaseURL: "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "diffusion-b9afa",
+            storageBucket: "diffusion-b9afa.firebasestorage.app",
+            messagingSenderId: "674799570797",
+            appId: "1:674799570797:web:0d8b7a2a892f604eb7d464"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const GITHUB_LOGO_API = "https://api.github.com/repos/mvbc85600/DIFFUSION/contents/logo";
+        const GITHUB_LOGO_RAW = "https://raw.githubusercontent.com/mvbc85600/DIFFUSION/main/logo/";
+
+        const frameDance = document.getElementById("frameDance");
+        const frameBirthday = document.getElementById("frameBirthday");
+        const partnersSlider = document.getElementById("partnersSlider");
+        const partnersTrack = document.getElementById("partnersTrack");
+
+        /* =====================================================
+           AFFICHAGE DU CADRE SELON LE TYPE CHOISI DANS L'ADMIN
+        ===================================================== */
+        const cameraRef = ref(db, "cameraSettings");
+        onValue(cameraRef, snapshot => {
+            const data = snapshot.val() || {};
+
+            frameDance.classList.remove("visible");
+            frameBirthday.classList.remove("visible");
+
+            if (data.type === "dance") {
+                frameDance.classList.add("visible");
+            } else if (data.type === "birthday") {
+                frameBirthday.classList.add("visible");
+            }
+        });
+
+        /* =====================================================
+           LOGOS DES PARTENAIRES (GitHub)
+        ===================================================== */
+        async function chargerPartenairesDepuisGithub() {
+            try {
+                const response = await fetch(GITHUB_LOGO_API, {
+                    headers: { "Accept": "application/vnd.github+json" },
+                    cache: "no-store"
+                });
+
+                if (!response.ok) throw new Error(`GitHub a répondu ${response.status}`);
+
+                const fichiers = await response.json();
+
+                const logos = fichiers
+                    .filter(fichier => fichier.type === "file" && /\.(png|jpe?g|webp|gif|svg)$/i.test(fichier.name))
+                    .sort((a, b) => a.name.localeCompare(b.name, "fr"))
+                    .map(fichier => GITHUB_LOGO_RAW + encodeURIComponent(fichier.name));
+
+                if (logos.length === 0) {
+                    partnersSlider.classList.add("hidden");
+                    return;
+                }
+
+                partnersTrack.innerHTML = "";
+                [...logos, ...logos].forEach(logo => {
+                    const img = document.createElement("img");
+                    img.src = logo;
+                    img.alt = "Partenaire";
+                    img.onerror = function() { this.style.display = "none"; };
+                    partnersTrack.appendChild(img);
+                });
+            } catch (error) {
+                console.error("Erreur chargement partenaires GitHub :", error);
+                partnersSlider.classList.add("hidden");
+            }
+        }
+
+        chargerPartenairesDepuisGithub();
+    </script>
 </body>
 </html>
