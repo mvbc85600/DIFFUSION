@@ -294,6 +294,60 @@ body {
     font-size: 16px;
 }
 
+/* =========================
+   RESULTAT FINAL DU MATCH
+========================= */
+.final-score-editor {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.score-team-box {
+    padding: 16px;
+    background: #181818;
+    border: 1px solid #333;
+    border-radius: 10px;
+}
+
+.score-team-box label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.score-team-box input {
+    width: 100%;
+    padding: 13px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.score-preview {
+    margin-top: 12px;
+    padding: 12px;
+    background: #111;
+    border-radius: 8px;
+    color: #aaa;
+    text-align: center;
+}
+
+.score-preview strong {
+    color: #fff;
+    font-size: 22px;
+}
+
+@media(max-width:600px) {
+    .final-score-editor {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* Style pour la case à cocher */
 .form-group label.check-label {
     display: flex;
@@ -1023,6 +1077,28 @@ body {
                 <input type="text" id="matchHeure" placeholder="Ex : 20H00">
             </div>
 
+            <!-- RESULTAT FINAL -->
+            <div class="form-group">
+                <label>🏆 Résultat final</label>
+                <div class="final-score-editor">
+                    <div class="score-team-box">
+                        <label for="scoreEquipe1">Score équipe 1</label>
+                        <input type="number" id="scoreEquipe1" min="0" max="999" step="1" placeholder="Ex : 77" inputmode="numeric">
+                    </div>
+                    <div class="score-team-box">
+                        <label for="scoreEquipe2">Score équipe 2</label>
+                        <input type="number" id="scoreEquipe2" min="0" max="999" step="1" placeholder="Ex : 68" inputmode="numeric">
+                    </div>
+                </div>
+                <div class="score-preview">
+                    Aperçu : <strong id="scorePreview">—</strong>
+                </div>
+                <div class="duration-help">
+                    Ce résultat sera affiché sous « VICTOIRE » sur la page de diffusion.
+                    Le partenaire sélectionné dans l’onglet « Partenaire du Match » sera affiché sous le score.
+                </div>
+            </div>
+
             <!-- SAUVEGARDE -->
             <button id="saveMatchButton">
                 💾 ENREGISTRER LE MATCH
@@ -1339,6 +1415,9 @@ const haloPreview1 = document.getElementById("haloPreview1");
 const haloPreview2 = document.getElementById("haloPreview2");
 const saveMatchButton = document.getElementById("saveMatchButton");
 const matchStatus = document.getElementById("matchStatus");
+const scoreEquipe1 = document.getElementById("scoreEquipe1");
+const scoreEquipe2 = document.getElementById("scoreEquipe2");
+const scorePreview = document.getElementById("scorePreview");
 
 /* MESSAGE */
 const messageTitre = document.getElementById("messageTitre");
@@ -1761,6 +1840,19 @@ function mettreAJourApercuHalos() {
     mettreAJourApercuHalo(haloCouleur1, haloPreview1);
     mettreAJourApercuHalo(haloCouleur2, haloPreview2);
 }
+
+/* =====================================================
+   APERCU RESULTAT FINAL
+===================================================== */
+function mettreAJourApercuScore() {
+    const s1 = scoreEquipe1.value.trim();
+    const s2 = scoreEquipe2.value.trim();
+    scorePreview.textContent = (s1 !== "" && s2 !== "") ? `${s1}-${s2}` : "—";
+}
+
+scoreEquipe1.addEventListener("input", mettreAJourApercuScore);
+scoreEquipe2.addEventListener("input", mettreAJourApercuScore);
+mettreAJourApercuScore();
 
 /* =====================================================
    ONGLET : 5 MAJEUR
@@ -2572,10 +2664,15 @@ onValue(matchRef, (snapshot) => {
     }
     if (data.date) matchDate.value = data.date;
     if (data.heure) matchHeure.value = data.heure;
+    if (data.scoreEquipe1 !== undefined) scoreEquipe1.value = data.scoreEquipe1;
+    else if (data.score1 !== undefined) scoreEquipe1.value = data.score1;
+    if (data.scoreEquipe2 !== undefined) scoreEquipe2.value = data.scoreEquipe2;
+    else if (data.score2 !== undefined) scoreEquipe2.value = data.score2;
     if (data.haloCouleur1) haloCouleur1.value = data.haloCouleur1;
     if (data.haloCouleur2) haloCouleur2.value = data.haloCouleur2;
 
     mettreAJourApercuHalos();
+    mettreAJourApercuScore();
 });
 
 /* =====================================================
@@ -2613,6 +2710,8 @@ saveMatchButton.addEventListener("click", async () => {
             logo2: logoEquipe2.value,
             date: matchDate.value.trim(),
             heure: matchHeure.value.trim(),
+            scoreEquipe1: scoreEquipe1.value.trim(),
+            scoreEquipe2: scoreEquipe2.value.trim(),
             haloCouleur1: haloCouleur1.value,
             haloCouleur2: haloCouleur2.value,
             timestamp: Date.now()
