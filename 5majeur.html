@@ -118,7 +118,6 @@
 
     /* =====================================================
        TITRE
-       STYLE CONSERVÉ
     ===================================================== */
 
     .title-container
@@ -196,7 +195,7 @@
     }
 
     /* =====================================================
-       ZONE DU TERRAIN — CENTRÉ SOUS LE TITRE
+       ZONE DU TERRAIN
     ===================================================== */
 
     .players-container
@@ -204,11 +203,11 @@
         position: relative;
 
         width: 100%;
-        height: calc(100vh - 150px); /* Réduction pour centrer le terrain */
+        height: calc(100vh - 150px);
         display: flex;
         justify-content: center;
-        align-items: center; /* Centrage vertical */
-        padding-top: 0; /* Suppression du padding-top initial */
+        align-items: center;
+        padding-top: 0;
     }
 
     /* =====================================================
@@ -220,7 +219,7 @@
         position: relative;
 
         width: min(66vw, 900px);
-        height: min(65vh, 650px); /* Réduction pour éviter le débordement */
+        height: min(65vh, 650px);
         aspect-ratio: 15 / 14;
 
         background:
@@ -528,14 +527,14 @@
         transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
     }
 
-    /* Image du joueur : 3/4 de la hauteur (75%) */
+    /* Image du joueur : 75% de la hauteur pour afficher 3/4 de la photo */
     .player-photo
     {
         position: absolute;
         left: 0;
         top: 0;
         width: 100%;
-        height: 75%; /* 3/4 de la hauteur du conteneur */
+        height: 75%;
         object-fit: cover;
         object-position: center top;
         border-radius: 16px 16px 0 0;
@@ -547,8 +546,8 @@
     {
         position: relative;
         z-index: 2;
-        margin-top: 0; /* Suppression du margin-top initial */
-        padding-top: 15%; /* Réduction pour éviter le chevauchement */
+        margin-top: 0;
+        padding-top: 15%;
     }
 
     /* Fondu de l'image vers le nom. */
@@ -558,7 +557,7 @@
         position: absolute;
         left: 0;
         right: 0;
-        top: 15%; /* Ajustement pour correspondre à la nouvelle hauteur de l'image */
+        top: 15%;
         bottom: 0;
         background: linear-gradient(180deg, transparent 0%, rgba(5,6,8,.18) 28%, rgba(5,6,8,.84) 72%, rgba(5,6,8,1) 100%);
         pointer-events: none;
@@ -586,7 +585,7 @@
         position: relative;
         z-index: 3;
         width: 100%;
-        min-height: 25%; /* Réduction pour éviter le débordement */
+        min-height: 25%;
         padding: 8px 12px 10px 54px;
         display: flex;
         align-items: center;
@@ -601,7 +600,7 @@
     }
 
     /* =====================================================
-       JOUEUR 1
+       POSITIONS DES JOUEURS
     ===================================================== */
 
     .player.position-1
@@ -610,19 +609,11 @@
         top: 15%;
     }
 
-    /* =====================================================
-       JOUEUR 2
-    ===================================================== */
-
     .player.position-2
     {
         left: 8%;
         top: 35%;
     }
-
-    /* =====================================================
-       JOUEUR 3
-    ===================================================== */
 
     .player.position-3
     {
@@ -630,19 +621,11 @@
         top: 35%;
     }
 
-    /* =====================================================
-       JOUEUR 4
-    ===================================================== */
-
     .player.position-4
     {
         left: 37%;
         top: 80%;
     }
-
-    /* =====================================================
-       JOUEUR 5
-    ===================================================== */
 
     .player.position-5
     {
@@ -659,7 +642,7 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         color: var(--white);
-        font-size: clamp(12px, 1.2vw, 18px); /* Réduction pour afficher le nom en entier */
+        font-size: clamp(12px, 1.2vw, 18px);
         font-weight: 800;
         line-height: 1;
         letter-spacing: -.025em;
@@ -693,115 +676,9 @@
         box-shadow: 0 4px 12px rgba(0,0,0,.35), 0 0 14px rgba(255,212,0,.25);
     }
 
-    @media (max-width: 900px)
-    {
-        .player
-        {
-            width: clamp(125px, 19vw, 180px);
-            height: clamp(120px, 15vw, 155px);
-        }
-
-        .player-info
-        {
-            padding: 7px 9px 8px 46px;
-        }
-
-        .player-number
-        {
-            width: 30px;
-            height: 30px;
-        }
-    }
-
-    @media (max-width: 600px)
-    {
-        .player-name
-        {
-            font-size: 11px;
-        }
-    }
-
-    @media (max-width: 600px)
-    {
-        .player-number
-        {
-            left: 8px;
-            width: 29px;
-            height: 29px;
-            border-radius: 8px;
-        }
-    }
-
-    @media (max-width: 400px)
-    {
-        .player-number
-        {
-            left: 6px;
-            width: 26px;
-            height: 26px;
-            border-radius: 7px;
-        }
-    }
-
     /* =====================================================
-       POINT DE LOCALISATION
+       POINT DE LOCALISATION (SUPPRIMÉ)
     ===================================================== */
-
-    .player::after
-    {
-        content: "";
-
-        position: absolute;
-
-        left: 50%;
-        bottom: -23px;
-
-        width: 10px;
-        height: 10px;
-
-        transform:
-            translateX(-50%);
-
-        background:
-            var(--yellow);
-
-        border:
-            2px solid var(--black);
-
-        border-radius:
-            50%;
-
-        z-index:
-            50;
-
-        box-shadow:
-            0 0 8px var(--yellow),
-            0 0 18px rgba(255,212,0,.65);
-
-        animation:
-            playerDot 2s ease-in-out infinite;
-    }
-
-    @keyframes playerDot
-    {
-
-        0%,
-        100%
-        {
-            opacity: .7;
-            transform:
-                translateX(-50%)
-                scale(.8);
-        }
-
-        50%
-        {
-            opacity: 1;
-            transform:
-                translateX(-50%)
-                scale(1.2);
-        }
-    }
 
     /* =====================================================
        BARRE LUMINEUSE
@@ -1159,10 +1036,6 @@
             "cinqmajeur"
         );
 
-    /* =====================================================
-       CHARGEMENT DES JOUEURS
-    ===================================================== */
-
     onValue(
         cinqMajeurRef,
         (snapshot) => {
@@ -1196,8 +1069,6 @@
                         playerDiv.className =
                             `player position-${index + 1}`;
 
-                        /* Image : joueursnm2/prenom.png */
-
                         const firstName =
                             player.trim().split(/\s+/)[0].toLowerCase();
 
@@ -1223,8 +1094,6 @@
                         playerDiv.appendChild(
                             playerImage
                         );
-
-                        /* Zone basse : numéro + nom */
 
                         const playerInfo =
                             document.createElement("div");
@@ -1253,7 +1122,6 @@
                             );
                         }
 
-                        /* Nom */
                         const nameSpan =
                             document.createElement("span");
 
@@ -1277,7 +1145,6 @@
 
                     }
                 );
-
         }
     );
 
