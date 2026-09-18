@@ -72,8 +72,8 @@
 
         position: fixed;
 
-        width: 900px;
-        height: 900px;
+        width: 990px; /* Agrandi de 10% (900px -> 990px) */
+        height: 990px; /* Agrandi de 10% */
 
         left: 50%;
         top: 55%;
@@ -96,7 +96,6 @@
 
     @keyframes halo
     {
-
         0%
         {
             transform: translate(-50%, -50%) scale(0.90);
@@ -125,7 +124,7 @@
         position: relative;
 
         width: 100%;
-        height: 105px;
+        height: 115px; /* Augmenté de 10% (105px -> 115px) */
 
         margin-top: 12px;
 
@@ -140,7 +139,7 @@
 
         font-family: "Barlow Condensed", sans-serif;
 
-        font-size: clamp(42px, 6vw, 90px);
+        font-size: clamp(46px, 6.6vw, 99px); /* Augmenté de 10% */
 
         font-weight: 900;
 
@@ -172,9 +171,8 @@
             translate(-50%, -50%)
             rotate(-7deg);
 
-        width: min(64vw, 850px);
-
-        height: 18px;
+        width: min(70.4vw, 935px); /* Augmenté de 10% (850px -> 935px) */
+        height: 20px; /* Augmenté de 10% (18px -> 20px) */
 
         background:
             linear-gradient(
@@ -203,7 +201,7 @@
         position: relative;
 
         width: 100%;
-        height: calc(100vh - 150px);
+        height: calc(100vh - 165px); /* Augmenté de 10% (150px -> 165px) */
         display: flex;
         justify-content: center;
         align-items: center;
@@ -218,8 +216,8 @@
     {
         position: relative;
 
-        width: min(66vw, 900px);
-        height: min(65vh, 650px);
+        width: min(72.6vw, 990px); /* Augmenté de 10% (66vw -> 72.6vw, 900px -> 990px) */
+        height: min(71.5vh, 715px); /* Augmenté de 10% (65vh -> 71.5vh, 650px -> 715px) */
         aspect-ratio: 15 / 14;
 
         background:
@@ -381,7 +379,7 @@
         transform: translateX(-50%);
 
         width: 8%;
-        height: 7px;
+        height: 8px; /* Augmenté de 10% (7px -> 8px) */
 
         background:
             var(--red);
@@ -390,30 +388,26 @@
 
         box-shadow:
             0 0 8px var(--red),
-            0 0 20px rgba(237,23,76,.7),
-            0 0 35px rgba(237,23,76,.25);
-
-        animation:
-            basketPulse 2.4s ease-in-out infinite;
+            0 0 22px rgba(237,23,76,.7), /* Augmenté de 10% */
+            0 0 38px rgba(237,23,76,.25); /* Augmenté de 10% */
     }
 
     @keyframes basketPulse
     {
-
         0%,
         100%
         {
             box-shadow:
                 0 0 8px var(--red),
-                0 0 20px rgba(237,23,76,.7);
+                0 0 22px rgba(237,23,76,.7);
         }
 
         50%
         {
             box-shadow:
-                0 0 12px var(--red),
-                0 0 30px rgba(237,23,76,.9),
-                0 0 45px rgba(237,23,76,.3);
+                0 0 13px var(--red), /* Augmenté de 10% */
+                0 0 33px rgba(237,23,76,.9), /* Augmenté de 10% */
+                0 0 49px rgba(237,23,76,.3); /* Augmenté de 10% */
         }
     }
 
@@ -426,12 +420,12 @@
         position: absolute;
 
         left: 50%;
-        bottom: 18px;
+        bottom: 20px; /* Augmenté de 10% (18px -> 20px) */
 
         transform: translateX(-50%);
 
         width: 13%;
-        height: 5px;
+        height: 6px; /* Augmenté de 10% (5px -> 6px) */
 
         background:
             var(--white);
@@ -439,8 +433,8 @@
         border-radius: 3px;
 
         box-shadow:
-            0 0 8px rgba(255,255,255,.5),
-            0 0 18px rgba(255,255,255,.15);
+            0 0 9px rgba(255,255,255,.5), /* Augmenté de 10% */
+            0 0 20px rgba(255,255,255,.15); /* Augmenté de 10% */
     }
 
     /* =====================================================
@@ -483,10 +477,10 @@
         position: absolute;
 
         left: 50%;
-        bottom: -5px;
+        bottom: -6px; /* Augmenté de 10% (5px -> 6px) */
 
-        width: 18%;
-        height: 9px;
+        width: 19.8%; /* Augmenté de 10% (18% -> 19.8%) */
+        height: 10px; /* Augmenté de 10% (9px -> 10px) */
 
         transform: translateX(-50%);
 
@@ -510,17 +504,17 @@
     .player
     {
         position: absolute;
-        width: clamp(175px, 16vw, 240px);
-        height: clamp(150px, 12vw, 185px);
+        width: clamp(192px, 17.6vw, 264px); /* Augmenté de 10% (175px -> 192px, 16vw -> 17.6vw, 240px -> 264px) */
+        height: clamp(165px, 13.2vw, 203px); /* Augmenté de 10% (150px -> 165px, 12vw -> 13.2vw, 185px -> 203px) */
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
         background: linear-gradient(135deg, rgba(28,30,34,.96), rgba(7,8,10,.98));
         border: 1px solid rgba(255,255,255,.22);
-        border-radius: 16px;
+        border-radius: 18px; /* Augmenté de 10% (16px -> 18px) */
         font-family: "Inter", sans-serif;
         color: #fff;
-        box-shadow: 0 10px 28px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.10);
+        box-shadow: 0 11px 31px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.10); /* Augmenté de 10% */
         transform: translate(-50%, -50%);
         z-index: 20;
         overflow: hidden;
@@ -537,7 +531,7 @@
         height: 75%;
         object-fit: cover;
         object-position: center top;
-        border-radius: 16px 16px 0 0;
+        border-radius: 18px 18px 0 0; /* Augmenté de 10% (16px -> 18px) */
         opacity: .98;
         pointer-events: none;
     }
@@ -570,12 +564,12 @@
         content: "";
         position: absolute;
         left: 0;
-        top: 12px;
-        bottom: 12px;
+        top: 13px; /* Augmenté de 10% (12px -> 13px) */
+        bottom: 13px; /* Augmenté de 10% */
         width: 3px;
         background: linear-gradient(180deg, var(--yellow), var(--red));
         border-radius: 0 4px 4px 0;
-        box-shadow: 0 0 10px rgba(255,212,0,.45);
+        box-shadow: 0 0 11px rgba(255,212,0,.45); /* Augmenté de 10% */
         pointer-events: none;
         z-index: 4;
     }
@@ -586,7 +580,7 @@
         z-index: 3;
         width: 100%;
         min-height: 30%;
-        padding: 4px 12px 8px 54px;
+        padding: 4px 13px 9px 60px; /* Augmenté de 10% (12px -> 13px, 54px -> 60px) */
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -597,7 +591,7 @@
     {
         transform: translate(-50%, -50%) scale(1.045);
         border-color: rgba(255,212,0,.65);
-        box-shadow: 0 14px 35px rgba(0,0,0,.55), 0 0 24px rgba(255,212,0,.28), inset 0 1px 0 rgba(255,255,255,.14);
+        box-shadow: 0 15px 38px rgba(0,0,0,.55), 0 0 26px rgba(255,212,0,.28), inset 0 1px 0 rgba(255,255,255,.14); /* Augmenté de 10% */
     }
 
     /* Style pour le nom et prénom */
@@ -613,11 +607,11 @@
         display: block;
         width: 100%;
         color: var(--white);
-        font-size: clamp(11px, 1.1vw, 16px);
+        font-size: clamp(12px, 1.32vw, 20px); /* Augmenté de 10% (11px -> 12px, 1.1vw -> 1.32vw, 16px -> 20px) */
         font-weight: 800;
         line-height: 1.1;
         letter-spacing: -.025em;
-        text-shadow: 0 1px 10px rgba(0,0,0,.65);
+        text-shadow: 0 1px 11px rgba(0,0,0,.65); /* Augmenté de 10% */
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -664,10 +658,10 @@
     .player-number
     {
         position: absolute;
-        left: 10px;
+        left: 11px; /* Augmenté de 10% (10px -> 11px) */
         top: 50%;
-        width: 34px;
-        height: 34px;
+        width: 37px; /* Augmenté de 10% (34px -> 37px) */
+        height: 37px; /* Augmenté de 10% */
         display: flex;
         align-items: center;
         justify-content: center;
@@ -675,13 +669,41 @@
         margin: 0;
         background: linear-gradient(145deg, var(--yellow), #ff9f00);
         border: 2px solid rgba(255,255,255,.85);
-        border-radius: 10px;
+        border-radius: 11px; /* Augmenté de 10% (10px -> 11px) */
         color: var(--black);
-        font-size: .72em;
+        font-size: 0.79em; /* Augmenté de 10% (0.72em -> 0.79em) */
         font-weight: 900;
         letter-spacing: -.03em;
         text-shadow: none;
-        box-shadow: 0 4px 12px rgba(0,0,0,.35), 0 0 14px rgba(255,212,0,.25);
+        box-shadow: 0 4px 13px rgba(0,0,0,.35), 0 0 15px rgba(255,212,0,.25); /* Augmenté de 10% */
+    }
+
+    /* =====================================================
+       BARRE LUMINEUSE
+    ===================================================== */
+
+    .light-line
+    {
+        position: fixed;
+
+        left: 50%;
+        bottom: 0;
+
+        transform:
+            translateX(-50%);
+
+        width: 71.5%; /* Augmenté de 10% (65% -> 71.5%) */
+        height: 3px;
+
+        background:
+            var(--yellow);
+
+        box-shadow:
+            0 0 11px var(--yellow), /* Augmenté de 10% */
+            0 0 28px var(--yellow), /* Augmenté de 10% */
+            0 0 55px var(--yellow); /* Augmenté de 10% */
+
+        z-index: 90;
     }
 
     /* =====================================================
@@ -697,13 +719,13 @@
 
         .court
         {
-            width: min(66vw, 900px);
-            height: min(calc(100vh - 145px), 700px);
+            width: min(72.6vw, 990px); /* Augmenté de 10% */
+            height: min(calc(100vh - 165px), 770px); /* Augmenté de 10% (700px -> 770px) */
         }
 
         .player
         {
-            width: clamp(160px, 14vw, 220px);
+            width: clamp(176px, 15.4vw, 242px); /* Augmenté de 10% (160px -> 176px, 14vw -> 15.4vw, 220px -> 242px) */
         }
     }
 
@@ -716,14 +738,14 @@
         .court
         {
             width: 82vw;
-            height: min(calc(100vh - 120px), 620px);
+            height: min(calc(100vh - 132px), 682px); /* Augmenté de 10% (620px -> 682px) */
         }
 
         .player
         {
-            width: clamp(120px, 19vw, 180px);
-            padding: 10px 12px 10px 48px;
-            min-height: 52px;
+            width: clamp(132px, 20.9vw, 198px); /* Augmenté de 10% (120px -> 132px, 19vw -> 20.9vw, 180px -> 198px) */
+            padding: 11px 13px 11px 53px; /* Augmenté de 10% (10px -> 11px, 12px -> 13px, 48px -> 53px) */
+            min-height: 57px; /* Augmenté de 10% (52px -> 57px) */
         }
 
         .player.position-1
@@ -764,58 +786,58 @@
     {
         .player
         {
-            width: clamp(105px, 25vw, 145px);
-            height: clamp(105px, 28vw, 135px);
-            border-radius: 12px;
+            width: clamp(115px, 27.5vw, 159px); /* Augmenté de 10% (105px -> 115px, 25vw -> 27.5vw, 145px -> 159px) */
+            height: clamp(115px, 30.8vw, 148px); /* Augmenté de 10% (105px -> 115px, 28vw -> 30.8vw, 135px -> 148px) */
+            border-radius: 13px; /* Augmenté de 10% (12px -> 13px) */
         }
 
         .player-info
         {
-            padding: 6px 7px 7px 40px;
+            padding: 7px 8px 8px 44px; /* Augmenté de 10% (6px -> 7px, 7px -> 8px, 40px -> 44px) */
             min-height: 35%;
         }
 
         .player-number
         {
-            left: 7px;
-            width: 27px;
-            height: 27px;
-            border-radius: 8px;
+            left: 8px; /* Augmenté de 10% (7px -> 8px) */
+            width: 30px; /* Augmenté de 10% (27px -> 30px) */
+            height: 30px; /* Augmenté de 10% */
+            border-radius: 9px; /* Augmenté de 10% (8px -> 9px) */
         }
 
         .title-container
         {
-            height: 75px;
-            margin-top: 8px;
+            height: 82px; /* Augmenté de 10% (75px -> 82px) */
+            margin-top: 9px; /* Augmenté de 10% (8px -> 9px) */
         }
 
         .partner-title
         {
-            font-size: clamp(30px, 9vw, 48px);
+            font-size: clamp(33px, 9.9vw, 53px); /* Augmenté de 10% (30px -> 33px, 9vw -> 9.9vw, 48px -> 53px) */
         }
 
         .slash
         {
-            height: 10px;
+            height: 11px; /* Augmenté de 10% (10px -> 11px) */
         }
 
         .players-container
         {
-            height: calc(100vh - 90px);
-            padding-top: 5px;
+            height: calc(100vh - 99px); /* Augmenté de 10% (90px -> 99px) */
+            padding-top: 6px; /* Augmenté de 10% (5px -> 6px) */
         }
 
         .court
         {
             width: 94vw;
-            height: min(calc(100vh - 100px), 560px);
+            height: min(calc(100vh - 110px), 616px); /* Augmenté de 10% (560px -> 616px) */
         }
 
         .player
         {
-            width: clamp(105px, 25vw, 145px);
-            padding: 8px 8px 8px 42px;
-            min-height: 46px;
+            width: clamp(115px, 27.5vw, 159px);
+            padding: 9px 9px 9px 46px; /* Augmenté de 10% (8px -> 9px, 42px -> 46px) */
+            min-height: 50px; /* Augmenté de 10% (46px -> 50px) */
         }
 
         .player.position-1
@@ -856,39 +878,39 @@
     {
         .player
         {
-            width: 100px;
-            height: 100px;
+            width: 110px; /* Augmenté de 10% (100px -> 110px) */
+            height: 110px; /* Augmenté de 10% */
         }
 
         .player-info
         {
-            padding: 5px 5px 6px 34px;
+            padding: 6px 6px 7px 37px; /* Augmenté de 10% (5px -> 6px, 34px -> 37px) */
             min-height: 35%;
         }
 
         .player-number
         {
-            left: 6px;
-            width: 24px;
-            height: 24px;
-            border-radius: 7px;
+            left: 7px; /* Augmenté de 10% (6px -> 7px) */
+            width: 26px; /* Augmenté de 10% (24px -> 26px) */
+            height: 26px; /* Augmenté de 10% */
+            border-radius: 8px; /* Augmenté de 10% (7px -> 8px) */
         }
 
         .player-firstname, .player-lastname {
-            font-size: 11px;
+            font-size: 12px; /* Augmenté de 10% (11px -> 12px) */
         }
 
         .court
         {
             width: 95vw;
-            height: calc(100vh - 100px);
+            height: calc(100vh - 110px); /* Augmenté de 10% (100px -> 110px) */
         }
 
         .player
         {
-            width: 100px;
-            padding: 7px 6px 7px 38px;
-            min-height: 42px;
+            width: 110px;
+            padding: 8px 7px 8px 42px; /* Augmenté de 10% (7px -> 8px, 38px -> 42px) */
+            min-height: 46px; /* Augmenté de 10% (42px -> 46px) */
         }
     }
 
