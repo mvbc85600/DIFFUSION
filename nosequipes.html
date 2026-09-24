@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0d0d0f">
 <title>MVBC — Écran LED</title>
+
 <style type="text/css">
+
 :root {
     --mvbc-yellow:#ffd400;
     --mvbc-red:#ff2020;
@@ -14,7 +16,9 @@
     --red-loss:#d34848;
 }
 
-* { box-sizing:border-box; }
+* {
+    box-sizing:border-box;
+}
 
 html,body {
     height:100%;
@@ -26,8 +30,9 @@ html,body {
 }
 
 /* =========================================================
-   SCÈNE : une carte plein écran, transitions fondues
+   SCÈNE
 ========================================================= */
+
 .screen {
     position:relative;
     width:100%;
@@ -35,47 +40,151 @@ html,body {
     display:grid;
     place-items:center;
     padding:2.5vh 2.5vw;
-}
-
-.card {
-    display:none;
-    width:min(1550px,100%);
-    height:min(92vh,900px);
-    grid-template-columns:1fr 1.15fr;
-    grid-template-rows:auto 1fr auto;
     overflow:hidden;
-    border-radius:26px;
-    background:#141519;
-    box-shadow:0 30px 90px rgba(0,0,0,.55);
-}
-
-.card.active { display:grid; animation:cardIn .55s ease both; }
-
-@keyframes cardIn {
-    from { opacity:0; transform:scale(.97); }
-    to { opacity:1; transform:scale(1); }
 }
 
 /* =========================================================
-   EN-TÊTE : nom de l'équipe + bilan
+   CARTES
 ========================================================= */
+
+.card {
+    position:absolute;
+
+    width:min(1550px,100%);
+    height:min(92vh,900px);
+
+    grid-template-columns:1fr 1.15fr;
+    grid-template-rows:auto minmax(0,1fr) auto;
+
+    overflow:hidden;
+
+    border-radius:26px;
+
+    background:#141519;
+
+    box-shadow:0 30px 90px rgba(0,0,0,.55);
+
+    /* état initial */
+    display:grid;
+    opacity:0;
+    visibility:hidden;
+
+    transform:translateX(100%);
+}
+
+/* Carte actuellement affichée */
+.card.active {
+    opacity:1;
+    visibility:visible;
+    transform:translateX(0);
+    z-index:2;
+}
+
+/* Carte qui entre depuis la droite */
+.card.slide-in-right {
+    animation:slideInRight .75s cubic-bezier(.22,.61,.36,1) both;
+}
+
+/* Carte qui entre depuis la gauche */
+.card.slide-in-left {
+    animation:slideInLeft .75s cubic-bezier(.22,.61,.36,1) both;
+}
+
+/* Carte précédente qui sort vers la gauche */
+.card.slide-out-left {
+    animation:slideOutLeft .75s cubic-bezier(.22,.61,.36,1) both;
+}
+
+/* Carte précédente qui sort vers la droite */
+.card.slide-out-right {
+    animation:slideOutRight .75s cubic-bezier(.22,.61,.36,1) both;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity:0;
+        transform:translateX(100%);
+    }
+
+    to {
+        opacity:1;
+        transform:translateX(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity:0;
+        transform:translateX(-100%);
+    }
+
+    to {
+        opacity:1;
+        transform:translateX(0);
+    }
+}
+
+@keyframes slideOutLeft {
+    from {
+        opacity:1;
+        transform:translateX(0);
+    }
+
+    to {
+        opacity:0;
+        transform:translateX(-100%);
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        opacity:1;
+        transform:translateX(0);
+    }
+
+    to {
+        opacity:0;
+        transform:translateX(100%);
+    }
+}
+
+/* =========================================================
+   EN-TÊTE
+========================================================= */
+
 .card-header {
     grid-column:1 / span 2;
+
     display:flex;
     align-items:center;
     justify-content:space-between;
+
     padding:2.2vh 3vw;
+
     font-family:"Arial Narrow","Segoe UI",Arial,sans-serif;
     font-size:clamp(38px,6.5vw,86px);
     font-weight:950;
+
     letter-spacing:2px;
     line-height:1;
+
     text-transform:uppercase;
 }
 
-.card-header.yellow { background:var(--mvbc-yellow); color:#111; }
-.card-header.red { background:var(--mvbc-red); color:#fff; }
-.card-header.blue { background:var(--mvbc-blue); color:#fff; }
+.card-header.yellow {
+    background:var(--mvbc-yellow);
+    color:#111;
+}
+
+.card-header.red {
+    background:var(--mvbc-red);
+    color:#fff;
+}
+
+.card-header.blue {
+    background:var(--mvbc-blue);
+    color:#fff;
+}
 
 .card-header .balance {
     font-family:Inter,"Segoe UI",Arial,sans-serif;
@@ -95,48 +204,83 @@ html,body {
 /* =========================================================
    PHOTO
 ========================================================= */
+
 .card-photo {
     grid-row:2;
+
     position:relative;
+
     margin:2.5vh 0 2.5vh 2.5vw;
+
     border-radius:20px;
+
     overflow:hidden;
+
     background:#1c1d21;
 }
 
 .card-photo img {
     width:100%;
     height:100%;
+
     object-fit:cover;
+
     display:block;
+
+    transition:transform 8s ease;
+}
+
+/*
+   Petit zoom lent pendant l'affichage
+*/
+.card.active .card-photo img {
+    transform:scale(1.04);
 }
 
 .card-photo::after {
     content:"";
+
     position:absolute;
+
     inset:auto 0 0 0;
+
     height:35%;
-    background:linear-gradient(transparent,rgba(0,0,0,.4));
+
+    background:linear-gradient(
+        transparent,
+        rgba(0,0,0,.4)
+    );
 }
 
 /* =========================================================
-   INFOS : coach + joueurs (chips)
+   INFOS
 ========================================================= */
+
 .card-info {
     grid-row:2;
+
     display:flex;
     flex-direction:column;
+
     min-width:0;
+    min-height:0;
+
     padding:2.5vh 2.5vw;
+
     overflow:hidden;
 }
 
 .coach-line {
     margin:0 0 2vh;
+
     font-size:clamp(16px,2.2vw,32px);
+
     font-weight:800;
+
     color:#ffd400;
+
     text-transform:uppercase;
+
     letter-spacing:1px;
 }
 
@@ -145,220 +289,601 @@ html,body {
     font-weight:700;
 }
 
-.players {
+/* =========================================================
+   TITRE EFFECTIF
+========================================================= */
+
+.players-title {
     display:flex;
-    flex-wrap:wrap;
-    gap:.9vh .6vw;
-    align-content:flex-start;
-    overflow:hidden;
+
+    align-items:center;
+    justify-content:space-between;
+
+    gap:10px;
+
+    margin:0 0 10px;
+
+    color:#8f929a;
+
+    font-size:12px;
+
+    font-weight:900;
+
+    letter-spacing:2px;
+
+    text-transform:uppercase;
+
+    flex:0 0 auto;
 }
 
+.players-title strong {
+    color:#ffd400;
+
+    font-size:11px;
+
+    letter-spacing:1px;
+}
+
+/* =========================================================
+   JOUEURS
+========================================================= */
+
+.players {
+    display:grid;
+
+    grid-template-columns:repeat(2,minmax(0,1fr));
+
+    grid-auto-rows:minmax(42px,auto);
+
+    gap:8px 10px;
+
+    align-content:start;
+
+    min-height:0;
+
+    overflow:visible;
+}
+
+/*
+   Animation des joueurs
+*/
 .player-chip {
-    padding:1.1vh 1.2vw;
-    border-radius:999px;
-    background:#222329;
-    color:#e8e9ec;
-    font-size:clamp(13px,1.7vw,26px);
-    font-weight:700;
-    white-space:nowrap;
+    min-width:0;
+    min-height:42px;
+
+    padding:8px 12px;
+
+    border:1px solid rgba(255,255,255,.07);
+
+    border-radius:14px;
+
+    background:linear-gradient(
+        145deg,
+        #25262d,
+        #1d1e23
+    );
+
+    color:#f2f3f5;
+
+    font-size:clamp(13px,1.25vw,19px);
+
+    line-height:1.12;
+
+    font-weight:750;
+
+    white-space:normal;
+
+    overflow-wrap:anywhere;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.18);
+
+    opacity:0;
+
+    transform:translateY(15px) scale(.97);
+}
+
+/*
+   Les joueurs apparaissent progressivement
+*/
+.card.active .player-chip {
+    animation:playerAppear .45s ease forwards;
+}
+
+/*
+   Décalage progressif joueur par joueur
+*/
+.card.active .player-chip:nth-child(1)  { animation-delay:.08s; }
+.card.active .player-chip:nth-child(2)  { animation-delay:.12s; }
+.card.active .player-chip:nth-child(3)  { animation-delay:.16s; }
+.card.active .player-chip:nth-child(4)  { animation-delay:.20s; }
+.card.active .player-chip:nth-child(5)  { animation-delay:.24s; }
+.card.active .player-chip:nth-child(6)  { animation-delay:.28s; }
+.card.active .player-chip:nth-child(7)  { animation-delay:.32s; }
+.card.active .player-chip:nth-child(8)  { animation-delay:.36s; }
+.card.active .player-chip:nth-child(9)  { animation-delay:.40s; }
+.card.active .player-chip:nth-child(10) { animation-delay:.44s; }
+.card.active .player-chip:nth-child(11) { animation-delay:.48s; }
+.card.active .player-chip:nth-child(12) { animation-delay:.52s; }
+
+@keyframes playerAppear {
+    from {
+        opacity:0;
+        transform:translateY(15px) scale(.97);
+    }
+
+    to {
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
 }
 
 /* =========================================================
    DERNIER RÉSULTAT
 ========================================================= */
+
 .card-footer {
     grid-column:1 / span 2;
     grid-row:3;
+
     display:flex;
+
     align-items:center;
     justify-content:space-between;
+
     gap:2vw;
+
     margin:0 2.5vw 2.5vh;
+
     padding:2vh 2.2vw;
+
     border-radius:18px;
+
     background:#f0f1f3;
+
     color:#111;
 }
 
-.card-footer.win { background:#e6f4ed; }
-.card-footer.win .score { color:var(--green); }
-.card-footer.loss { background:#faeaea; }
-.card-footer.loss .score { color:var(--red-loss); }
+.card-footer.win {
+    background:#e6f4ed;
+}
+
+.card-footer.win .score {
+    color:var(--green);
+}
+
+.card-footer.loss {
+    background:#faeaea;
+}
+
+.card-footer.loss .score {
+    color:var(--red-loss);
+}
 
 .card-footer .label {
     font-size:clamp(12px,1.5vw,22px);
+
     font-weight:950;
+
     letter-spacing:2px;
+
     color:#70757d;
+
     text-transform:uppercase;
 }
 
 .card-footer .score {
     font-size:clamp(22px,3.2vw,48px);
+
     font-weight:950;
+
     white-space:nowrap;
 }
 
 .card-footer .state {
     font-size:clamp(14px,1.9vw,30px);
+
     font-weight:900;
+
     text-transform:uppercase;
+
     letter-spacing:1px;
 }
 
 /* =========================================================
-   INDICATEUR DE PROGRESSION (les points en bas)
+   INDICATEUR
 ========================================================= */
+
 .dots {
     position:fixed;
-    left:0;right:0;
+
+    left:0;
+    right:0;
+
     bottom:1.2vh;
+
     display:flex;
+
     justify-content:center;
+
     gap:8px;
+
     z-index:10;
 }
 
 .dot {
     width:10px;
     height:10px;
+
     border-radius:50%;
+
     background:#33343a;
-    transition:background .3s;
+
+    transition:
+        background .3s,
+        transform .3s;
 }
 
-.dot.active { background:var(--mvbc-yellow); }
+.dot.active {
+    background:var(--mvbc-yellow);
 
-/* Texte de secours si une équipe n'a pas de résultat */
+    transform:scale(1.35);
+}
+
+/* =========================================================
+   PAS DE RÉSULTAT
+========================================================= */
+
 .no-result {
     color:#70757d;
+
     font-weight:900;
+
     letter-spacing:1px;
+
     text-transform:uppercase;
 }
+
+/* =========================================================
+   TABLETTES
+========================================================= */
+
+@media (max-width:1100px) {
+
+    .players {
+        gap:6px;
+    }
+
+    .player-chip {
+        min-height:36px;
+
+        padding:6px 8px;
+
+        font-size:clamp(11px,1.45vw,16px);
+
+        border-radius:11px;
+    }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width:700px) {
+
+    .card {
+        width:96vw;
+
+        height:94vh;
+
+        grid-template-columns:1fr;
+
+        grid-template-rows:auto minmax(0,1fr) auto;
+    }
+
+    .card-header {
+        grid-column:1;
+
+        padding:1.6vh 4vw;
+
+        font-size:clamp(30px,9vw,52px);
+    }
+
+    .card-photo {
+        display:none;
+    }
+
+    .card-info {
+        grid-column:1;
+
+        grid-row:2;
+
+        padding:2vh 4vw 1vh;
+    }
+
+    .players {
+        grid-template-columns:1fr 1fr;
+
+        grid-auto-rows:minmax(34px,auto);
+
+        gap:5px;
+    }
+
+    .player-chip {
+        min-height:34px;
+
+        padding:4px 6px;
+
+        font-size:clamp(9px,2.7vw,14px);
+
+        border-radius:10px;
+    }
+
+    .card-footer {
+        grid-column:1;
+
+        grid-row:3;
+
+        margin:0 3vw 2vh;
+
+        padding:1.5vh 3vw;
+    }
+}
+
+/* =========================================================
+   ACCESSIBILITÉ
+========================================================= */
+
+@media (prefers-reduced-motion:reduce) {
+
+    .card,
+    .player-chip,
+    .card-photo img {
+        animation:none !important;
+
+        transition:none !important;
+    }
+}
+
 </style>
 </head>
+
 <body>
 
 <div class="screen" id="screen"></div>
+
 <div class="dots" id="dots"></div>
 
 <script>
-/* ---------------------------------------------------------
-   URL du CSV publié (la même que la page équipes).
---------------------------------------------------------- */
-var RESULTS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgunjL555jztKSJWpYv8O02FxLwo1-GugxM1OwTbAtHKUGoOAX5SRDjI9mTwVPwPx85zPP4NAAxA9m/pub?output=csv";
 
-var SLIDE_MS = 8000; // 8 secondes par équipe
+/* =========================================================
+   URL DU CSV
+========================================================= */
 
-/* ---------------------------------------------------------
-   LES ÉQUIPES : nom, couleur (cycle jaune/rouge/bleu),
-   coach, joueurs. Ordre = ordre d'affichage.
-   ⚠️ Photo générique par défaut : remplace PHOTO par une
-   URL individuelle si tu as les photos des équipes.
---------------------------------------------------------- */
-/* ---------------------------------------------------------
-   PHOTOS PAR ÉQUIPE.
-   ⚠️ Règle simple : cherche le nom de l'équipe ci-dessous ;
-   si absent, la PHOTO_DEFAUT est utilisée.
-   Ajoute/modifie une ligne par équipe :
-   "U18F1": "https://...photo.jpg",
---------------------------------------------------------- */
-var PHOTO_DEFAUT = "https://admin.sportsregions.fr/media/uploaded/sites/20376/kcupload/images/-NM2.JPG";
+var RESULTS_CSV_URL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vQgunjL555jztKSJWpYv8O02FxLwo1-GugxM1OwTbAtHKUGoOAX5SRDjI9mTwVPwPx85zPP4NAAxA9m/pub?output=csv";
+
+
+/* =========================================================
+   TEMPS D'AFFICHAGE
+========================================================= */
+
+var SLIDE_MS = 8000;
+
+
+/* =========================================================
+   PHOTOS
+========================================================= */
+
+var PHOTO_DEFAUT =
+"https://admin.sportsregions.fr/media/uploaded/sites/20376/kcupload/images/-NM2.JPG";
 
 var PHOTOS = {
-    "NM2":   "https://admin.sportsregions.fr/media/uploaded/sites/20376/kcupload/images/-NM2.JPG",
-     "PNM": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-      "RF2": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-       "RM3": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-        "PRM": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-         "DF2": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-          "DF3A": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-           "DF3B": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-            "DM4": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U18F1": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U18M1": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U18M2": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U18M3": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U18M4": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U18M5": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-        "U15F1": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U15F2": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U15M1": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U15M2": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U15M3": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-        "U13F1": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U13F2": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U13F3": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U13M1": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U13M2": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-        "U13M3": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U13M4": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U13M5": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U11F1": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U11F2": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-        "U11F3": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U11F4": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U11M1": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U11M2": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U11M3": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-        "U11M4": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U9": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U9": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U9": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U9": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-        "U9": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-    "U9": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
-   
 
+    "NM2":
+    "https://admin.sportsregions.fr/media/uploaded/sites/20376/kcupload/images/-NM2.JPG",
+
+    "PNM":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "RF2":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "RM3":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "PRM":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "DF2":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "DF3A":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "DF3B":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "DM4":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U18F1":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U18M1":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U18M2":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U18M3":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U18M4":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U18M5":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U15F1":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U15F2":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U15M1":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U15M2":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U15M3":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U13F1":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U13F2":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U13F3":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U13M1":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U13M2":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U13M3":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U13M4":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U13M5":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U11F1":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U11F2":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U11F3":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U11F4":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U11M1":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U11M2":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U11M3":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+
+    "U11M4":
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg"
 };
 
 function photoFor(teamName) {
     return PHOTOS[teamName] || PHOTO_DEFAUT;
 }
 
+
+/* =========================================================
+   ÉQUIPES
+========================================================= */
+
 var TEAMS = [
   { name:"NM2", coach:"Alexis Truet", players:"Brachet Romain, Jolbit Valentin, Le Ster Robin, Leclair Julien, Marie-Françoise Jonas, Pallard Théo, Tshunza Junior, Tournier Georges, Godou Wilson" },
+
   { name:"PNM", coach:"Pascal Gerbaud", players:"Allemand Matthieu, Barreau Mathieu, Frappier Théo, Beommensath Florian, Boursier Fabien, Clochard Maxime, Kielwasser Morgan, Liaigre Thibaud, Pedroso Swanny, Champain Valéry, Bonnet Maxime" },
+
   { name:"RF2", coach:"Julien Leclair et Théo Pallard", players:"Godard Camille, Roger Zoé, Leclair Marie, Liaigre Mathilde, Piveteau Bérengère, Lecomte Eva, Bourcier Victoire, Leclair Manon, Fouasson Laura" },
+
   { name:"RM3", coach:"Jonas Marie-Françoise", players:"Esperon Vincent, Gagnie Antoine, Gariou Valentin, Piveau Tom, Roux Enzo, Frouin Clément, Mainchain Edouard, Angibaud Malo, Bertolini Paul, Fiolleau Léo" },
+
   { name:"PRM", coach:"Marc Fauchard et Maxime David", players:"Arnaud Nathan, Biotteau Noé, Augereau Sylvain, Champain Colin, Augereau Corentin, Richard Vincent, Bodin Esteban, Chaigneau Sylvain, Bouteiller Pierre, Tessier Gabin, Orieux Lucas, Bonnet François" },
+
   { name:"DF2", coach:"Sébastien Rousseau", players:"Savarieau Kim, Liaigre Laura, Rousseau Matilde, Charrier Soline, Maindron Maëlie, Febre Anae, Delhommeau Amélie, Rabaud Oriane, Clochard Laura" },
+
   { name:"DF3A", coach:"", players:"Berriau Axelle, Blanloeil Romane, Cacaud Lisa, Fiolleau Lorène, Grollier Loanne, Guillo Solène, Raynard Laly, Vaissette Paola, Le Roux Emma" },
+
   { name:"DF3B", coach:"", players:"Bouin Margaux, Bricaud Élise, Denis Sarah, Denis Chloé, Landais Amélie, Leroux Lohané, Martin Juline, Pajot Maryne, Recoquillon Nina" },
+
   { name:"DM4", coach:"Jean-Yves Gaillard", players:"Boutier Sacha, Depaepe Hugo, Dinot Simon, Duret Lohan, Gaillard Jean-Yves, Gallard Thibault, Geffriaud Pierre, Grognet Louenan, Guillou Ethan, Landais Thomas, Nauleau Ghislain, Clenet Nolan" },
+
   { name:"U18F1", coach:"Douillard Candice et Roger Zoé", players:"Arnoux Camille, Bousseau Emy, Braud Liya, Bodet Clémence, Bonnin Anna, Carnus Angèle, Chevalier Maïna, Dubreuil Salomé, Ray Manon, Roger Eline, Martin Laurane, Tavares Charlotte" },
+
   { name:"U18M1", coach:"Sébastien Martineau", players:"Boudaud Lilian, Ganacheau Maël, François Gonzague, Quetel Tristan, Brizard Thélio, Lourdin Sacha, Pichaud Awen, Charrier Siméo, Vattier Noah, Diakité Noam" },
+
   { name:"U18M2", coach:"Dylan Richard", players:"Botton Léo, Francheteau Lyam, Carnus Antonin, Coasne-Bayon Ethan, Roger Lucas, Malard Abel, Richard Raphael, Dugast Martin, Gerimont Kirtys, Rousseau Batiste" },
+
   { name:"U18M3", coach:"Thibaut Gallard", players:"Caron Antoine, Rigaudeau Célestin, Guillet Nolan, Viavant Mahé, André Mattéo, Leroy Gabriel, Resmond Léo, Bodin Théo, Fruchard Nino, Pelletier Joan, Mechineau-Drouin Paul" },
+
   { name:"U18M4", coach:"Jean-François Chagnon", players:"Baillet-Rousseau Matthieu, Chagnon Jolhan, Ganachaud Evan, Praud Zachary, Royer Alexandre, Bodart Gabin, Febre Lucas, Richard Jean, Voisneau Dylan" },
+
   { name:"U18M5", coach:"", players:"Arrivé Marius, Gautron Émile, Jaud Paul, Laporte Marius, Papin Ilan, Pavageau Arthur, Biteau Maxence, Mornet Nolan, Pfiszter Ethan" },
+
   { name:"U15F1", coach:"Renaud Éloise", players:"Bonneau Lou, Cheneau Léonie, Lamy Léanne, Malard Diane, Pavageau Louise, Pelletier Cléa, Pequin Zélie, Richard Éléa, Vaissette Mandie, Zaki Lilia, Markarov Victoria" },
+
   { name:"U15F2", coach:"Nicolas Airiau", players:"Airiau Charlotte, Bonnet Kimy, Defontaine Lyna, Dugast Lilou, Guerin Zaho, Lambert Juliette, Nocet Soline, Orieux Juliette, Pavageau Julia, Soullard Isaline, Valin Lola, Leboucher Candice" },
+
   { name:"U15M1", coach:"Florian Beommensath", players:"Badouh Solal, Cesbron Flavio, De Saint Priest Paul, Denechère Clément, Drapeau Diego, Joulin Rémi, Kouembitie Labarre Eliad, Martin Louis, Remaud Victor" },
+
   { name:"U15M2", coach:"Pierre Geffriaud", players:"Daheron Liam, Etienne Romaric, Nicoleau Jordan, Robin Samuel, Sanfo Nelson, Sy Assane, Tessier Clément" },
+
   { name:"U15M3", coach:"", players:"Even Elliot, Frappier Lucas, Gilbert Champain Marty, Meriau Orlan, Miralles Esteban, Moreau Paul, Robic Lysandre, Roche Kayris" },
+
   { name:"U13F1", coach:"Maryne Pajot et Amélie Landais", players:"Bonnet Janelle, Guillet Anaé, Loiret Anaïs, Mabit Luna, Mabit Daphné, Pequin Thelma, Rivière Soline, Seince Lillyrose" },
+
   { name:"U13F2", coach:"Damien Bouron", players:"Buquet Mila, Bouron Azélie, Durand Inès, Forget Louise, Guibert Desmars Faustine, Jaud Lily, Pignet Ambre, Rabiller Soline, Voisneau Enola" },
+
   { name:"U13F3", coach:"Benjamin Brochard et Mila Brochard", players:"Aggou Inès, Brochard Louise, Coutand Gaufreteau Léa, Lausser Célia, Logeais Elisa, Mercereau Colas Rose, Pavageau Adèle, Picot Lilou, Richard Chloé" },
+
   { name:"U13M1", coach:"Paul Ravon et Damien Lhote", players:"Bossis Luis, Bouard Anton, Delaunay Hugo, Drapeau Malonn, Gourden Maël, Lermite Gabriel, Lhote Noah, Limousin Pierre, Richard Victor" },
+
   { name:"U13M2", coach:"Edouard Pichaud et Junior Tshunza", players:"Bossis Valentino, Chalavon Timéo, Chasseloup Jules, Dugast Nathan, Limousin Maël, Pavageau Louis, Pfiszter Lucas, Tesorielly Hugo" },
+
   { name:"U13M3", coach:"Thélio Brizard et Alex Joly", players:"Baudet-Barre Luca, Bossard Gaston, Chanvrin Charlie, Debilde Eloan, Gilbert Augustin, Joly Gaspard, Monnier-Gautron Gaspard, Pouvreau Ashton, Gaborieau Ulysse" },
+
   { name:"U13M4", coach:"Evan Ganachaud et Mathieu Baillet-Rousseau", players:"Berkane-Leroy Milan, Bonnet Nao, Drouin Colas, Garreau Louka, Guerin Livio, Guillet Mahé, Patin Maël, Besson Tylio, Bricault Aaron" },
+
   { name:"U13M5", coach:"Raphaël Dillet", players:"Agnine Rayan, Arnoux Lucas, Benard Gabriel, Bournigal Gatien, Dillet Loïs, Durand Malo, Poirier Aetan, Roux Léo, Tenaud Valentin" },
+
   { name:"U11F1", coach:"Matilde Rousseau", players:"Augereau Anaëlle, Billaud Victoire, Cailteau Anouk, Fillaudeau Margot, Guillard Capucine, Jamali Neyla, Migné Valentine, Naulin Maya" },
+
   { name:"U11F2", coach:"Maellie Couprie et Romane Blanloeil", players:"Bellamy Gabrielle, Bonnet Léa, Groizard Apolline, Ravon Rose, Richard Alix, Soulard Eline, Mocquet Janice, Paquereau Lilou" },
+
   { name:"U11F3", coach:"", players:"Boutault Daphnée, Boutault Faustine, Clenet Louise, Dillet Lison, Grayo Méline, Picot Zoé, Remaud Faustine, Veyssière Lya" },
+
   { name:"U11F4", coach:"", players:"Mabit Éloïse, Brizard Tess, Cunaud Louise, Drouin Mila, Simonneau Elyne, Pellegata Ambre, Hugon Hannah, Savary Charlotte" },
+
   { name:"U11M1", coach:"Mathis Bonnet", players:"Baudry-Turgis Yanis, Boisliveau-Daviet Raphael, Guillard Louis, Guillet Théo, Lepoul Lucas William, Richard Malo, Tenaud Timéo" },
+
   { name:"U11M2", coach:"Batiste Rousseau", players:"Bonnin Elias, Champain Robin, Champain Sacha, Duret Louis, Richard Oscar, Guibert-Bonnet Gabin, Godard Paul" },
+
   { name:"U11M3", coach:"Mael Ganachaud", players:"Cassiaux Lucas, Chauvet Loïs, Devanne Lucas, Gastinois Loïc, Leroy Joseph, Monnereau Marius, Roux Elie" },
+
   { name:"U11M4", coach:"Joan Pelletier et Noah Vattier", players:"Rocher Erwan, Peneau-Etourneau Sandro, Tenailleau Théo, Mohammadi Hakim, Remaud Malone, Giraud-Levron Clement, Melin Louka" }
 ];
 
-/* Ordre des équipes dans le Sheet (blocs de 3 colonnes) — identique
-   à la page équipes, mais sans les U9 (pas de résultats en général).
-   ⚠️ Il DOIT correspondre à l'ordre des colonnes de ton Sheet. */
+
+/* =========================================================
+   ORDRE DU SHEET
+========================================================= */
+
 var SHEET_TEAMS = [
     "NM2", "PNM", "RF2", "RM3", "PRM", "DF2", "DF3A", "DF3B", "DM4",
     "U18F1", "U18M1", "U18M2", "U18M3", "U18M4", "U18M5",
@@ -369,66 +894,205 @@ var SHEET_TEAMS = [
 ];
 
 var COLORS = ["yellow", "red", "blue"];
-var currentResults = {}; // { "NM2": {journey, score, state, balance} }
 
-/* ------------------ Outils ------------------ */
+var currentResults = {};
+
+var currentIndex = 0;
+
+
+/* =========================================================
+   CSV
+========================================================= */
+
 function parseCSV(text) {
-    var rows = [], row = [], field = "", inQ = false;
+
+    var rows = [];
+    var row = [];
+    var field = "";
+    var inQ = false;
+
     for (var i = 0; i < text.length; i++) {
+
         var c = text[i];
+
         if (inQ) {
-            if (c === '"') { if (text[i+1] === '"') { field += '"'; i++; } else inQ = false; }
-            else field += c;
-        } else if (c === '"') inQ = true;
-        else if (c === ",") { row.push(field); field = ""; }
-        else if (c === "\n" || c === "\r") {
-            if (c === "\r" && text[i+1] === "\n") i++;
-            row.push(field); field = "";
-            if (row.some(function (f) { return f.trim() !== ""; })) rows.push(row);
+
+            if (c === '"') {
+
+                if (text[i + 1] === '"') {
+                    field += '"';
+                    i++;
+                } else {
+                    inQ = false;
+                }
+
+            } else {
+                field += c;
+            }
+
+        } else if (c === '"') {
+
+            inQ = true;
+
+        } else if (c === ",") {
+
+            row.push(field);
+            field = "";
+
+        } else if (c === "\n" || c === "\r") {
+
+            if (c === "\r" && text[i + 1] === "\n") {
+                i++;
+            }
+
+            row.push(field);
+            field = "";
+
+            if (
+                row.some(function(f) {
+                    return f.trim() !== "";
+                })
+            ) {
+                rows.push(row);
+            }
+
             row = [];
-        } else field += c;
+
+        } else {
+
+            field += c;
+        }
     }
+
     row.push(field);
-    if (row.some(function (f) { return f.trim() !== ""; })) rows.push(row);
+
+    if (
+        row.some(function(f) {
+            return f.trim() !== "";
+        })
+    ) {
+        rows.push(row);
+    }
+
     return rows;
 }
 
-function normalize(s) { return (s || "").toUpperCase().replace(/\s+/g, ""); }
-function jourNum(j) { return parseInt(String(j).replace(/\D/g, ""), 10) || 0; }
 
-/* ------------------ Résultats du Sheet ------------------ */
+function normalize(s) {
+
+    return (s || "")
+        .toUpperCase()
+        .replace(/\s+/g, "");
+}
+
+
+function jourNum(j) {
+
+    return parseInt(
+        String(j).replace(/\D/g, ""),
+        10
+    ) || 0;
+}
+
+
+/* =========================================================
+   RÉSULTATS
+========================================================= */
+
 function buildResults(csvText) {
+
     var rows = parseCSV(csvText);
+
     var byTeam = {};
 
-    SHEET_TEAMS.forEach(function (teamName, blockIndex) {
-        var colJ = blockIndex * 3, colS = blockIndex * 3 + 1, colD = blockIndex * 3 + 2;
-        var best = null, wins = 0, losses = 0;
+    SHEET_TEAMS.forEach(function(teamName, blockIndex) {
 
-        rows.forEach(function (cols) {
-            var journey = (cols[colJ] || "").trim();
-            var score = (cols[colS] || "").trim();
-            var lieu = normalize(cols[colD] || "");
+        var colJ = blockIndex * 3;
+        var colS = blockIndex * 3 + 1;
+        var colD = blockIndex * 3 + 2;
+
+        var best = null;
+
+        var wins = 0;
+        var losses = 0;
+
+        rows.forEach(function(cols) {
+
+            var journey =
+                (cols[colJ] || "").trim();
+
+            var score =
+                (cols[colS] || "").trim();
+
+            var lieu =
+                normalize(cols[colD] || "");
+
             if (!/^J\d+$/i.test(journey)) return;
+
             if (!/^\d+\s*-\s*\d+$/.test(score)) return;
 
-            var isHome = !/^(EXT|E|A|AWAY)/.test(lieu);
-            var parts = score.split("-").map(function (n) { return parseInt(n.trim(), 10); });
-            var s = isHome ? parts[0] : parts[1];
-            var o = isHome ? parts[1] : parts[0];
-            if (s > o) wins++; else if (s < o) losses++;
+            var isHome =
+                !/^(EXT|E|A|AWAY)/.test(lieu);
 
-            if (!best || jourNum(journey) > best.journeyNum) {
-                best = { journeyNum: jourNum(journey), journey: journey.toUpperCase(), mvbc: s, opp: o };
+            var parts =
+                score
+                .split("-")
+                .map(function(n) {
+                    return parseInt(n.trim(),10);
+                });
+
+            var s =
+                isHome
+                ? parts[0]
+                : parts[1];
+
+            var o =
+                isHome
+                ? parts[1]
+                : parts[0];
+
+            if (s > o) {
+                wins++;
+            } else if (s < o) {
+                losses++;
+            }
+
+            if (
+                !best ||
+                jourNum(journey) > best.journeyNum
+            ) {
+
+                best = {
+                    journeyNum:jourNum(journey),
+                    journey:journey.toUpperCase(),
+                    mvbc:s,
+                    opp:o
+                };
             }
         });
 
         if (best) {
+
             byTeam[normalize(teamName)] = {
-                journey: best.journey,
-                score: best.mvbc + "-" + best.opp,
-                state: best.mvbc > best.opp ? "win" : best.mvbc < best.opp ? "loss" : "draw",
-                balance: { wins: wins, losses: losses }
+
+                journey:best.journey,
+
+                score:
+                    best.mvbc +
+                    "-" +
+                    best.opp,
+
+                state:
+                    best.mvbc > best.opp
+                    ? "win"
+                    : best.mvbc < best.opp
+                    ? "loss"
+                    : "draw",
+
+                balance:{
+                    wins:wins,
+                    losses:losses
+                }
             };
         }
     });
@@ -436,108 +1100,534 @@ function buildResults(csvText) {
     return byTeam;
 }
 
+
 function loadResults() {
+
     fetch(RESULTS_CSV_URL)
-        .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.text(); })
-        .then(function (text) {
-            currentResults = buildResults(text);
-            renderAll();          // re-rend les cartes avec les scores à jour
+
+        .then(function(r) {
+
+            if (!r.ok) {
+                throw new Error("HTTP " + r.status);
+            }
+
+            return r.text();
         })
-        .catch(function (e) { if (window.console) console.warn("Résultats indisponibles :", e); });
+
+        .then(function(text) {
+
+            currentResults =
+                buildResults(text);
+
+            renderAll();
+        })
+
+        .catch(function(e) {
+
+            if (window.console) {
+                console.warn(
+                    "Résultats indisponibles :",
+                    e
+                );
+            }
+        });
 }
 
-/* ------------------ Rendu ------------------ */
-var currentIndex = 0;
+
+/* =========================================================
+   CONSTRUCTION D'UNE CARTE
+========================================================= */
 
 function cardHTML(team, index) {
-    var color = COLORS[index % 3];
-    var r = currentResults[normalize(team.name)];
 
-    var balanceHTML = r && r.balance
-        ? '<span class="balance"><small>BILAN</small>V ' + r.balance.wins + " — D " + r.balance.losses + "</span>"
+    var color =
+        COLORS[index % 3];
+
+    var r =
+        currentResults[
+            normalize(team.name)
+        ];
+
+    var balanceHTML =
+        r && r.balance
+
+        ? '<span class="balance">' +
+            '<small>BILAN</small>' +
+            'V ' +
+            r.balance.wins +
+            " — D " +
+            r.balance.losses +
+          '</span>'
+
         : "";
 
-    var coachHTML = team.coach
-        ? '<p class="coach-line"><span>COACH&nbsp;:</span> ' + team.coach + "</p>"
+
+    var coachHTML =
+        team.coach
+
+        ? '<p class="coach-line">' +
+            '<span>COACH&nbsp;:</span> ' +
+            team.coach +
+          "</p>"
+
         : "";
 
-    var chips = team.players.split(",").map(function (n) {
-        return '<span class="player-chip">' + n.trim() + "</span>";
-    }).join("");
+
+    var playerNames =
+        team.players
+        .split(",")
+        .map(function(n) {
+            return n.trim();
+        })
+        .filter(Boolean);
+
+
+    /*
+       IMPORTANT :
+       Les numéros des joueurs ont été supprimés.
+    */
+
+    var chips =
+        playerNames
+        .map(function(n) {
+
+            return '<span class="player-chip">' +
+                       '<span>' +
+                           n +
+                       '</span>' +
+                   '</span>';
+
+        })
+        .join("");
+
 
     var footerHTML;
+
+
     if (r) {
-        var stateLabel = r.state === "win" ? "Victoire" : r.state === "loss" ? "Défaite" : "Égalité";
+
+        var stateLabel =
+            r.state === "win"
+            ? "Victoire"
+            : r.state === "loss"
+            ? "Défaite"
+            : "Égalité";
+
+
         footerHTML =
-            '<div class="card-footer ' + r.state + '">' +
-                '<span class="label">Dernier match (' + r.journey + ')</span>' +
-                '<span class="score">' + r.score + "</span>" +
-                '<span class="state">' + stateLabel + "</span>" +
+            '<div class="card-footer ' +
+                r.state +
+            '">' +
+
+                '<span class="label">' +
+                    'Dernier match (' +
+                    r.journey +
+                    ')' +
+                '</span>' +
+
+                '<span class="score">' +
+                    r.score +
+                '</span>' +
+
+                '<span class="state">' +
+                    stateLabel +
+                '</span>' +
+
             "</div>";
+
     } else {
+
         footerHTML =
             '<div class="card-footer">' +
-                '<span class="no-result">Aucun match joué pour le moment</span>' +
+
+                '<span class="no-result">' +
+                    'Aucun match joué pour le moment' +
+                '</span>' +
+
             "</div>";
     }
 
-    return '<article class="card" data-index="' + index + '">' +
-        '<header class="card-header ' + color + '">' + team.name + balanceHTML + "</header>" +
-        '<div class="card-photo"><img alt="Équipe ' + team.name + ' du MVBC" src="' + photoFor(team.name) + '" /></div>' +
-        '<div class="card-info">' + coachHTML + '<div class="players">' + chips + "</div></div>" +
-        footerHTML +
-    "</article>";
+
+    return (
+
+        '<article class="card" data-index="' +
+            index +
+        '">' +
+
+            '<header class="card-header ' +
+                color +
+            '">' +
+
+                team.name +
+
+                balanceHTML +
+
+            "</header>" +
+
+
+            '<div class="card-photo">' +
+
+                '<img ' +
+                    'alt="Équipe ' +
+                    team.name +
+                    ' du MVBC" ' +
+                    'src="' +
+                    photoFor(team.name) +
+                    '" />' +
+
+            "</div>" +
+
+
+            '<div class="card-info">' +
+
+                coachHTML +
+
+                '<div class="players-title">' +
+
+                    '<span>EFFECTIF</span>' +
+
+                    '<strong>' +
+                        playerNames.length +
+                        ' JOUEURS' +
+                    '</strong>' +
+
+                "</div>" +
+
+
+                '<div class="players">' +
+                    chips +
+                "</div>" +
+
+            "</div>" +
+
+
+            footerHTML +
+
+        "</article>"
+    );
 }
+
+
+/* =========================================================
+   RENDU
+========================================================= */
 
 function renderAll() {
-    var screen = document.getElementById("screen");
-    var dots = document.getElementById("dots");
 
-    screen.innerHTML = TEAMS.map(cardHTML).join("");
-    dots.innerHTML = TEAMS.map(function (t, i) {
-        return '<span class="dot" data-index="' + i + '"></span>';
-    }).join("");
+    var screen =
+        document.getElementById("screen");
 
-    showCard(currentIndex, false);
+    var dots =
+        document.getElementById("dots");
+
+
+    screen.innerHTML =
+        TEAMS
+        .map(cardHTML)
+        .join("");
+
+
+    dots.innerHTML =
+        TEAMS
+        .map(function(t,i) {
+
+            return '<span ' +
+                'class="dot" ' +
+                'data-index="' +
+                i +
+                '"></span>';
+
+        })
+        .join("");
+
+
+    showCard(
+        currentIndex,
+        false
+    );
 }
+
+
+/* =========================================================
+   CARROUSEL
+========================================================= */
 
 function showCard(index, animate) {
-    var cards = document.querySelectorAll(".card");
-    var dots = document.querySelectorAll(".dot");
 
-    cards.forEach(function (c) { c.classList.remove("active"); });
-    dots.forEach(function (d) { d.classList.remove("active"); });
+    var cards =
+        document.querySelectorAll(".card");
 
-    var card = cards[index];
-    var dot = dots[index];
-    if (card) card.classList.add("active");
-    if (dot) dot.classList.add("active");
+    var dots =
+        document.querySelectorAll(".dot");
+
+
+    if (!cards.length) {
+        return;
+    }
+
+
+    /*
+       Si aucun mouvement demandé,
+       on affiche directement la carte.
+    */
+
+    if (!animate) {
+
+        cards.forEach(function(card, i) {
+
+            card.classList.remove(
+                "active",
+                "slide-in-right",
+                "slide-in-left",
+                "slide-out-left",
+                "slide-out-right"
+            );
+
+            if (i === index) {
+                card.classList.add("active");
+            }
+        });
+
+
+        dots.forEach(function(dot, i) {
+
+            dot.classList.toggle(
+                "active",
+                i === index
+            );
+        });
+
+        return;
+    }
+
+
+    /*
+       Recherche de l'ancienne carte active
+    */
+
+    var oldIndex = currentIndex;
+
+    var oldCard =
+        cards[oldIndex];
+
+    var newCard =
+        cards[index];
+
+
+    if (!newCard) {
+        return;
+    }
+
+
+    /*
+       Détermine le sens du carrousel.
+
+       Si on avance :
+       ancienne carte -> gauche
+       nouvelle carte -> droite vers centre
+
+       Si on recule :
+       ancienne carte -> droite
+       nouvelle carte -> gauche vers centre
+    */
+
+    var goingForward =
+        index > oldIndex ||
+        (
+            oldIndex === cards.length - 1 &&
+            index === 0
+        );
+
+
+    var inClass =
+        goingForward
+        ? "slide-in-right"
+        : "slide-in-left";
+
+
+    var outClass =
+        goingForward
+        ? "slide-out-left"
+        : "slide-out-right";
+
+
+    /*
+       Nettoyage
+    */
+
+    cards.forEach(function(card) {
+
+        card.classList.remove(
+            "slide-in-right",
+            "slide-in-left",
+            "slide-out-left",
+            "slide-out-right"
+        );
+    });
+
+
+    /*
+       Ancienne carte
+    */
+
+    if (oldCard) {
+
+        oldCard.classList.remove("active");
+
+        oldCard.classList.add(outClass);
+    }
+
+
+    /*
+       Nouvelle carte
+    */
+
+    newCard.classList.add("active");
+
+    newCard.classList.add(inClass);
+
+
+    /*
+       Points de navigation
+    */
+
+    dots.forEach(function(dot, i) {
+
+        dot.classList.toggle(
+            "active",
+            i === index
+        );
+    });
+
+
+    /*
+       Nettoyage après animation
+    */
+
+    setTimeout(function() {
+
+        cards.forEach(function(card, i) {
+
+            if (i !== index) {
+
+                card.classList.remove(
+                    "active",
+                    "slide-in-right",
+                    "slide-in-left",
+                    "slide-out-left",
+                    "slide-out-right"
+                );
+            }
+
+        });
+
+        newCard.classList.remove(
+            inClass
+        );
+
+    }, 800);
 }
 
-/* ------------------ Rotation ------------------ */
+
+/* =========================================================
+   ROTATION AUTOMATIQUE
+========================================================= */
+
 function startRotation() {
-    setInterval(function () {
-        currentIndex = (currentIndex + 1) % TEAMS.length;
-        showCard(currentIndex, true);
+
+    setInterval(function() {
+
+        var nextIndex =
+            (currentIndex + 1) %
+            TEAMS.length;
+
+
+        showCard(
+            nextIndex,
+            true
+        );
+
+
+        currentIndex =
+            nextIndex;
+
     }, SLIDE_MS);
 }
 
-/* Flèches clavier pour naviguer manuellement (bonus pour tes réglages). */
-document.addEventListener("keydown", function (e) {
-    if (e.key === "ArrowRight" || e.key === " ") {
-        currentIndex = (currentIndex + 1) % TEAMS.length;
-        showCard(currentIndex, true);
-    } else if (e.key === "ArrowLeft") {
-        currentIndex = (currentIndex - 1 + TEAMS.length) % TEAMS.length;
-        showCard(currentIndex, true);
-    }
-});
 
-/* ------------------ Démarrage ------------------ */
+/* =========================================================
+   CLAVIER
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(e) {
+
+        if (
+            e.key === "ArrowRight" ||
+            e.key === " "
+        ) {
+
+            var next =
+                (currentIndex + 1) %
+                TEAMS.length;
+
+
+            showCard(
+                next,
+                true
+            );
+
+
+            currentIndex =
+                next;
+
+        }
+
+        else if (
+            e.key === "ArrowLeft"
+        ) {
+
+            var previous =
+                (
+                    currentIndex -
+                    1 +
+                    TEAMS.length
+                ) %
+                TEAMS.length;
+
+
+            showCard(
+                previous,
+                true
+            );
+
+
+            currentIndex =
+                previous;
+        }
+
+    }
+);
+
+
+/* =========================================================
+   DÉMARRAGE
+========================================================= */
+
 renderAll();
+
 startRotation();
+
 loadResults();
-setInterval(loadResults, 60000); // scores rafraîchis toutes les 60 s
+
+setInterval(
+    loadResults,
+    60000
+);
+
 </script>
+
 </body>
 </html>
+```
