@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0d0d0f">
+<title>MVBC — Écran LED</title>
+<style type="text/css">
+:root {
+    --mvbc-yellow:#ffd400;
+    --mvbc-red:#ff2020;
+    --mvbc-blue:#168cff;
+    --green:#17834d;
+    --red-loss:#d34848;
+}
+
+* { box-sizing:border-box; }
+
+html,body {
+    height:100%;
+    margin:0;
+    overflow:hidden;
+    background:#0d0d0f;
+    color:#fff;
+    font-family:Inter,"Segoe UI",Arial,sans-serif;
+}
+
+/* =========================================================
+   SCÈNE : une carte plein écran, transitions fondues
+========================================================= */
+.screen {
+    position:relative;
+    width:100%;
+    height:100vh;
+    display:grid;
+    place-items:center;
+    padding:2.5vh 2.5vw;
+}
+
+.card {
+    display:none;
+    width:min(1550px,100%);
+    height:min(92vh,900px);
+    grid-template-columns:1fr 1.15fr;
+    grid-template-rows:auto 1fr auto;
+    overflow:hidden;
+    border-radius:26px;
+    background:#141519;
+    box-shadow:0 30px 90px rgba(0,0,0,.55);
+}
+
+.card.active { display:grid; animation:cardIn .55s ease both; }
+
+@keyframes cardIn {
+    from { opacity:0; transform:scale(.97); }
+    to { opacity:1; transform:scale(1); }
+}
+
+/* =========================================================
+   EN-TÊTE : nom de l'équipe + bilan
+========================================================= */
+.card-header {
+    grid-column:1 / span 2;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:2.2vh 3vw;
+    font-family:"Arial Narrow","Segoe UI",Arial,sans-serif;
+    font-size:clamp(38px,6.5vw,86px);
+    font-weight:950;
+    letter-spacing:2px;
+    line-height:1;
+    text-transform:uppercase;
+}
+
+.card-header.yellow { background:var(--mvbc-yellow); color:#111; }
+.card-header.red { background:var(--mvbc-red); color:#fff; }
+.card-header.blue { background:var(--mvbc-blue); color:#fff; }
+
+.card-header .balance {
+    font-family:Inter,"Segoe UI",Arial,sans-serif;
+    font-size:clamp(14px,2vw,30px);
+    font-weight:900;
+    letter-spacing:1px;
+    white-space:nowrap;
+}
+
+.card-header .balance small {
+    display:block;
+    font-size:.45em;
+    letter-spacing:3px;
+    opacity:.6;
+}
+
+/* =========================================================
+   PHOTO
+========================================================= */
+.card-photo {
+    grid-row:2;
+    position:relative;
+    margin:2.5vh 0 2.5vh 2.5vw;
+    border-radius:20px;
+    overflow:hidden;
+    background:#1c1d21;
+}
+
+.card-photo img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.card-photo::after {
+    content:"";
+    position:absolute;
+    inset:auto 0 0 0;
+    height:35%;
+    background:linear-gradient(transparent,rgba(0,0,0,.4));
+}
+
+/* =========================================================
+   INFOS : coach + joueurs (chips)
+========================================================= */
+.card-info {
+    grid-row:2;
+    display:flex;
+    flex-direction:column;
+    min-width:0;
+    padding:2.5vh 2.5vw;
+    overflow:hidden;
+}
+
+.coach-line {
+    margin:0 0 2vh;
+    font-size:clamp(16px,2.2vw,32px);
+    font-weight:800;
+    color:#ffd400;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.coach-line span {
+    color:#9a9ca3;
+    font-weight:700;
+}
+
+.players {
+    display:flex;
+    flex-wrap:wrap;
+    gap:.9vh .6vw;
+    align-content:flex-start;
+    overflow:hidden;
+}
+
+.player-chip {
+    padding:1.1vh 1.2vw;
+    border-radius:999px;
+    background:#222329;
+    color:#e8e9ec;
+    font-size:clamp(13px,1.7vw,26px);
+    font-weight:700;
+    white-space:nowrap;
+}
+
+/* =========================================================
+   DERNIER RÉSULTAT
+========================================================= */
+.card-footer {
+    grid-column:1 / span 2;
+    grid-row:3;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:2vw;
+    margin:0 2.5vw 2.5vh;
+    padding:2vh 2.2vw;
+    border-radius:18px;
+    background:#f0f1f3;
+    color:#111;
+}
+
+.card-footer.win { background:#e6f4ed; }
+.card-footer.win .score { color:var(--green); }
+.card-footer.loss { background:#faeaea; }
+.card-footer.loss .score { color:var(--red-loss); }
+
+.card-footer .label {
+    font-size:clamp(12px,1.5vw,22px);
+    font-weight:950;
+    letter-spacing:2px;
+    color:#70757d;
+    text-transform:uppercase;
+}
+
+.card-footer .score {
+    font-size:clamp(22px,3.2vw,48px);
+    font-weight:950;
+    white-space:nowrap;
+}
+
+.card-footer .state {
+    font-size:clamp(14px,1.9vw,30px);
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+/* =========================================================
+   INDICATEUR DE PROGRESSION (les points en bas)
+========================================================= */
+.dots {
+    position:fixed;
+    left:0;right:0;
+    bottom:1.2vh;
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    z-index:10;
+}
+
+.dot {
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:#33343a;
+    transition:background .3s;
+}
+
+.dot.active { background:var(--mvbc-yellow); }
+
+/* Texte de secours si une équipe n'a pas de résultat */
+.no-result {
+    color:#70757d;
+    font-weight:900;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+</style>
+</head>
+<body>
+
+<div class="screen" id="screen"></div>
+<div class="dots" id="dots"></div>
+
+<script>
+/* ---------------------------------------------------------
+   URL du CSV publié (la même que la page équipes).
+--------------------------------------------------------- */
+var RESULTS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgunjL555jztKSJWpYv8O02FxLwo1-GugxM1OwTbAtHKUGoOAX5SRDjI9mTwVPwPx85zPP4NAAxA9m/pub?output=csv";
+
+var SLIDE_MS = 8000; // 8 secondes par équipe
+
+/* ---------------------------------------------------------
+   LES ÉQUIPES : nom, couleur (cycle jaune/rouge/bleu),
+   coach, joueurs. Ordre = ordre d'affichage.
+   ⚠️ Photo générique par défaut : remplace PHOTO par une
+   URL individuelle si tu as les photos des équipes.
+--------------------------------------------------------- */
+/* ---------------------------------------------------------
+   PHOTOS PAR ÉQUIPE.
+   ⚠️ Règle simple : cherche le nom de l'équipe ci-dessous ;
+   si absent, la PHOTO_DEFAUT est utilisée.
+   Ajoute/modifie une ligne par équipe :
+   "U18F1": "https://...photo.jpg",
+--------------------------------------------------------- */
+var PHOTO_DEFAUT = "https://admin.sportsregions.fr/media/uploaded/sites/20376/kcupload/images/-NM2.JPG";
+
+var PHOTOS = {
+    "NM2":   "https://admin.sportsregions.fr/media/uploaded/sites/20376/kcupload/images/-NM2.JPG",
+     "PNM": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+      "RF2": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+       "RM3": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+        "PRM": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+         "DF2": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+          "DF3A": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+           "DF3B": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+            "DM4": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U18F1": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U18M1": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U18M2": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U18M3": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U18M4": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U18M5": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+        "U15F1": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U15F2": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U15M1": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U15M2": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U15M3": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+        "U13F1": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U13F2": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U13F3": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U13M1": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U13M2": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+        "U13M3": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U13M4": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U13M5": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U11F1": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U11F2": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+        "U11F3": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U11F4": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U11M1": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U11M2": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U11M3": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+        "U11M4": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U9": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U9": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U9": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U9": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+        "U9": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "U9": "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+   
+
+};
+
+function photoFor(teamName) {
+    return PHOTOS[teamName] || PHOTO_DEFAUT;
+}
+
+var TEAMS = [
+  { name:"NM2", coach:"Alexis Truet", players:"Brachet Romain, Jolbit Valentin, Le Ster Robin, Leclair Julien, Marie-Françoise Jonas, Pallard Théo, Tshunza Junior, Tournier Georges, Godou Wilson" },
+  { name:"PNM", coach:"Pascal Gerbaud", players:"Allemand Matthieu, Barreau Mathieu, Frappier Théo, Beommensath Florian, Boursier Fabien, Clochard Maxime, Kielwasser Morgan, Liaigre Thibaud, Pedroso Swanny, Champain Valéry, Bonnet Maxime" },
+  { name:"RF2", coach:"Julien Leclair et Théo Pallard", players:"Godard Camille, Roger Zoé, Leclair Marie, Liaigre Mathilde, Piveteau Bérengère, Lecomte Eva, Bourcier Victoire, Leclair Manon, Fouasson Laura" },
+  { name:"RM3", coach:"Jonas Marie-Françoise", players:"Esperon Vincent, Gagnie Antoine, Gariou Valentin, Piveau Tom, Roux Enzo, Frouin Clément, Mainchain Edouard, Angibaud Malo, Bertolini Paul, Fiolleau Léo" },
+  { name:"PRM", coach:"Marc Fauchard et Maxime David", players:"Arnaud Nathan, Biotteau Noé, Augereau Sylvain, Champain Colin, Augereau Corentin, Richard Vincent, Bodin Esteban, Chaigneau Sylvain, Bouteiller Pierre, Tessier Gabin, Orieux Lucas, Bonnet François" },
+  { name:"DF2", coach:"Sébastien Rousseau", players:"Savarieau Kim, Liaigre Laura, Rousseau Matilde, Charrier Soline, Maindron Maëlie, Febre Anae, Delhommeau Amélie, Rabaud Oriane, Clochard Laura" },
+  { name:"DF3A", coach:"", players:"Berriau Axelle, Blanloeil Romane, Cacaud Lisa, Fiolleau Lorène, Grollier Loanne, Guillo Solène, Raynard Laly, Vaissette Paola, Le Roux Emma" },
+  { name:"DF3B", coach:"", players:"Bouin Margaux, Bricaud Élise, Denis Sarah, Denis Chloé, Landais Amélie, Leroux Lohané, Martin Juline, Pajot Maryne, Recoquillon Nina" },
+  { name:"DM4", coach:"Jean-Yves Gaillard", players:"Boutier Sacha, Depaepe Hugo, Dinot Simon, Duret Lohan, Gaillard Jean-Yves, Gallard Thibault, Geffriaud Pierre, Grognet Louenan, Guillou Ethan, Landais Thomas, Nauleau Ghislain, Clenet Nolan" },
+  { name:"U18F1", coach:"Douillard Candice et Roger Zoé", players:"Arnoux Camille, Bousseau Emy, Braud Liya, Bodet Clémence, Bonnin Anna, Carnus Angèle, Chevalier Maïna, Dubreuil Salomé, Ray Manon, Roger Eline, Martin Laurane, Tavares Charlotte" },
+  { name:"U18M1", coach:"Sébastien Martineau", players:"Boudaud Lilian, Ganacheau Maël, François Gonzague, Quetel Tristan, Brizard Thélio, Lourdin Sacha, Pichaud Awen, Charrier Siméo, Vattier Noah, Diakité Noam" },
+  { name:"U18M2", coach:"Dylan Richard", players:"Botton Léo, Francheteau Lyam, Carnus Antonin, Coasne-Bayon Ethan, Roger Lucas, Malard Abel, Richard Raphael, Dugast Martin, Gerimont Kirtys, Rousseau Batiste" },
+  { name:"U18M3", coach:"Thibaut Gallard", players:"Caron Antoine, Rigaudeau Célestin, Guillet Nolan, Viavant Mahé, André Mattéo, Leroy Gabriel, Resmond Léo, Bodin Théo, Fruchard Nino, Pelletier Joan, Mechineau-Drouin Paul" },
+  { name:"U18M4", coach:"Jean-François Chagnon", players:"Baillet-Rousseau Matthieu, Chagnon Jolhan, Ganachaud Evan, Praud Zachary, Royer Alexandre, Bodart Gabin, Febre Lucas, Richard Jean, Voisneau Dylan" },
+  { name:"U18M5", coach:"", players:"Arrivé Marius, Gautron Émile, Jaud Paul, Laporte Marius, Papin Ilan, Pavageau Arthur, Biteau Maxence, Mornet Nolan, Pfiszter Ethan" },
+  { name:"U15F1", coach:"Renaud Éloise", players:"Bonneau Lou, Cheneau Léonie, Lamy Léanne, Malard Diane, Pavageau Louise, Pelletier Cléa, Pequin Zélie, Richard Éléa, Vaissette Mandie, Zaki Lilia, Markarov Victoria" },
+  { name:"U15F2", coach:"Nicolas Airiau", players:"Airiau Charlotte, Bonnet Kimy, Defontaine Lyna, Dugast Lilou, Guerin Zaho, Lambert Juliette, Nocet Soline, Orieux Juliette, Pavageau Julia, Soullard Isaline, Valin Lola, Leboucher Candice" },
+  { name:"U15M1", coach:"Florian Beommensath", players:"Badouh Solal, Cesbron Flavio, De Saint Priest Paul, Denechère Clément, Drapeau Diego, Joulin Rémi, Kouembitie Labarre Eliad, Martin Louis, Remaud Victor" },
+  { name:"U15M2", coach:"Pierre Geffriaud", players:"Daheron Liam, Etienne Romaric, Nicoleau Jordan, Robin Samuel, Sanfo Nelson, Sy Assane, Tessier Clément" },
+  { name:"U15M3", coach:"", players:"Even Elliot, Frappier Lucas, Gilbert Champain Marty, Meriau Orlan, Miralles Esteban, Moreau Paul, Robic Lysandre, Roche Kayris" },
+  { name:"U13F1", coach:"Maryne Pajot et Amélie Landais", players:"Bonnet Janelle, Guillet Anaé, Loiret Anaïs, Mabit Luna, Mabit Daphné, Pequin Thelma, Rivière Soline, Seince Lillyrose" },
+  { name:"U13F2", coach:"Damien Bouron", players:"Buquet Mila, Bouron Azélie, Durand Inès, Forget Louise, Guibert Desmars Faustine, Jaud Lily, Pignet Ambre, Rabiller Soline, Voisneau Enola" },
+  { name:"U13F3", coach:"Benjamin Brochard et Mila Brochard", players:"Aggou Inès, Brochard Louise, Coutand Gaufreteau Léa, Lausser Célia, Logeais Elisa, Mercereau Colas Rose, Pavageau Adèle, Picot Lilou, Richard Chloé" },
+  { name:"U13M1", coach:"Paul Ravon et Damien Lhote", players:"Bossis Luis, Bouard Anton, Delaunay Hugo, Drapeau Malonn, Gourden Maël, Lermite Gabriel, Lhote Noah, Limousin Pierre, Richard Victor" },
+  { name:"U13M2", coach:"Edouard Pichaud et Junior Tshunza", players:"Bossis Valentino, Chalavon Timéo, Chasseloup Jules, Dugast Nathan, Limousin Maël, Pavageau Louis, Pfiszter Lucas, Tesorielly Hugo" },
+  { name:"U13M3", coach:"Thélio Brizard et Alex Joly", players:"Baudet-Barre Luca, Bossard Gaston, Chanvrin Charlie, Debilde Eloan, Gilbert Augustin, Joly Gaspard, Monnier-Gautron Gaspard, Pouvreau Ashton, Gaborieau Ulysse" },
+  { name:"U13M4", coach:"Evan Ganachaud et Mathieu Baillet-Rousseau", players:"Berkane-Leroy Milan, Bonnet Nao, Drouin Colas, Garreau Louka, Guerin Livio, Guillet Mahé, Patin Maël, Besson Tylio, Bricault Aaron" },
+  { name:"U13M5", coach:"Raphaël Dillet", players:"Agnine Rayan, Arnoux Lucas, Benard Gabriel, Bournigal Gatien, Dillet Loïs, Durand Malo, Poirier Aetan, Roux Léo, Tenaud Valentin" },
+  { name:"U11F1", coach:"Matilde Rousseau", players:"Augereau Anaëlle, Billaud Victoire, Cailteau Anouk, Fillaudeau Margot, Guillard Capucine, Jamali Neyla, Migné Valentine, Naulin Maya" },
+  { name:"U11F2", coach:"Maellie Couprie et Romane Blanloeil", players:"Bellamy Gabrielle, Bonnet Léa, Groizard Apolline, Ravon Rose, Richard Alix, Soulard Eline, Mocquet Janice, Paquereau Lilou" },
+  { name:"U11F3", coach:"", players:"Boutault Daphnée, Boutault Faustine, Clenet Louise, Dillet Lison, Grayo Méline, Picot Zoé, Remaud Faustine, Veyssière Lya" },
+  { name:"U11F4", coach:"", players:"Mabit Éloïse, Brizard Tess, Cunaud Louise, Drouin Mila, Simonneau Elyne, Pellegata Ambre, Hugon Hannah, Savary Charlotte" },
+  { name:"U11M1", coach:"Mathis Bonnet", players:"Baudry-Turgis Yanis, Boisliveau-Daviet Raphael, Guillard Louis, Guillet Théo, Lepoul Lucas William, Richard Malo, Tenaud Timéo" },
+  { name:"U11M2", coach:"Batiste Rousseau", players:"Bonnin Elias, Champain Robin, Champain Sacha, Duret Louis, Richard Oscar, Guibert-Bonnet Gabin, Godard Paul" },
+  { name:"U11M3", coach:"Mael Ganachaud", players:"Cassiaux Lucas, Chauvet Loïs, Devanne Lucas, Gastinois Loïc, Leroy Joseph, Monnereau Marius, Roux Elie" },
+  { name:"U11M4", coach:"Joan Pelletier et Noah Vattier", players:"Rocher Erwan, Peneau-Etourneau Sandro, Tenailleau Théo, Mohammadi Hakim, Remaud Malone, Giraud-Levron Clement, Melin Louka" }
+];
+
+/* Ordre des équipes dans le Sheet (blocs de 3 colonnes) — identique
+   à la page équipes, mais sans les U9 (pas de résultats en général).
+   ⚠️ Il DOIT correspondre à l'ordre des colonnes de ton Sheet. */
+var SHEET_TEAMS = [
+    "NM2", "PNM", "RF2", "RM3", "PRM", "DF2", "DF3A", "DF3B", "DM4",
+    "U18F1", "U18M1", "U18M2", "U18M3", "U18M4", "U18M5",
+    "U15F1", "U15F2", "U15M1", "U15M2", "U15M3",
+    "U13F1", "U13F2", "U13F3", "U13M1", "U13M2", "U13M3", "U13M4", "U13M5",
+    "U11F1", "U11F2", "U11F3", "U11F4",
+    "U11M1", "U11M2", "U11M3", "U11M4"
+];
+
+var COLORS = ["yellow", "red", "blue"];
+var currentResults = {}; // { "NM2": {journey, score, state, balance} }
+
+/* ------------------ Outils ------------------ */
+function parseCSV(text) {
+    var rows = [], row = [], field = "", inQ = false;
+    for (var i = 0; i < text.length; i++) {
+        var c = text[i];
+        if (inQ) {
+            if (c === '"') { if (text[i+1] === '"') { field += '"'; i++; } else inQ = false; }
+            else field += c;
+        } else if (c === '"') inQ = true;
+        else if (c === ",") { row.push(field); field = ""; }
+        else if (c === "\n" || c === "\r") {
+            if (c === "\r" && text[i+1] === "\n") i++;
+            row.push(field); field = "";
+            if (row.some(function (f) { return f.trim() !== ""; })) rows.push(row);
+            row = [];
+        } else field += c;
+    }
+    row.push(field);
+    if (row.some(function (f) { return f.trim() !== ""; })) rows.push(row);
+    return rows;
+}
+
+function normalize(s) { return (s || "").toUpperCase().replace(/\s+/g, ""); }
+function jourNum(j) { return parseInt(String(j).replace(/\D/g, ""), 10) || 0; }
+
+/* ------------------ Résultats du Sheet ------------------ */
+function buildResults(csvText) {
+    var rows = parseCSV(csvText);
+    var byTeam = {};
+
+    SHEET_TEAMS.forEach(function (teamName, blockIndex) {
+        var colJ = blockIndex * 3, colS = blockIndex * 3 + 1, colD = blockIndex * 3 + 2;
+        var best = null, wins = 0, losses = 0;
+
+        rows.forEach(function (cols) {
+            var journey = (cols[colJ] || "").trim();
+            var score = (cols[colS] || "").trim();
+            var lieu = normalize(cols[colD] || "");
+            if (!/^J\d+$/i.test(journey)) return;
+            if (!/^\d+\s*-\s*\d+$/.test(score)) return;
+
+            var isHome = !/^(EXT|E|A|AWAY)/.test(lieu);
+            var parts = score.split("-").map(function (n) { return parseInt(n.trim(), 10); });
+            var s = isHome ? parts[0] : parts[1];
+            var o = isHome ? parts[1] : parts[0];
+            if (s > o) wins++; else if (s < o) losses++;
+
+            if (!best || jourNum(journey) > best.journeyNum) {
+                best = { journeyNum: jourNum(journey), journey: journey.toUpperCase(), mvbc: s, opp: o };
+            }
+        });
+
+        if (best) {
+            byTeam[normalize(teamName)] = {
+                journey: best.journey,
+                score: best.mvbc + "-" + best.opp,
+                state: best.mvbc > best.opp ? "win" : best.mvbc < best.opp ? "loss" : "draw",
+                balance: { wins: wins, losses: losses }
+            };
+        }
+    });
+
+    return byTeam;
+}
+
+function loadResults() {
+    fetch(RESULTS_CSV_URL)
+        .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.text(); })
+        .then(function (text) {
+            currentResults = buildResults(text);
+            renderAll();          // re-rend les cartes avec les scores à jour
+        })
+        .catch(function (e) { if (window.console) console.warn("Résultats indisponibles :", e); });
+}
+
+/* ------------------ Rendu ------------------ */
+var currentIndex = 0;
+
+function cardHTML(team, index) {
+    var color = COLORS[index % 3];
+    var r = currentResults[normalize(team.name)];
+
+    var balanceHTML = r && r.balance
+        ? '<span class="balance"><small>BILAN</small>V ' + r.balance.wins + " — D " + r.balance.losses + "</span>"
+        : "";
+
+    var coachHTML = team.coach
+        ? '<p class="coach-line"><span>COACH&nbsp;:</span> ' + team.coach + "</p>"
+        : "";
+
+    var chips = team.players.split(",").map(function (n) {
+        return '<span class="player-chip">' + n.trim() + "</span>";
+    }).join("");
+
+    var footerHTML;
+    if (r) {
+        var stateLabel = r.state === "win" ? "Victoire" : r.state === "loss" ? "Défaite" : "Égalité";
+        footerHTML =
+            '<div class="card-footer ' + r.state + '">' +
+                '<span class="label">Dernier match (' + r.journey + ')</span>' +
+                '<span class="score">' + r.score + "</span>" +
+                '<span class="state">' + stateLabel + "</span>" +
+            "</div>";
+    } else {
+        footerHTML =
+            '<div class="card-footer">' +
+                '<span class="no-result">Aucun match joué pour le moment</span>' +
+            "</div>";
+    }
+
+    return '<article class="card" data-index="' + index + '">' +
+        '<header class="card-header ' + color + '">' + team.name + balanceHTML + "</header>" +
+        '<div class="card-photo"><img alt="Équipe ' + team.name + ' du MVBC" src="' + photoFor(team.name) + '" /></div>' +
+        '<div class="card-info">' + coachHTML + '<div class="players">' + chips + "</div></div>" +
+        footerHTML +
+    "</article>";
+}
+
+function renderAll() {
+    var screen = document.getElementById("screen");
+    var dots = document.getElementById("dots");
+
+    screen.innerHTML = TEAMS.map(cardHTML).join("");
+    dots.innerHTML = TEAMS.map(function (t, i) {
+        return '<span class="dot" data-index="' + i + '"></span>';
+    }).join("");
+
+    showCard(currentIndex, false);
+}
+
+function showCard(index, animate) {
+    var cards = document.querySelectorAll(".card");
+    var dots = document.querySelectorAll(".dot");
+
+    cards.forEach(function (c) { c.classList.remove("active"); });
+    dots.forEach(function (d) { d.classList.remove("active"); });
+
+    var card = cards[index];
+    var dot = dots[index];
+    if (card) card.classList.add("active");
+    if (dot) dot.classList.add("active");
+}
+
+/* ------------------ Rotation ------------------ */
+function startRotation() {
+    setInterval(function () {
+        currentIndex = (currentIndex + 1) % TEAMS.length;
+        showCard(currentIndex, true);
+    }, SLIDE_MS);
+}
+
+/* Flèches clavier pour naviguer manuellement (bonus pour tes réglages). */
+document.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowRight" || e.key === " ") {
+        currentIndex = (currentIndex + 1) % TEAMS.length;
+        showCard(currentIndex, true);
+    } else if (e.key === "ArrowLeft") {
+        currentIndex = (currentIndex - 1 + TEAMS.length) % TEAMS.length;
+        showCard(currentIndex, true);
+    }
+});
+
+/* ------------------ Démarrage ------------------ */
+renderAll();
+startRotation();
+loadResults();
+setInterval(loadResults, 60000); // scores rafraîchis toutes les 60 s
+</script>
+</body>
+</html>
