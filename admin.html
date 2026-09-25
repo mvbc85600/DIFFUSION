@@ -2,7 +2,6 @@
 <html lang="fr">
 
 <head>
-    
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -242,6 +241,10 @@ body {
     background: #ff2020; /* Rouge */
 }
 
+.scene-button:nth-child(18) {
+    background: #168cff; /* Bleu */
+}
+
 .black {
     background: black;
     border: 1px solid #444;
@@ -423,7 +426,8 @@ body {
 #saveMatchButton,
 #saveMessageButton,
 #savePartnerButton,
-#savePartnerDurationsButton {
+#savePartnerDurationsButton,
+#saveProgrammeButton {
     width: 100%;
     padding: 17px;
     border: none;
@@ -438,14 +442,16 @@ body {
 #saveMatchButton:hover,
 #saveMessageButton:hover,
 #savePartnerButton:hover,
-#savePartnerDurationsButton:hover {
+#savePartnerDurationsButton:hover,
+#saveProgrammeButton:hover {
     background: #22c55e;
 }
 
 #matchStatus,
 #messageStatus,
 #partnerStatus,
-#partnerDurationsStatus {
+#partnerDurationsStatus,
+#programmeStatus {
     margin-top: 15px;
     text-align: center;
     padding: 12px;
@@ -758,6 +764,79 @@ body {
 
 
 /* =========================
+   PROGRAMME WEEK-END
+========================= */
+#programmePaste {
+    width: 100%;
+    padding: 13px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: monospace;
+    resize: vertical;
+}
+
+#parseProgrammeButton {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background: #168cff;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+#parseProgrammeButton:hover {
+    background: #2f9bff;
+}
+
+.programme-preview {
+    max-height: 400px;
+    overflow-y: auto;
+    background: #181818;
+    border: 1px solid #333;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.programme-preview-row {
+    display: grid;
+    grid-template-columns: 70px 110px 1fr 160px;
+    gap: 10px;
+    align-items: center;
+    padding: 10px;
+    background: #222;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.pp-champ {
+    font-weight: bold;
+    color: #ffd400;
+}
+
+.pp-jour {
+    color: #4ade80;
+    white-space: nowrap;
+}
+
+.pp-eq {
+    word-break: break-word;
+}
+
+.pp-lieu {
+    color: #aaa;
+    font-size: 12px;
+}
+
+
+/* =========================
    MOBILE
 ========================= */
 @media(max-width:600px) {
@@ -790,6 +869,14 @@ body {
     .partners-scroll-admin img {
         height: 40px;
         margin: 0 10px;
+    }
+
+    .programme-preview-row {
+        grid-template-columns: 60px 90px 1fr;
+    }
+
+    .pp-lieu {
+        display: none;
     }
 }
 
@@ -849,6 +936,11 @@ body {
 
         <button class="tab-button" data-tab="cinqmajeur">
             🏀 5 Majeur
+        </button>
+
+        <!-- NOUVEL ONGLET : PROGRAMME WEEK-END -->
+        <button class="tab-button" data-tab="programme">
+            📅 Programme W-E
         </button>
     </div>
 
@@ -939,10 +1031,15 @@ body {
             <button class="scene-button" onclick="diffuser('boutique')">
                 🛍️<br>BOUTIQUE
             </button>
-            
+
               <!-- Bouton victoire -->
             <button class="scene-button" onclick="diffuser('victoire')">
                 ✌️<br>VICTOIRE
+            </button>
+
+            <!-- Bouton PROGRAMME WEEK-END -->
+            <button class="scene-button" onclick="diffuser('programmeweekend')">
+                📅<br>PROGRAMME W-E
             </button>
         </div>
     </div>
@@ -1105,7 +1202,7 @@ body {
                 </div>
                 <div class="duration-help">
                     Ce résultat sera affiché sous « VICTOIRE » sur la page de diffusion.
-                    Le partenaire sélectionné dans l’onglet « Partenaire du Match » sera affiché sous le score.
+                    Le partenaire sélectionné dans l'onglet « Partenaire du Match » sera affiché sous le score.
                 </div>
             </div>
 
@@ -1366,7 +1463,66 @@ body {
             <div id="playersStatus"></div>
         </div>
     </div>
-</div>
+
+    <!-- =================================================
+         ONGLET : PROGRAMME WEEK-END (NOUVEAU)
+    ================================================== -->
+    <div id="programme" class="tab-content">
+        <div class="match-editor">
+            <h2>📅 PROGRAMME DU WEEK-END</h2>
+            <div class="description">
+                Dépose ici le fichier du programme des matchs (export Excel en
+                <strong>CSV</strong>, TXT, ou copie/colle directement le tableau).
+                Les cartes seront affichées sur <strong>programmeweekend.html</strong>.
+                <br><br>
+                Colonnes reconnues automatiquement :
+                Championnat, Jour, Heure, Équipe 1, Équipe 2, Lieu, Officiels...
+                Les lignes vides (ex : U9) sont ignorées.
+            </div>
+
+            <!-- TITRE AFFICHÉ -->
+            <div class="form-group">
+                <label>📌 Titre affiché en haut de la page</label>
+                <input type="text" id="programmeTitre" placeholder="Ex : PROGRAMME DU WEEK-END">
+            </div>
+
+            <!-- DÉPÔT DE FICHIER -->
+            <div class="form-group">
+                <label>📂 Déposer un fichier (CSV / TXT / TSV)</label>
+                <input type="file" id="programmeFile" accept=".csv,.txt,.tsv,.tab">
+            </div>
+
+            <!-- OU COLLER LE TABLEAU -->
+            <div class="form-group">
+                <label>📋 ... ou coller directement le tableau ici</label>
+                <textarea
+                    id="programmePaste"
+                    rows="8"
+                    placeholder="Colle ici les lignes du tableau (copier/coller depuis Excel)"
+                ></textarea>
+                <div class="duration-help">
+                    Astuce : sélectionne le tableau dans Excel, copie (Ctrl+C), puis colle ici (Ctrl+V).
+                </div>
+            </div>
+
+            <!-- ANALYSER -->
+            <button id="parseProgrammeButton">
+                🔍 ANALYSER LE PROGRAMME
+            </button>
+
+            <!-- APERÇU -->
+            <div class="form-group" id="programmePreviewWrap" style="display:none;">
+                <label>👀 Aperçu (<span id="programmeCount">0</span> matchs détectés)</label>
+                <div id="programmePreview" class="programme-preview"></div>
+            </div>
+
+            <!-- SAUVEGARDE -->
+            <button id="saveProgrammeButton">
+                💾 ENREGISTRER LE PROGRAMME
+            </button>
+            <div id="programmeStatus"></div>
+        </div>
+    </div>
 </div>
 
 <!-- =====================================================
@@ -1823,6 +1979,7 @@ const matchRef = ref(db, "matchdusoir");
 const messageRef = ref(db, "message");
 const partnerRef = ref(db, "partenairedumatch");
 const partnerDurationsRef = ref(db, "partnerDurations");
+const programmeRef = ref(db, "programmeweekend");
 
 /* =====================================================
    COULEURS DES HALOS
@@ -1875,10 +2032,6 @@ mettreAJourApercuScore();
  * - etc.
  * Si un joueur est décoché puis recoché, il revient en dernier.
  */
-/* =====================================================
-   ONGLET : 5 MAJEUR
-===================================================== */
-
 let selectionOrder = [];
 
 /*
@@ -2361,8 +2514,6 @@ savePlayersButton.addEventListener(
 );
 
 /* =====================================================
-
-/* =====================================================
    ONGLET : PARTENAIRE DU MATCH (NOUVELLES FONCTIONS)
 ===================================================== */
 
@@ -2808,6 +2959,224 @@ saveMessageButton.addEventListener("click", async () => {
         messageStatus.textContent = "❌ Erreur : " + error.message;
         saveMessageButton.disabled = false;
         saveMessageButton.textContent = "💾 ENREGISTRER LE MESSAGE";
+    }
+});
+
+/* =====================================================
+   ONGLET : PROGRAMME WEEK-END (NOUVEAU)
+===================================================== */
+const programmeTitre = document.getElementById("programmeTitre");
+const programmeFile = document.getElementById("programmeFile");
+const programmePaste = document.getElementById("programmePaste");
+const parseProgrammeButton = document.getElementById("parseProgrammeButton");
+const programmePreviewWrap = document.getElementById("programmePreviewWrap");
+const programmePreview = document.getElementById("programmePreview");
+const programmeCount = document.getElementById("programmeCount");
+const saveProgrammeButton = document.getElementById("saveProgrammeButton");
+const programmeStatus = document.getElementById("programmeStatus");
+
+let programmeMatchs = [];
+
+/*
+ * Découpage "quote-aware" : une cellule entre guillemets peut
+ * contenir des retours à la ligne (ex : les 2 arbitres dans une
+ * même cellule Excel). On reconstruit donc les lignes réelles.
+ */
+function decouperLignesCellules(texte) {
+    const lignes = [];
+    let cellules = [];
+    let cellule = "";
+    let dansGuillemets = false;
+
+    for (let i = 0; i < texte.length; i++) {
+        const c = texte[i];
+
+        if (c === '"') {
+            if (dansGuillemets && texte[i + 1] === '"') {
+                cellule += '"';
+                i++;
+            } else {
+                dansGuillemets = !dansGuillemets;
+            }
+            continue;
+        }
+
+        if (!dansGuillemets && (c === "\n" || c === "\r")) {
+            if (c === "\r" && texte[i + 1] === "\n") i++;
+            cellules.push(cellule.trim());
+            cellule = "";
+            if (cellules.some(x => x !== "")) lignes.push(cellules);
+            cellules = [];
+            continue;
+        }
+
+        if (!dansGuillemets && (c === "\t" || c === ";")) {
+            cellules.push(cellule.trim());
+            cellule = "";
+            continue;
+        }
+
+        cellule += c;
+    }
+
+    cellules.push(cellule.trim());
+    if (cellules.some(x => x !== "")) lignes.push(cellules);
+
+    return lignes;
+}
+
+/* Valeurs à ignorer dans les colonnes officiels/arbitres */
+function estValeurParasite(valeur) {
+    if (!valeur) return true;
+    const v = valeur.trim();
+    if (/^OFFICIELS?$/i.test(v)) return true;
+    if (/^parents$/i.test(v)) return true;
+    if (/^\d+$/.test(v)) return true;              /* les "0" du tableau */
+    if (/^(D?[PR][NMRF]\d?\s?[AB]?|U\d+[FM]\d?)$/i.test(v)) return true; /* codes championnat (RM3, DF3 B, U11M1...) */
+    if (/^IE\s?-/i.test(v)) return true;           /* noms d'équipe IE - ... */
+    return false;
+}
+
+/* Texte brut -> tableau de matchs */
+function parseProgrammeText(texte) {
+    const lignes = decouperLignesCellules(texte);
+    const matchs = [];
+
+    lignes.forEach(cellules => {
+        cellules = cellules.map(c => (c || "").trim()).filter(Boolean);
+
+        /* Une ligne de match valide doit avoir une heure et 2 équipes */
+        if (cellules.length < 5) return;
+        const heureOk = /\d{1,2}[hH:]\d{2}/.test(cellules[2] || "");
+        if (!heureOk) return;
+
+        /*
+         * Colonne 6 (index 6) = ARBITRES (souvent 2 noms dans
+         * une même cellule, séparés par un retour à la ligne).
+         * Colonne 7 (index 7) = RESPONSABLE DE TABLE.
+         * Les deux sont stockés séparément.
+         */
+        const colArbitres = estValeurParasite(cellules[6]) ? "" : cellules[6];
+        const colTable = estValeurParasite(cellules[7]) ? "" : cellules[7];
+
+        matchs.push({
+            championnat: cellules[0] || "",
+            jour: cellules[1] || "",
+            heure: cellules[2] || "",
+            equipe1: cellules[3] || "",
+            equipe2: cellules[4] || "",
+            lieu: cellules[5] || "",
+            arbitres: colArbitres,
+            table: colTable,
+            info: cellules[cellules.length - 1] || ""
+        });
+    });
+
+    return matchs;
+}
+
+function escapeHtml(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+function afficherApercuProgramme() {
+    programmePreview.innerHTML = "";
+    programmeCount.textContent = programmeMatchs.length;
+
+    programmeMatchs.forEach(m => {
+        const carte = document.createElement("div");
+        carte.className = "programme-preview-row";
+        carte.innerHTML =
+            "<span class='pp-champ'>" + escapeHtml(m.championnat) + "</span>" +
+            "<span class='pp-jour'>" + escapeHtml(m.jour) + " " + escapeHtml(m.heure) + "</span>" +
+            "<span class='pp-eq'>" + escapeHtml(m.equipe1) + " <strong>vs</strong> " + escapeHtml(m.equipe2) + "</span>" +
+            "<span class='pp-lieu'>" + escapeHtml(m.lieu) + "</span>";
+        programmePreview.appendChild(carte);
+    });
+
+    programmePreviewWrap.style.display = programmeMatchs.length ? "block" : "none";
+}
+
+/* Analyse du fichier déposé */
+programmeFile.addEventListener("change", () => {
+    const fichier = programmeFile.files[0];
+    if (!fichier) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+        programmePaste.value = reader.result;
+        lancerAnalyseProgramme();
+    };
+    reader.readAsText(fichier, "utf-8");
+});
+
+parseProgrammeButton.addEventListener("click", lancerAnalyseProgramme);
+
+function lancerAnalyseProgramme() {
+    programmeMatchs = parseProgrammeText(programmePaste.value);
+
+    if (programmeMatchs.length === 0) {
+        programmeStatus.className = "error";
+        programmeStatus.textContent =
+            "❌ Aucun match détecté. Vérifie que chaque ligne contient " +
+            "une heure et deux équipes.";
+        programmePreviewWrap.style.display = "none";
+        return;
+    }
+
+    afficherApercuProgramme();
+    programmeStatus.className = "success";
+    programmeStatus.textContent =
+        "✅ " + programmeMatchs.length + " matchs détectés. " +
+        "Vérifie l'aperçu puis enregistre.";
+}
+
+/* Chargement du programme existant depuis Firebase */
+onValue(programmeRef, (snapshot) => {
+    const data = snapshot.val();
+    if (!data) return;
+
+    if (data.titre) programmeTitre.value = data.titre;
+
+    if (Array.isArray(data.matchs) && data.matchs.length) {
+        programmeMatchs = data.matchs;
+        afficherApercuProgramme();
+    }
+});
+
+/* Enregistrement dans Firebase */
+saveProgrammeButton.addEventListener("click", async () => {
+    try {
+        if (programmeMatchs.length === 0) {
+            throw new Error("Analyse d'abord un fichier ou un tableau (0 match détecté).");
+        }
+
+        saveProgrammeButton.disabled = true;
+        saveProgrammeButton.textContent = "⏳ ENREGISTREMENT...";
+
+        await set(programmeRef, {
+            titre: programmeTitre.value.trim() || "PROGRAMME DU WEEK-END",
+            matchs: programmeMatchs,
+            timestamp: Date.now()
+        });
+
+        programmeStatus.className = "success";
+        programmeStatus.textContent = "✅ Programme enregistré ! Il est visible sur programmeweekend.html.";
+        saveProgrammeButton.textContent = "✅ ENREGISTRÉ";
+
+        setTimeout(() => {
+            saveProgrammeButton.disabled = false;
+            saveProgrammeButton.textContent = "💾 ENREGISTRER LE PROGRAMME";
+        }, 2000);
+    }
+    catch (error) {
+        console.error(error);
+        programmeStatus.className = "error";
+        programmeStatus.textContent = "❌ Erreur : " + error.message;
+        saveProgrammeButton.disabled = false;
+        saveProgrammeButton.textContent = "💾 ENREGISTRER LE PROGRAMME";
     }
 });
 
