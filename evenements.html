@@ -1,401 +1,1226 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ÉVÉNEMENT — MVBC</title>
 
-  <meta charset="UTF-8">
+<!-- =====================================================
+     POLICES — MÊME TYPOGRAPHIE QUE MATCH DU SOIR / MESSAGE
+     ===================================================== -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@500;700;800;900&display=swap" rel="stylesheet">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+<style>
 
-  <title>Partenaires</title>
+/* =====================================================
+   VARIABLES
+   ===================================================== */
 
+:root {
+    --white: #f7f7f5;
+    --black: #050608;
 
-  <style>
+    --blue: #1769ff;
+    --red: #ed174c;
+    --yellow: #ffd400;
 
-    * {
-      box-sizing: border-box;
-    }
+    --halo1-rgb: 255,255,255;
+}
 
 
-    html,
-    body {
+/* =====================================================
+   RESET
+   ===================================================== */
 
-      margin: 0;
+* {
+    box-sizing: border-box;
+}
 
-      width: 100%;
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
 
-      height: 100%;
+html {
+    overflow: hidden;
+}
 
-      overflow: hidden;
+body {
+    overflow: hidden;
 
-      background: #000;
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(255,255,255,.035),
+            transparent 32%
+        ),
+        #050608;
 
-      color: #fff;
+    color: var(--white);
 
-      font-family: Arial, sans-serif;
+    font-family: "Inter", sans-serif;
 
-    }
+    visibility: hidden;
+    opacity: 0;
 
+    transition:
+        opacity .35s ease,
+        visibility .35s ease;
+}
 
-    /* =================================
-       TITRE
-       ================================= */
+body.loaded {
+    visibility: visible;
+    opacity: 1;
+}
 
-    h1 {
 
-      text-align: center;
+/* =====================================================
+   SCÈNE
+   ===================================================== */
 
-      font-size: 50px;
+.stage {
+    position: relative;
 
-      margin-top: 40px;
+    width: 100%;
+    height: 100dvh;
 
-      letter-spacing: 4px;
+    overflow: hidden;
 
-      color: #ffcc00;
+    isolation: isolate;
+}
 
-      text-shadow:
-        0 0 15px #ffcc00;
 
-    }
+/* =====================================================
+   HALO CENTRAL
+   ===================================================== */
 
+.stage::before {
+    content: "";
 
-    /* =================================
-       CARROUSEL
-       ================================= */
+    position: absolute;
 
-    .carousel {
+    left: 15%;
+    top: 5%;
 
-      position: relative;
+    width: 70%;
+    height: 90%;
 
-      width: 80%;
+    z-index: -5;
 
-      margin: 80px auto;
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(var(--halo1-rgb), .20),
+            rgba(var(--halo1-rgb), .08) 30%,
+            transparent 68%
+        );
 
-      height: 260px;
+    filter: blur(70px);
 
-      display: flex;
+    pointer-events: none;
+}
 
-      justify-content: center;
 
-      align-items: center;
+/* =====================================================
+   ATMOSPHÈRE ARENA
+   ===================================================== */
 
-      perspective: 1000px;
+.arena-grid {
+    position: absolute;
 
-    }
+    inset: -20%;
 
+    z-index: -4;
 
-    .carousel img {
+    pointer-events: none;
 
-      position: absolute;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            transparent 0 90px,
+            rgba(255,255,255,.012) 91px 92px
+        ),
+        radial-gradient(
+            ellipse at center,
+            rgba(255,255,255,.045),
+            transparent 50%
+        );
 
-      max-height: 200px;
+    transform:
+        perspective(800px)
+        rotateX(58deg)
+        scale(1.35);
 
-      width: auto;
+    transform-origin: center bottom;
+}
 
-      max-width: 300px;
 
-      padding: 10px;
+/* =====================================================
+   VIGNETTE
+   ===================================================== */
 
-      background: #111;
+.vignette {
+    position: absolute;
 
-      border: 2px solid #ffcc00;
+    inset: 0;
 
-      border-radius: 12px;
+    z-index: 30;
 
-      box-shadow:
-        0 0 15px #ffcc00;
+    pointer-events: none;
 
-      transition:
-        transform 0.6s ease,
-        opacity 0.6s ease;
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 35%,
+            rgba(0,0,0,.48) 100%
+        );
+}
 
-    }
 
+/* =====================================================
+   LIGNES TECHNIQUES
+   ===================================================== */
 
-    /* =================================
-       LOGO CENTRAL
-       ================================= */
+.tech-lines {
+    position: absolute;
 
-    .center {
+    inset: 0;
 
-      transform:
-        translateX(0)
-        scale(1.4);
+    z-index: 2;
 
-      z-index: 5;
+    pointer-events: none;
 
-      opacity: 1;
+    opacity: .5;
+}
 
-      box-shadow:
-        0 0 20px #ffcc00,
-        0 0 40px #ffcc00,
-        0 0 60px #ffcc00 inset;
+.tech-lines::before,
+.tech-lines::after {
+    content: "";
 
-    }
+    position: absolute;
 
+    left: 5%;
+    right: 5%;
 
-    /* =================================
-       GAUCHE
-       ================================= */
+    height: 1px;
 
-    .left1 {
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.25),
+            transparent
+        );
+}
 
-      transform:
-        translateX(-180px)
-        scale(0.9);
+.tech-lines::before {
+    top: 8%;
+}
 
-      opacity: 0.7;
+.tech-lines::after {
+    bottom: 8%;
+}
 
-      z-index: 4;
 
-    }
+/* =====================================================
+   PETITES LIGNES LATÉRALES
+   ===================================================== */
 
+.side-mark {
+    position: absolute;
 
-    .left2 {
+    width: 70px;
+    height: 4px;
 
-      transform:
-        translateX(-340px)
-        scale(0.6);
+    z-index: 5;
 
-      opacity: 0.4;
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--white)
+        );
 
-      z-index: 3;
+    opacity: .7;
+}
 
-    }
+.side-mark.left {
+    left: 4%;
+    top: 50%;
+}
 
+.side-mark.right {
+    right: 4%;
+    top: 50%;
 
-    /* =================================
-       DROITE
-       ================================= */
+    transform: rotate(180deg);
+}
 
-    .right1 {
 
-      transform:
-        translateX(180px)
-        scale(0.9);
+/* =====================================================
+   CONTENU
+   ===================================================== */
 
-      opacity: 0.7;
+.content {
+    position: relative;
 
-      z-index: 4;
+    z-index: 10;
 
-    }
+    width: 100%;
+    height: 100%;
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-    .right2 {
+    padding:
+        clamp(25px, 5vh, 60px)
+        5vw;
 
-      transform:
-        translateX(340px)
-        scale(0.6);
+    min-height: 0;
+}
 
-      opacity: 0.4;
 
-      z-index: 3;
+/* =====================================================
+   TITRE DE L'ÉVÉNEMENT
+   ===================================================== */
 
-    }
+.event-title {
+    position: relative;
 
+    margin: 0 0 clamp(18px, 3vh, 40px) 0;
 
-    /* =================================
-       CACHÉS
-       ================================= */
+    font-family: "Barlow Condensed", sans-serif;
 
-    .hidden {
+    font-size: clamp(
+        40px,
+        6vw,
+        110px
+    );
 
-      opacity: 0;
+    font-weight: 900;
 
-      transform:
-        scale(0.3);
+    line-height: .9;
 
-      z-index: 1;
+    letter-spacing: .12em;
 
-    }
+    text-align: center;
 
+    text-transform: uppercase;
 
-    /* =================================
-       ADAPTATION ÉCRAN
-       ================================= */
+    font-style: italic;
 
-    @media (max-width: 800px) {
+    transform:
+        skewX(-5deg)
+        scale(.65);
 
-      h1 {
+    opacity: 0;
 
-        font-size: 32px;
+    color: var(--white);
 
-      }
+    text-shadow:
+        5px 5px 0 var(--black),
+        10px 10px 0 var(--yellow),
+        16px 16px 0 rgba(237,23,76,.75),
+        22px 22px 0 rgba(23,105,255,.45);
 
-      .left1 {
+    will-change:
+        transform,
+        opacity;
+}
+
+
+/* =====================================================
+   TRAIT SOUS LE TITRE
+   ===================================================== */
+
+.event-title-line {
+    position: relative;
+
+    width: min(65vw, 900px);
+
+    height: 5px;
+
+    margin-bottom: clamp(20px, 4vh, 45px);
+
+    transform:
+        scaleX(0)
+        skewX(-15deg);
+
+    transform-origin: center;
+
+    opacity: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--blue) 15%,
+            var(--yellow) 35%,
+            var(--white) 50%,
+            var(--yellow) 65%,
+            var(--red) 85%,
+            transparent
+        );
+
+    box-shadow:
+        0 0 25px rgba(23,105,255,.35);
+}
+
+
+/* =====================================================
+   IMAGE DE L'ÉVÉNEMENT
+   — effet Ken Burns + cadre lumineux —
+   ===================================================== */
+
+.event-frame {
+    position: relative;
+
+    flex: 1;
+
+    width: min(88vw, 1150px);
+
+    min-height: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+
+    transform: translateY(30px);
+}
+
+.event-image-wrap {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    max-height: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.event-image {
+    max-width: 100%;
+    max-height: 100%;
+
+    object-fit: contain;
+
+    border:
+        2px solid rgba(255,255,255,.22);
+
+    border-radius: 14px;
+
+    background: rgba(0,0,0,.6);
+
+    box-shadow:
+        0 0 0 8px rgba(255,255,255,.025),
+        0 0 35px rgba(255,212,0,.28),
+        0 20px 60px rgba(0,0,0,.7);
+
+    opacity: 0;
+
+    /* EFFET KEN BURNS : zoom lent et continu */
+
+    animation:
+        kenBurns 26s ease-in-out infinite alternate;
+}
+
+.event-image.visible {
+    opacity: 1;
+
+    transition:
+        opacity .8s ease;
+}
+
+/* Balayage lumineux sur l'image */
+
+.event-image-wrap::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    z-index: 5;
+
+    pointer-events: none;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            105deg,
+            transparent 40%,
+            rgba(255,255,255,.14) 50%,
+            transparent 60%
+        );
+
+    background-size: 300% 100%;
+
+    animation: shine 6s ease-in-out infinite;
+}
+
+
+/* =====================================================
+   SPEED LINES
+   ===================================================== */
+
+.speed-lines {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 3;
+
+    overflow: hidden;
+
+    pointer-events: none;
+}
+
+.speed-line {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: clamp(
+        120px,
+        18vw,
+        300px
+    );
+
+    height: 2px;
+
+    transform-origin: 0 50%;
+
+    transform:
+        rotate(var(--angle))
+        translateX(20px)
+        scaleX(0);
+
+    opacity: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.85),
+            transparent
+        );
+}
+
+
+/* =====================================================
+   FLASH
+   ===================================================== */
+
+.flash {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 25;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        rgba(255,255,255,.8);
+
+    mix-blend-mode: screen;
+}
+
+
+/* =====================================================
+   PARTICULES
+   ===================================================== */
+
+.particles {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+
+    width: 3px;
+    height: 3px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.55);
+
+    opacity: 0;
+
+    animation:
+        particleFloat
+        var(--duration)
+        ease-in-out
+        infinite;
+
+    animation-delay:
+        var(--delay);
+}
+
+
+/* =====================================================
+   ANIMATIONS
+   ===================================================== */
+
+.stage.loaded .event-title {
+    animation:
+        titleImpact
+        1.5s
+        cubic-bezier(.16,.9,.25,1)
+        .25s
+        forwards;
+}
+
+.stage.loaded .event-title-line {
+    animation:
+        lineReveal
+        1s
+        cubic-bezier(.16,1,.3,1)
+        .65s
+        forwards;
+}
+
+.stage.loaded .event-frame {
+    animation:
+        infoIn
+        .8s
+        cubic-bezier(.16,.9,.25,1)
+        .9s
+        forwards;
+}
+
+.stage.loaded .speed-line {
+    animation:
+        speedImpact
+        .8s
+        cubic-bezier(.15,.8,.3,1)
+        forwards;
+}
+
+
+/* =====================================================
+   KEYFRAMES
+   ===================================================== */
+
+@keyframes titleImpact {
+
+    0% {
+        opacity: 0;
 
         transform:
-          translateX(-120px)
-          scale(0.8);
+            skewX(-5deg)
+            scale(.45);
 
-      }
-
-      .right1 {
-
-        transform:
-          translateX(120px)
-          scale(0.8);
-
-      }
-
-      .left2 {
-
-        transform:
-          translateX(-220px)
-          scale(0.5);
-
-      }
-
-      .right2 {
-
-        transform:
-          translateX(220px)
-          scale(0.5);
-
-      }
-
+        filter: blur(8px);
     }
 
-  </style>
+    15% {
+        opacity: 1;
 
+        transform:
+            skewX(-5deg)
+            scale(1.08);
+
+        filter: blur(0);
+    }
+
+    28% {
+        transform:
+            skewX(-5deg)
+            scale(.96);
+    }
+
+    42% {
+        transform:
+            skewX(-5deg)
+            scale(1.02);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            skewX(-5deg)
+            scale(1);
+    }
+}
+
+
+@keyframes lineReveal {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            scaleX(0)
+            skewX(-15deg);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            scaleX(1)
+            skewX(-15deg);
+    }
+}
+
+
+@keyframes infoIn {
+
+    0% {
+        opacity: 0;
+
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+}
+
+
+/* EFFET KEN BURNS — zoom lent de va-et-vient */
+
+@keyframes kenBurns {
+
+    0% {
+        transform: scale(1) translate(0, 0);
+    }
+
+    50% {
+        transform: scale(1.06) translate(-0.8%, 0.6%);
+    }
+
+    100% {
+        transform: scale(1.1) translate(0.8%, -0.6%);
+    }
+}
+
+
+/* Balayage lumineux */
+
+@keyframes shine {
+
+    0% {
+        background-position: 150% 0;
+    }
+
+    50% {
+        background-position: -150% 0;
+    }
+
+    100% {
+        background-position: -150% 0;
+    }
+}
+
+
+@keyframes speedImpact {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            rotate(var(--angle))
+            translateX(10px)
+            scaleX(0);
+    }
+
+    20% {
+        opacity: .8;
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            rotate(var(--angle))
+            translateX(30px)
+            scaleX(1);
+    }
+}
+
+
+@keyframes particleFloat {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateY(20px)
+            scale(.5);
+    }
+
+    30% {
+        opacity: .6;
+    }
+
+    70% {
+        opacity: .35;
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translateY(-100px)
+            scale(1);
+    }
+}
+
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 600px) {
+
+    .content {
+        padding:
+            20px
+            4vw
+            16px;
+    }
+
+    .event-title {
+        font-size: clamp(
+            32px,
+            9vw,
+            64px
+        );
+
+        line-height: .95;
+
+        letter-spacing: .1em;
+    }
+
+    .event-title-line {
+        width: 75vw;
+    }
+}
+
+
+/* =====================================================
+   GRANDS ÉCRANS LED
+   ===================================================== */
+
+@media (min-width: 1600px) {
+
+    .event-title {
+        font-size:
+            clamp(
+                70px,
+                6vw,
+                130px
+            );
+    }
+}
+
+
+/* =====================================================
+   ACCESSIBILITÉ
+   ===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        animation-duration: .01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        scroll-behavior: auto !important;
+    }
+}
+
+</style>
 </head>
 
 
 <body>
 
+<div class="stage" id="stage">
 
-  <h1>
-    🤝 NOS PARTENAIRES
-  </h1>
+    <!-- Atmosphère -->
+    <div class="arena-grid"></div>
 
+    <!-- Lignes -->
+    <div class="tech-lines"></div>
 
-  <div
-    class="carousel"
-    id="carousel">
+    <div class="side-mark left"></div>
+    <div class="side-mark right"></div>
 
+    <!-- Speed lines -->
+    <div class="speed-lines" id="speedLines"></div>
 
-    <img src="logo/7ENVIE DE PAIN.png" alt="evenement 1">
+    <!-- Flash -->
+    <div class="flash"></div>
 
-  
+    <!-- Contenu principal -->
+    <main class="content">
 
-  </div>
+        <!-- Titre de l'événement -->
+        <h1
+            class="event-title"
+            id="eventTitre"
+        >
+            ÉVÉNEMENT
+        </h1>
 
+        <div class="event-title-line"></div>
 
-  <script>
+        <!-- Image de l'événement -->
+        <div class="event-frame">
+            <div class="event-image-wrap">
+                <img
+                    id="eventImage"
+                    class="event-image"
+                    src=""
+                    alt="Événement"
+                    style="display:none;"
+                >
+            </div>
+        </div>
 
-    window.onload = function () {
-
-
-      const logos =
-        document.querySelectorAll(
-          "#carousel img"
-        );
-
-
-      let index = 0;
-
-
-      if (
-        !logos ||
-        logos.length === 0
-      ) {
-
-        console.log(
-          "Aucun logo trouvé"
-        );
-
-        return;
-
-      }
-
-
-      function updateCarousel() {
+    </main>
 
 
-        const total =
-          logos.length;
+    <!-- Vignette -->
+    <div class="vignette"></div>
+
+    <!-- Particules -->
+    <div
+        class="particles"
+        id="particles"
+    ></div>
+
+</div>
 
 
-        for (
-          let i = 0;
-          i < total;
-          i++
-        ) {
+<!-- =====================================================
+     FIREBASE
+     ===================================================== -->
 
-          logos[i].className =
-            "hidden";
+<script type="module">
 
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+    getDatabase,
+    ref,
+    onValue
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+
+/* =====================================================
+   CONFIG FIREBASE (identique à admin.html / matchdusoir.html)
+   ===================================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+
+    authDomain:
+        "diffusion-b9afa.firebaseapp.com",
+
+    databaseURL:
+        "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
+
+    projectId:
+        "diffusion-b9afa",
+
+    storageBucket:
+        "diffusion-b9afa.firebasestorage.app",
+
+    messagingSenderId:
+        "674799570797",
+
+    appId:
+        "1:674799570797:web:0d8b7a2a892f604eb7d464"
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const db = getDatabase(app);
+
+const eventRef = ref(
+    db,
+    "evenement"
+);
+
+
+/* =====================================================
+   DOM
+   ===================================================== */
+
+const body =
+    document.body;
+
+const stage =
+    document.getElementById("stage");
+
+const eventTitre =
+    document.getElementById("eventTitre");
+
+const eventImage =
+    document.getElementById("eventImage");
+
+const speedLines =
+    document.getElementById("speedLines");
+
+const particles =
+    document.getElementById("particles");
+
+
+/* =====================================================
+   SPEED LINES
+   ===================================================== */
+
+const angles = [
+    0, 18, 36, 54, 72, 90,
+    108, 126, 144, 162, 180,
+    198, 216, 234, 252, 270,
+    288, 306, 324, 342
+];
+
+angles.forEach(angle => {
+    const line = document.createElement("div");
+    line.className = "speed-line";
+    line.style.setProperty("--angle", `${angle}deg`);
+    line.style.animationDelay = `${Math.random() * .18}s`;
+    speedLines.appendChild(line);
+});
+
+
+/* =====================================================
+   PARTICULES
+   ===================================================== */
+
+for (let i = 0; i < 30; i++) {
+
+    const particle = document.createElement("div");
+    particle.className = "particle";
+
+    particle.style.left = `${Math.random() * 100}%`;
+    particle.style.top = `${Math.random() * 100}%`;
+
+    particle.style.setProperty(
+        "--duration",
+        `${3 + Math.random() * 5}s`
+    );
+
+    particle.style.setProperty(
+        "--delay",
+        `${Math.random() * 5}s`
+    );
+
+    particles.appendChild(particle);
+}
+
+
+/* =====================================================
+   HEX → RGB
+   ===================================================== */
+
+function hexToRgb(hex) {
+
+    if (typeof hex !== "string") {
+        return { r: 255, g: 255, b: 255 };
+    }
+
+    let value = hex.replace("#", "").trim();
+
+    if (value.length === 3) {
+        value =
+            value
+                .split("")
+                .map(c => c + c)
+                .join("");
+    }
+
+    if (!/^[0-9a-fA-F]{6}$/.test(value)) {
+        return { r: 255, g: 255, b: 255 };
+    }
+
+    return {
+        r: parseInt(value.substring(0, 2), 16),
+        g: parseInt(value.substring(2, 4), 16),
+        b: parseInt(value.substring(4, 6), 16)
+    };
+}
+
+
+/* =====================================================
+   ANIMATIONS (relance à chaque mise à jour Firebase)
+   ===================================================== */
+
+function restartAnimations() {
+
+    const animatedElements = [
+        eventTitre,
+        document.querySelector(".event-title-line"),
+        document.querySelector(".event-frame")
+    ];
+
+    stage.classList.remove("loaded");
+
+    animatedElements.forEach(element => {
+        if (!element) return;
+        element.style.animation = "none";
+        void element.offsetWidth;
+        element.style.animation = "";
+    });
+
+    document
+        .querySelectorAll(".speed-line")
+        .forEach(line => {
+            line.style.animation = "none";
+            void line.offsetWidth;
+            line.style.animation = "";
+        });
+
+    void stage.offsetWidth;
+
+    stage.classList.add("loaded");
+}
+
+
+/* =====================================================
+   FIREBASE — ÉCOUTE DE L'ÉVÉNEMENT
+   ===================================================== */
+
+onValue(
+    eventRef,
+
+    snapshot => {
+
+        const data = snapshot.val();
+
+
+        /* ---------------------------------------------
+           PAS DE DONNÉES
+           --------------------------------------------- */
+
+        if (!data) {
+
+            eventTitre.textContent = "ÉVÉNEMENT";
+
+            eventImage.style.display = "none";
+            eventImage.classList.remove("visible");
+            eventImage.removeAttribute("src");
+
+            document.documentElement.style.setProperty(
+                "--halo1-rgb",
+                "255,255,255"
+            );
+
+            body.classList.add("loaded");
+            restartAnimations();
+
+            return;
         }
 
 
-        const center =
-          index % total;
+        /* ---------------------------------------------
+           TITRE
+           --------------------------------------------- */
+
+        eventTitre.textContent =
+            (data.titre && data.titre.trim() !== "")
+                ? data.titre
+                : "ÉVÉNEMENT";
 
 
-        const left1 =
-          (index - 1 + total) % total;
+        /* ---------------------------------------------
+           IMAGE
+           --------------------------------------------- */
+
+        if (data.image) {
+
+            /*
+             * On ne relance l'affichage que si
+             * l'image est différente (sinon simple
+             * apparition au premier chargement).
+             */
+            if (eventImage.getAttribute("src") !== data.image) {
+                eventImage.src = data.image;
+            }
+
+            eventImage.style.display = "";
+            eventImage.classList.add("visible");
+
+        } else {
+
+            eventImage.style.display = "none";
+            eventImage.classList.remove("visible");
+            eventImage.removeAttribute("src");
+        }
 
 
-        const left2 =
-          (index - 2 + total) % total;
+        /* ---------------------------------------------
+           COULEUR DU HALO (optionnelle)
+           --------------------------------------------- */
+
+        const couleur = data.couleur || "#ffd400";
+
+        const rgb = hexToRgb(couleur);
+
+        document.documentElement.style.setProperty(
+            "--halo1-rgb",
+            `${rgb.r},${rgb.g},${rgb.b}`
+        );
 
 
-        const right1 =
-          (index + 1) % total;
+        /* ---------------------------------------------
+           AFFICHAGE
+           --------------------------------------------- */
 
+        body.classList.add("loaded");
 
-        const right2 =
-          (index + 2) % total;
+        restartAnimations();
+    },
 
+    error => {
 
-        logos[center].className =
-          "center";
+        console.error("Erreur Firebase evenement :", error);
 
+        body.classList.add("loaded");
+        stage.classList.add("loaded");
+    }
+);
 
-        logos[left1].className =
-          "left1";
-
-
-        logos[left2].className =
-          "left2";
-
-
-        logos[right1].className =
-          "right1";
-
-
-        logos[right2].className =
-          "right2";
-
-      }
-
-
-      updateCarousel();
-
-
-      setInterval(
-
-        function () {
-
-          index =
-            (index + 1)
-            % logos.length;
-
-          updateCarousel();
-
-        },
-
-        2500
-
-      );
-
-    };
-
-  </script>
-
+</script>
 
 </body>
-
 </html>
