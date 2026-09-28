@@ -1487,29 +1487,10 @@ case "trois":
             );
             break;
 
-        case "message":
-
-    /* Activer le mode message agrandi */
-    document.body.classList.add("message-active-partners");
-
-    afficherMessagePersonnalise();
-
-    if (
-        currentMessageData &&
-        currentMessageData
-            .afficherDefilementLogos
-    ) {
-        partnersScrollContainer.style.display =
-            "block";
-
-        demarrerCarrouselPartenaires();
-    }
-
-    break;
-
-        case "black":
-            document.body.style.background =
-                "#000";
+       case "message":
+            afficherPage(
+                "message.html"
+            );
             break;
     }
 }
