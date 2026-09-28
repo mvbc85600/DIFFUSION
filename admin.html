@@ -420,6 +420,14 @@ body {
     border: 1px solid #444;
 }
 
+/* APERCU IMAGE ÉVÉNEMENT (format plus large) */
+#evenementImagePreview {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    min-height: 120px;
+}
+
 /* =========================
    SAUVEGARDE
 ========================= */
@@ -427,7 +435,8 @@ body {
 #saveMessageButton,
 #savePartnerButton,
 #savePartnerDurationsButton,
-#saveProgrammeButton {
+#saveProgrammeButton,
+#saveEvenementButton {
     width: 100%;
     padding: 17px;
     border: none;
@@ -443,7 +452,8 @@ body {
 #saveMessageButton:hover,
 #savePartnerButton:hover,
 #savePartnerDurationsButton:hover,
-#saveProgrammeButton:hover {
+#saveProgrammeButton:hover,
+#saveEvenementButton:hover {
     background: #22c55e;
 }
 
@@ -451,7 +461,8 @@ body {
 #messageStatus,
 #partnerStatus,
 #partnerDurationsStatus,
-#programmeStatus {
+#programmeStatus,
+#evenementStatus {
     margin-top: 15px;
     text-align: center;
     padding: 12px;
@@ -926,6 +937,10 @@ body {
         <button class="tab-button" data-tab="message">
             📝 Message
         </button>
+        <!-- NOUVEL ONGLET : ÉVÉNEMENT -->
+        <button class="tab-button" data-tab="evenement">
+            🎪 Événement
+        </button>
         <!-- NOUVEL ONGLET : PARTENAIRE DU MATCH -->
         <button class="tab-button" data-tab="partenaire">
             🤝 Partenaire du Match
@@ -963,8 +978,8 @@ body {
             </button>
 
             <!-- Bouton ÉVÉNEMENTS (Rouge) -->
-            <button class="scene-button" onclick="diffuser('evenements')">
-                📅<br>ÉVÉNEMENTS
+            <button class="scene-button" onclick="diffuserEvenement()">
+                📅<br>ÉVÉNEMENT
             </button>
 
             <!-- Bouton VIDÉOS MVBC (Bleu) -->
@@ -988,7 +1003,7 @@ body {
             </button>
 
             <!-- Bouton MESSAGE (Jaune) -->
-            <button class="scene-button" onclick="diffuser('message')">
+            <button class="scene-button" onclick="diffuserMessage()">
                 📝<br>MESSAGE
             </button>
 
@@ -1221,7 +1236,7 @@ body {
         <div class="match-editor">
             <h2>📝 MESSAGE</h2>
             <div class="description">
-                Configure ici le message qui apparaîtra sur <strong>diffusion.html</strong>.
+                Configure ici le message qui apparaîtra sur <strong>message.html</strong>.
             </div>
 
             <!-- TITRE DU MESSAGE -->
@@ -1346,6 +1361,69 @@ body {
                     <!-- Les logos seront ajoutés dynamiquement ici -->
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- =================================================
+         ONGLET : ÉVÉNEMENT (NOUVEAU)
+    ================================================== -->
+    <div id="evenement" class="tab-content">
+        <div class="match-editor">
+            <h2>🎪 ÉVÉNEMENT</h2>
+            <div class="description">
+                Configure ici l'événement qui apparaîtra sur <strong>evenement.html</strong>.
+                <br><br>
+                Colle l'URL de l'image (par exemple depuis ton dépôt GitHub).
+                L'image sera affichée avec un effet de zoom lent (Ken Burns) et un reflet lumineux.
+            </div>
+
+            <!-- TITRE DE L'ÉVÉNEMENT -->
+            <div class="form-group">
+                <label>📌 Titre de l'événement</label>
+                <input type="text" id="evenementTitre" placeholder="Ex : SOIRÉE DU CLUB">
+            </div>
+
+            <!-- IMAGE DE L'ÉVÉNEMENT -->
+            <div class="form-group">
+                <label>🖼️ URL de l'image</label>
+                <input
+                    type="text"
+                    id="evenementImage"
+                    placeholder="Ex : https://raw.githubusercontent.com/mvbc85600/DIFFUSION/main/evenements/affiche.png"
+                >
+                <div class="duration-help">
+                    Astuce : dépose l'image dans un dossier de ton dépôt GitHub (ex : <strong>evenements/</strong>),
+                    puis colle ici le lien « raw » de l'image.
+                </div>
+                <img id="evenementImagePreview" class="logo-preview" src="" alt="Aperçu de l'événement">
+            </div>
+
+            <!-- COULEUR DU HALO -->
+            <div class="form-group">
+                <label>✨ Couleur du halo de fond</label>
+                <div class="color-control">
+                    <span
+                        id="evenementHaloPreview"
+                        class="halo-color-preview"
+                        style="background: #ffd400; box-shadow: 0 0 10px #ffd400, 0 0 25px #ffd400;"
+                    ></span>
+                    <select id="evenementCouleur">
+                        <option value="#ffd400" selected>🟡 Jaune</option>
+                        <option value="#008cff">🔵 Bleu</option>
+                        <option value="#ff6500">🟠 Orange</option>
+                        <option value="#ff2020">🔴 Rouge</option>
+                        <option value="#16a34a">🟢 Vert</option>
+                        <option value="#ff4fa3">🩷 Rose</option>
+                        <option value="#ffffff">⚪ Blanc</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- SAUVEGARDE -->
+            <button id="saveEvenementButton">
+                💾 ENREGISTRER L'ÉVÉNEMENT
+            </button>
+            <div id="evenementStatus"></div>
         </div>
     </div>
 
@@ -1603,6 +1681,15 @@ const saveMessageButton = document.getElementById("saveMessageButton");
 const messageStatus = document.getElementById("messageStatus");
 const afficherDefilementLogos = document.getElementById("afficherDefilementLogos");
 
+/* ÉVÉNEMENT (NOUVEAU) */
+const evenementTitre = document.getElementById("evenementTitre");
+const evenementImage = document.getElementById("evenementImage");
+const evenementImagePreview = document.getElementById("evenementImagePreview");
+const evenementCouleur = document.getElementById("evenementCouleur");
+const evenementHaloPreview = document.getElementById("evenementHaloPreview");
+const saveEvenementButton = document.getElementById("saveEvenementButton");
+const evenementStatus = document.getElementById("evenementStatus");
+
 /* =====================================================
    ÉDITEUR DE TEXTE RICHE
 ===================================================== */
@@ -1786,7 +1873,7 @@ messageContenu.addEventListener("keydown", event => {
         /*
          * On utilise <br> plutôt que les blocs automatiques du
          * contenteditable afin que les retours soient parfaitement
-         * prévisibles dans diffusion.html.
+         * prévisibles dans message.html.
          */
         event.preventDefault();
         insererSautDeLigne();
@@ -1941,6 +2028,37 @@ window.diffuserMessage = function() {
         });
 };
 
+// Fonction spécialisée pour l'événement (NOUVEAU)
+window.diffuserEvenement = function() {
+    // Sauvegarder les données de l'événement dans Firebase
+    const donneesEvenement = {
+        titre: evenementTitre.value.trim(),
+        image: evenementImage.value.trim(),
+        couleur: evenementCouleur.value,
+        timestamp: Date.now()
+    };
+
+    set(ref(db, "evenement"), donneesEvenement)
+        .then(() => {
+            // Diffuser la scène "evenement"
+            set(ref(db, "diffusion"), {
+                scene: "evenement",
+                timestamp: Date.now()
+            })
+            .then(() => {
+                currentScene.textContent = "evenement";
+            })
+            .catch((error) => {
+                console.error(error);
+                alert("Erreur de diffusion : " + error.message);
+            });
+        })
+        .catch((error) => {
+            console.error(error);
+            alert("Erreur lors de l'enregistrement de l'événement : " + error.message);
+        });
+};
+
 // Fonction spécialisée pour le partenaire du match
 window.diffuserPartenaire = function() {
     // Diffuser la scène "partenairedumatch"
@@ -1977,6 +2095,7 @@ window.diffuserCinqMajeur = function() {
 ===================================================== */
 const matchRef = ref(db, "matchdusoir");
 const messageRef = ref(db, "message");
+const evenementRef = ref(db, "evenement");
 const partnerRef = ref(db, "partenairedumatch");
 const partnerDurationsRef = ref(db, "partnerDurations");
 const programmeRef = ref(db, "programmeweekend");
@@ -2229,7 +2348,7 @@ function chargerListeJoueurs() {
 
         orderElement.title =
             "Ordre d'apparition";
-
+ 
 
         /*
          * Sélection du joueur
@@ -2959,6 +3078,89 @@ saveMessageButton.addEventListener("click", async () => {
         messageStatus.textContent = "❌ Erreur : " + error.message;
         saveMessageButton.disabled = false;
         saveMessageButton.textContent = "💾 ENREGISTRER LE MESSAGE";
+    }
+});
+
+/* =====================================================
+   ONGLET : ÉVÉNEMENT (NOUVEAU)
+===================================================== */
+
+/* Aperçu de l'image en direct pendant la saisie de l'URL */
+evenementImage.addEventListener("input", () => {
+    const url = evenementImage.value.trim();
+    if (url) {
+        evenementImagePreview.src = url;
+        evenementImagePreview.style.display = "";
+    } else {
+        evenementImagePreview.removeAttribute("src");
+    }
+});
+
+/* Aperçu du halo */
+function mettreAJourApercuHaloEvenement() {
+    const couleur = evenementCouleur.value;
+    evenementHaloPreview.style.background = couleur;
+    evenementHaloPreview.style.boxShadow = `0 0 10px ${couleur}, 0 0 25px ${couleur}`;
+}
+
+evenementCouleur.addEventListener("change", mettreAJourApercuHaloEvenement);
+mettreAJourApercuHaloEvenement();
+
+/* Charger l'événement existant depuis Firebase */
+onValue(evenementRef, (snapshot) => {
+    const data = snapshot.val();
+    if (!data) return;
+
+    if (data.titre) evenementTitre.value = data.titre;
+
+    if (data.image) {
+        evenementImage.value = data.image;
+        evenementImagePreview.src = data.image;
+    } else {
+        evenementImage.value = "";
+        evenementImagePreview.removeAttribute("src");
+    }
+
+    if (data.couleur) {
+        evenementCouleur.value = data.couleur;
+        mettreAJourApercuHaloEvenement();
+    }
+});
+
+/* Enregistrer l'événement */
+saveEvenementButton.addEventListener("click", async () => {
+    try {
+        saveEvenementButton.disabled = true;
+        saveEvenementButton.textContent = "⏳ ENREGISTREMENT...";
+
+        const donneesEvenement = {
+            titre: evenementTitre.value.trim(),
+            image: evenementImage.value.trim(),
+            couleur: evenementCouleur.value,
+            timestamp: Date.now()
+        };
+
+        if (!donneesEvenement.image) {
+            throw new Error("Colle d'abord l'URL de l'image de l'événement.");
+        }
+
+        await set(evenementRef, donneesEvenement);
+
+        evenementStatus.className = "success";
+        evenementStatus.textContent = "✅ Événement enregistré ! Il est visible sur evenement.html.";
+        saveEvenementButton.textContent = "✅ ENREGISTRÉ";
+
+        setTimeout(() => {
+            saveEvenementButton.disabled = false;
+            saveEvenementButton.textContent = "💾 ENREGISTRER L'ÉVÉNEMENT";
+        }, 2000);
+    }
+    catch(error) {
+        console.error(error);
+        evenementStatus.className = "error";
+        evenementStatus.textContent = "❌ Erreur : " + error.message;
+        saveEvenementButton.disabled = false;
+        saveEvenementButton.textContent = "💾 ENREGISTRER L'ÉVÉNEMENT";
     }
 });
 
