@@ -685,34 +685,41 @@ var SLIDE_MS = 8000;
 var PHOTO_DEFAUT =
 "https://admin.sportsregions.fr/media/uploaded/sites/20376/kcupload/images/-NM2.JPG";
 
+/*
+   Photo "placeholder" : les équipes qui utilisent
+   cette image ne sont PAS diffusées.
+*/
+var PHOTO_EXCLUE =
+"https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg";
+
 var PHOTOS = {
 
     "NM2":
     "https://admin.sportsregions.fr/media/uploaded/sites/20376/kcupload/images/-NM2.JPG",
 
     "PNM":
-    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/1425e993-7729-41d6-9217-e247dd1893d4.jpg",
 
     "RF2":
-    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/37305BFF-FFBB-4D7A-856E-D0D8249C4B42.jpg",
 
     "RM3":
-    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/32bb3e83-5512-4b3a-bcdc-17535cb8289d.jpg",
 
     "PRM":
-    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/0a8f9489-6df8-462a-bb95-a3e9bcb80f5b.jpg",
 
     "DF2":
-    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/IMG-20260927-WA0003.jpg",
 
     "DF3A":
-    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/DF3a.png",
 
     "DF3B":
     "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
 
     "DM4":
-    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/IMG-20260920-WA0010.jpg",
 
     "U18F1":
     "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
@@ -721,10 +728,10 @@ var PHOTOS = {
     "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
 
     "U18M2":
-    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/IMG_20260926_185756.jpg",
 
     "U18M3":
-    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/Screenshot_2026-09-27-10-50-44-130_com.whatsapp-edit.jpg",
 
     "U18M4":
     "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
@@ -748,7 +755,7 @@ var PHOTOS = {
     "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
 
     "U13F1":
-    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/IMG_20260926_175613.jpg",
 
     "U13F2":
     "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
@@ -760,34 +767,34 @@ var PHOTOS = {
     "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
 
     "U13M2":
-    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/bbe0869c-6780-46c0-9a46-e320683153ca.jpg",
 
     "U13M3":
-    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/u13m3.png",
 
     "U13M4":
     "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
 
     "U13M5":
-    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/800920ccfe57f4f1878105b7325d4feb.jpeg",
 
     "U11F1":
-    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/f04c798e-0ed4-47d5-a61c-68a0baa23bbe.jpg",
 
     "U11F2":
-    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/Screenshot_20260927_033300_WhatsApp.jpg",
 
     "U11F3":
     "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
 
     "U11F4":
-    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/IMG_3609.jpg",
 
     "U11M1":
-    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/u11m1.png",
 
     "U11M2":
-    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/IMG-20260926-WA0014.jpg",
 
     "U11M3":
     "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/360_F_19416263_f4MntyFDpaxK8PB5Tzpn4cZXM8R48GNd(1).jpg",
@@ -878,6 +885,36 @@ var TEAMS = [
 
   { name:"U11M4", coach:"Joan Pelletier et Noah Vattier", players:"Rocher Erwan, Peneau-Etourneau Sandro, Tenailleau Théo, Mohammadi Hakim, Remaud Malone, Giraud-Levron Clement, Melin Louka" }
 ];
+
+
+/* =========================================================
+   FILTRE + ORDRE ALÉATOIRE
+   (exécuté une seule fois au chargement de la page :
+   l'ordre change donc à chaque ouverture)
+========================================================= */
+
+function melanger(array) {
+
+    var copy = array.slice();
+
+    for (var i = copy.length - 1; i > 0; i--) {
+
+        var j = Math.floor(Math.random() * (i + 1));
+
+        var temp = copy[i];
+        copy[i] = copy[j];
+        copy[j] = temp;
+    }
+
+    return copy;
+}
+
+
+var TEAMS_AFFICHEES = melanger(
+    TEAMS.filter(function(team) {
+        return photoFor(team.name) !== PHOTO_EXCLUE;
+    })
+);
 
 
 /* =========================================================
@@ -1322,13 +1359,13 @@ function renderAll() {
 
 
     screen.innerHTML =
-        TEAMS
+        TEAMS_AFFICHEES
         .map(cardHTML)
         .join("");
 
 
     dots.innerHTML =
-        TEAMS
+        TEAMS_AFFICHEES
         .map(function(t,i) {
 
             return '<span ' +
@@ -1539,7 +1576,7 @@ function startRotation() {
 
         var nextIndex =
             (currentIndex + 1) %
-            TEAMS.length;
+            TEAMS_AFFICHEES.length;
 
 
         showCard(
@@ -1570,7 +1607,7 @@ document.addEventListener(
 
             var next =
                 (currentIndex + 1) %
-                TEAMS.length;
+                TEAMS_AFFICHEES.length;
 
 
             showCard(
@@ -1592,9 +1629,9 @@ document.addEventListener(
                 (
                     currentIndex -
                     1 +
-                    TEAMS.length
+                    TEAMS_AFFICHEES.length
                 ) %
-                TEAMS.length;
+                TEAMS_AFFICHEES.length;
 
 
             showCard(
@@ -1630,4 +1667,3 @@ setInterval(
 
 </body>
 </html>
-```
