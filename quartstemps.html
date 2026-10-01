@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QUART-TEMPS — MVBC Score Animation</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@500;700;800;900&display=swap');
+
+:root {
+    --white: #f7f7f5;
+    --black: #050608;
+    --red: #ed174c;
+    --blue: #1769ff;
+    --yellow: #ffd400;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 50% 40%, rgba(23,105,255,.13), transparent 30%),
+        radial-gradient(circle at 50% 100%, rgba(237,23,76,.09), transparent 40%),
+        #050608;
+    font-family: Inter, sans-serif;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Atmosphère arène */
+body::before {
+    content: "";
+    position: fixed;
+    inset: -20%;
+    z-index: -3;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            transparent 0 90px,
+            rgba(255,255,255,.012) 91px 92px
+        ),
+        radial-gradient(
+            ellipse at 50% 45%,
+            rgba(255,255,255,.06),
+            transparent 48%
+        );
+    transform: perspective(800px) rotateX(58deg) scale(1.35);
+    transform-origin: center bottom;
+}
+
+/* Vignette broadcast */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    pointer-events: none;
+    background: radial-gradient(
+        ellipse at center,
+        transparent 35%,
+        rgba(0,0,0,.48) 100%
+    );
+}
+
+.stage {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 1560px;
+    padding: 0 4vw;
+}
+
+/* =====================================================
+   TITRE
+   ===================================================== */
+.title {
+    margin: 0 0 clamp(6px, 1.4vh, 18px);
+    text-align: center;
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: clamp(34px, 5vw, 74px);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--white);
+    transform: skewX(-5deg);
+    opacity: 0;
+    text-shadow:
+        4px 4px 0 var(--black),
+        9px 9px 0 var(--yellow),
+        14px 14px 0 rgba(237,23,76,.75),
+        19px 19px 0 rgba(23,105,255,.4);
+}
+
+.champ {
+    margin: 0 0 clamp(38px, 6.5vh, 85px);
+    text-align: center;
+    font-size: clamp(10px, 1.2vw, 16px);
+    font-weight: 800;
+    letter-spacing: .32em;
+    text-indent: .32em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.55);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0;
+}
+
+/* =====================================================
+   PANNEAU
+   ===================================================== */
+.panel {
+    background: rgba(8,9,12,.74);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 22px;
+    padding: clamp(16px, 2.6vw, 42px) clamp(16px, 3vw, 48px);
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.55),
+        inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+/* =====================================================
+   TABLEAU DE SCORES
+   ===================================================== */
+.board {
+    display: grid;
+    grid-template-columns:
+        minmax(150px, 1.1fr)
+        repeat(4, clamp(46px, 5.5vw, 88px))
+        clamp(64px, 8vw, 132px);
+    gap: clamp(4px, .6vw, 10px);
+    align-items: stretch;
+}
+
+.board.has-prol {
+    grid-template-columns:
+        minmax(150px, 1.1fr)
+        repeat(5, clamp(42px, 5vw, 80px))
+        clamp(64px, 8vw, 132px);
+}
+
+.board:not(.has-prol) .prol {
+    display: none;
+}
+
+.cell {
+    text-align: center;
+    min-width: 0;
+}
+
+/* Ligne d'en-tête Q1 Q2 Q3 Q4 PROL TOTAL */
+.qt-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: clamp(10px, 1.1vw, 15px);
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.5);
+    padding: clamp(4px, .8vh, 10px) 0;
+    border-bottom: 2px solid rgba(255,255,255,.16);
+}
+
+/* Scores des quarts */
+.qt-score {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 900;
+    font-size: clamp(26px, 3.2vw, 52px);
+    line-height: 1;
+    color: var(--white);
+    text-shadow: 3px 3px 0 rgba(0,0,0,.75);
+    padding: clamp(8px, 1.4vh, 18px) 0;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+}
+
+.qt-score.vide {
+    opacity: .3;
+}
+
+/* Cellules équipe */
+.team {
+    display: flex;
+    align-items: center;
+    gap: clamp(10px, 1.4vw, 22px);
+    padding: clamp(8px, 1.4vh, 18px) 0;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+    text-align: left;
+}
+
+.team img {
+    flex: 0 0 auto;
+    width: clamp(44px, 6vw, 92px);
+    height: clamp(44px, 6vw, 92px);
+    object-fit: contain;
+    filter: drop-shadow(0 0 14px var(--halo, rgba(255,255,255,.35)));
+}
+
+.team-name {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 900;
+    font-size: clamp(22px, 3vw, 48px);
+    line-height: 1;
+    letter-spacing: .01em;
+    text-transform: uppercase;
+    text-shadow:
+        0 0 18px var(--halo, rgba(255,255,255,.25)),
+        3px 3px 0 rgba(0,0,0,.8);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Colonne TOTAL */
+.total {
+    font-size: clamp(30px, 4vw, 64px);
+    border-left: 2px solid rgba(255,255,255,.14);
+    color: var(--yellow);
+}
+
+/* Équipe qui mène : pastille jaune broadcast */
+.total.win {
+    color: var(--black);
+    background: var(--yellow);
+    border-radius: 12px;
+    text-shadow: none;
+    box-shadow: 0 0 26px rgba(255,212,0,.35);
+    padding: clamp(8px, 1.6vh, 18px) 0;
+}
+
+/* =====================================================
+   DÉFILEMENT DES LOGOS PARTENAIRES
+   ===================================================== */
+.partners-bar {
+    position: relative;
+
+    z-index: 12;
+
+    width: 100%;
+
+    height: clamp(100px, 13vh, 150px);
+
+    margin-top: clamp(24px, 3.5vh, 45px);
+
+    background: rgba(0, 0, 0, 0.55);
+
+    border: 1px solid rgba(255,255,255,.18);
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    opacity: 0;
+}
+
+.partners-scroll {
+    display: flex;
+
+    align-items: center;
+
+    width: max-content;
+
+    height: 100%;
+
+    white-space: nowrap;
+
+    animation: scrollPartners 60s linear infinite;
+}
+
+.partners-scroll img {
+    height: 90%;
+
+    max-height: 135px;
+
+    margin: 0 30px;
+
+    object-fit: contain;
+
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,.5));
+}
+
+@keyframes scrollPartners {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* =====================================================
+   ANIMATION D'ENTRÉE (style victoire.html)
+   ===================================================== */
+.pop {
+    opacity: 0;
+    transform: translateY(26px);
+}
+
+.board.play .pop,
+.play-title .title,
+.play-title .champ {
+    animation: popIn .55s cubic-bezier(.16,.9,.25,1) forwards;
+    animation-delay: var(--d, 0s);
+}
+
+.play-title .title {
+    --d: 0s;
+}
+
+.play-title .champ {
+    --d: .1s;
+}
+
+.play-title .partners-bar {
+    animation: popIn .55s cubic-bezier(.16,.9,.25,1) forwards;
+    animation-delay: 1.15s;
+}
+
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: translateY(26px) scale(.9);
+        filter: blur(4px);
+    }
+    100% {
+        opacity: 1;
+        transform: none;
+        filter: blur(0);
+    }
+}
+
+/* Petits écrans */
+@media (max-width: 600px) {
+    .title {
+        font-size: clamp(22px, 6.4vw, 40px);
+        white-space: normal;
+    }
+
+    .board,
+    .board.has-prol {
+        grid-template-columns:
+            minmax(84px, 1fr)
+            repeat(4, clamp(34px, 11vw, 54px))
+            clamp(46px, 14vw, 70px);
+    }
+
+    .board.has-prol {
+        grid-template-columns:
+            minmax(84px, 1fr)
+            repeat(5, clamp(30px, 9vw, 46px))
+            clamp(46px, 14vw, 70px);
+    }
+
+    .team {
+        gap: 8px;
+    }
+
+    .partners-bar {
+        height: 84px;
+        margin-top: 18px;
+    }
+
+    .partners-scroll img {
+        margin: 0 14px;
+    }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .board.play .pop,
+    .play-title .title,
+    .play-title .champ,
+    .play-title .partners-bar,
+    .partners-scroll {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="stage" id="stage">
+
+    <h1 class="title">Score par quart-temps</h1>
+    <div class="champ" id="qtChampionnat">&nbsp;</div>
+
+    <div class="panel">
+        <div class="board" id="board">
+
+            <!-- Ligne d'en-têtes -->
+            <div class="cell qt-label pop" data-col="-1"></div>
+            <div class="cell qt-label pop" data-col="0">Q1</div>
+            <div class="cell qt-label pop" data-col="1">Q2</div>
+            <div class="cell qt-label pop" data-col="2">Q3</div>
+            <div class="cell qt-label pop" data-col="3">Q4</div>
+            <div class="cell qt-label prol pop" data-col="4">PROL</div>
+            <div class="cell qt-label pop" data-col="5">TOTAL</div>
+
+            <!-- Équipe 1 -->
+            <div class="cell team pop" id="team1Cell" data-col="-1">
+                <img id="logoT1" alt="" style="display:none">
+                <span class="team-name" id="nameT1">ÉQUIPE 1</span>
+            </div>
+            <div class="cell qt-score pop" data-col="0" id="t1q1">–</div>
+            <div class="cell qt-score pop" data-col="1" id="t1q2">–</div>
+            <div class="cell qt-score pop" data-col="2" id="t1q3">–</div>
+            <div class="cell qt-score pop" data-col="3" id="t1q4">–</div>
+            <div class="cell qt-score prol pop" data-col="4" id="t1p">–</div>
+            <div class="cell qt-score total pop" data-col="5" id="totalT1">0</div>
+
+            <!-- Équipe 2 -->
+            <div class="cell team pop" id="team2Cell" data-col="-1">
+                <img id="logoT2" alt="" style="display:none">
+                <span class="team-name" id="nameT2">ÉQUIPE 2</span>
+            </div>
+            <div class="cell qt-score pop" data-col="0" id="t2q1">–</div>
+            <div class="cell qt-score pop" data-col="1" id="t2q2">–</div>
+            <div class="cell qt-score pop" data-col="2" id="t2q3">–</div>
+            <div class="cell qt-score pop" data-col="3" id="t2q4">–</div>
+            <div class="cell qt-score prol pop" data-col="4" id="t2p">–</div>
+            <div class="cell qt-score total pop" data-col="5" id="totalT2">0</div>
+
+        </div>
+    </div>
+
+    <!-- Défilement des logos partenaires -->
+    <div class="partners-bar" id="partnersBar">
+        <div class="partners-scroll" id="partnersScroll">
+            <!-- Logos ajoutés dynamiquement -->
+        </div>
+    </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+    authDomain: "diffusion-b9afa.firebaseapp.com",
+    databaseURL: "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "diffusion-b9afa",
+    storageBucket: "diffusion-b9afa.firebasestorage.app",
+    messagingSenderId: "674799570797",
+    appId: "1:674799570797:web:0d8b7a2a892f604eb7d464"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const matchRef = ref(db, "matchdusoir");
+
+/* =====================================================
+   ÉLÉMENTS
+   ===================================================== */
+const stage = document.getElementById("stage");
+const board = document.getElementById("board");
+const qtChampionnat = document.getElementById("qtChampionnat");
+
+const logoT1 = document.getElementById("logoT1");
+const logoT2 = document.getElementById("logoT2");
+const nameT1 = document.getElementById("nameT1");
+const nameT2 = document.getElementById("nameT2");
+const team1Cell = document.getElementById("team1Cell");
+const team2Cell = document.getElementById("team2Cell");
+const totalT1 = document.getElementById("totalT1");
+const totalT2 = document.getElementById("totalT2");
+
+/* Cellules des quarts : t1q1...t1q4, t1p, idem équipe 2 */
+const quartCells = {
+    1: {
+        1: [document.getElementById("t1q1"), document.getElementById("t2q1")],
+        2: [document.getElementById("t1q2"), document.getElementById("t2q2")],
+        3: [document.getElementById("t1q3"), document.getElementById("t2q3")],
+        4: [document.getElementById("t1q4"), document.getElementById("t2q4")],
+        p: [document.getElementById("t1p"), document.getElementById("t2p")]
+    }
+};
+
+/* Mêmes couleurs de halo que admin.html */
+const COULEURS_HALO = {
+    yellow: "#ffd400",
+    black: "#000000",
+    blue: "#008cff",
+    orange: "#ff6500",
+    red: "#ff3030",
+    pink: "#ff4fa3",
+    green: "#22c55e",
+    white: "#ffffff"
+};
+
+let dernierRendu = "";
+
+/* =====================================================
+   LOGOS PARTENAIRES (GitHub — même source que message.html)
+   ===================================================== */
+const GITHUB_LOGO_API =
+    "https://api.github.com/repos/mvbc85600/DIFFUSION/contents/logo";
+
+const GITHUB_LOGO_RAW =
+    "https://raw.githubusercontent.com/mvbc85600/DIFFUSION/main/logo/";
+
+const partnersScroll =
+    document.getElementById("partnersScroll");
+
+async function chargerLogosPartenaires() {
+    try {
+        const response = await fetch(GITHUB_LOGO_API, {
+            headers: {
+                "Accept": "application/vnd.github+json"
+            },
+            cache: "no-store"
+        });
+
+        if (!response.ok) {
+            throw new Error(`GitHub a répondu ${response.status}`);
+        }
+
+        const fichiers = await response.json();
+
+        partnersScroll.innerHTML = "";
+
+        const logos = fichiers
+            .filter(fichier =>
+                fichier.type === "file" &&
+                /\.(png|jpe?g|webp|gif|svg)$/i.test(fichier.name)
+            )
+            .map(fichier =>
+                GITHUB_LOGO_RAW +
+                encodeURIComponent(fichier.name)
+            );
+
+        /*
+         * Deux passages pour conserver
+         * le défilement en boucle infinie.
+         */
+        [...logos, ...logos].forEach(src => {
+            const img = document.createElement("img");
+            img.src = src;
+            img.alt = "Partenaire";
+            img.onerror = function () {
+                this.style.display = "none";
+            };
+            partnersScroll.appendChild(img);
+        });
+
+    } catch (error) {
+        console.error("Erreur chargement logos partenaires :", error);
+    }
+}
+
+chargerLogosPartenaires();
+
+/* =====================================================
+   OUTILS
+   ===================================================== */
+function lireNombre(data, champ) {
+    const brut = data[champ];
+    if (brut === undefined || brut === null) return null;
+    const texte = String(brut).trim();
+    if (texte === "") return null;
+    const n = parseInt(texte, 10);
+    return Number.isNaN(n) ? null : n;
+}
+
+function afficherScore(cell, valeur) {
+    if (valeur === null) {
+        cell.textContent = "–";
+        cell.classList.add("vide");
+    } else {
+        cell.textContent = valeur;
+        cell.classList.remove("vide");
+    }
+}
+
+function appliquerLogo(img, chemin, nom) {
+    if (chemin) {
+        img.src = chemin;
+        img.alt = `Logo ${nom}`;
+        img.style.display = "";
+        img.onerror = () => { img.style.display = "none"; };
+    } else {
+        img.removeAttribute("src");
+        img.style.display = "none";
+    }
+}
+
+/* Délais d'apparition en cascade : équipes, puis Q1, Q2, Q3, Q4, PROL, TOTAL */
+function appliquerDelays(aProlongation) {
+    board.querySelectorAll("[data-col]").forEach(cell => {
+        const col = Number(cell.dataset.col);
+        let delai;
+        if (col < 0) {
+            delai = 0.05;
+        } else if (col === 5) {
+            delai = 0.18 + (aProlongation ? 5 : 4) * 0.12;
+        } else {
+            delai = 0.18 + col * 0.12;
+        }
+        cell.style.setProperty("--d", delai.toFixed(2) + "s");
+    });
+}
+
+function rejouerAnimation() {
+    board.classList.remove("play");
+    stage.classList.remove("play-title");
+    void board.offsetWidth;
+    board.classList.add("play");
+    stage.classList.add("play-title");
+}
+
+/* =====================================================
+   RENDU
+   ===================================================== */
+function rendre(data) {
+    data = data || {};
+
+    const quarts = [1, 2, 3, 4].map(i => [
+        lireNombre(data, `quart${i}Equipe1`),
+        lireNombre(data, `quart${i}Equipe2`)
+    ]);
+
+    const prol1 = lireNombre(data, "prolongationEquipe1");
+    const prol2 = lireNombre(data, "prolongationEquipe2");
+    const aProlongation = prol1 !== null || prol2 !== null;
+
+    const total1 = quarts.reduce((somme, q) => somme + (q[0] ?? 0), 0) + (prol1 ?? 0);
+    const total2 = quarts.reduce((somme, q) => somme + (q[1] ?? 0), 0) + (prol2 ?? 0);
+
+    /* Noms + logos */
+    const nom1 = (data.equipe1 || "ÉQUIPE 1").toUpperCase();
+    const nom2 = (data.equipe2 || "ÉQUIPE 2").toUpperCase();
+    nameT1.textContent = nom1;
+    nameT2.textContent = nom2;
+    appliquerLogo(logoT1, data.logo1, nom1);
+    appliquerLogo(logoT2, data.logo2, nom2);
+
+    /* Halos de couleur (même mapping que matchdusoir.html) */
+    team1Cell.style.setProperty("--halo", COULEURS_HALO[data.haloCouleur1] || "rgba(255,255,255,.3)");
+    team2Cell.style.setProperty("--halo", COULEURS_HALO[data.haloCouleur2] || "rgba(255,255,255,.3)");
+
+    /* Ligne championnat / date */
+    const infosChamp = [data.championnat, data.date, data.heure].filter(Boolean).join("  •  ");
+    qtChampionnat.textContent = infosChamp || "\u00a0";
+
+    /* Scores par quart */
+    quarts.forEach((q, index) => {
+        afficherScore(quartCells[1][index + 1][0], q[0]);
+        afficherScore(quartCells[1][index + 1][1], q[1]);
+    });
+
+    /* Prolongation */
+    board.classList.toggle("has-prol", aProlongation);
+    if (aProlongation) {
+        afficherScore(quartCells[1].p[0], prol1 ?? 0);
+        afficherScore(quartCells[1].p[1], prol2 ?? 0);
+    }
+
+    /* Totaux + équipe qui mène */
+    totalT1.textContent = total1;
+    totalT2.textContent = total2;
+    totalT1.classList.toggle("win", total1 > total2);
+    totalT2.classList.toggle("win", total2 > total1);
+
+    /* Rejouer l'animation uniquement si les scores ont changé */
+    const signature = JSON.stringify([quarts, prol1, prol2, nom1, nom2, data.logo1, data.logo2, infosChamp, aProlongation]);
+    if (signature !== dernierRendu) {
+        dernierRendu = signature;
+        appliquerDelays(aProlongation);
+        rejouerAnimation();
+    }
+}
+
+onValue(matchRef, (snapshot) => {
+    rendre(snapshot.val());
+});
+
+/* Première apparition (si Firebase n'a encore rien renvoyé) */
+setTimeout(() => {
+    if (dernierRendu === "") rejouerAnimation();
+}, 400);
+</script>
+
+</body>
+</html>
