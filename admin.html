@@ -215,7 +215,7 @@ body {
     background: #ff2020; /* Rouge */
 }
 
-    .scene-button:nth-child(12) {
+.scene-button:nth-child(12) {
     background: #168cff; /* Bleu */
 }
 
@@ -228,7 +228,7 @@ body {
     background: #ff2020; /* Rouge */
 }
 
-    .scene-button:nth-child(15) {
+.scene-button:nth-child(15) {
     background: #168cff; /* Bleu */
 }
 
@@ -245,8 +245,10 @@ body {
     background: #168cff; /* Bleu */
 }
 
-.black {
-    background: black;
+/* CORRECTION : .black doit battre les nth-child en spécificité
+   pour que le bouton ÉCRAN NOIR reste vraiment noir */
+.scene-button.black {
+    background: black !important;
     border: 1px solid #444;
     color: white;
 }
@@ -349,6 +351,95 @@ body {
     .final-score-editor {
         grid-template-columns: 1fr;
     }
+}
+
+/* =========================
+   SCORES PAR QUART-TEMPS (NOUVEAU)
+========================= */
+.quarts-editor {
+    background: #181818;
+    border: 1px solid #333;
+    border-radius: 10px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.quarts-row {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 10px;
+    align-items: center;
+}
+
+.quarts-head {
+    padding-bottom: 6px;
+    border-bottom: 1px solid #333;
+}
+
+.quarts-head span {
+    font-weight: bold;
+    color: #ffd400;
+    font-size: 14px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.quarts-head span:first-child {
+    text-align: left;
+}
+
+.quart-label {
+    font-size: 14px;
+    color: #ccc;
+}
+
+.quarts-row input {
+    width: 100%;
+    padding: 11px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.quarts-total {
+    border-top: 1px solid #333;
+    padding-top: 10px;
+}
+
+.quarts-total .quart-label {
+    color: #fff;
+    font-weight: bold;
+}
+
+#quartsTotal1,
+#quartsTotal2 {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #4ade80;
+}
+
+#copierTotauxButton {
+    width: 100%;
+    margin-top: 12px;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    background: #168cff;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#copierTotauxButton:hover {
+    background: #2f9bff;
 }
 
 /* Style pour la case à cocher */
@@ -1056,6 +1147,11 @@ body {
             <button class="scene-button" onclick="diffuser('programmeweekend')">
                 📅<br>PROGRAMME W-E
             </button>
+
+            <!-- Bouton QUART-TEMPS (NOUVEAU) -->
+            <button class="scene-button" onclick="diffuser('quartstemps')">
+                ⏱<br>QUART-TEMPS
+            </button>
         </div>
     </div>
 
@@ -1218,6 +1314,54 @@ body {
                 <div class="duration-help">
                     Ce résultat sera affiché sous « VICTOIRE » sur la page de diffusion.
                     Le partenaire sélectionné dans l'onglet « Partenaire du Match » sera affiché sous le score.
+                </div>
+            </div>
+
+            <!-- SCORES PAR QUART-TEMPS (NOUVEAU) -->
+            <div class="form-group">
+                <label>⏱ Scores par quart-temps</label>
+                <div class="quarts-editor">
+                    <div class="quarts-row quarts-head">
+                        <span>Quart</span>
+                        <span id="quartsNom1">Équipe 1</span>
+                        <span id="quartsNom2">Équipe 2</span>
+                    </div>
+                    <div class="quarts-row">
+                        <span class="quart-label">1er quart-temps</span>
+                        <input type="number" min="0" max="99" step="1" id="quart1Equipe1" placeholder="—" inputmode="numeric">
+                        <input type="number" min="0" max="99" step="1" id="quart1Equipe2" placeholder="—" inputmode="numeric">
+                    </div>
+                    <div class="quarts-row">
+                        <span class="quart-label">2e quart-temps</span>
+                        <input type="number" min="0" max="99" step="1" id="quart2Equipe1" placeholder="—" inputmode="numeric">
+                        <input type="number" min="0" max="99" step="1" id="quart2Equipe2" placeholder="—" inputmode="numeric">
+                    </div>
+                    <div class="quarts-row">
+                        <span class="quart-label">3e quart-temps</span>
+                        <input type="number" min="0" max="99" step="1" id="quart3Equipe1" placeholder="—" inputmode="numeric">
+                        <input type="number" min="0" max="99" step="1" id="quart3Equipe2" placeholder="—" inputmode="numeric">
+                    </div>
+                    <div class="quarts-row">
+                        <span class="quart-label">4e quart-temps</span>
+                        <input type="number" min="0" max="99" step="1" id="quart4Equipe1" placeholder="—" inputmode="numeric">
+                        <input type="number" min="0" max="99" step="1" id="quart4Equipe2" placeholder="—" inputmode="numeric">
+                    </div>
+                    <div class="quarts-row">
+                        <span class="quart-label">Prolongation (facultatif)</span>
+                        <input type="number" min="0" max="99" step="1" id="prolongationEquipe1" placeholder="—" inputmode="numeric">
+                        <input type="number" min="0" max="99" step="1" id="prolongationEquipe2" placeholder="—" inputmode="numeric">
+                    </div>
+                    <div class="quarts-row quarts-total">
+                        <span class="quart-label">TOTAL</span>
+                        <span id="quartsTotal1">0</span>
+                        <span id="quartsTotal2">0</span>
+                    </div>
+                </div>
+                <button type="button" id="copierTotauxButton">📋 Recopier les totaux dans le résultat final</button>
+                <div class="duration-help">
+                    Ces scores s'affichent en direct sur <strong>quartstemps.html</strong>.
+                    Laisse la prolongation vide s'il n'y en a pas eu : la colonne « PROL » n'apparaîtra pas à l'écran.
+                    Ils s'enregistrent avec le bouton « ENREGISTRER LE MATCH ».
                 </div>
             </div>
 
@@ -2141,6 +2285,68 @@ scoreEquipe2.addEventListener("input", mettreAJourApercuScore);
 mettreAJourApercuScore();
 
 /* =====================================================
+   SCORES PAR QUART-TEMPS (NOUVEAU)
+===================================================== */
+const QUARTS_CHAMPS = [
+    "quart1Equipe1", "quart1Equipe2",
+    "quart2Equipe1", "quart2Equipe2",
+    "quart3Equipe1", "quart3Equipe2",
+    "quart4Equipe1", "quart4Equipe2",
+    "prolongationEquipe1", "prolongationEquipe2"
+];
+
+const quartsInputs = QUARTS_CHAMPS
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+
+const quartsTotal1 = document.getElementById("quartsTotal1");
+const quartsTotal2 = document.getElementById("quartsTotal2");
+const quartsNom1 = document.getElementById("quartsNom1");
+const quartsNom2 = document.getElementById("quartsNom2");
+const copierTotauxButton = document.getElementById("copierTotauxButton");
+
+function lireValeurQuart(input) {
+    const valeur = input.value.trim();
+    if (valeur === "") return 0;
+    const n = parseInt(valeur, 10);
+    return Number.isNaN(n) ? 0 : n;
+}
+
+function totalQuarts(cote) {
+    return QUARTS_CHAMPS
+        .filter(champ => champ.endsWith("Equipe" + cote))
+        .reduce((somme, champ) => {
+            const input = document.getElementById(champ);
+            return somme + (input ? lireValeurQuart(input) : 0);
+        }, 0);
+}
+
+function mettreAJourQuarts() {
+    quartsTotal1.textContent = totalQuarts(1);
+    quartsTotal2.textContent = totalQuarts(2);
+}
+
+quartsInputs.forEach(input => {
+    input.addEventListener("input", mettreAJourQuarts);
+});
+
+matchEquipe1.addEventListener("input", () => {
+    quartsNom1.textContent = matchEquipe1.value.trim() || "Équipe 1";
+});
+
+matchEquipe2.addEventListener("input", () => {
+    quartsNom2.textContent = matchEquipe2.value.trim() || "Équipe 2";
+});
+
+copierTotauxButton.addEventListener("click", () => {
+    scoreEquipe1.value = totalQuarts(1);
+    scoreEquipe2.value = totalQuarts(2);
+    mettreAJourApercuScore();
+});
+
+mettreAJourQuarts();
+
+/* =====================================================
    ONGLET : 5 MAJEUR
 ===================================================== */
 
@@ -2951,6 +3157,17 @@ onValue(matchRef, (snapshot) => {
     if (data.haloCouleur1) haloCouleur1.value = data.haloCouleur1;
     if (data.haloCouleur2) haloCouleur2.value = data.haloCouleur2;
 
+    /* Scores par quart-temps (NOUVEAU) */
+    QUARTS_CHAMPS.forEach(champ => {
+        const input = document.getElementById(champ);
+        if (input && data[champ] !== undefined && data[champ] !== null) {
+            input.value = data[champ];
+        }
+    });
+    quartsNom1.textContent = matchEquipe1.value.trim() || "Équipe 1";
+    quartsNom2.textContent = matchEquipe2.value.trim() || "Équipe 2";
+    mettreAJourQuarts();
+
     mettreAJourApercuHalos();
     mettreAJourApercuScore();
 });
@@ -2981,6 +3198,13 @@ saveMatchButton.addEventListener("click", async () => {
         saveMatchButton.disabled = true;
         saveMatchButton.textContent = "⏳ ENREGISTREMENT...";
 
+        /* Scores par quart-temps (NOUVEAU) */
+        const quartsDonnees = {};
+        QUARTS_CHAMPS.forEach(champ => {
+            const input = document.getElementById(champ);
+            quartsDonnees[champ] = input ? input.value.trim() : "";
+        });
+
         const donneesMatch = {
             championnat: matchChampionnat.value.trim(),
             titreMatch: titreMatch.value.trim(),
@@ -2994,6 +3218,7 @@ saveMatchButton.addEventListener("click", async () => {
             scoreEquipe2: scoreEquipe2.value.trim(),
             haloCouleur1: haloCouleur1.value,
             haloCouleur2: haloCouleur2.value,
+            ...quartsDonnees,
             timestamp: Date.now()
         };
 
@@ -3403,6 +3628,7 @@ tabButtons.forEach(button => {
         document.getElementById(tabId).classList.add('active');
     });
 });
+
 /* =====================================================
    CHARGEMENT INITIAL DES JOUEURS
 ===================================================== */
