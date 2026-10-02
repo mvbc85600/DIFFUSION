@@ -1,1961 +1,456 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLASSEMENT — MVBC</title>
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@500;700;800;900&display=swap');
 
-<title>Programme & Classement</title>
-
-</head>
-
-
-<body>
-
-<div class="custom-section">
-
-<style type="text/css">
-
-/* =====================================================
-   RESET & FOND
-===================================================== */
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+:root {
+    --white: #f7f7f5;
+    --black: #050608;
+    --red: #ed174c;
+    --blue: #1769ff;
+    --yellow: #ffd400;
+    --green: #22c55e;
 }
 
-html,
+* { box-sizing: border-box; }
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
 body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+    background:
+        radial-gradient(circle at 50% 40%, rgba(23,105,255,.13), transparent 30%),
+        radial-gradient(circle at 50% 100%, rgba(237,23,76,.09), transparent 40%),
+        #050608;
+    font-family: Inter, sans-serif;
+    color: var(--white);
+    padding: 2.5vh 4vw;
+    overflow: hidden;
 }
 
-.custom-section {
-  position: relative;
-
-  width: 100%;
-  height: 100vh;
-  min-height: 100vh;
-
-  padding: 10px;
-  margin: 0;
-
-  color: #fff;
-
-  font-family:
-    'Segoe UI',
-    Tahoma,
-    Geneva,
-    Verdana,
-    sans-serif;
-
-  background:
-    radial-gradient(
-      circle at center,
-      #252000 0%,
-      #100e00 35%,
-      #050500 65%,
-      #000 100%
-    );
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  overflow: hidden;
+/* Atmosphère arène */
+body::before {
+    content: "";
+    position: fixed;
+    inset: -20%;
+    z-index: -3;
+    background:
+        repeating-linear-gradient(90deg, transparent 0 90px, rgba(255,255,255,.012) 91px 92px),
+        radial-gradient(ellipse at 50% 45%, rgba(255,255,255,.06), transparent 48%);
+    transform: perspective(800px) rotateX(58deg) scale(1.35);
+    transform-origin: center bottom;
 }
 
-
-/* =====================================================
-   HALO CENTRAL
-===================================================== */
-
-.custom-section::before {
-  content: "";
-
-  position: fixed;
-
-  width: 900px;
-  height: 900px;
-
-  left: 50%;
-  top: 50%;
-
-  transform:
-    translate(-50%, -50%);
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(255, 204, 0, 0.15) 0%,
-      rgba(255, 204, 0, 0.05) 25%,
-      transparent 50%
-    );
-
-  pointer-events: none;
-
-  animation:
-    halo 6s ease-in-out infinite;
-
-  z-index: 0;
+/* Vignette broadcast */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,.48) 100%);
 }
 
-
-@keyframes halo {
-
-  0% {
-    transform:
-      translate(-50%, -50%)
-      scale(0.8);
-
-    opacity: 0.5;
-  }
-
-  50% {
-    transform:
-      translate(-50%, -50%)
-      scale(1.1);
-
-    opacity: 0.8;
-  }
-
-  100% {
-    transform:
-      translate(-50%, -50%)
-      scale(0.8);
-
-    opacity: 0.5;
-  }
-
+.layout {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 1560px;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
 }
 
-
-/* =====================================================
-   TITRES
-===================================================== */
-
-.custom-section h2 {
-
-  position: relative;
-
-  text-align: center;
-
-  color: #ffffff;
-
-  font-size:
-    clamp(16px, 2.5vw, 20px);
-
-  font-weight: 900;
-
-  letter-spacing: 2px;
-
-  text-shadow:
-    0 0 8px #ffffff,
-    0 0 15px #ffcc00;
-
-  margin-bottom: 8px;
-
-  z-index: 10;
+.title {
+    margin: 0 0 clamp(6px, 1.4vh, 18px);
+    text-align: center;
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: clamp(30px, 5vw, 74px);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--white);
+    transform: skewX(-5deg);
+    text-shadow:
+        4px 4px 0 var(--black),
+        9px 9px 0 var(--yellow),
+        14px 14px 0 rgba(237,23,76,.75),
+        19px 19px 0 rgba(23,105,255,.4);
 }
 
-
-.custom-section h2::after {
-
-  content: "";
-
-  display: block;
-
-  width: 120px;
-  height: 2px;
-
-  margin: 6px auto 0;
-
-  background: #ffcc00;
-
-  border-radius: 3px;
-
-  box-shadow:
-    0 0 8px #ffcc00;
+.champ {
+    margin: 0 0 clamp(18px, 3vh, 40px);
+    text-align: center;
+    font-size: clamp(10px, 1.2vw, 16px);
+    font-weight: 800;
+    letter-spacing: .32em;
+    text-indent: .32em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.55);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-
-
-/* =====================================================
-   CONTENEUR PRINCIPAL
-===================================================== */
-
-.main-content {
-
-  position: relative;
-
-  width: 100%;
-
-  max-width: 1400px;
-
-  height:
-    calc(100vh - 20px);
-
-  min-height: 0;
-
-  display: flex;
-
-  flex-direction: row;
-
-  gap: 20px;
-
-  align-items: stretch;
-
-  flex: 1;
-
-  z-index: 2;
-}
-
-
-/* =====================================================
-   COLONNE GAUCHE
-   PROGRAMME + PARTENAIRES
-===================================================== */
-
-.left-column {
-
-  width:
-    calc(50% - 10px);
-
-  height: 100%;
-
-  min-width: 0;
-
-  min-height: 0;
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 10px;
-}
-
-
-/* =====================================================
-   COLONNE DROITE
-   CLASSEMENT
-===================================================== */
-
-.right-column {
-
-  width:
-    calc(50% - 10px);
-
-  height: 100%;
-
-  min-width: 0;
-
-  min-height: 0;
-
-  display: flex;
-
-  flex-direction: column;
-}
-
-
-/* =====================================================
-   CONTENEURS DES TABLEAUX
-===================================================== */
-
-.table-container {
-
-  width: 100%;
-
-  min-width: 0;
-
-  min-height: 0;
-
-  background:
-    rgba(10, 10, 10, 0.85);
-
-  border-radius: 8px;
-
-  padding: 8px;
-
-  border:
-    1px solid
-    rgba(255, 204, 0, 0.2);
-
-  box-shadow:
-    0 0 10px
-    rgba(255, 204, 0, 0.1);
-}
-
-
-/* =====================================================
-   TABLEAU PROGRAMME
-   -----------------
-   Partie supérieure gauche
-===================================================== */
-
-.programme-container {
-
-  width: 100%;
-
-  height: 48%;
-
-  flex:
-    0 0 48%;
-
-  min-height: 0;
-
-  overflow-y: auto;
-
-  overflow-x: hidden;
-
-  scrollbar-width: thin;
-
-  scrollbar-color:
-    rgba(255, 204, 0, 0.7)
-    rgba(20, 20, 20, 0.5);
-}
-
 
 /* =====================================================
    TABLEAU CLASSEMENT
-   -----------------
-   Toute la hauteur droite
-===================================================== */
-
-.classement-container {
-
-  width: 100%;
-
-  height: 100%;
-
-  flex: 1;
-
-  min-height: 0;
-
-  overflow-y: auto;
-
-  overflow-x: hidden;
-
-  scrollbar-width: thin;
-
-  scrollbar-color:
-    rgba(255, 204, 0, 0.7)
-    rgba(20, 20, 20, 0.5);
+   ===================================================== */
+.classement-wrap {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(6px, 1vh, 12px);
 }
 
+/* Ligne d'en-tête (colonnes du Google Sheet) */
+.cl-head, .cl-row {
+    display: grid;
+    grid-template-columns: 6% 1fr repeat(auto-fit, minmax(56px, 7%));
+    align-items: center;
+    gap: clamp(8px, 1vw, 18px);
+    padding: clamp(8px, 1.2vh, 16px) clamp(12px, 1.6vw, 26px);
+}
+
+.cl-head {
+    font-size: clamp(9px, 1vw, 13px);
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.5);
+}
+
+.cl-head > div {
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cl-head > div:nth-child(2) {
+    text-align: left;
+}
+
+/* Carte ligne d'équipe */
+.cl-row {
+    position: relative;
+    background: rgba(8,9,12,.74);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 18px;
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.45),
+        inset 0 1px 0 rgba(255,255,255,.06);
+    overflow: hidden;
+    animation: popIn .55s cubic-bezier(.16,.9,.25,1) both;
+    animation-delay: var(--d, 0s);
+    flex: 1 1 0;
+    min-height: 0;
+}
+
+/* Barre latérale selon la position */
+.cl-row::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 6px;
+    background: var(--accent, rgba(255,255,255,.2));
+}
+
+.cl-row .rang {
+    text-align: center;
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 900;
+    font-size: clamp(22px, 2.8vw, 46px);
+    line-height: 1;
+    color: rgba(255,255,255,.55);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.7);
+}
+
+.cl-row .equipe {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 900;
+    font-size: clamp(18px, 2.3vw, 40px);
+    line-height: 1;
+    text-transform: uppercase;
+    text-shadow:
+        0 0 18px var(--halo, rgba(255,255,255,.25)),
+        3px 3px 0 rgba(0,0,0,.8);
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.cl-row .cell {
+    text-align: center;
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 800;
+    font-size: clamp(16px, 2vw, 32px);
+    line-height: 1;
+    color: rgba(255,255,255,.85);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+}
+
+/* Équipe MVBC : pastille jaune broadcast */
+.cl-row.mvbc {
+    background: linear-gradient(90deg, rgba(255,212,0,.16), rgba(8,9,12,.74) 55%);
+    border-color: rgba(255,212,0,.55);
+    --accent: var(--yellow);
+    --halo: rgba(255,212,0,.55);
+}
+
+.cl-row.mvbc .equipe {
+    color: #fff;
+}
+
+/* Zone scrollable si beaucoup d'équipes */
+.classement-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(6px, 1vh, 12px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,212,0,.7) rgba(20,20,20,.5);
+    padding-right: 4px;
+}
+
+.classement-scroll::-webkit-scrollbar { width: 5px; }
+.classement-scroll::-webkit-scrollbar-track { background: rgba(20,20,20,.5); border-radius: 10px; }
+.classement-scroll::-webkit-scrollbar-thumb { background: rgba(255,212,0,.7); border-radius: 10px; }
+
+/* Message vide */
+.vide-msg {
+    text-align: center;
+    padding: 60px 20px;
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: clamp(22px, 3vw, 40px);
+    font-weight: 800;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.35);
+    background: rgba(8,9,12,.74);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 22px;
+}
 
 /* =====================================================
-   SCROLLBAR WEBKIT
-===================================================== */
-
-.programme-container::-webkit-scrollbar,
-.classement-container::-webkit-scrollbar {
-
-  width: 5px;
+   DÉFILEMENT DES LOGOS PARTENAIRES
+   ===================================================== */
+.partners-bar {
+    position: relative;
+    z-index: 12;
+    width: 100%;
+    height: clamp(100px, 13vh, 150px);
+    margin-top: clamp(20px, 3vh, 40px);
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 12px;
+    overflow: hidden;
 }
 
-
-.programme-container::-webkit-scrollbar-track,
-.classement-container::-webkit-scrollbar-track {
-
-  background:
-    rgba(20, 20, 20, 0.5);
-
-  border-radius: 10px;
+.partners-scroll {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    height: 100%;
+    white-space: nowrap;
+    animation: scrollPartners 60s linear infinite;
 }
 
-
-.programme-container::-webkit-scrollbar-thumb,
-.classement-container::-webkit-scrollbar-thumb {
-
-  background:
-    rgba(255, 204, 0, 0.7);
-
-  border-radius: 10px;
+.partners-scroll img {
+    height: 90%;
+    max-height: 135px;
+    margin: 0 30px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,.5));
 }
 
-
-.programme-container::-webkit-scrollbar-thumb:hover,
-.classement-container::-webkit-scrollbar-thumb:hover {
-
-  background: #ffcc00;
+@keyframes scrollPartners {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 
-
-/* =====================================================
-   TABLE ROWS
-===================================================== */
-
-.table-row {
-
-  display: grid;
-
-  background:
-    rgba(20, 20, 20, 0.8);
-
-  border-radius: 4px;
-
-  padding: 4px;
-
-  align-items: center;
-
-  margin-bottom: 2px;
-
-  transition:
-    all 0.2s ease;
-
-  font-size:
-    clamp(11px, 1.5vw, 13px);
-
-  border:
-    1px solid
-    rgba(255, 204, 0, 0.1);
-
-  opacity: 0;
-
-  transform:
-    translateY(10px);
-
-  animation:
-    fadeInUp 0.5s ease forwards;
+@keyframes popIn {
+    0% { opacity: 0; transform: translateY(26px) scale(.9); filter: blur(4px); }
+    100% { opacity: 1; transform: none; filter: blur(0); }
 }
 
-
-@keyframes fadeInUp {
-
-  to {
-
-    opacity: 1;
-
-    transform:
-      translateY(0);
-
-  }
-
+/* Petits écrans */
+@media (max-width: 600px) {
+    .title {
+        font-size: clamp(22px, 6.4vw, 40px);
+        white-space: normal;
+    }
+    .cl-head { display: none; }
+    .partners-bar { height: 84px; margin-top: 18px; }
+    .partners-scroll img { margin: 0 14px; }
 }
 
-
-.table-row:nth-child(1) {
-  animation-delay: 0.05s;
+@media (prefers-reduced-motion: reduce) {
+    .partners-scroll, .cl-row { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
 }
-
-.table-row:nth-child(2) {
-  animation-delay: 0.1s;
-}
-
-.table-row:nth-child(3) {
-  animation-delay: 0.15s;
-}
-
-.table-row:nth-child(4) {
-  animation-delay: 0.2s;
-}
-
-.table-row:nth-child(5) {
-  animation-delay: 0.25s;
-}
-
-.table-row:nth-child(6) {
-  animation-delay: 0.3s;
-}
-
-.table-row:nth-child(7) {
-  animation-delay: 0.35s;
-}
-
-.table-row:nth-child(8) {
-  animation-delay: 0.4s;
-}
-
-.table-row:nth-child(9) {
-  animation-delay: 0.45s;
-}
-
-.table-row:nth-child(10) {
-  animation-delay: 0.5s;
-}
-
-
-/* =====================================================
-   HOVER TABLE
-===================================================== */
-
-.table-row:hover {
-
-  background:
-    rgba(30, 30, 40, 0.9);
-
-  border-color:
-    rgba(255, 204, 0, 0.4);
-
-  box-shadow:
-    0 0 10px
-    rgba(255, 204, 0, 0.2);
-}
-
-
-/* =====================================================
-   HEADER TABLEAU
-===================================================== */
-
-.table-header {
-
-  background:
-    linear-gradient(
-      145deg,
-      #1a1a1a,
-      #2a2a2a
-    ) !important;
-
-  color:
-    #ffcc00 !important;
-
-  font-weight:
-    bold;
-
-  border-radius:
-    4px 4px 0 0;
-
-  border-bottom:
-    1px solid #ffcc00;
-
-  box-shadow:
-    0 0 5px
-    rgba(255, 204, 0, 0.2);
-
-  animation:
-    none;
-
-  opacity:
-    1;
-
-  transform:
-    none;
-
-  position:
-    sticky;
-
-  top:
-    0;
-
-  z-index:
-    20;
-
-  margin-bottom:
-    2px;
-}
-
-
-/* =====================================================
-   LIGNE MISE EN AVANT
-===================================================== */
-
-.highlight-yellow {
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255, 204, 0, 0.2),
-      rgba(255, 204, 0, 0.1)
-    ) !important;
-
-  border-left:
-    2px solid #ffcc00;
-
-  color:
-    #ffffff !important;
-}
-
-
-/* =====================================================
-   CELLULES
-===================================================== */
-
-.table-row > div {
-
-  padding:
-    4px 2px;
-
-  text-align:
-    center;
-
-  word-break:
-    break-word;
-
-  color:
-    #e0e0e0;
-
-  font-size:
-    0.9em;
-}
-
-
-/* =====================================================
-   TABLEAU 2 : CLASSEMENT
-===================================================== */
-
-.table2 {
-
-  --col-a: 1fr;
-  --col-b: 1fr;
-  --col-c: 0.7fr;
-  --col-d: 0.7fr;
-  --col-e: 0.7fr;
-  --col-f: 0.7fr;
-  --col-g: 0.7fr;
-  --col-h: 0.7fr;
-
-}
-
-
-/* =====================================================
-   CARROUSEL DES PARTENAIRES
-===================================================== */
-
-.partners-section {
-
-  position:
-    relative;
-
-  width:
-    100%;
-
-  flex:
-    1;
-
-  min-height:
-    0;
-
-  margin:
-    0;
-
-  display:
-    flex;
-
-  flex-direction:
-    column;
-
-  justify-content:
-    center;
-
-  align-items:
-    center;
-
-  perspective:
-    1800px;
-
-  perspective-origin:
-    center center;
-
-  overflow:
-    visible;
-}
-
-
-.partners-carousel {
-
-  position:
-    relative;
-
-  width:
-    100%;
-
-  height:
-    100%;
-
-  display:
-    flex;
-
-  justify-content:
-    center;
-
-  align-items:
-    center;
-
-  perspective:
-    1800px;
-
-  perspective-origin:
-    center center;
-}
-
-
-/* =====================================================
-   LOGOS PARTENAIRES
-===================================================== */
-
-.partners-carousel img {
-
-  position:
-    absolute;
-
-  left:
-    50%;
-
-  top:
-    50%;
-
-  transform-origin:
-    center center;
-
-  width:
-    auto;
-
-  height:
-    auto;
-
-  max-width:
-    200px;
-
-  max-height:
-    140px;
-
-  padding:
-    10px;
-
-  object-fit:
-    contain;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(30, 30, 30, 0.98),
-      rgba(5, 5, 5, 0.98)
-    );
-
-  border:
-    2px solid;
-
-  border-radius:
-    12px;
-
-  transition:
-    transform 0.9s
-      cubic-bezier(0.22, 0.61, 0.36, 1),
-
-    opacity 0.9s ease,
-
-    filter 0.9s ease,
-
-    box-shadow 0.9s ease,
-
-    border-color 0.9s ease;
-}
-
-
-/* =====================================================
-   COULEURS DES BORDURES
-===================================================== */
-
-.color-yellow {
-  border-color:
-    #ffcc00 !important;
-}
-
-.color-red {
-  border-color:
-    #ff2020 !important;
-}
-
-.color-blue {
-  border-color:
-    #168cff !important;
-}
-
-
-/* =====================================================
-   LOGO CENTRAL
-===================================================== */
-
-.center {
-
-  transform:
-    translate(-50%, -50%)
-    translateZ(300px)
-    scale(1.10);
-
-  z-index:
-    20;
-
-  opacity:
-    1;
-
-  filter:
-    brightness(1.15)
-    contrast(1.08);
-}
-
-
-.center.color-yellow {
-
-  box-shadow:
-    0 0 20px #ffcc00,
-    0 0 45px #ffcc00,
-    0 0 90px rgba(255, 204, 0, 0.85),
-    0 0 140px rgba(255, 204, 0, 0.35);
-}
-
-
-.center.color-red {
-
-  box-shadow:
-    0 0 20px #ff2020,
-    0 0 45px #ff2020,
-    0 0 90px rgba(255, 32, 32, 0.85),
-    0 0 140px rgba(255, 32, 32, 0.35);
-}
-
-
-.center.color-blue {
-
-  box-shadow:
-    0 0 20px #168cff,
-    0 0 45px #168cff,
-    0 0 90px rgba(22, 140, 255, 0.85),
-    0 0 140px rgba(22, 140, 255, 0.35);
-}
-
-
-/* =====================================================
-   LOGO GAUCHE 1
-===================================================== */
-
-.left1 {
-
-  transform:
-    translate(-50%, -50%)
-    translateX(-300px)
-    translateZ(40px)
-    scale(0.62);
-
-  z-index:
-    12;
-
-  opacity:
-    0.75;
-
-  filter:
-    brightness(0.75)
-    contrast(0.95);
-}
-
-
-/* =====================================================
-   LOGO DROITE 1
-===================================================== */
-
-.right1 {
-
-  transform:
-    translate(-50%, -50%)
-    translateX(300px)
-    translateZ(40px)
-    scale(0.62);
-
-  z-index:
-    12;
-
-  opacity:
-    0.75;
-
-  filter:
-    brightness(0.75)
-    contrast(0.95);
-}
-
-
-/* =====================================================
-   LOGO GAUCHE 2
-===================================================== */
-
-.left2 {
-
-  transform:
-    translate(-50%, -50%)
-    translateX(-500px)
-    translateZ(-200px)
-    scale(0.41);
-
-  z-index:
-    8;
-
-  opacity:
-    0.38;
-
-  filter:
-    brightness(0.55)
-    blur(0.3px);
-}
-
-
-/* =====================================================
-   LOGO DROITE 2
-===================================================== */
-
-.right2 {
-
-  transform:
-    translate(-50%, -50%)
-    translateX(500px)
-    translateZ(-200px)
-    scale(0.41);
-
-  z-index:
-    8;
-
-  opacity:
-    0.38;
-
-  filter:
-    brightness(0.55)
-    blur(0.3px);
-}
-
-
-/* =====================================================
-   LOGOS CACHÉS
-===================================================== */
-
-.hidden {
-
-  transform:
-    translate(-50%, -50%)
-    translateZ(-700px)
-    scale(0.15);
-
-  opacity:
-    0;
-
-  filter:
-    blur(5px);
-
-  z-index:
-    1;
-
-  pointer-events:
-    none;
-}
-
-
-/* =====================================================
-   BARRE LUMINEUSE
-===================================================== */
-
-.light-line {
-
-  position:
-    fixed;
-
-  left:
-    50%;
-
-  bottom:
-    0;
-
-  transform:
-    translateX(-50%);
-
-  width:
-    65%;
-
-  height:
-    2px;
-
-  background:
-    #ffcc00;
-
-  box-shadow:
-    0 0 8px #ffcc00,
-    0 0 20px rgba(255, 204, 0, 0.5);
-
-  z-index:
-    90;
-}
-
-
-/* =====================================================
-   RESPONSIVE
-   TABLETTE
-===================================================== */
-
-@media (max-width: 1200px) {
-
-  .partners-carousel img {
-
-    max-width:
-      150px;
-
-    max-height:
-      100px;
-  }
-
-
-  .left1 {
-
-    transform:
-      translate(-50%, -50%)
-      translateX(-200px)
-      translateZ(30px)
-      scale(0.55);
-  }
-
-
-  .right1 {
-
-    transform:
-      translate(-50%, -50%)
-      translateX(200px)
-      translateZ(30px)
-      scale(0.55);
-  }
-
-
-  .left2,
-  .right2 {
-
-    opacity:
-      0;
-  }
-
-}
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media (max-width: 768px) {
-
-  .custom-section {
-
-    padding:
-      6px;
-  }
-
-
-  .main-content {
-
-    flex-direction:
-      column;
-
-    gap:
-      8px;
-  }
-
-
-  .left-column,
-  .right-column {
-
-    width:
-      100%;
-
-    min-width:
-      0;
-  }
-
-
-  .left-column {
-
-    height:
-      55%;
-
-    flex:
-      0 0 55%;
-  }
-
-
-  .right-column {
-
-    height:
-      45%;
-
-    flex:
-      0 0 45%;
-  }
-
-
-  .programme-container {
-
-    height:
-      50%;
-
-    flex:
-      0 0 50%;
-  }
-
-
-  .partners-section {
-
-    min-height:
-      0;
-  }
-
-
-  .partners-carousel img {
-
-    max-width:
-      120px;
-
-    max-height:
-      80px;
-  }
-
-
-  .center {
-
-    transform:
-      translate(-50%, -50%)
-      translateZ(150px)
-      scale(0.9);
-  }
-
-
-  .left1 {
-
-    transform:
-      translate(-50%, -50%)
-      translateX(-120px)
-      scale(0.45);
-  }
-
-
-  .right1 {
-
-    transform:
-      translate(-50%, -50%)
-      translateX(120px)
-      scale(0.45);
-  }
-
-
-
-
-
-  .table-row {
-
-    font-size:
-      clamp(10px, 1.8vw, 12px);
-
-    padding:
-      3px;
-
-    margin-bottom:
-      1px;
-  }
-
-
-  .table-row > div {
-
-    padding:
-      2px 1px;
-
-    font-size:
-      0.85em;
-  }
-
-}
-
-
-/* =====================================================
-   TRÈS PETITS ÉCRANS
-===================================================== */
-
-@media (max-width: 480px) {
-
-  .custom-section h2 {
-
-    font-size:
-      14px;
-
-    margin-bottom:
-      4px;
-  }
-
-
-  .custom-section h2::after {
-
-    width:
-      80px;
-
-    margin-top:
-      3px;
-  }
-
-
-  .main-content {
-
-    gap:
-      5px;
-  }
-
-
-  .left-column,
-  .right-column {
-
-    width:
-      100%;
-  }
-
-
-  .left-column {
-
-    height:
-      55%;
-
-    flex:
-      0 0 55%;
-  }
-
-
-  .right-column {
-
-    height:
-      45%;
-
-    flex:
-      0 0 45%;
-  }
-
-
-  .table-container {
-
-    padding:
-      4px;
-  }
-
-
-  .partners-carousel img {
-
-    max-width:
-      90px;
-
-    max-height:
-      65px;
-
-    padding:
-      6px;
-  }
-
-
-  .center {
-
-    transform:
-      translate(-50%, -50%)
-      translateZ(100px)
-      scale(0.8);
-  }
-
-
-  .left1 {
-
-    transform:
-      translate(-50%, -50%)
-      translateX(-85px)
-      scale(0.35);
-  }
-
-
-  .right1 {
-
-    transform:
-      translate(-50%, -50%)
-      translateX(85px)
-      scale(0.35);
-  }
-
-}
-
 </style>
+</head>
 
+<body>
 
-<!-- =====================================================
-     CONTENU PRINCIPAL
-===================================================== -->
+<div class="layout">
+    <h1 class="title">Classement</h1>
+    <div class="champ" id="champClassement">&nbsp;</div>
 
-<div class="main-content">
-
-
-  <!-- ===================================================
-       COLONNE GAUCHE
-       PROGRAMME + PARTENAIRES
-  ==================================================== -->
-
-  <div class="left-column">
-
-
-    <!-- ===============================================
-         TABLEAU PROGRAMME
-    ================================================ -->
-
-    <div class="table-container programme-container">
-
-      <h2>📅 PROGRAMME</h2>
-
-      <div id="json1"></div>
-
+    <div class="classement-wrap">
+        <div class="cl-head" id="clHead"></div>
+        <div class="classement-scroll" id="clRows"></div>
     </div>
 
-
-    <!-- ===============================================
-         PARTENAIRES
-    ================================================ -->
-
-    <div class="partners-section">
-
-      <h2>🤝 NOS PARTENAIRES</h2>
-
-      <div
-        class="partners-carousel"
-        id="partnersCarousel"
-      >
-
-        <!-- Les logos seront insérés ici -->
-
-      </div>
-
+    <!-- Défilement des logos partenaires -->
+    <div class="partners-bar" id="partnersBar">
+        <div class="partners-scroll" id="partnersScroll"></div>
     </div>
-
-
-  </div>
-
-
-  <!-- ===================================================
-       COLONNE DROITE
-       CLASSEMENT
-  ==================================================== -->
-
-  <div class="right-column">
-
-
-    <div class="table-container classement-container">
-
-      <h2>🏆 CLASSEMENT</h2>
-
-      <div id="json2"></div>
-
-    </div>
-
-
-  </div>
-
-
 </div>
-
-
-<!-- =====================================================
-     BARRE LUMINEUSE
-===================================================== -->
-
-<div class="light-line"></div>
-
 
 <script>
-
 /* =====================================================
-   CHARGEMENT DES DONNÉES DES TABLEAUX
-===================================================== */
+   SOURCE : GOOGLE SHEET (même feuille que l'ancienne page)
+   ===================================================== */
+const SHEET_ID = "1vidVkLiiLMnmrO9HTmzM9Ns8bC28ONU1dVL41SVepOU";
+const GID_CLASSEMENT = "1966074571";
+const REFRESH_MS = 60000; /* rafraîchissement toutes les 60 s */
 
-function fetchSheetData(
-  gid,
-  elementId,
-  options = {}
-) {
-
-  const id =
-    '1vidVkLiiLMnmrO9HTmzM9Ns8bC28ONU1dVL41SVepOU';
-
-
-  const url =
-    `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:json&tq&gid=${gid}`;
-
-
-  fetch(url)
-
-    .then(
-      response =>
-        response.text()
-    )
-
-    .then(
-      data => {
-
-        const json =
-          JSON.parse(
-            data.substring(47).slice(0, -2)
-          );
-
-
-        document
-          .getElementById(elementId)
-          .innerHTML =
-            buildModernTable(
-              json,
-              options
-            );
-
-      }
-    )
-
-    .catch(
-      error => {
-
-        console.error(
-          "Erreur lors du chargement des données :",
-          error
-        );
-
-      }
-    );
-
+function escapeHtml(str) {
+    const div = document.createElement("div");
+    div.textContent = str == null ? "" : String(str);
+    return div.innerHTML;
 }
 
-
-/* =====================================================
-   CONSTRUCTION DES TABLEAUX
-===================================================== */
-
-function buildModernTable(
-  json,
-  options = {}
-) {
-
-  const {
-    skipHeader = false,
-    highlightFirstRow = false,
-    extraClass = '',
-    fixedColumns = null
-  } = options;
-
-
-  let html = '';
-
-
-  const colCount =
-    json.table.cols.length;
-
-
-  const gridTemplate =
-    fixedColumns &&
-    extraClass === 'table2'
-
-      ? 'var(--col-a) var(--col-b) var(--col-c) var(--col-d) var(--col-e) var(--col-f) var(--col-g) var(--col-h)'
-
-      : `repeat(
-          ${fixedColumns || colCount},
-          1fr
-        )`;
-
-
-  const gridStyle =
-    `grid-template-columns: ${gridTemplate};`;
-
-
-  /* ===============================================
-     EN-TÊTE
-  =============================================== */
-
-  if (!skipHeader) {
-
-    const headerClass =
-      `table-row table-header ${extraClass}`;
-
-
-    html +=
-      `<div
-        class="${headerClass}"
-        style="${gridStyle}"
-      >`;
-
-
-    json.table.cols.forEach(
-      col => {
-
-        html +=
-          `<div>${col.label}</div>`;
-
-      }
-    );
-
-
-    html +=
-      '</div>';
-  }
-
-
-  /* ===============================================
-     LIGNES
-  =============================================== */
-
-  json.table.rows.forEach(
-    (row, index) => {
-
-      const rowClass =
-        (
-          highlightFirstRow &&
-          index === 0
-        )
-
-          ? `table-row highlight-yellow ${extraClass}`
-
-          : `table-row ${extraClass}`;
-
-
-      html +=
-        `<div
-          class="${rowClass}"
-          style="${gridStyle}"
-        >`;
-
-
-      for (
-        let i = 0;
-        i < (fixedColumns || colCount);
-        i++
-      ) {
-
-        const cell =
-          row.c[i];
-
-
-        let value = '';
-
-
-        try {
-
-          value =
-            cell?.f ??
-            cell?.v ??
-            '';
-
-        }
-
-        catch (e) {
-
-          value =
-            '';
-
-        }
-
-
-        html +=
-          `<div>${value}</div>`;
-
-      }
-
-
-      html +=
-        '</div>';
-
-    }
-  );
-
-
-  return html;
-
+function normaliser(nom) {
+    return (nom || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]/g, "");
 }
 
+async function chargerClassement() {
+    const url =
+        "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
+        "/gviz/tq?tqx=out:json&tq&gid=" + GID_CLASSEMENT;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.text();
+        const json = JSON.parse(data.substring(47).slice(0, -2));
+        rendreClassement(json);
+    } catch (error) {
+        console.error("Erreur lors du chargement du classement :", error);
+    }
+}
+
+function cellule(cell) {
+    if (!cell) return "";
+    return String(cell.f ?? cell.v ?? "");
+}
+
+function rendreClassement(json) {
+    const colonnes = json.table.cols.map(c => (c.label || "").trim()).filter(Boolean);
+    const lignes = (json.table.rows || []).map(r => (r.c || []).map(cellule));
+
+    /* Titres de colonnes */
+    const head = document.getElementById("clHead");
+    head.innerHTML = "<div>#</div>" +
+        colonnes.map(c => "<div>" + escapeHtml(c) + "</div>").join("");
+
+    const rows = document.getElementById("clRows");
+    rows.innerHTML = "";
+
+    if (!lignes.length) {
+        rows.innerHTML = "<div class='vide-msg'>Classement indisponible</div>";
+        return;
+    }
+
+    lignes.forEach((cells, i) => {
+        const ligne = document.createElement("div");
+        ligne.className = "cl-row";
+        ligne.style.setProperty("--d", (0.1 + i * 0.08).toFixed(2) + "s");
+
+        /* Accent : jaune pour MVBC, dégradé du classement sinon */
+        const nomEquipe = cells[1] || "";
+        if (normaliser(nomEquipe).includes("mvbc")) {
+            ligne.classList.add("mvbc");
+        } else {
+            /* du rouge (1er) vers le bleu (dernier) */
+            const t = lignes.length > 1 ? i / (lignes.length - 1) : 0;
+            const rouge = [237, 23, 76];
+            const bleu = [23, 105, 255];
+            const mix = rouge.map((v, k) => Math.round(v + (bleu[k] - v) * t));
+            ligne.style.setProperty("--accent", "rgb(" + mix.join(",") + ")");
+        }
+
+        let html = "<div class='rang'>" + (i + 1) + "</div>";
+        cells.forEach((v, k) => {
+            html += k === 1
+                ? "<div class='equipe'>" + escapeHtml(v) + "</div>"
+                : "<div class='cell'>" + escapeHtml(v) + "</div>";
+        });
+        ligne.innerHTML = html;
+        rows.appendChild(ligne);
+
+        /* Nom sur une seule ligne : réduction auto de la police */
+        const eq = ligne.querySelector(".equipe");
+        let taille = parseFloat(getComputedStyle(eq).fontSize);
+        let securite = 20;
+        while (securite-- > 0 && eq.scrollWidth > eq.clientWidth + 1 && taille > 12) {
+            taille -= 1;
+            eq.style.fontSize = taille + "px";
+        }
+    });
+}
+
+chargerClassement();
+setInterval(chargerClassement, REFRESH_MS);
 
 /* =====================================================
-   CHARGEMENT DES TABLEAUX
-===================================================== */
+   LOGOS PARTENAIRES (GitHub — même source que poule.html)
+   ===================================================== */
+const GITHUB_LOGO_API = "https://api.github.com/repos/mvbc85600/DIFFUSION/contents/logo";
+const GITHUB_LOGO_RAW = "https://raw.githubusercontent.com/mvbc85600/DIFFUSION/main/logo/";
 
-
-/* PROGRAMME */
-
-fetchSheetData(
-  '1902966512',
-  'json1',
-  {
-    skipHeader: true,
-    highlightFirstRow: true
-  }
-);
-
-
-/* CLASSEMENT */
-
-fetchSheetData(
-  '1966074571',
-  'json2',
-  {
-    extraClass: 'table2',
-    fixedColumns: 8
-  }
-);
-
-
-/* =====================================================
-   CARROUSEL DES LOGOS PARTENAIRES
-===================================================== */
-
-window.onload =
-  function() {
-
-
-    /* ===============================================
-       LISTE DES LOGOS PARTENAIRES
-    =============================================== */
-
-    const partnerLogos = [
-
-     
-
-      "logo/CD VENDEE.png",
-      "logo/MV.png",
-      "logo/TDM.png",
-      "logo/GO IMPRESSION.png",
-      "logo/SUPER U.png",
-      "logo/NATURACARE.png",
-    
-      "logo/ARRIVE.png",
-
-
-    ];
-
-
-    /* ===============================================
-       RÉCUPÉRATION DU CARROUSEL
-    =============================================== */
-
-    const carousel =
-      document.getElementById(
-        'partnersCarousel'
-      );
-
-
-    const total =
-      partnerLogos.length;
-
-
-    if (total === 0) {
-
-      return;
-
+async function chargerLogosPartenaires() {
+    try {
+        const response = await fetch(GITHUB_LOGO_API, {
+            headers: { "Accept": "application/vnd.github+json" },
+            cache: "no-store"
+        });
+        if (!response.ok) throw new Error("GitHub a répondu " + response.status);
+        const fichiers = await response.json();
+        const scroll = document.getElementById("partnersScroll");
+        scroll.innerHTML = "";
+        const logos = fichiers
+            .filter(f => f.type === "file" && /\.(png|jpe?g|webp|gif|svg)$/i.test(f.name))
+            .map(f => GITHUB_LOGO_RAW + encodeURIComponent(f.name));
+        [...logos, ...logos].forEach(src => {
+            const img = document.createElement("img");
+            img.src = src;
+            img.alt = "Partenaire";
+            img.onerror = function () { this.style.display = "none"; };
+            scroll.appendChild(img);
+        });
+    } catch (error) {
+        console.error("Erreur chargement logos partenaires :", error);
     }
-
-
-    /* ===============================================
-       INDEX
-    =============================================== */
-
-    let index =
-      0;
-
-
-    /* ===============================================
-       COULEURS
-    =============================================== */
-
-    const colors = [
-
-      "color-yellow",
-
-      "color-red",
-
-      "color-blue"
-
-    ];
-
-
-    function getColor(
-      partnerIndex
-    ) {
-
-      return colors[
-        partnerIndex %
-        colors.length
-      ];
-
-    }
-
-
-    /* ===============================================
-       MISE À JOUR DU CARROUSEL
-    =============================================== */
-
-    function updateCarousel() {
-
-
-      /* -------------------------------------------
-         POSITIONS
-      ------------------------------------------- */
-
-      const center =
-        index % total;
-
-
-      const left1 =
-        (index - 1 + total) %
-        total;
-
-
-      const left2 =
-        (index - 2 + total) %
-        total;
-
-
-      const right1 =
-        (index + 1) %
-        total;
-
-
-      const right2 =
-        (index + 2) %
-        total;
-
-
-      /* -------------------------------------------
-         MASQUER TOUS LES LOGOS
-      ------------------------------------------- */
-
-      const images =
-        carousel.querySelectorAll(
-          'img'
-        );
-
-
-      images.forEach(
-        img => {
-
-          img.className =
-            'hidden';
-
-        }
-      );
-
-
-      /* -------------------------------------------
-         LOGO CENTRAL
-      ------------------------------------------- */
-
-      const centerImg =
-        carousel.querySelector(
-          `img:nth-child(${center + 1})`
-        );
-
-
-      if (centerImg) {
-
-        centerImg.className =
-          `center ${getColor(center)}`;
-
-      }
-
-
-      /* -------------------------------------------
-         LOGO GAUCHE 1
-      ------------------------------------------- */
-
-      const left1Img =
-        carousel.querySelector(
-          `img:nth-child(${left1 + 1})`
-        );
-
-
-      if (left1Img) {
-
-        left1Img.className =
-          `left1 ${getColor(left1)}`;
-
-      }
-
-
- 
-      /* -------------------------------------------
-         LOGO DROITE 1
-      ------------------------------------------- */
-
-      const right1Img =
-        carousel.querySelector(
-          `img:nth-child(${right1 + 1})`
-        );
-
-
-      if (right1Img) {
-
-        right1Img.className =
-          `right1 ${getColor(right1)}`;
-
-      }
-
-
-   
-
-
-      /* ===========================================
-         BARRE LUMINEUSE
-      =========================================== */
-
-      const lightLine =
-        document.querySelector(
-          '.light-line'
-        );
-
-
-      if (lightLine) {
-
-        const currentColor =
-          getColor(index);
-
-
-        if (
-          currentColor ===
-          "color-yellow"
-        ) {
-
-          lightLine.style.background =
-            "#ffcc00";
-
-
-          lightLine.style.boxShadow =
-            "0 0 8px #ffcc00, 0 0 20px #ffcc00, 0 0 40px rgba(255, 204, 0, 0.5)";
-
-        }
-
-
-        else if (
-          currentColor ===
-          "color-red"
-        ) {
-
-          lightLine.style.background =
-            "#ff2020";
-
-
-          lightLine.style.boxShadow =
-            "0 0 8px #ff2020, 0 0 20px #ff2020, 0 0 40px rgba(255, 32, 32, 0.5)";
-
-        }
-
-
-        else {
-
-          lightLine.style.background =
-            "#168cff";
-
-
-          lightLine.style.boxShadow =
-            "0 0 8px #168cff, 0 0 20px #168cff, 0 0 40px rgba(22, 140, 255, 0.5)";
-
-        }
-
-      }
-
-
-      /* ===========================================
-         SAUVEGARDE INDEX
-      =========================================== */
-
-      localStorage.setItem(
-        "partenaireIndex",
-        index
-      );
-
-    }
-
-
-    /* ===============================================
-       CHARGEMENT DES IMAGES
-    =============================================== */
-
-    partnerLogos.forEach(
-      (logo, i) => {
-
-        const img =
-          document.createElement(
-            'img'
-          );
-
-
-        img.src =
-          logo;
-
-
-        img.alt =
-          `Partenaire ${i + 1}`;
-
-
-        img.className =
-          'hidden';
-
-
-        carousel.appendChild(
-          img
-        );
-
-      }
-    );
-
-
-    /* ===============================================
-       RÉCUPÉRATION INDEX SAUVEGARDÉ
-    =============================================== */
-
-    const savedIndex =
-      localStorage.getItem(
-        "partenaireIndex"
-      );
-
-
-    if (
-      savedIndex !== null &&
-      !isNaN(
-        parseInt(savedIndex)
-      )
-    ) {
-
-      index =
-        parseInt(savedIndex) %
-        total;
-
-    }
-
-    else {
-
-      index =
-        0;
-
-    }
-
-
-    /* ===============================================
-       INITIALISATION
-    =============================================== */
-
-    updateCarousel();
-
-
-    /* ===============================================
-       ROTATION AUTOMATIQUE
-       2,5 secondes
-    =============================================== */
-
-    setInterval(
-      () => {
-
-        index =
-          (index + 1) %
-          total;
-
-
-        updateCarousel();
-
-      },
-      2500
-    );
-
-  };
-
+}
+chargerLogosPartenaires();
 </script>
 
-</div>
-
 </body>
-
 </html>
