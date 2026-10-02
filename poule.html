@@ -183,14 +183,14 @@ body::after {
     font-family: "Barlow Condensed", sans-serif;
     font-weight: 900;
     font-size: clamp(20px, 2.4vw, 40px);
-    line-height: 1;
+    line-height: 1.05;
     text-transform: uppercase;
     text-shadow:
         0 0 18px var(--halo, rgba(255,255,255,.25)),
         3px 3px 0 rgba(0,0,0,.8);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
 }
 
 /* Score */
