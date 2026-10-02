@@ -89,41 +89,18 @@ body::after {
         19px 19px 0 rgba(23,105,255,.4);
 }
 
-.champ {
-    margin: 0 0 clamp(18px, 3vh, 40px);
-    text-align: center;
-    font-size: clamp(10px, 1.2vw, 16px);
-    font-weight: 800;
-    letter-spacing: .32em;
-    text-indent: .32em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,.55);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
 /* =====================================================
    TABLEAU CLASSEMENT
    ===================================================== */
-.classement-wrap {
-    flex: 1 1 auto;
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
-    gap: clamp(6px, 1vh, 12px);
-}
-
-/* Ligne d'en-tête (colonnes du Google Sheet) */
 .cl-head, .cl-row {
     display: grid;
-    grid-template-columns: 6% 1fr repeat(auto-fit, minmax(56px, 7%));
+    grid-template-columns: var(--cols, 6% 1fr 8% 8% 8% 8% 9% 9%);
     align-items: center;
     gap: clamp(8px, 1vw, 18px);
-    padding: clamp(8px, 1.2vh, 16px) clamp(12px, 1.6vw, 26px);
 }
 
 .cl-head {
+    padding: 0 clamp(12px, 1.6vw, 26px);
     font-size: clamp(9px, 1vw, 13px);
     font-weight: 800;
     letter-spacing: .12em;
@@ -138,13 +115,16 @@ body::after {
     text-overflow: ellipsis;
 }
 
+.cl-head > div:first-child,
 .cl-head > div:nth-child(2) {
     text-align: left;
 }
 
-/* Carte ligne d'équipe */
+/* Carte ligne d'équipe — hauteur liée à la police (unités em) */
 .cl-row {
     position: relative;
+    font-size: clamp(20px, 2.6vh, 34px);
+    padding: .32em clamp(12px, 1.6vw, 26px);
     background: rgba(8,9,12,.74);
     border: 1px solid rgba(255,255,255,.08);
     border-radius: 18px;
@@ -154,8 +134,6 @@ body::after {
     overflow: hidden;
     animation: popIn .55s cubic-bezier(.16,.9,.25,1) both;
     animation-delay: var(--d, 0s);
-    flex: 1 1 0;
-    min-height: 0;
 }
 
 /* Barre latérale selon la position */
@@ -164,24 +142,42 @@ body::after {
     position: absolute;
     inset: 0 auto 0 0;
     width: 6px;
-    background: var(--accent, rgba(255,255,255,.2));
+    background: rgba(255,255,255,.14);
+}
+
+.cl-row .logo {
+    flex: 0 0 auto;
+    width: 1.15em;
+    height: 1.15em;
+    object-fit: contain;
+    filter: drop-shadow(0 0 10px var(--halo, rgba(255,255,255,.35)));
 }
 
 .cl-row .rang {
     text-align: center;
     font-family: "Barlow Condensed", sans-serif;
     font-weight: 900;
-    font-size: clamp(22px, 2.8vw, 46px);
+    font-size: 1.1em;
     line-height: 1;
     color: rgba(255,255,255,.55);
     text-shadow: 2px 2px 0 rgba(0,0,0,.7);
 }
 
+.cl-row .equipe-nom {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
 .cl-row .equipe {
+    display: flex;
+    align-items: center;
+    gap: .3em;
     font-family: "Barlow Condensed", sans-serif;
     font-weight: 900;
-    font-size: clamp(18px, 2.3vw, 40px);
-    line-height: 1;
+    font-size: 1em;
+    line-height: 1.05;
     text-transform: uppercase;
     text-shadow:
         0 0 18px var(--halo, rgba(255,255,255,.25)),
@@ -194,22 +190,32 @@ body::after {
     text-align: center;
     font-family: "Barlow Condensed", sans-serif;
     font-weight: 800;
-    font-size: clamp(16px, 2vw, 32px);
-    line-height: 1;
+    font-size: .85em;
+    line-height: 1.05;
     color: rgba(255,255,255,.85);
     text-shadow: 2px 2px 0 rgba(0,0,0,.6);
 }
 
-/* Équipe MVBC : pastille jaune broadcast */
+/* Cellule "points" : pastille jaune broadcast */
+.cl-row .cell.pts {
+    color: var(--black);
+    background: rgba(255,212,0,.9);
+    text-shadow: none;
+    border-radius: .3em;
+    padding: .12em 0;
+    box-shadow: 0 0 18px rgba(255,212,0,.3);
+}
+
+/* Équipe MVBC : ligne dorée */
 .cl-row.mvbc {
-    background: linear-gradient(90deg, rgba(255,212,0,.16), rgba(8,9,12,.74) 55%);
+    background: linear-gradient(90deg, rgba(255,212,0,.18), rgba(8,9,12,.74) 55%);
     border-color: rgba(255,212,0,.55);
     --accent: var(--yellow);
     --halo: rgba(255,212,0,.55);
 }
 
-.cl-row.mvbc .equipe {
-    color: #fff;
+.cl-row.mvbc .rang {
+    color: var(--yellow);
 }
 
 /* Zone scrollable si beaucoup d'équipes */
@@ -249,6 +255,7 @@ body::after {
 .partners-bar {
     position: relative;
     z-index: 12;
+    flex: 0 0 auto;
     width: 100%;
     height: clamp(100px, 13vh, 150px);
     margin-top: clamp(20px, 3vh, 40px);
@@ -306,12 +313,9 @@ body::after {
 
 <div class="layout">
     <h1 class="title">Classement</h1>
-    <div class="champ" id="champClassement">&nbsp;</div>
 
-    <div class="classement-wrap">
-        <div class="cl-head" id="clHead"></div>
-        <div class="classement-scroll" id="clRows"></div>
-    </div>
+    <div class="cl-head" id="clHead" style="display:none"></div>
+    <div class="classement-scroll" id="clRows"></div>
 
     <!-- Défilement des logos partenaires -->
     <div class="partners-bar" id="partnersBar">
@@ -319,7 +323,23 @@ body::after {
     </div>
 </div>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+    authDomain: "diffusion-b9afa.firebaseapp.com",
+    databaseURL: "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "diffusion-b9afa",
+    storageBucket: "diffusion-b9afa.firebasestorage.app",
+    messagingSenderId: "674799570797",
+    appId: "1:674799570797:web:0d8b7a2a892f604eb7d464"
+};
+
+const appFirebase = initializeApp(firebaseConfig);
+const db = getDatabase(appFirebase);
+
 /* =====================================================
    SOURCE : GOOGLE SHEET (même feuille que l'ancienne page)
    ===================================================== */
@@ -341,73 +361,179 @@ function normaliser(nom) {
         .replace(/[^a-z0-9]/g, "");
 }
 
+/* =====================================================
+   LOGOS DES CLUBS — depuis la base Firebase (admin.html)
+   Le nœud "poule" contient les matchs avec eq1/logo1, eq2/logo2 :
+   on en déduit automatiquement nom d'équipe -> logo.
+   ===================================================== */
+const LOGOS_FALLBACK = {
+    "mvbc": "logos/mvbc.png",
+    "nantesbh": "logos/nantesbh.png",
+    "bbmarmande": "logos/bbm.png",
+    "dax": "logos/dax.png",
+    "adourdax": "logos/dax.png",
+    "esms": "logos/esms.png",
+    "esms40": "logos/esms.png",
+    "garonne": "logos/garonne.png",
+    "niort": "logos/niort.png",
+    "reze": "logos/reze.png",
+    "brissac": "logos/brissac.png",
+    "toulouse": "logos/toulouse.png",
+    "pornic": "logos/pornic.png",
+    "challans": "logos/challans.png",
+    "stmedard": "logos/st medard.png",
+    "horsarrieu": "logos/asch.png",
+    "asch": "logos/asch.png"
+};
+
+let logosClubs = {};       /* nom normalisé -> URL du logo */
+let dernierRenduLogos = "";
+
+function majLogosDepuisFirebase(data) {
+    const data_ = data || {};
+    const matchs = Array.isArray(data_.matchs) ? data_.matchs : [];
+    const map = {};
+    matchs.forEach(m => {
+        m = m || {};
+        if (m.eq1 && m.logo1) map[normaliser(m.eq1)] = m.logo1;
+        if (m.eq2 && m.logo2) map[normaliser(m.eq2)] = m.logo2;
+    });
+    const signature = JSON.stringify(map);
+    if (signature === dernierRenduLogos) return;
+    logosClubs = map;
+    dernierRenduLogos = signature;
+    console.log("Logos clubs mis à jour depuis Firebase :", Object.keys(map).length);
+}
+
+function logoPourEquipe(nom) {
+    const n = normaliser(nom);
+    if (!n) return null;
+    /* correspondance exacte, puis partielle (ex : "reze44" -> "reze") */
+    if (logosClubs[n]) return logosClubs[n];
+    for (const cle in logosClubs) {
+        if (n.startsWith(cle) || cle.startsWith(n)) return logosClubs[cle];
+    }
+    if (LOGOS_FALLBACK[n]) return LOGOS_FALLBACK[n];
+    for (const cle in LOGOS_FALLBACK) {
+        if (n.startsWith(cle) || cle.startsWith(n)) return LOGOS_FALLBACK[cle];
+    }
+    return null;
+}
+
+/* Écoute en temps réel du nœud "poule" (même source que poule.html) */
+onValue(ref(db, "poule"), (snapshot) => {
+    majLogosDepuisFirebase(snapshot.val());
+    /* si des logos arrivent alors que le classement est déjà affiché, on relance le rendu */
+    if (document.getElementById("clRows").children.length) chargerClassement();
+});
+
+/* Parse un CSV complet (avec guillemets) en tableau de tableaux */
+function parseCsv(texte) {
+    const lignes = [];
+    let ligne = [], cellule = "", dansGuillemets = false;
+    for (let i = 0; i < texte.length; i++) {
+        const c = texte[i];
+        if (dansGuillemets) {
+            if (c === '"') {
+                if (texte[i + 1] === '"') { cellule += '"'; i++; }
+                else dansGuillemets = false;
+            } else cellule += c;
+        } else if (c === '"') {
+            dansGuillemets = true;
+        } else if (c === ",") {
+            ligne.push(cellule); cellule = "";
+        } else if (c === "\n") {
+            ligne.push(cellule); lignes.push(ligne);
+            ligne = []; cellule = "";
+        } else if (c !== "\r") {
+            cellule += c;
+        }
+    }
+    if (cellule !== "" || ligne.length) { ligne.push(cellule); lignes.push(ligne); }
+    return lignes;
+}
+
 async function chargerClassement() {
+    /* export CSV : plus fiable que le gviz JSON pour cette feuille */
     const url =
         "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
-        "/gviz/tq?tqx=out:json&tq&gid=" + GID_CLASSEMENT;
+        "/export?format=csv&gid=" + GID_CLASSEMENT +
+        "&cache=" + Date.now(); /* évite le cache navigateur */
 
     try {
         const response = await fetch(url);
-        const data = await response.text();
-        const json = JSON.parse(data.substring(47).slice(0, -2));
-        rendreClassement(json);
+        if (!response.ok) throw new Error("HTTP " + response.status);
+        const texte = await response.text();
+        const lignes = parseCsv(texte).filter(l => l.some(c => c.trim() !== ""));
+        if (lignes.length < 2) throw new Error("Feuille vide");
+        rendreClassement(lignes[0], lignes.slice(1));
     } catch (error) {
-        console.error("Erreur lors du chargement du classement :", error);
+        console.error("Erreur chargement classement :", error);
     }
 }
 
-function cellule(cell) {
-    if (!cell) return "";
-    return String(cell.f ?? cell.v ?? "");
-}
-
-function rendreClassement(json) {
-    const colonnes = json.table.cols.map(c => (c.label || "").trim()).filter(Boolean);
-    const lignes = (json.table.rows || []).map(r => (r.c || []).map(cellule));
-
-    /* Titres de colonnes */
+function rendreClassement(entetes, donnees) {
     const head = document.getElementById("clHead");
-    head.innerHTML = "<div>#</div>" +
-        colonnes.map(c => "<div>" + escapeHtml(c) + "</div>").join("");
+
+    /* La 1re colonne de la feuille contient le rang (1, 2, 3…) :
+       les lignes affichent [rang, équipe, Pts, J, G, P, p., c.]. */
+    const premiereColNum = donnees.length > 0 && /^\d+$/.test((donnees[0][0] || "").trim());
+
+    /* Colonnes affichées, identiques pour l'en-tête et les lignes */
+    const colsTemplate =
+        "5% minmax(120px, 1fr) repeat(" + Math.max(entetes.length - 2, 1) + ", minmax(52px, 1fr))";
+
+    head.style.display = "";
+    head.style.setProperty("--cols", colsTemplate);
+    head.innerHTML =
+        "<div>" + escapeHtml(entetes[0] || "Classement") + "</div>" +
+        "<div>Équipe</div>" +
+        entetes.slice(2).map(h => "<div>" + escapeHtml(h) + "</div>").join("");
 
     const rows = document.getElementById("clRows");
     rows.innerHTML = "";
 
-    if (!lignes.length) {
-        rows.innerHTML = "<div class='vide-msg'>Classement indisponible</div>";
-        return;
-    }
+    donnees.forEach((cells, i) => {
+        /* Ignore la ligne d'en-tête si la feuille la répète */
+        if (!premiereColNum && i === 0 && isNaN(parseInt(cells[0], 10))) return;
 
-    lignes.forEach((cells, i) => {
         const ligne = document.createElement("div");
         ligne.className = "cl-row";
-        ligne.style.setProperty("--d", (0.1 + i * 0.08).toFixed(2) + "s");
+        ligne.style.setProperty("--d", (0.1 + i * 0.06).toFixed(2) + "s");
+        ligne.style.setProperty("--cols", colsTemplate);
 
-        /* Accent : jaune pour MVBC, dégradé du classement sinon */
-        const nomEquipe = cells[1] || "";
+        const nomEquipe = (cells[1] || "").trim();
+
+        /* Seul le MVBC est mis en avant (jaune broadcast) */
         if (normaliser(nomEquipe).includes("mvbc")) {
             ligne.classList.add("mvbc");
-        } else {
-            /* du rouge (1er) vers le bleu (dernier) */
-            const t = lignes.length > 1 ? i / (lignes.length - 1) : 0;
-            const rouge = [237, 23, 76];
-            const bleu = [23, 105, 255];
-            const mix = rouge.map((v, k) => Math.round(v + (bleu[k] - v) * t));
-            ligne.style.setProperty("--accent", "rgb(" + mix.join(",") + ")");
         }
 
-        let html = "<div class='rang'>" + (i + 1) + "</div>";
+        let html = premiereColNum
+            ? "<div class='rang'>" + escapeHtml(cells[0]) + "</div>"
+            : "<div class='rang'>" + (i + 1) + "</div>";
+
         cells.forEach((v, k) => {
-            html += k === 1
-                ? "<div class='equipe'>" + escapeHtml(v) + "</div>"
-                : "<div class='cell'>" + escapeHtml(v) + "</div>";
+            if (premiereColNum && k === 0) return; /* rang déjà affiché */
+            if (k === 1) {
+                const logo = logoPourEquipe(nomEquipe);
+                html += "<div class='equipe'>" +
+                    (logo ? "<img class='logo' src='" + escapeHtml(logo) + "' alt='' onerror='this.style.display=\"none\"'>" : "") +
+                    "<span class='equipe-nom'>" + escapeHtml(nomEquipe) + "</span>" +
+                    "</div>";
+            } else {
+                /* 3e colonne = points → pastille jaune */
+                const cls = k === 2 ? "cell pts" : "cell";
+                html += "<div class='" + cls + "'>" + escapeHtml(v) + "</div>";
+            }
         });
         ligne.innerHTML = html;
         rows.appendChild(ligne);
 
         /* Nom sur une seule ligne : réduction auto de la police */
-        const eq = ligne.querySelector(".equipe");
-        let taille = parseFloat(getComputedStyle(eq).fontSize);
+        const eq = ligne.querySelector(".equipe-nom");
+        let taille = parseFloat(getComputedStyle(eq.parentElement).fontSize);
+        eq.style.fontSize = taille + "px";
         let securite = 20;
         while (securite-- > 0 && eq.scrollWidth > eq.clientWidth + 1 && taille > 12) {
             taille -= 1;
