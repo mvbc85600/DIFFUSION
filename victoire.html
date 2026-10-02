@@ -195,6 +195,8 @@ body {
 /* =====================================================
    RESULTAT FINAL + PARTENAIRE
    Les données sont chargées depuis Firebase (admin.html)
+   Le bloc reste affiché en continu (une seule entrée,
+   jamais de disparition), même si VICTOIRE rejoue en boucle.
    ===================================================== */
 .result-info {
     position: absolute;
@@ -247,12 +249,13 @@ body {
     text-align: center;
 }
 
-.stage.play .result-info {
-    animation: resultImpact 2.5s cubic-bezier(.16,.9,.25,1) forwards;
+/* Apparition UNE SEULE FOIS, puis affichage permanent */
+.stage.result-in .result-info {
+    animation: resultImpact 1.2s cubic-bezier(.16,.9,.25,1) forwards;
 }
 
 @keyframes resultImpact {
-    0%, 42% {
+    0% {
         opacity: 0;
         transform: translate(-50%, 24px) scale(.92);
     }
@@ -260,16 +263,12 @@ body {
         opacity: 1;
         transform: translate(-50%, 0) scale(1.04);
     }
-    68% {
+    72% {
         transform: translate(-50%, 0) scale(1);
     }
-    88% {
-        opacity: 1;
-        transform: translate(-50%, -3px) scale(1);
-    }
     100% {
-        opacity: 0;
-        transform: translate(-50%, -12px) scale(1.03);
+        opacity: 1;
+        transform: translate(-50%, 0) scale(1);
     }
 }
 
@@ -647,6 +646,10 @@ function playThree() {
 
 setTimeout(playThree, 500);
 setInterval(playThree, 2500);
+
+/* Apparition UNE SEULE FOIS du bloc résultat + partenaire,
+   puis affichage permanent (jamais retiré par la boucle) */
+stage.classList.add("result-in");
 </script>
 
 </body>
