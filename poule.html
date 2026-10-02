@@ -180,6 +180,7 @@ body::after {
 .row .nom {
     flex: 1 1 auto;
     min-width: 0;
+    overflow: hidden;
     font-family: "Barlow Condensed", sans-serif;
     font-weight: 900;
     font-size: clamp(18px, 2.4vw, 40px);
@@ -189,7 +190,6 @@ body::after {
         0 0 18px var(--halo, rgba(255,255,255,.25)),
         3px 3px 0 rgba(0,0,0,.8);
     white-space: nowrap;
-    overflow: visible;
 }
 
 /* Score */
@@ -464,12 +464,15 @@ function rendre(data) {
 
         grid.appendChild(card);
 
-        /* Nom sur une seule ligne : réduit la police si le nom est trop long */
+        /*
+         * Nom sur une seule ligne, sans chevauchement :
+         * le nom est large au maximum que le flex autorise,
+         * on réduit la police tant que le texte dépasse cette largeur.
+         */
         card.querySelectorAll(".nom").forEach(nom => {
-            nom.style.fontSize = "";
             let taille = parseFloat(getComputedStyle(nom).fontSize);
-            const max = card.offsetWidth - (card.querySelector(".pts")?.offsetWidth || 0) - (nom.previousElementSibling?.offsetWidth || 0) - 60;
-            while (taille > 12 && nom.scrollWidth > max) {
+            let securite = 12; /* évite une boucle infinie */
+            while (securite-- > 0 && nom.scrollWidth > nom.clientWidth + 1 && taille > 12) {
                 taille -= 1;
                 nom.style.fontSize = taille + "px";
             }
