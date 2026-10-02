@@ -182,15 +182,14 @@ body::after {
     min-width: 0;
     font-family: "Barlow Condensed", sans-serif;
     font-weight: 900;
-    font-size: clamp(20px, 2.4vw, 40px);
-    line-height: 1.05;
+    font-size: clamp(18px, 2.4vw, 40px);
+    line-height: 1;
     text-transform: uppercase;
     text-shadow:
         0 0 18px var(--halo, rgba(255,255,255,.25)),
         3px 3px 0 rgba(0,0,0,.8);
-    white-space: normal;
-    word-break: break-word;
-    overflow-wrap: anywhere;
+    white-space: nowrap;
+    overflow: visible;
 }
 
 /* Score */
@@ -400,6 +399,20 @@ function lireNombre(v) {
     return Number.isNaN(n) ? null : n;
 }
 
+/*
+ * Statut personnalisé (ex : "33'", "45'", "temps mort") :
+ * un temps de jeu est affiché en rouge clignotant comme "en cours".
+ */
+function statutLibre(raw) {
+    const s = raw.toUpperCase();
+    if (/\d/.test(s) || /EN\s+COURS|LIVE|QT/i.test(s)) {
+        return { label: raw, couleur: "#ed174c", live: true };
+    }
+    if (/FIN/i.test(s)) return { label: raw, couleur: "#22c55e", live: false };
+    if (/MI[\s-]?TEMPS|PAUSE/i.test(s)) return { label: raw, couleur: "#ff6500", live: false };
+    return { label: raw, couleur: "#9aa0a6", live: false };
+}
+
 function rendre(data) {
     data = data || {};
     const matchs = Array.isArray(data.matchs) ? data.matchs : [];
@@ -424,7 +437,9 @@ function rendre(data) {
         const eq2 = (m.eq2 || "ÉQUIPE 2").toUpperCase();
         const sc1 = lireNombre(m.score1);
         const sc2 = lireNombre(m.score2);
-        const statut = STATUTS[(m.statut || "NC").toUpperCase()] || STATUTS["NC"];
+        const statutRaw = (m.statut || "NC").toUpperCase();
+        const statutConnu = STATUTS[statutRaw];
+        const statut = statutConnu || statutLibre(statutRaw);
 
         const card = document.createElement("div");
         card.className = "match";
@@ -448,6 +463,17 @@ function rendre(data) {
             rowEq(eq2, m.logo2, COULEURS_HALO[m.haloCouleur2] || "rgba(255,255,255,.3)", sc2, sc2 !== null && s2 > s1);
 
         grid.appendChild(card);
+
+        /* Nom sur une seule ligne : réduit la police si le nom est trop long */
+        card.querySelectorAll(".nom").forEach(nom => {
+            nom.style.fontSize = "";
+            let taille = parseFloat(getComputedStyle(nom).fontSize);
+            const max = card.offsetWidth - (card.querySelector(".pts")?.offsetWidth || 0) - (nom.previousElementSibling?.offsetWidth || 0) - 60;
+            while (taille > 12 && nom.scrollWidth > max) {
+                taille -= 1;
+                nom.style.fontSize = taille + "px";
+            }
+        });
     });
 }
 
