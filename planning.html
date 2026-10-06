@@ -690,12 +690,12 @@ if(dbg){ dbg.textContent = "Initialisation du planning…"; }
    ========================================================= */
 
 var WEEKENDS = [
-  {date:"2026-09-06", label:"05-06 SEPT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=106022065&single=true&output=csv"},
-  {date:"2026-09-13", label:"12-13 SEPT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1368501394&single=true&output=csv"},
-  {date:"2026-09-20", label:"19-20 SEPT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1899274121&single=true&output=csv"},
-  {date:"2026-09-27", label:"26-27 SEPT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1129362905&single=true&output=csv"},
-  {date:"2026-10-04", label:"03-04 OCT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1244177219&single=true&output=csv"},
-  {date:"2026-10-11", label:"10-11 OCT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=245799123&single=true&output=csv"},
+  {date:"2026-09-06", label:"05-06 SEPT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/gviz/tq?tqx=106022065&single=true&output=csv"},
+  {date:"2026-09-13", label:"12-13 SEPT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/gviz/tq?tqx=1368501394&single=true&output=csv"},
+  {date:"2026-09-20", label:"19-20 SEPT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/gviz/tq?tqx=1899274121&single=true&output=csv"},
+  {date:"2026-09-27", label:"26-27 SEPT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/gviz/tq?tqx=1129362905&single=true&output=csv"},
+  {date:"2026-10-04", label:"03-04 OCT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/gviz/tq?tqx=1244177219&single=true&output=csv"},
+  {date:"2026-10-11", label:"10-11 OCT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/gviz/tq?tqx=245799123&single=true&output=csv"},
   {date:"2026-10-18", label:"17-18 OCT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=806798203&single=true&output=csv"},
   {date:"2026-10-25", label:"24-25 OCT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=324712518&single=true&output=csv"},
   {date:"2026-11-01", label:"31 OCT - 01 NOV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=324712518&single=true&output=csv"},
