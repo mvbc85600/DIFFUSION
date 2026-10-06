@@ -1,6 +1,13 @@
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#111111">
-<title></title>
-<style type="text/css">:root{
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111111">
+<title>Week-ends MVBC85</title>
+
+<style>
+:root{
   --black:#111;
   --white:#fff;
   --bg:#f3f4f6;
@@ -507,107 +514,81 @@ table{
   .detail-nav-bottom{padding:0 12px}
 }
 </style>
+</head>
+
+<body>
+
 <header class="page-header">
-<div class="header-inner"><button class="header-home" id="homeButton" type="button">Accueil</button></div>
+  <div class="header-inner">
+    <button class="header-home" id="homeButton" type="button">Accueil</button>
+  </div>
 </header>
 
-<main><!-- ============================================================
+<main>
+
+<!-- ============================================================
      VUE 1 : LISTE DES WEEK-ENDS
      ============================================================ -->
-<section id="weekends-list-view"><!-- ============================================================
+
+<section id="weekends-list-view">
+  <!-- ============================================================
        GRILLE DES WEEK-ENDS EN HTML STATIQUE
        (pas besoin de JS pour l'affichage des cartes)
        Un petit script en bas de page ajoute uniquement les
        états "en cours" / "passé" selon la date du jour.
        ============================================================ -->
-<div class="weekend-grid" id="weekendGrid">
-<div class="weekend-section-title">Week-ends 2026-2027</div>
+  <div class="weekend-grid" id="weekendGrid">
 
-<div class="weekend" data-date="2026-09-06" role="button" tabindex="0"><span class="weekend-date">05-06 SEPT</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend-section-title">Week-ends 2026-2027</div>
 
-<div class="weekend" data-date="2026-09-13" role="button" tabindex="0"><span class="weekend-date">12-13 SEPT</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2026-09-06"><span class="weekend-date">05-06 SEPT</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2026-09-13"><span class="weekend-date">12-13 SEPT</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2026-09-20"><span class="weekend-date">19-20 SEPT</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2026-09-27"><span class="weekend-date">26-27 SEPT</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2026-10-04"><span class="weekend-date">03-04 OCT</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2026-10-11"><span class="weekend-date">10-11 OCT</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2026-10-18"><span class="weekend-date">17-18 OCT</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2026-10-25"><span class="weekend-date">24-25 OCT</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2026-11-01"><span class="weekend-date">31 OCT - 01 NOV</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2026-11-08"><span class="weekend-date">07-08 NOV</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2026-11-15"><span class="weekend-date">14-15 NOV</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2026-11-22"><span class="weekend-date">21-22 NOV</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2026-11-29"><span class="weekend-date">28-29 NOV</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2026-12-06"><span class="weekend-date">05-06 DEC</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2026-12-13"><span class="weekend-date">12-13 DEC</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2026-12-20"><span class="weekend-date">19-20 DEC</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2026-12-27"><span class="weekend-date">26-27 DEC</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-01-03"><span class="weekend-date">02-03 JANV</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-01-10"><span class="weekend-date">09-10 JANV</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-01-17"><span class="weekend-date">16-17 JANV</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-01-24"><span class="weekend-date">23-24 JANV</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-01-31"><span class="weekend-date">30-31 JANV</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-02-07"><span class="weekend-date">06-07 FEV</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-02-14"><span class="weekend-date">13-14 FEV</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-02-21"><span class="weekend-date">20-21 FEV</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-02-28"><span class="weekend-date">27-28 FEV</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-03-07"><span class="weekend-date">06-07 MARS</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-03-14"><span class="weekend-date">13-14 MARS</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-03-21"><span class="weekend-date">20-21 MARS</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-03-28"><span class="weekend-date">27-28 MARS</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-04-04"><span class="weekend-date">03-04 AVRIL</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-04-11"><span class="weekend-date">10-11 AVRIL</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-04-18"><span class="weekend-date">17-18 AVRIL</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-04-25"><span class="weekend-date">24-25 AVRIL</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-05-02"><span class="weekend-date">01-02 MAI</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-05-09"><span class="weekend-date">08-09 MAI</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-05-16"><span class="weekend-date">15-16 MAI</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-05-23"><span class="weekend-date">22-23 MAI</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-05-30"><span class="weekend-date">29-30 MAI</span><span class="weekend-status">Programme</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-06-06"><span class="weekend-date">05-06 JUIN</span><span class="weekend-status">À compléter</span></div>
+    <div class="weekend" role="button" tabindex="0" data-date="2027-06-13"><span class="weekend-date">12-13 JUIN</span><span class="weekend-status">À compléter</span></div>
 
-<div class="weekend" data-date="2026-09-20" role="button" tabindex="0"><span class="weekend-date">19-20 SEPT</span><span class="weekend-status">Programme</span></div>
+  </div>
 
-<div class="weekend" data-date="2026-09-27" role="button" tabindex="0"><span class="weekend-date">26-27 SEPT</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2026-10-04" role="button" tabindex="0"><span class="weekend-date">03-04 OCT</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2026-10-11" role="button" tabindex="0"><span class="weekend-date">10-11 OCT</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2026-10-18" role="button" tabindex="0"><span class="weekend-date">17-18 OCT</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2026-10-25" role="button" tabindex="0"><span class="weekend-date">24-25 OCT</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2026-11-01" role="button" tabindex="0"><span class="weekend-date">31 OCT - 01 NOV</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2026-11-08" role="button" tabindex="0"><span class="weekend-date">07-08 NOV</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2026-11-15" role="button" tabindex="0"><span class="weekend-date">14-15 NOV</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2026-11-22" role="button" tabindex="0"><span class="weekend-date">21-22 NOV</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2026-11-29" role="button" tabindex="0"><span class="weekend-date">28-29 NOV</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2026-12-06" role="button" tabindex="0"><span class="weekend-date">05-06 DEC</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2026-12-13" role="button" tabindex="0"><span class="weekend-date">12-13 DEC</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2026-12-20" role="button" tabindex="0"><span class="weekend-date">19-20 DEC</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2026-12-27" role="button" tabindex="0"><span class="weekend-date">26-27 DEC</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-01-03" role="button" tabindex="0"><span class="weekend-date">02-03 JANV</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-01-10" role="button" tabindex="0"><span class="weekend-date">09-10 JANV</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-01-17" role="button" tabindex="0"><span class="weekend-date">16-17 JANV</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-01-24" role="button" tabindex="0"><span class="weekend-date">23-24 JANV</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-01-31" role="button" tabindex="0"><span class="weekend-date">30-31 JANV</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-02-07" role="button" tabindex="0"><span class="weekend-date">06-07 FEV</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-02-14" role="button" tabindex="0"><span class="weekend-date">13-14 FEV</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-02-21" role="button" tabindex="0"><span class="weekend-date">20-21 FEV</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-02-28" role="button" tabindex="0"><span class="weekend-date">27-28 FEV</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-03-07" role="button" tabindex="0"><span class="weekend-date">06-07 MARS</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-03-14" role="button" tabindex="0"><span class="weekend-date">13-14 MARS</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-03-21" role="button" tabindex="0"><span class="weekend-date">20-21 MARS</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-03-28" role="button" tabindex="0"><span class="weekend-date">27-28 MARS</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-04-04" role="button" tabindex="0"><span class="weekend-date">03-04 AVRIL</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-04-11" role="button" tabindex="0"><span class="weekend-date">10-11 AVRIL</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-04-18" role="button" tabindex="0"><span class="weekend-date">17-18 AVRIL</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-04-25" role="button" tabindex="0"><span class="weekend-date">24-25 AVRIL</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-05-02" role="button" tabindex="0"><span class="weekend-date">01-02 MAI</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-05-09" role="button" tabindex="0"><span class="weekend-date">08-09 MAI</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-05-16" role="button" tabindex="0"><span class="weekend-date">15-16 MAI</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-05-23" role="button" tabindex="0"><span class="weekend-date">22-23 MAI</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-05-30" role="button" tabindex="0"><span class="weekend-date">29-30 MAI</span><span class="weekend-status">Programme</span></div>
-
-<div class="weekend" data-date="2027-06-06" role="button" tabindex="0"><span class="weekend-date">05-06 JUIN</span><span class="weekend-status">&Agrave; compl&eacute;ter</span></div>
-
-<div class="weekend" data-date="2027-06-13" role="button" tabindex="0"><span class="weekend-date">12-13 JUIN</span><span class="weekend-status">&Agrave; compl&eacute;ter</span></div>
-</div>
-<!-- Mini-script : marque uniquement le week-end courant et
+  <!-- Mini-script : marque uniquement le week-end courant et
        les passés selon la date du jour. Sans lui, toutes les
-       cartes restent affichées et cliquables (dégradé propre). --><script>
+       cartes restent affichées et cliquables (dégradé propre). -->
+  <script>
   (function(){
     var now = new Date();
     var today = now.getFullYear() + "-" +
@@ -629,52 +610,77 @@ table{
       }
     });
   })();
-  </script></section>
+  </script>
+</section>
+
 <!-- ============================================================
      VUE 2 : PROGRAMME D'UN WEEK-END
      ============================================================ -->
 
 <section id="permanences-widget-view">
-<div class="detail-top">
-<div class="detail-inner">
-<h2 class="detail-title" id="weekendTitle">Programme du week-end</h2>
+  <div class="detail-top">
+    <div class="detail-inner">
 
-<div class="detail-actions"><a class="action-button gradient" href="https://docs.google.com/document/d/1jgxM3f-L_64PbfwBGYyYE65gd_R4Px_6mrDB2MYtQ98/edit?tab=t.0" id="barInstructions" rel="noopener noreferrer" target="_blank">Consignes tenue du bar</a><button class="action-button secondary" id="detailHomeButton" type="button">&larr; Retour page week-ends</button>
+      <h2 class="detail-title" id="weekendTitle">Programme du week-end</h2>
 
-<div class="detail-nav"><button class="nav-button" id="prevButton" type="button">&larr; Pr&eacute;c&eacute;dent</button><button class="nav-button" id="nextButton" type="button">Suivant &rarr;</button></div>
-</div>
-</div>
-</div>
+      <div class="detail-actions">
+        <a class="action-button gradient" id="barInstructions"
+           href="https://docs.google.com/document/d/1jgxM3f-L_64PbfwBGYyYE65gd_R4Px_6mrDB2MYtQ98/edit?tab=t.0"
+           target="_blank" rel="noopener noreferrer">Consignes tenue du bar</a>
 
-<div id="permanences-widget"><!-- Carte résumé : X/Y matchs à domicile -->
-<div class="summary">
-<div class="summary-card"><strong id="summaryHome">&mdash;</strong> <span>matchs &agrave; domicile</span></div>
-</div>
+        <button class="action-button secondary" id="detailHomeButton" type="button">&larr; Retour page week-ends</button>
 
-<div class="search-box"><input autocomplete="off" class="search-input" id="searchInput" placeholder="Rechercher une équipe, un licencié, une salle, un horaire..." type="search" /> <span class="search-help">La recherche ignore les majuscules et les accents.</span></div>
+        <div class="detail-nav">
+          <button class="nav-button" id="prevButton" type="button">&larr; Pr&eacute;c&eacute;dent</button>
+          <button class="nav-button" id="nextButton" type="button">Suivant &rarr;</button>
+        </div>
+      </div>
 
-<div aria-live="polite" class="status loading" id="loadStatus">S&eacute;lectionnez un week-end.</div>
+    </div>
+  </div>
 
-<h3 class="section-title">Permanences du week-end</h3>
+  <div id="permanences-widget">
 
-<div class="table-scroll">
-<table class="permanences-table" id="permanencesTable">
-	<tbody id="permanencesContainer">
-	</tbody>
-</table>
-</div>
+    <!-- Carte résumé : X/Y matchs à domicile -->
+    <div class="summary">
+      <div class="summary-card">
+        <strong id="summaryHome">—</strong>
+        <span>matchs à domicile</span>
+      </div>
+    </div>
 
-<h3 class="section-title">Matchs du week-end</h3>
+    <div class="search-box">
+      <input class="search-input" id="searchInput" type="search" placeholder="Rechercher une équipe, un licencié, une salle, un horaire..." autocomplete="off">
+      <span class="search-help">La recherche ignore les majuscules et les accents.</span>
+    </div>
 
-<div class="table-scroll" id="matchesContainer">&nbsp;</div>
+    <div id="loadStatus" class="status loading" aria-live="polite">Sélectionnez un week-end.</div>
 
-<div class="no-result" hidden="" id="noResult">&nbsp;</div>
-</div>
+    <h3 class="section-title">Permanences du week-end</h3>
+    <div class="table-scroll">
+      <table class="permanences-table" id="permanencesTable">
+        <tbody id="permanencesContainer"></tbody>
+      </table>
+    </div>
 
-<div class="detail-nav-bottom"><button class="nav-button" id="prevButtonBottom" type="button">&larr; Pr&eacute;c&eacute;dent</button><button class="nav-button" id="nextButtonBottom" type="button">Suivant &rarr;</button></div>
+    <h3 class="section-title">Matchs du week-end</h3>
+    <div class="table-scroll" id="matchesContainer"></div>
+    <div id="noResult" class="no-result" hidden></div>
+  </div>
+
+  <div class="detail-nav-bottom">
+    <button class="nav-button" id="prevButtonBottom" type="button">&larr; Pr&eacute;c&eacute;dent</button>
+    <button class="nav-button" id="nextButtonBottom" type="button">Suivant &rarr;</button>
+  </div>
 </section>
+
 </main>
-<!-- Le parseur CSV est intégré : aucune dépendance externe --><!-- Parseur CSV intégré : aucune dépendance externe (CDN) --><script>
+
+<!-- Le parseur CSV est intégré : aucune dépendance externe -->
+
+<!-- Parseur CSV intégré : aucune dépendance externe (CDN) -->
+
+<script>
 (function(){
 "use strict";
 
@@ -902,11 +908,11 @@ function emptyRow(message){
 
 function escapeHtml(value){
   return String(value)
-    .replace(/&/g,"&")
-    .replace(/</g,"<")
-    .replace(/>/g,">")
-    .replace(/"/g,""")
-    .replace(/'/g,"'");
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
 
 /* =========================================================
@@ -1639,3 +1645,7 @@ if(dbgEnd){
 
 })();
 </script>
+
+
+</body>
+</html>
