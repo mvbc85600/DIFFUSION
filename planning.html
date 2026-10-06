@@ -1,0 +1,1641 @@
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#111111">
+<title></title>
+<style type="text/css">:root{
+  --black:#111;
+  --white:#fff;
+  --bg:#f3f4f6;
+  --border:#d8dbe0;
+  --muted:#6b7280;
+  --yellow:#ffec2e;
+  --red:#f36260;
+  --blue:#66b1ef;
+  --gray:#d3d3d3;
+  --green:#20a464;
+  --danger:#c62828;
+  --shadow:0 4px 18px rgba(0,0,0,.09);
+  --radius:12px;
+}
+
+*{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:#222;
+}
+
+button,input{font:inherit}
+
+button{cursor:pointer}
+
+.page-header{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(17,17,17,.97);
+  color:#fff;
+  padding:14px 18px;
+  box-shadow:0 2px 12px rgba(0,0,0,.2);
+}
+
+.header-inner{
+  max-width:1400px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.header-home{
+  border:0;
+  border-radius:999px;
+  background:#fff;
+  color:#111;
+  padding:9px 14px;
+  font-weight:700;
+}
+
+#weekends-list-view,
+#permanences-widget{
+  max-width:1400px;
+  margin:auto;
+  padding:18px;
+}
+
+.weekend-grid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:10px;
+}
+
+.weekend{
+  width:100%;
+  min-height:82px;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:#fff;
+  color:#111;
+  padding:13px;
+  text-align:left;
+  cursor:pointer;
+  transition:.18s ease;
+  box-shadow:0 1px 2px rgba(0,0,0,.03);
+}
+
+.weekend:focus-visible{
+  outline:2px solid #2196f3;
+  outline-offset:2px;
+}
+
+.weekend.past{
+  cursor:not-allowed;
+}
+
+.weekend:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--shadow);
+}
+
+.weekend.current{
+  border:2px solid #e0bd00;
+  box-shadow:0 0 0 3px rgba(255,236,46,.25);
+}
+
+.weekend.past{
+  background:#e7e8ea;
+  color:#555;
+}
+
+.weekend.past:disabled{
+  cursor:not-allowed;
+}
+
+.weekend.past:disabled:hover{
+  transform:none;
+  box-shadow:0 1px 2px rgba(0,0,0,.03);
+}
+
+.weekend-date{
+  display:block;
+  font-size:17px;
+  font-weight:800;
+}
+
+.weekend-status{
+  display:inline-block;
+  margin-top:9px;
+  font-size:11px;
+  font-weight:700;
+  padding:4px 7px;
+  border-radius:999px;
+  background:#eef0f2;
+}
+
+.weekend.current .weekend-status{
+  background:#fff2a8;
+}
+
+.weekend.past .weekend-status{
+  background:#d2d3d5;
+}
+
+.weekend-section-title{
+  grid-column:1/-1;
+  margin:15px 0 2px;
+  padding:5px 2px;
+  font-size:15px;
+  color:#555;
+  border-bottom:1px solid var(--border);
+}
+
+#permanences-widget-view{
+  display:none;
+}
+
+.detail-top{
+  background:#fff;
+  border-bottom:1px solid var(--border);
+}
+
+.detail-inner{
+  max-width:1400px;
+  margin:auto;
+  padding:14px 18px;
+}
+
+.detail-title{
+  margin:0 0 12px;
+  font-size:clamp(18px,2.5vw,27px);
+}
+
+.detail-actions{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.action-button{
+  display:block;
+  text-align:center;
+  border:0;
+  border-radius:999px;
+  padding:10px 15px;
+  font-weight:700;
+  text-decoration:none;
+  background:#111;
+  color:#fff;
+}
+
+.action-button.secondary{
+  background:#eef0f2;
+  color:#111;
+}
+
+.action-button.gradient{
+  background:linear-gradient(135deg,#FFD700,#2196F3);
+  color:#fff;
+}
+
+.detail-nav{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.nav-button{
+  flex:1;
+  border:0;
+  border-radius:999px;
+  padding:10px 15px;
+  background:#111;
+  color:#fff;
+  font-weight:700;
+}
+
+.nav-button:disabled{
+  opacity:.35;
+  cursor:not-allowed;
+}
+
+/* =========================================================
+   CARTE MATCHS A DOMICILE (seule carte résumé conservée)
+   ========================================================= */
+
+.summary{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+  margin:14px 0;
+}
+
+.summary-card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:12px 16px;
+  display:flex;
+  align-items:baseline;
+  justify-content:center;
+  gap:10px;
+}
+
+.summary-card strong{
+  font-size:22px;
+}
+
+.summary-card span{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.search-box{
+  position:sticky;
+  top:69px;
+  z-index:20;
+  background:rgba(243,244,246,.96);
+  padding:8px 0;
+}
+
+.search-input{
+  width:100%;
+  border:1px solid #bfc3c9;
+  border-radius:999px;
+  background:#fff;
+  padding:11px 15px;
+  outline:none;
+}
+
+.search-input:focus{
+  border-color:#2196f3;
+  box-shadow:0 0 0 3px rgba(33,150,243,.12);
+}
+
+.search-help{
+  display:block;
+  margin:5px 8px 0;
+  font-size:11px;
+  color:var(--muted);
+}
+
+.section-title{
+  margin:18px 0 8px;
+  font-size:17px;
+}
+
+.table-scroll{
+  width:100%;
+  overflow:auto;
+  border-radius:10px;
+  box-shadow:var(--shadow);
+  background:#fff;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+/* =========================================================
+   TABLEAU PERMANENCES — lisibilité renforcée
+   ========================================================= */
+
+.permanences-table{
+  table-layout:fixed;
+  font-size:13px;
+}
+
+.permanences-table th,
+.permanences-table td{
+  border:1px solid #ccc;
+  padding:8px 6px;
+  vertical-align:middle;
+  line-height:1.35;
+  overflow-wrap:anywhere;
+}
+
+.permanences-table thead th{
+  background:#111;
+  color:#fff;
+  text-align:center;
+}
+
+.permanences-table th:nth-child(1),
+.permanences-table td:nth-child(1){width:13%}
+.permanences-table th:nth-child(2),
+.permanences-table td:nth-child(2){width:11%}
+.permanences-table th:nth-child(3),
+.permanences-table td:nth-child(3){width:11%}
+.permanences-table th:nth-child(4),
+.permanences-table td:nth-child(4){width:13%}
+.permanences-table th:nth-child(5),
+.permanences-table td:nth-child(5){width:13%}
+.permanences-table th:nth-child(6),
+.permanences-table td:nth-child(6){width:13%}
+.permanences-table th:nth-child(7),
+.permanences-table td:nth-child(7){width:13%}
+.permanences-table th:nth-child(8),
+.permanences-table td:nth-child(8){width:13%}
+
+.permanence-day-place{
+  font-weight:800;
+  text-align:center!important;
+}
+
+.permanence-title-cell{
+  font-weight:700;
+  text-align:center!important;
+}
+
+.permanence-info-cell{
+  text-align:center!important;
+}
+
+.matches-table{
+  min-width:820px;
+  font-size:13px;
+}
+
+.matches-table th,
+.matches-table td{
+  border:1px solid #ddd;
+  padding:7px 8px;
+  text-align:left;
+  vertical-align:middle;
+  line-height:1.35;
+  overflow-wrap:anywhere;
+}
+
+.matches-table thead th{
+  position:sticky;
+  top:0;
+  z-index:2;
+  background:#111;
+  color:#fff;
+}
+
+.category-title{
+  background:#111!important;
+  color:#fff!important;
+  text-align:center!important;
+  font-weight:800;
+}
+
+.subheader-row{
+  background:#eef0f2!important;
+  font-weight:800;
+  text-align:center;
+}
+
+/* =========================================================
+   REGLES DE COULEURS (identiques à l'original)
+   St-Georges = jaune, St-Hilaire = rouge, Montaigu = bleu,
+   table = gris, extérieur = gris très clair
+   ========================================================= */
+
+.row-st-georges td,
+.matches-table tr.st-georges td{background:var(--yellow)!important;color:#111!important}
+
+.row-st-hilaire td,
+.matches-table tr.st-hilaire td{background:var(--red)!important;color:#111!important}
+
+.row-montaigu td,
+.matches-table tr.montaigu td{background:var(--blue)!important;color:#111!important}
+
+.row-table td,
+.matches-table tr.table-row td{background:var(--gray)!important;color:#111!important}
+
+.row-exterieur td,
+.matches-table tr.exterieur td{background:#f9f9f9!important;color:#111!important}
+
+/* Lignes ENTRÉES du tableau permanences : fond jaune */
+
+.row-entrees td{background:var(--yellow)!important;color:#111!important}
+
+.bar-title,
+.conducteurs-title,
+.entrees-title{
+  font-weight:800;
+  text-align:center!important;
+}
+
+.bar-info,
+.conducteurs-info,
+.entrees-info{
+  text-align:center!important;
+  font-weight:600;
+}
+
+.bar-info{background:#fffdf0!important}
+
+.bar-line{
+  display:block;
+  padding:2px 0;
+  line-height:1.35;
+}
+
+.status{
+  margin:10px 0;
+  padding:12px 14px;
+  border-radius:10px;
+  background:#fff;
+  border:1px solid var(--border);
+  font-size:13px;
+}
+
+.status.error{
+  color:var(--danger);
+  border-color:#efb2b2;
+  background:#fff5f5;
+}
+
+.status.loading{
+  color:#555;
+}
+
+.no-result{
+  margin:10px 0;
+  padding:12px;
+  text-align:center;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:10px;
+  color:var(--muted);
+}
+
+.highlight{
+  outline:2px solid #ffd400;
+  outline-offset:-2px;
+}
+
+.hidden-row{display:none!important}
+
+.detail-nav-bottom{
+  max-width:1400px;
+  margin:18px auto 30px;
+  padding:0 18px;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+@media(max-width:1100px){
+  .weekend-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+
+@media(max-width:800px){
+  .weekend-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .search-box{top:67px}
+}
+
+@media(max-width:520px){
+  .page-header{position:relative}
+  .header-inner{align-items:flex-start}
+  .header-home{padding:8px 11px}
+  #weekends-list-view,#permanences-widget{padding:12px}
+  .weekend-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .weekend{min-height:76px;padding:10px}
+  .weekend-date{font-size:14px}
+  .permanences-table{min-width:760px}
+  .table-scroll{overflow-x:auto}
+  .search-box{position:relative;top:auto}
+  .detail-nav-bottom{padding:0 12px}
+}
+</style>
+<header class="page-header">
+<div class="header-inner"><button class="header-home" id="homeButton" type="button">Accueil</button></div>
+</header>
+
+<main><!-- ============================================================
+     VUE 1 : LISTE DES WEEK-ENDS
+     ============================================================ -->
+<section id="weekends-list-view"><!-- ============================================================
+       GRILLE DES WEEK-ENDS EN HTML STATIQUE
+       (pas besoin de JS pour l'affichage des cartes)
+       Un petit script en bas de page ajoute uniquement les
+       états "en cours" / "passé" selon la date du jour.
+       ============================================================ -->
+<div class="weekend-grid" id="weekendGrid">
+<div class="weekend-section-title">Week-ends 2026-2027</div>
+
+<div class="weekend" data-date="2026-09-06" role="button" tabindex="0"><span class="weekend-date">05-06 SEPT</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2026-09-13" role="button" tabindex="0"><span class="weekend-date">12-13 SEPT</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2026-09-20" role="button" tabindex="0"><span class="weekend-date">19-20 SEPT</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2026-09-27" role="button" tabindex="0"><span class="weekend-date">26-27 SEPT</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2026-10-04" role="button" tabindex="0"><span class="weekend-date">03-04 OCT</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2026-10-11" role="button" tabindex="0"><span class="weekend-date">10-11 OCT</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2026-10-18" role="button" tabindex="0"><span class="weekend-date">17-18 OCT</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2026-10-25" role="button" tabindex="0"><span class="weekend-date">24-25 OCT</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2026-11-01" role="button" tabindex="0"><span class="weekend-date">31 OCT - 01 NOV</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2026-11-08" role="button" tabindex="0"><span class="weekend-date">07-08 NOV</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2026-11-15" role="button" tabindex="0"><span class="weekend-date">14-15 NOV</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2026-11-22" role="button" tabindex="0"><span class="weekend-date">21-22 NOV</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2026-11-29" role="button" tabindex="0"><span class="weekend-date">28-29 NOV</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2026-12-06" role="button" tabindex="0"><span class="weekend-date">05-06 DEC</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2026-12-13" role="button" tabindex="0"><span class="weekend-date">12-13 DEC</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2026-12-20" role="button" tabindex="0"><span class="weekend-date">19-20 DEC</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2026-12-27" role="button" tabindex="0"><span class="weekend-date">26-27 DEC</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-01-03" role="button" tabindex="0"><span class="weekend-date">02-03 JANV</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-01-10" role="button" tabindex="0"><span class="weekend-date">09-10 JANV</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-01-17" role="button" tabindex="0"><span class="weekend-date">16-17 JANV</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-01-24" role="button" tabindex="0"><span class="weekend-date">23-24 JANV</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-01-31" role="button" tabindex="0"><span class="weekend-date">30-31 JANV</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-02-07" role="button" tabindex="0"><span class="weekend-date">06-07 FEV</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-02-14" role="button" tabindex="0"><span class="weekend-date">13-14 FEV</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-02-21" role="button" tabindex="0"><span class="weekend-date">20-21 FEV</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-02-28" role="button" tabindex="0"><span class="weekend-date">27-28 FEV</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-03-07" role="button" tabindex="0"><span class="weekend-date">06-07 MARS</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-03-14" role="button" tabindex="0"><span class="weekend-date">13-14 MARS</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-03-21" role="button" tabindex="0"><span class="weekend-date">20-21 MARS</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-03-28" role="button" tabindex="0"><span class="weekend-date">27-28 MARS</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-04-04" role="button" tabindex="0"><span class="weekend-date">03-04 AVRIL</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-04-11" role="button" tabindex="0"><span class="weekend-date">10-11 AVRIL</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-04-18" role="button" tabindex="0"><span class="weekend-date">17-18 AVRIL</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-04-25" role="button" tabindex="0"><span class="weekend-date">24-25 AVRIL</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-05-02" role="button" tabindex="0"><span class="weekend-date">01-02 MAI</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-05-09" role="button" tabindex="0"><span class="weekend-date">08-09 MAI</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-05-16" role="button" tabindex="0"><span class="weekend-date">15-16 MAI</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-05-23" role="button" tabindex="0"><span class="weekend-date">22-23 MAI</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-05-30" role="button" tabindex="0"><span class="weekend-date">29-30 MAI</span><span class="weekend-status">Programme</span></div>
+
+<div class="weekend" data-date="2027-06-06" role="button" tabindex="0"><span class="weekend-date">05-06 JUIN</span><span class="weekend-status">&Agrave; compl&eacute;ter</span></div>
+
+<div class="weekend" data-date="2027-06-13" role="button" tabindex="0"><span class="weekend-date">12-13 JUIN</span><span class="weekend-status">&Agrave; compl&eacute;ter</span></div>
+</div>
+<!-- Mini-script : marque uniquement le week-end courant et
+       les passés selon la date du jour. Sans lui, toutes les
+       cartes restent affichées et cliquables (dégradé propre). --><script>
+  (function(){
+    var now = new Date();
+    var today = now.getFullYear() + "-" +
+      String(now.getMonth()+1).padStart(2,"0") + "-" +
+      String(now.getDate()).padStart(2,"0");
+    var firstUpcoming = null;
+    document.querySelectorAll(".weekend[data-date]").forEach(function(el){
+      var d = el.getAttribute("data-date");
+      if(d < today){
+        el.classList.add("past");
+        el.classList.remove("current");
+        el.setAttribute("aria-disabled","true");
+        el.removeAttribute("tabindex");
+        var s = el.querySelector(".weekend-status");
+        if(s) s.textContent = "Passé";
+      }else if(firstUpcoming === null){
+        firstUpcoming = d;
+        el.classList.add("current");
+      }
+    });
+  })();
+  </script></section>
+<!-- ============================================================
+     VUE 2 : PROGRAMME D'UN WEEK-END
+     ============================================================ -->
+
+<section id="permanences-widget-view">
+<div class="detail-top">
+<div class="detail-inner">
+<h2 class="detail-title" id="weekendTitle">Programme du week-end</h2>
+
+<div class="detail-actions"><a class="action-button gradient" href="https://docs.google.com/document/d/1jgxM3f-L_64PbfwBGYyYE65gd_R4Px_6mrDB2MYtQ98/edit?tab=t.0" id="barInstructions" rel="noopener noreferrer" target="_blank">Consignes tenue du bar</a><button class="action-button secondary" id="detailHomeButton" type="button">&larr; Retour page week-ends</button>
+
+<div class="detail-nav"><button class="nav-button" id="prevButton" type="button">&larr; Pr&eacute;c&eacute;dent</button><button class="nav-button" id="nextButton" type="button">Suivant &rarr;</button></div>
+</div>
+</div>
+</div>
+
+<div id="permanences-widget"><!-- Carte résumé : X/Y matchs à domicile -->
+<div class="summary">
+<div class="summary-card"><strong id="summaryHome">&mdash;</strong> <span>matchs &agrave; domicile</span></div>
+</div>
+
+<div class="search-box"><input autocomplete="off" class="search-input" id="searchInput" placeholder="Rechercher une équipe, un licencié, une salle, un horaire..." type="search" /> <span class="search-help">La recherche ignore les majuscules et les accents.</span></div>
+
+<div aria-live="polite" class="status loading" id="loadStatus">S&eacute;lectionnez un week-end.</div>
+
+<h3 class="section-title">Permanences du week-end</h3>
+
+<div class="table-scroll">
+<table class="permanences-table" id="permanencesTable">
+	<tbody id="permanencesContainer">
+	</tbody>
+</table>
+</div>
+
+<h3 class="section-title">Matchs du week-end</h3>
+
+<div class="table-scroll" id="matchesContainer">&nbsp;</div>
+
+<div class="no-result" hidden="" id="noResult">&nbsp;</div>
+</div>
+
+<div class="detail-nav-bottom"><button class="nav-button" id="prevButtonBottom" type="button">&larr; Pr&eacute;c&eacute;dent</button><button class="nav-button" id="nextButtonBottom" type="button">Suivant &rarr;</button></div>
+</section>
+</main>
+<!-- Le parseur CSV est intégré : aucune dépendance externe --><!-- Parseur CSV intégré : aucune dépendance externe (CDN) --><script>
+(function(){
+"use strict";
+
+/* Affiche toute erreur JavaScript directement dans la page,
+   dans la zone de statut : plus besoin de la console. */
+
+window.addEventListener("error",function(e){
+  var box = document.getElementById("loadStatus");
+  if(box){
+    box.className = "status error";
+    box.textContent = "Erreur : " + (e.message || "inconnue");
+  }
+});
+
+var dbg = document.getElementById("loadStatus");
+if(dbg){ dbg.textContent = "Initialisation du planning…"; }
+
+/* =========================================================
+   CONFIGURATION
+   Pour chaque week-end, renseigne csv avec l URL
+   Publié sur le Web > CSV de la feuille Google Sheets.
+   ========================================================= */
+
+var WEEKENDS = [
+  {date:"2026-09-06", label:"05-06 SEPT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=106022065&single=true&output=csv"},
+  {date:"2026-09-13", label:"12-13 SEPT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1368501394&single=true&output=csv"},
+  {date:"2026-09-20", label:"19-20 SEPT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1899274121&single=true&output=csv"},
+  {date:"2026-09-27", label:"26-27 SEPT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1129362905&single=true&output=csv"},
+  {date:"2026-10-04", label:"03-04 OCT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1244177219&single=true&output=csv"},
+  {date:"2026-10-11", label:"10-11 OCT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=245799123&single=true&output=csv"},
+  {date:"2026-10-18", label:"17-18 OCT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=806798203&single=true&output=csv"},
+  {date:"2026-10-25", label:"24-25 OCT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=324712518&single=true&output=csv"},
+  {date:"2026-11-01", label:"31 OCT - 01 NOV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=324712518&single=true&output=csv"},
+  {date:"2026-11-08", label:"07-08 NOV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=405256233&single=true&output=csv"},
+  {date:"2026-11-15", label:"14-15 NOV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1457888686&single=true&output=csv"},
+  {date:"2026-11-22", label:"21-22 NOV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=484619628&single=true&output=csv"},
+  {date:"2026-11-29", label:"28-29 NOV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1100550366&single=true&output=csv"},
+  {date:"2026-12-06", label:"05-06 DEC", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=263033034&single=true&output=csv"},
+  {date:"2026-12-13", label:"12-13 DEC", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1853217255&single=true&output=csv"},
+  {date:"2026-12-20", label:"19-20 DEC", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1943048456&single=true&output=csv"},
+  {date:"2026-12-27", label:"26-27 DEC", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=781103422&single=true&output=csv"},
+  {date:"2027-01-03", label:"02-03 JANV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1404045385&single=true&output=csv"},
+  {date:"2027-01-10", label:"09-10 JANV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1155822821&single=true&output=csv"},
+  {date:"2027-01-17", label:"16-17 JANV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1617464650&single=true&output=csv"},
+  {date:"2027-01-24", label:"23-24 JANV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1662004265&single=true&output=csv"},
+  {date:"2027-01-31", label:"30-31 JANV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=538245135&single=true&output=csv"},
+  {date:"2027-02-07", label:"06-07 FEV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=766179143&single=true&output=csv"},
+  {date:"2027-02-14", label:"13-14 FEV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1360690674&single=true&output=csv"},
+  {date:"2027-02-21", label:"20-21 FEV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1170499474&single=true&output=csv"},
+  {date:"2027-02-28", label:"27-28 FEV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=730409254&single=true&output=csv"},
+  {date:"2027-03-07", label:"06-07 MARS", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1768539793&single=true&output=csv"},
+  {date:"2027-03-14", label:"13-14 MARS", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1369761738&single=true&output=csv"},
+  {date:"2027-03-21", label:"20-21 MARS", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1968980430&single=true&output=csv"},
+  {date:"2027-03-28", label:"27-28 MARS", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1383895459&single=true&output=csv"},
+  {date:"2027-04-04", label:"03-04 AVRIL", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=132381866&single=true&output=csv"},
+  {date:"2027-04-11", label:"10-11 AVRIL", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1722273630&single=true&output=csv"},
+  {date:"2027-04-18", label:"17-18 AVRIL", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1802703896&single=true&output=csv"},
+  {date:"2027-04-25", label:"24-25 AVRIL", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1447395419&single=true&output=csv"},
+  {date:"2027-05-02", label:"01-02 MAI", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=490187669&single=true&output=csv"},
+  {date:"2027-05-09", label:"08-09 MAI", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=688643571&single=true&output=csv"},
+  {date:"2027-05-16", label:"15-16 MAI", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1361691299&single=true&output=csv"},
+  {date:"2027-05-23", label:"22-23 MAI", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1518901397&single=true&output=csv"},
+  {date:"2027-05-30", label:"29-30 MAI", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1486286771&single=true&output=csv"},
+  {date:"2027-06-06", label:"05-06 JUIN", csv:""},
+  {date:"2027-06-13", label:"12-13 JUIN", csv:""}
+];
+
+var COLOR_CLASSES = {
+  "st-georges":[
+    "st-georges","samedi-st-georges","dimanche-st-georges",
+    "st-georges-salle-a","st-georges-salle-b","st-georges-salle-c",
+    "n2-samedi-soir","samedi-nm2",
+    "equipes-entrees","equipe-entrees"
+  ],
+  "st-hilaire":[
+    "st-hilaire","samedi-st-hilaire","dimanche-st-hilaire",
+    "st-hilaire-salle-a","st-hilaire-salle-b"
+  ],
+  "montaigu":[
+    "montaigu","samedi-montaigu","dimanche-montaigu",
+    "montaigu-salle-sevre","montaigu-salle-maine",
+    "salle-sevre-terrain-1","salle-sevre-terrain-2",
+    "leonard-de-vinci-prieure","leonard-de-vinci-honneur"
+  ]
+};
+
+/* Salles du club : utilisees pour determiner a domicile */
+
+var HOME_VENUES = ["st-georges","st-hilaire","montaigu"];
+
+var state = {
+  currentIndex:-1,
+  loadToken:0,
+  cache:new Map()
+};
+
+/* =========================================================
+   DOM
+   ========================================================= */
+
+var listView = document.getElementById("weekends-list-view");
+var detailView = document.getElementById("permanences-widget-view");
+var weekendGrid = document.getElementById("weekendGrid");
+var weekendTitle = document.getElementById("weekendTitle");
+var permanencesContainer = document.getElementById("permanencesContainer");
+var matchesContainer = document.getElementById("matchesContainer");
+var searchInput = document.getElementById("searchInput");
+var loadStatus = document.getElementById("loadStatus");
+var noResult = document.getElementById("noResult");
+var prevButton = document.getElementById("prevButton");
+var nextButton = document.getElementById("nextButton");
+var prevButtonBottom = document.getElementById("prevButtonBottom");
+var nextButtonBottom = document.getElementById("nextButtonBottom");
+var summaryHome = document.getElementById("summaryHome");
+
+/* =========================================================
+   UTILITAIRES
+   ========================================================= */
+
+function todayISO(){
+  var now = new Date();
+  return [
+    now.getFullYear(),
+    String(now.getMonth()+1).padStart(2,"0"),
+    String(now.getDate()).padStart(2,"0")
+  ].join("-");
+}
+
+function normalize(value){
+  if(value === null || typeof value === "undefined"){
+    value = "";
+  }
+  return String(value)
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"");
+}
+
+function slugify(value){
+  return normalize(value)
+    .replace(/[^a-z0-9\s-]/g,"")
+    .replace(/[\s_]+/g,"-")
+    .replace(/-+/g,"-")
+    .replace(/^-|-$/g,"");
+}
+
+function clean(value){
+  if(value === null || typeof value === "undefined"){
+    return "";
+  }
+  return String(value).trim();
+}
+
+function cleanCellValue(value){
+  var text = clean(value);
+  return /^\d+$/.test(text) ? "" : text;
+}
+
+function isEmptyRow(row){
+  if(!row) return true;
+  var i;
+  for(i = 0; i < row.length; i++){
+    if(clean(row[i])) return false;
+  }
+  return true;
+}
+
+function isCategoryTitle(row){
+  if(!row) return false;
+  var first = clean(row[0]);
+  if(!first) return false;
+  var i;
+  for(i = 1; i < 8; i++){
+    if(clean(row[i])) return false;
+  }
+  return true;
+}
+
+function isSubheader(row){
+  if(!row) return false;
+  return normalize(row[1] || "").indexOf("date") !== -1;
+}
+
+/* =========================================================
+   COULEURS
+   Comparaison sur textes slugifies pour que
+   St Georges salle A corresponde a st-georges-salle-a.
+   ========================================================= */
+
+function colorForRow(cells){
+  var content = cells.map(function(cell){ return slugify(cell); }).join(" ");
+  var colors = Object.keys(COLOR_CLASSES);
+  var c, i, j;
+  for(i = 0; i < colors.length; i++){
+    c = colors[i];
+    var classes = COLOR_CLASSES[c];
+    for(j = 0; j < classes.length; j++){
+      if(content.indexOf(classes[j]) !== -1){
+        return c;
+      }
+    }
+  }
+  return "";
+}
+
+function setStatus(message, type){
+  if(!type){ type = "loading"; }
+  loadStatus.textContent = message;
+  loadStatus.className = "status " + type;
+}
+
+function safeTextCell(row,index,className){
+  var td = document.createElement("td");
+  td.textContent = cleanCellValue(row[index]);
+  if(className){ td.className = className; }
+  return td;
+}
+
+function emptyRow(message){
+  return "<tr><td colspan=\"8\" style=\"text-align:center;padding:15px;color:#666\">" +
+    escapeHtml(message) +
+    "</td></tr>";
+}
+
+function escapeHtml(value){
+  return String(value)
+    .replace(/&/g,"&")
+    .replace(/</g,"<")
+    .replace(/>/g,">")
+    .replace(/"/g,""")
+    .replace(/'/g,"'");
+}
+
+/* =========================================================
+   COMPTE DES MATCHS
+   - Une ligne est comptee UNIQUEMENT si la colonne A
+     contient le mot POULE ET si la colonne EQUIPE
+     contient un nom de club (lettres, pas un numero seul).
+   - A DOMICILE si la colonne SALLE mentionne
+     St Georges, St Hilaire ou Montaigu.
+   ========================================================= */
+
+function isMatchLine(row){
+  return !isEmptyRow(row) &&
+         !isCategoryTitle(row) &&
+         !isSubheader(row) &&
+         Boolean(clean(row[0]));
+}
+
+function isCountedMatch(row){
+  if(!isMatchLine(row)) return false;
+  if(normalize(row[0]).indexOf("poule") === -1) return false;
+  var club = clean(row[3]);
+  if(!club) return false;
+  return /[a-z\u00e0-\u00ff]/i.test(club);
+}
+
+function isHomeMatch(row){
+  var salle = slugify(row[5] || "");
+  var i;
+  for(i = 0; i < HOME_VENUES.length; i++){
+    if(salle.indexOf(HOME_VENUES[i]) !== -1) return true;
+  }
+  return false;
+}
+
+function countMatches(rows){
+  var matchRows = rows.filter(isCountedMatch);
+  var home = matchRows.filter(isHomeMatch).length;
+  return {total: matchRows.length, home: home};
+}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+function showList(){
+  detailView.style.display = "none";
+  listView.style.display = "";
+  document.title = "Week-ends MVBC85";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function openWeekend(index){
+  if(index < 0 || index >= WEEKENDS.length) return;
+
+  state.currentIndex = index;
+  var weekend = WEEKENDS[index];
+
+  listView.style.display = "none";
+  detailView.style.display = "block";
+  weekendTitle.textContent = "Week-end du " + weekend.label;
+  document.title = "Week-end du " + weekend.label + " — MVBC85";
+
+  updateNavigation();
+  resetDetail();
+  loadWeekend(weekend);
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function updateNavigation(){
+  var available = [];
+  var i;
+  for(i = 0; i < WEEKENDS.length; i++){
+    if(WEEKENDS[i].date >= todayISO()){
+      available.push({w:WEEKENDS[i], i:i});
+    }
+  }
+
+  var pos = -1;
+  for(i = 0; i < available.length; i++){
+    if(available[i].i === state.currentIndex){
+      pos = i;
+      break;
+    }
+  }
+
+  var prev = pos > 0 ? available[pos-1] : null;
+  var next = (pos >= 0 && pos < available.length-1) ? available[pos+1] : null;
+
+  var prevLabel = prev ? ("← " + prev.w.label) : "← Précédent";
+  var nextLabel = next ? (next.w.label + " →") : "Suivant →";
+
+  var prevButtons = [prevButton, prevButtonBottom];
+  for(i = 0; i < prevButtons.length; i++){
+    prevButtons[i].disabled = !prev;
+    prevButtons[i].textContent = prevLabel;
+  }
+
+  var nextButtons = [nextButton, nextButtonBottom];
+  for(i = 0; i < nextButtons.length; i++){
+    nextButtons[i].disabled = !next;
+    nextButtons[i].textContent = nextLabel;
+  }
+
+  prevButton.onclick = prev ? function(){ openWeekend(prev.i); } : null;
+  nextButton.onclick = next ? function(){ openWeekend(next.i); } : null;
+  prevButtonBottom.onclick = prev ? function(){ openWeekend(prev.i); } : null;
+  nextButtonBottom.onclick = next ? function(){ openWeekend(next.i); } : null;
+}
+
+function resetDetail(){
+  permanencesContainer.innerHTML = "";
+  matchesContainer.innerHTML = "";
+  noResult.hidden = true;
+  searchInput.value = "";
+  summaryHome.textContent = "—";
+  setStatus("Chargement du programme…");
+}
+
+/* =========================================================
+   PARSEUR CSV INTÉGRÉ (remplace PapaParse)
+   Gère les champs entre guillemets et les guillemets
+   doublés à l intérieur des champs.
+   ========================================================= */
+
+function parseCsv(text){
+  var rows = [];
+  var row = [];
+  var field = "";
+  var inQuotes = false;
+  var i, ch, next;
+
+  for(i = 0; i < text.length; i++){
+    ch = text.charAt(i);
+
+    if(inQuotes){
+      if(ch === "\""){
+        next = text.charAt(i+1);
+        if(next === "\""){
+          field += "\"";
+          i++;
+        }else{
+          inQuotes = false;
+        }
+      }else{
+        field += ch;
+      }
+    }else{
+      if(ch === "\""){
+        inQuotes = true;
+      }else if(ch === ","){
+        row.push(field);
+        field = "";
+      }else if(ch === "\n"){
+        row.push(field);
+        rows.push(row);
+        row = [];
+        field = "";
+      }else if(ch === "\r"){
+        /* ignore */
+      }else{
+        field += ch;
+      }
+    }
+  }
+
+  if(field !== "" || row.length > 0){
+    row.push(field);
+    rows.push(row);
+  }
+
+  /* Supprime les lignes entièrement vides */
+
+  return rows.filter(function(r){
+    return r.some(function(c){ return String(c).trim() !== ""; });
+  });
+}
+
+/* =========================================================
+   CHARGEMENT CSV
+   ========================================================= */
+
+function fetchCsv(csvUrl){
+  /* Connexion directe a Google Sheets.
+     Aucun export local, aucun Apps Script et aucun cache applicatif.
+     Le navigateur demande le CSV public a chaque ouverture du week-end. */
+  if(!csvUrl){
+    return Promise.reject(new Error("URL Google Sheets absente."));
+  }
+
+  var separator = csvUrl.indexOf("?") >= 0 ? "&" : "?";
+  var liveUrl = csvUrl + separator + "_=" + Date.now();
+
+  if(window.AbortController){
+    var controller = new AbortController();
+    var timer = setTimeout(function(){ controller.abort(); }, 15000);
+
+    return fetch(liveUrl, {
+      method:"GET",
+      cache:"no-store",
+      signal:controller.signal
+    }).then(function(response){
+      clearTimeout(timer);
+      if(!response.ok){
+        throw new Error("Google Sheets a répondu " + response.status + ".");
+      }
+      return response.text();
+    }).then(function(text){
+      if(!text || !text.trim()){
+        throw new Error("La feuille Google Sheets est vide.");
+      }
+
+      /* Si Google renvoie une page HTML au lieu du CSV, on le signale
+         clairement plutot que d'afficher une fausse erreur de tableau. */
+      var start = text.trim().substring(0, 100).toLowerCase();
+      if(start.indexOf("<!doctype html") === 0 || start.indexOf("<html") === 0){
+        throw new Error("Google Sheets a renvoyé une page HTML au lieu du CSV. Vérifiez que la feuille est bien publiée sur le Web.");
+      }
+
+      return text;
+    }).catch(function(error){
+      clearTimeout(timer);
+      if(error && error.name === "AbortError") {
+        throw new Error("Le chargement de Google Sheets a dépassé 15 secondes.");
+      }
+      if(error && error.message) throw error;
+      throw new Error("Impossible de charger directement Google Sheets depuis cette page.");
+    });
+  }
+
+  return fetch(liveUrl, {
+    method:"GET",
+    cache:"no-store"
+  }).then(function(response){
+    if(!response.ok){
+      throw new Error("Google Sheets a répondu " + response.status + ".");
+    }
+    return response.text();
+  }).then(function(text){
+    if(!text || !text.trim()){
+      throw new Error("La feuille Google Sheets est vide.");
+    }
+    return text;
+  });
+}
+
+function loadWeekend(weekend){
+  var token = ++state.loadToken;
+
+  if(!weekend.csv){
+    setStatus("Programme non configuré pour ce week-end.", "error");
+    summaryHome.textContent = "—";
+    permanencesContainer.innerHTML = emptyRow("URL Google Sheets non renseignée pour ce week-end.");
+    matchesContainer.innerHTML = "";
+    return;
+  }
+
+  setStatus("Chargement du programme…");
+
+  fetchCsv(weekend.csv).then(function(csvText){
+    if(token !== state.loadToken) return;
+
+    var rows = parseCsv(csvText);
+
+    /* La premiere ligne du CSV est la ligne de titre
+       de la feuille Google Sheets : on la supprime. */
+
+    if(rows.length > 0){
+      rows = rows.slice(1);
+    }
+
+    var firstCategory = -1;
+    var i;
+    for(i = 0; i < rows.length; i++){
+      if(isCategoryTitle(rows[i])){
+        firstCategory = i;
+        break;
+      }
+    }
+
+    var permanences = firstCategory >= 0 ? rows.slice(0,firstCategory) : rows;
+    var matches = firstCategory >= 0 ? rows.slice(firstCategory) : [];
+
+    renderPermanences(permanences);
+    renderMatches(matches);
+
+    /* CARTE : X/Y matchs a domicile */
+
+    var counted = countMatches(matches);
+    summaryHome.textContent = counted.home + "/" + counted.total;
+
+    setStatus("Programme chargé avec succès.", "loading");
+
+    applyFilter();
+
+  }).catch(function(error){
+    console.error(error);
+
+    if(token !== state.loadToken) return;
+
+    setStatus(
+      "Impossible de charger le programme. Vérifie que la feuille Google Sheets est bien publiée en CSV et accessible publiquement.",
+      "error"
+    );
+
+    summaryHome.textContent = "—";
+    permanencesContainer.innerHTML = emptyRow("Aucune donnée disponible.");
+    matchesContainer.innerHTML = "";
+  });
+}
+
+/* =========================================================
+   PERMANENCES
+   ========================================================= */
+
+function renderPermanences(rows){
+  permanencesContainer.innerHTML = "";
+
+  var kept = rows.filter(function(row){ return !isEmptyRow(row); });
+
+  var i;
+  for(i = 0; i < kept.length; i++){
+    permanencesContainer.appendChild(createPermanenceRow(kept[i]));
+  }
+
+  if(!permanencesContainer.children.length){
+    permanencesContainer.innerHTML = emptyRow("Aucune permanence disponible.");
+  }
+}
+
+function createPermanenceRow(rowData){
+  var tr = document.createElement("tr");
+  tr.className = "permanence-main-row";
+
+  var mission = normalize(rowData[1] || rowData[2]);
+
+  /* Couleur de fond UNIQUEMENT pour les lignes BAR et
+     les lignes generales (planning de salle).
+     Les lignes CONDUCTEURS restent sur fond blanc.
+     Les lignes ENTREES sont affichees en jaune. */
+
+  if(mission.indexOf("bar") !== -1 ||
+     (mission.indexOf("conducteur") === -1 && mission.indexOf("entree") === -1)){
+    var color = colorForRow(rowData);
+    if(color){ tr.classList.add("row-" + color); }
+  }
+
+  var first = document.createElement("td");
+  first.className = "permanence-day-place";
+  first.textContent = cleanCellValue(rowData[0]);
+  tr.appendChild(first);
+
+  /* BAR */
+
+  if(mission.indexOf("bar") !== -1){
+    var title = document.createElement("td");
+    title.colSpan = 2;
+    title.className = "bar-title";
+    title.textContent = cleanCellValue(rowData[1]) || cleanCellValue(rowData[2]);
+    tr.appendChild(title);
+
+    var info = document.createElement("td");
+    info.colSpan = 3;
+    info.className = "bar-info";
+
+    var values = [rowData[3],rowData[4],rowData[5]].map(clean).filter(Boolean);
+
+    var v, k, lines, j;
+    for(v = 0; v < values.length; v++){
+      lines = createBarLines(values[v]);
+      for(k = 0; k < lines.length; k++){
+        var div = document.createElement("div");
+        div.className = "bar-line";
+        div.textContent = lines[k];
+        info.appendChild(div);
+      }
+    }
+
+    tr.appendChild(info);
+    tr.appendChild(safeTextCell(rowData,6,"bar-title"));
+    tr.appendChild(safeTextCell(rowData,7,"bar-info"));
+    return tr;
+  }
+
+  /* CONDUCTEURS */
+
+  if(mission.indexOf("conducteur") !== -1){
+    var title2 = document.createElement("td");
+    title2.colSpan = 2;
+    title2.className = "conducteurs-title";
+    title2.textContent = cleanCellValue(rowData[1]) || cleanCellValue(rowData[2]);
+    tr.appendChild(title2);
+
+    var info2 = document.createElement("td");
+    info2.colSpan = 2;
+    info2.className = "conducteurs-info";
+    info2.textContent = [rowData[3],rowData[4]]
+      .map(cleanCellValue)
+      .filter(Boolean)
+      .join(" ");
+    tr.appendChild(info2);
+
+    tr.appendChild(safeTextCell(rowData,5,"conducteurs-info"));
+    tr.appendChild(document.createElement("td"));
+    tr.appendChild(document.createElement("td"));
+    return tr;
+  }
+
+  /* ENTREES : fond jaune */
+
+  if(mission.indexOf("entree") !== -1){
+    tr.classList.add("row-entrees");
+
+    var title3 = document.createElement("td");
+    title3.colSpan = 2;
+    title3.className = "entrees-title";
+    title3.textContent = cleanCellValue(rowData[1]) || cleanCellValue(rowData[2]);
+    tr.appendChild(title3);
+
+    tr.appendChild(safeTextCell(rowData,3,"entrees-info"));
+    tr.appendChild(safeTextCell(rowData,4,"entrees-title"));
+    tr.appendChild(safeTextCell(rowData,5,"entrees-info"));
+    tr.appendChild(safeTextCell(rowData,6,"entrees-title"));
+    tr.appendChild(safeTextCell(rowData,7,"entrees-info"));
+    return tr;
+  }
+
+  /* CAS GENERAL */
+
+  var classes = [
+    "permanence-title-cell",
+    "permanence-title-cell",
+    "permanence-info-cell",
+    "permanence-title-cell",
+    "permanence-info-cell",
+    "permanence-title-cell",
+    "permanence-info-cell"
+  ];
+
+  var i2;
+  for(i2 = 1; i2 < 8; i2++){
+    tr.appendChild(safeTextCell(rowData,i2,classes[i2-1]));
+  }
+
+  return tr;
+}
+
+function createBarLines(value){
+  var text = clean(value);
+  if(!text) return [];
+
+  var regex = /\d{1,2}h\d{2}\s*-\s*\d{1,2}h\d{2}/gi;
+  var found = [];
+  var m;
+  while((m = regex.exec(text)) !== null){
+    found.push({index:m.index, end:m.index + m[0].length});
+  }
+
+  if(!found.length) return [text];
+
+  var result = [];
+  var i;
+  for(i = 0; i < found.length; i++){
+    var start = found[i].index;
+    var end = (i + 1 < found.length) ? found[i+1].index : text.length;
+    var piece = text.slice(start,end).trim();
+    if(piece){ result.push(piece); }
+  }
+  return result;
+}
+
+/* =========================================================
+   MATCHS
+   ========================================================= */
+
+var MATCH_HEADERS = [
+  "ÉQUIPES","DATE","HORAIRE","ÉQUIPE",
+  "CLUB REÇU","SALLE","ARBITRES","TABLES"
+];
+
+function renderMatches(rows){
+  matchesContainer.innerHTML = "";
+
+  var table = document.createElement("table");
+  table.className = "matches-table";
+
+  var thead = document.createElement("thead");
+  var headRow = document.createElement("tr");
+
+  var h;
+  for(h = 0; h < MATCH_HEADERS.length; h++){
+    var th = document.createElement("th");
+    th.textContent = MATCH_HEADERS[h];
+    headRow.appendChild(th);
+  }
+
+  thead.appendChild(headRow);
+  table.appendChild(thead);
+
+  var tbody = document.createElement("tbody");
+
+  /* Dedoublonnage : une ligne dont l association
+     equipe (colonne A) + club recu (colonne E)
+     a deja ete affichee est ignoree. */
+
+  var seenPairs = {};
+
+  var kept = rows.filter(function(row){ return !isEmptyRow(row); });
+
+  var i;
+  for(i = 0; i < kept.length; i++){
+    var row = kept[i];
+
+    /* TITRE DE CATEGORIE */
+
+    if(isCategoryTitle(row)){
+      var trCat = document.createElement("tr");
+      var tdCat = document.createElement("td");
+      tdCat.colSpan = 8;
+      tdCat.className = "category-title";
+      tdCat.textContent = cleanCellValue(row[0]);
+      trCat.appendChild(tdCat);
+      tbody.appendChild(trCat);
+      continue;
+    }
+
+    /* SOUS-TITRE */
+
+    if(isSubheader(row)){
+      var trSub = document.createElement("tr");
+      trSub.className = "subheader-row";
+
+      var j2;
+      for(j2 = 0; j2 < 8; j2++){
+        var tdSub = document.createElement("td");
+        tdSub.textContent = cleanCellValue(row[j2]) || MATCH_HEADERS[j2];
+        trSub.appendChild(tdSub);
+      }
+
+      tbody.appendChild(trSub);
+      continue;
+    }
+
+    /* LIGNE DE MATCH
+       - Colonne A vide ou contenant uniquement un nombre :
+         ligne non affichee.
+       - Ligne identique deja affichee (meme equipe, meme
+         club recu) : ignoree.
+       - Couleur determinee par la colonne SALLE. */
+
+    var firstCell = clean(row[0]).replace(/\s/g,"");
+    if(!firstCell) continue;
+    if(/^\d+([.,]\d+)?$/.test(firstCell)) continue;
+
+    var pairKey = slugify(row[0]) + "|" + slugify(row[4]);
+    if(seenPairs[pairKey]) continue;
+    seenPairs[pairKey] = true;
+
+    var tr = document.createElement("tr");
+
+    var salle = slugify(row[5]);
+    var colors = Object.keys(COLOR_CLASSES);
+    var c, j3;
+    for(c = 0; c < colors.length; c++){
+      var classes = COLOR_CLASSES[colors[c]];
+      var matched = false;
+      for(j3 = 0; j3 < classes.length; j3++){
+        if(salle.indexOf(classes[j3]) !== -1){
+          tr.classList.add(colors[c]);
+          matched = true;
+          break;
+        }
+      }
+      if(matched) break;
+    }
+
+    var j4;
+    for(j4 = 0; j4 < 8; j4++){
+      var td = document.createElement("td");
+      td.textContent = cleanCellValue(row[j4]);
+      tr.appendChild(td);
+    }
+
+    tbody.appendChild(tr);
+  }
+
+  table.appendChild(tbody);
+  matchesContainer.appendChild(table);
+}
+
+/* =========================================================
+   RECHERCHE
+   ========================================================= */
+
+function applyFilter(){
+  var keyword = normalize(searchInput.value);
+  var visibleCount = 0;
+
+  var permRows = permanencesContainer.querySelectorAll("tr");
+  var pr, i;
+  for(i = 0; i < permRows.length; i++){
+    pr = permRows[i];
+    if(pr.children.length === 1) continue;
+
+    var match = !keyword || normalize(pr.textContent).indexOf(keyword) !== -1;
+    pr.classList.toggle("hidden-row",!match);
+    pr.classList.toggle("highlight",Boolean(keyword && match));
+
+    if(match) visibleCount++;
+  }
+
+  var matchRows = Array.prototype.slice.call(matchesContainer.querySelectorAll("tbody tr"));
+
+  var row, k;
+  for(k = 0; k < matchRows.length; k++){
+    row = matchRows[k];
+    var isHeader =
+      row.classList.contains("subheader-row") ||
+      row.querySelector(".category-title");
+
+    if(isHeader) continue;
+
+    var match2 = !keyword || normalize(row.textContent).indexOf(keyword) !== -1;
+    row.classList.toggle("hidden-row",!match2);
+    row.classList.toggle("highlight",Boolean(keyword && match2));
+
+    if(match2) visibleCount++;
+  }
+
+  var r2, g;
+  for(g = 0; g < matchRows.length; g++){
+    row = matchRows[g];
+    var isHeader2 =
+      row.classList.contains("subheader-row") ||
+      row.querySelector(".category-title");
+
+    if(!isHeader2) continue;
+
+    if(!keyword){
+      row.classList.remove("hidden-row");
+      continue;
+    }
+
+    var hasVisible = false;
+    var next = row.nextElementSibling;
+
+    while(next){
+      var nextIsHeader =
+        next.classList.contains("subheader-row") ||
+        next.querySelector(".category-title");
+
+      if(nextIsHeader) break;
+
+      if(!next.classList.contains("hidden-row")){
+        hasVisible = true;
+        break;
+      }
+
+      next = next.nextElementSibling;
+    }
+
+    row.classList.toggle("hidden-row",!hasVisible);
+  }
+
+  if(keyword && visibleCount === 0){
+    noResult.hidden = false;
+    noResult.textContent = "Aucun résultat pour « " + searchInput.value + " ».";
+  }else{
+    noResult.hidden = true;
+  }
+}
+
+/* =========================================================
+   EVENEMENTS
+   ========================================================= */
+
+document.getElementById("homeButton").addEventListener("click",function(){ showList(); });
+document.getElementById("detailHomeButton").addEventListener("click",function(){ showList(); });
+
+searchInput.addEventListener("input",applyFilter);
+
+/* Clic (ou touche Entree / Espace) sur une carte week-end :
+   on retrouve le week-end par sa date (attribut data-date),
+   sans jamais toucher a l URL. Les cartes sont des div,
+   donc aucun gestionnaire de site ne peut les transformer
+   en bouton de soumission ou en lien. */
+
+function handleWeekendCard(event){
+  var card = event.target.closest ? event.target.closest(".weekend[data-date]") : null;
+  if(!card) return;
+  if(card.getAttribute("aria-disabled") === "true") return;
+  var index = -1;
+  var i;
+  for(i = 0; i < WEEKENDS.length; i++){
+    if(WEEKENDS[i].date === card.getAttribute("data-date")){
+      index = i;
+      break;
+    }
+  }
+  if(index >= 0) openWeekend(index);
+}
+
+weekendGrid.addEventListener("click",handleWeekendCard);
+
+weekendGrid.addEventListener("keydown",function(event){
+  if(event.key !== "Enter" && event.key !== " ") return;
+  var card = event.target.closest ? event.target.closest(".weekend[data-date]") : null;
+  if(!card) return;
+  event.preventDefault();
+  handleWeekendCard(event);
+});
+
+/* =========================================================
+   INITIALISATION
+   ========================================================= */
+
+/* Aucun préchargement automatique.
+   Le CSV Google Sheets est demandé uniquement lorsque
+   le visiteur ouvre un week-end. */
+
+/* Marqueur visible : si ce texte s affiche, le script
+   principal a bien été exécuté jusqu au bout. */
+
+var dbgEnd = document.getElementById("loadStatus");
+if(dbgEnd){
+  dbgEnd.className = "status loading";
+  dbgEnd.textContent = "Planning prêt — cliquez sur un week-end.";
+}
+
+})();
+</script>
