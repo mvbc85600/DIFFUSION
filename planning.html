@@ -1374,7 +1374,7 @@ function createBarLines(value){
   var text = clean(value);
   if(!text) return [];
 
-  var regex = /\d{1,2}h\d{2}\s*-\s*\d{1,2}h\d{2}/gi;
+  var regex = /\d{1,2}h\d{0,2}\s*-\s*\d{1,2}h\d{0,2}/gi;
   var found = [];
   var m;
   while((m = regex.exec(text)) !== null){
