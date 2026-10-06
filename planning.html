@@ -479,6 +479,14 @@ table{
 
 .hidden-row{display:none!important}
 
+.scroll-hint{
+  display:none;
+  margin:6px 2px 0;
+  font-size:11px;
+  color:var(--muted);
+  text-align:center;
+}
+
 .detail-nav-bottom{
   max-width:1400px;
   margin:18px auto 30px;
@@ -498,18 +506,75 @@ table{
   .search-box{top:67px}
 }
 
+@media(max-width:640px){
+
+/* =========================================================
+   TABLEAU MATCHS EN CARTES EMPILEES (lecture mobile)
+   Chaque ligne devient une carte lisible sans zoom ni
+   défilement horizontal.
+   ========================================================= */
+
+  .matches-table thead{display:none}
+  .matches-table,.matches-table tbody{display:block}
+  .matches-table tr{
+    display:block;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:10px;
+    margin:8px 0;
+    padding:6px 10px;
+    box-shadow:0 1px 2px rgba(0,0,0,.04);
+    overflow:hidden;
+  }
+  .matches-table tr.subheader-row{display:none}
+  .matches-table td{
+    display:block;
+    border:0;
+    border-bottom:1px dashed #e5e7eb;
+    padding:6px 2px;
+    text-align:left;
+  }
+  .matches-table td:last-child{border-bottom:0}
+  .matches-table td:empty{display:none}
+  .matches-table td[data-label]:not(:empty)::before{
+    content:attr(data-label);
+    display:block;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.04em;
+    color:#666;
+    text-transform:uppercase;
+  }
+  .matches-table tr td.category-title{
+    border:0;
+    border-radius:10px;
+    margin:-2px -4px 6px;
+    padding:9px 12px;
+    font-size:14px;
+  }
+  .matches-table tr.st-georges td{border-left:4px solid #e0bd00;background:#fffdf0}
+  .matches-table tr.st-hilaire td{border-left:4px solid var(--red);background:#fff8f8}
+  .matches-table tr.montaigu td{border-left:4px solid var(--blue);background:#f5faff}
+  .matches-table tr.table-row td{border-left:4px solid var(--gray)}
+  .matches-table tr.exterieur td{border-left:4px solid #ddd}
+}
+
 @media(max-width:520px){
   .page-header{position:relative}
   .header-inner{align-items:flex-start}
-  .header-home{padding:8px 11px}
+  .header-home{padding:10px 14px}
   #weekends-list-view,#permanences-widget{padding:12px}
   .weekend-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-  .weekend{min-height:76px;padding:10px}
-  .weekend-date{font-size:14px}
-  .permanences-table{min-width:760px}
-  .table-scroll{overflow-x:auto}
+  .weekend{min-height:72px;padding:11px}
+  .weekend-date{font-size:15px}
+  .permanences-table{min-width:700px;font-size:12px}
+  .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .scroll-hint{display:block}
   .search-box{position:relative;top:auto}
   .detail-nav-bottom{padding:0 12px}
+  .detail-actions{gap:6px}
+  .action-button,.nav-button{padding:12px 15px}
+  .summary-card strong{font-size:19px}
 }
 </style>
 </head>
@@ -645,6 +710,7 @@ table{
 	</tbody>
 </table>
 </div>
+<span class="scroll-hint">&#8592; Faites glisser le tableau horizontalement pour tout voir &#8594;</span>
 
 <h3 class="section-title">Matchs du week-end</h3>
 
@@ -1120,6 +1186,37 @@ function fetchCsv(csvUrl){
   });
 }
 
+function getSessionCache(date){
+  try{
+    if(!window.sessionStorage) return null;
+    return sessionStorage.getItem("mvbc-" + date) || null;
+  }catch(e){
+    return null;
+  }
+}
+
+function setSessionCache(date, text){
+  try{
+    if(window.sessionStorage) sessionStorage.setItem("mvbc-" + date, text);
+  }catch(e){
+    /* stockage indisponible (mode prive) : sans consequence */
+  }
+}
+
+/* PRECHARGEMENT : telecharge le CSV sans l afficher.
+   Le clic sur la carte devient quasi instantane. */
+
+function prefetch(weekend){
+  if(!weekend || !weekend.csv) return;
+  if(state.cache.has(weekend.date) || getSessionCache(weekend.date)) return;
+  fetchCsv(weekend.csv).then(function(text){
+    state.cache.set(weekend.date, text);
+    setSessionCache(weekend.date, text);
+  }).catch(function(){
+    /* silencieux : le clic retentera le telechargement */
+  });
+}
+
 function loadWeekend(weekend){
   var token = ++state.loadToken;
 
@@ -1131,10 +1228,12 @@ function loadWeekend(weekend){
     return;
   }
 
-  /* Cache mémoire de session : evite de re-télécharger un CSV
-     deja charge tout en restant à jour à chaque nouvelle visite. */
-  if(state.cache.has(weekend.date)){
-    renderWeekend(state.cache.get(weekend.date), token);
+  /* Cache mémoire + sessionStorage : un CSV deja charge n est
+     plus re-telecharge pendant toute la visite. */
+  var cached = state.cache.get(weekend.date) || getSessionCache(weekend.date);
+  if(cached){
+    state.cache.set(weekend.date, cached);
+    renderWeekend(cached, token);
     return;
   }
 
@@ -1143,6 +1242,7 @@ function loadWeekend(weekend){
   fetchCsv(weekend.csv).then(function(csvText){
     if(token !== state.loadToken) return;
     state.cache.set(weekend.date, csvText);
+    setSessionCache(weekend.date, csvText);
     renderWeekend(csvText, token);
   }).catch(function(error){
     console.error(error);
@@ -1447,6 +1547,7 @@ function renderMatches(rows){
     for(j4 = 0; j4 < 8; j4++){
       var td = document.createElement("td");
       td.textContent = cleanCellValue(row[j4]);
+      td.setAttribute("data-label", MATCH_HEADERS[j4]);
       tr.appendChild(td);
     }
 
@@ -1573,6 +1674,19 @@ weekendGrid.addEventListener("keydown",function(event){
   handleWeekendCard(event);
 });
 
+/* PRECHARGEMENT AU SURVOL : la carte touchee/pointee lance
+   discretement le telechargement de son CSV avant meme le clic. */
+
+weekendGrid.addEventListener("pointerenter",function(event){
+  var card = event.target.closest ? event.target.closest(".weekend[data-date]") : null;
+  if(!card) return;
+  var d = card.getAttribute("data-date");
+  var i;
+  for(i = 0; i < WEEKENDS.length; i++){
+    if(WEEKENDS[i].date === d){ prefetch(WEEKENDS[i]); break; }
+  }
+}, true);
+
 /* =========================================================
    INITIALISATION : marquage du week-end courant et passes
    ========================================================= */
@@ -1601,6 +1715,21 @@ if(dbgEnd){
   dbgEnd.className = "status loading";
   dbgEnd.textContent = "Planning prêt — cliquez sur un week-end.";
 }
+
+/* PRECHARGEMENT INITIAL : le week-end a venir (le plus
+   probablement consulte) est telecharge des l arrivee
+   sur la page, en tache de fond. */
+
+(function(){
+  var today = todayISO();
+  var i;
+  for(i = 0; i < WEEKENDS.length; i++){
+    if(WEEKENDS[i].date >= today && WEEKENDS[i].csv){
+      prefetch(WEEKENDS[i]);
+      break;
+    }
+  }
+})();
 
 })();
 </script>
