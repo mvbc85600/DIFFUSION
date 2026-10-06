@@ -687,48 +687,56 @@ if(dbg){ dbg.textContent = "Initialisation du planning…"; }
    CONFIGURATION
    Pour chaque week-end, renseigne csv avec l URL
    Publié sur le Web > CSV de la feuille Google Sheets.
+   IMPORTANT : utilise uniquement le format  pub?gid=...
+   (les URL gviz/tq ne fonctionnent pas avec un lien
+   "publié sur le web" et renvoient une page d erreur).
+   Pour les 6 premiers week-ends, remplace GID_XXXXXXX
+   par le gid de la feuille correspondante (visible dans
+   l URL de l onglet : ...edit#gid=123456).
    ========================================================= */
 
+var SHEET_BASE = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=";
+
 var WEEKENDS = [
-  {date:"2026-09-06", label:"05-06 SEPT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/gviz/tq?tqx=106022065&single=true&output=csv"},
-  {date:"2026-09-13", label:"12-13 SEPT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/gviz/tq?tqx=1368501394&single=true&output=csv"},
-  {date:"2026-09-20", label:"19-20 SEPT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/gviz/tq?tqx=1899274121&single=true&output=csv"},
-  {date:"2026-09-27", label:"26-27 SEPT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/gviz/tq?tqx=1129362905&single=true&output=csv"},
-  {date:"2026-10-04", label:"03-04 OCT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/gviz/tq?tqx=1244177219&single=true&output=csv"},
-  {date:"2026-10-11", label:"10-11 OCT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/gviz/tq?tqx=245799123&single=true&output=csv"},
-  {date:"2026-10-18", label:"17-18 OCT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=806798203&single=true&output=csv"},
-  {date:"2026-10-25", label:"24-25 OCT", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=324712518&single=true&output=csv"},
-  {date:"2026-11-01", label:"31 OCT - 01 NOV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=324712518&single=true&output=csv"},
-  {date:"2026-11-08", label:"07-08 NOV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=405256233&single=true&output=csv"},
-  {date:"2026-11-15", label:"14-15 NOV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1457888686&single=true&output=csv"},
-  {date:"2026-11-22", label:"21-22 NOV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=484619628&single=true&output=csv"},
-  {date:"2026-11-29", label:"28-29 NOV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1100550366&single=true&output=csv"},
-  {date:"2026-12-06", label:"05-06 DEC", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=263033034&single=true&output=csv"},
-  {date:"2026-12-13", label:"12-13 DEC", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1853217255&single=true&output=csv"},
-  {date:"2026-12-20", label:"19-20 DEC", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1943048456&single=true&output=csv"},
-  {date:"2026-12-27", label:"26-27 DEC", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=781103422&single=true&output=csv"},
-  {date:"2027-01-03", label:"02-03 JANV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1404045385&single=true&output=csv"},
-  {date:"2027-01-10", label:"09-10 JANV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1155822821&single=true&output=csv"},
-  {date:"2027-01-17", label:"16-17 JANV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1617464650&single=true&output=csv"},
-  {date:"2027-01-24", label:"23-24 JANV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1662004265&single=true&output=csv"},
-  {date:"2027-01-31", label:"30-31 JANV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=538245135&single=true&output=csv"},
-  {date:"2027-02-07", label:"06-07 FEV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=766179143&single=true&output=csv"},
-  {date:"2027-02-14", label:"13-14 FEV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1360690674&single=true&output=csv"},
-  {date:"2027-02-21", label:"20-21 FEV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1170499474&single=true&output=csv"},
-  {date:"2027-02-28", label:"27-28 FEV", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=730409254&single=true&output=csv"},
-  {date:"2027-03-07", label:"06-07 MARS", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1768539793&single=true&output=csv"},
-  {date:"2027-03-14", label:"13-14 MARS", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1369761738&single=true&output=csv"},
-  {date:"2027-03-21", label:"20-21 MARS", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1968980430&single=true&output=csv"},
-  {date:"2027-03-28", label:"27-28 MARS", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1383895459&single=true&output=csv"},
-  {date:"2027-04-04", label:"03-04 AVRIL", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=132381866&single=true&output=csv"},
-  {date:"2027-04-11", label:"10-11 AVRIL", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1722273630&single=true&output=csv"},
-  {date:"2027-04-18", label:"17-18 AVRIL", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1802703896&single=true&output=csv"},
-  {date:"2027-04-25", label:"24-25 AVRIL", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1447395419&single=true&output=csv"},
-  {date:"2027-05-02", label:"01-02 MAI", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=490187669&single=true&output=csv"},
-  {date:"2027-05-09", label:"08-09 MAI", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=688643571&single=true&output=csv"},
-  {date:"2027-05-16", label:"15-16 MAI", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1361691299&single=true&output=csv"},
-  {date:"2027-05-23", label:"22-23 MAI", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1518901397&single=true&output=csv"},
-  {date:"2027-05-30", label:"29-30 MAI", csv:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=1486286771&single=true&output=csv"},
+  {date:"2026-09-06", label:"05-06 SEPT", csv:SHEET_BASE + "GID_0506SEPT" + "&single=true&output=csv"},
+  {date:"2026-09-13", label:"12-13 SEPT", csv:SHEET_BASE + "GID_1213SEPT" + "&single=true&output=csv"},
+  {date:"2026-09-20", label:"19-20 SEPT", csv:SHEET_BASE + "GID_1920SEPT" + "&single=true&output=csv"},
+  {date:"2026-09-27", label:"26-27 SEPT", csv:SHEET_BASE + "GID_2627SEPT" + "&single=true&output=csv"},
+  {date:"2026-10-04", label:"03-04 OCT", csv:SHEET_BASE + "GID_0304OCT" + "&single=true&output=csv"},
+  {date:"2026-10-11", label:"10-11 OCT", csv:SHEET_BASE + "GID_1011OCT" + "&single=true&output=csv"},
+  {date:"2026-10-18", label:"17-18 OCT", csv:SHEET_BASE + "806798203" + "&single=true&output=csv"},
+  {date:"2026-10-25", label:"24-25 OCT", csv:SHEET_BASE + "324712518" + "&single=true&output=csv"},
+  {date:"2026-11-01", label:"31 OCT - 01 NOV", csv:SHEET_BASE + "324712518" + "&single=true&output=csv"},
+  {date:"2026-11-08", label:"07-08 NOV", csv:SHEET_BASE + "405256233" + "&single=true&output=csv"},
+  {date:"2026-11-15", label:"14-15 NOV", csv:SHEET_BASE + "1457888686" + "&single=true&output=csv"},
+  {date:"2026-11-22", label:"21-22 NOV", csv:SHEET_BASE + "484619628" + "&single=true&output=csv"},
+  {date:"2026-11-29", label:"28-29 NOV", csv:SHEET_BASE + "1100550366" + "&single=true&output=csv"},
+  {date:"2026-12-06", label:"05-06 DEC", csv:SHEET_BASE + "263033034" + "&single=true&output=csv"},
+  {date:"2026-12-13", label:"12-13 DEC", csv:SHEET_BASE + "1853217255" + "&single=true&output=csv"},
+  {date:"2026-12-20", label:"19-20 DEC", csv:SHEET_BASE + "1943048456" + "&single=true&output=csv"},
+  {date:"2026-12-27", label:"26-27 DEC", csv:SHEET_BASE + "781103422" + "&single=true&output=csv"},
+  {date:"2027-01-03", label:"02-03 JANV", csv:SHEET_BASE + "1404045385" + "&single=true&output=csv"},
+  {date:"2027-01-10", label:"09-10 JANV", csv:SHEET_BASE + "1155822821" + "&single=true&output=csv"},
+  {date:"2027-01-17", label:"16-17 JANV", csv:SHEET_BASE + "1617464650" + "&single=true&output=csv"},
+  {date:"2027-01-24", label:"23-24 JANV", csv:SHEET_BASE + "1662004265" + "&single=true&output=csv"},
+  {date:"2027-01-31", label:"30-31 JANV", csv:SHEET_BASE + "538245135" + "&single=true&output=csv"},
+  {date:"2027-02-07", label:"06-07 FEV", csv:SHEET_BASE + "766179143" + "&single=true&output=csv"},
+  {date:"2027-02-14", label:"13-14 FEV", csv:SHEET_BASE + "1360690674" + "&single=true&output=csv"},
+  {date:"2027-02-21", label:"20-21 FEV", csv:SHEET_BASE + "1170499474" + "&single=true&output=csv"},
+  {date:"2027-02-28", label:"27-28 FEV", csv:SHEET_BASE + "730409254" + "&single=true&output=csv"},
+  {date:"2027-03-07", label:"06-07 MARS", csv:SHEET_BASE + "1768539793" + "&single=true&output=csv"},
+  {date:"2027-03-14", label:"13-14 MARS", csv:SHEET_BASE + "1369761738" + "&single=true&output=csv"},
+  {date:"2027-03-21", label:"20-21 MARS", csv:SHEET_BASE + "1968980430" + "&single=true&output=csv"},
+  {date:"2027-03-28", label:"27-28 MARS", csv:SHEET_BASE + "1383895459" + "&single=true&output=csv"},
+  {date:"2027-04-04", label:"03-04 AVRIL", csv:SHEET_BASE + "132381866" + "&single=true&output=csv"},
+  {date:"2027-04-11", label:"10-11 AVRIL", csv:SHEET_BASE + "1722273630" + "&single=true&output=csv"},
+  {date:"2027-04-18", label:"17-18 AVRIL", csv:SHEET_BASE + "1802703896" + "&single=true&output=csv"},
+  {date:"2027-04-25", label:"24-25 AVRIL", csv:SHEET_BASE + "1447395419" + "&single=true&output=csv"},
+  {date:"2027-05-02", label:"01-02 MAI", csv:SHEET_BASE + "490187669" + "&single=true&output=csv"},
+  {date:"2027-05-09", label:"08-09 MAI", csv:SHEET_BASE + "688643571" + "&single=true&output=csv"},
+  {date:"2027-05-16", label:"15-16 MAI", csv:SHEET_BASE + "1361691299" + "&single=true&output=csv"},
+  {date:"2027-05-23", label:"22-23 MAI", csv:SHEET_BASE + "1518901397" + "&single=true&output=csv"},
+  {date:"2027-05-30", label:"29-30 MAI", csv:SHEET_BASE + "1486286771" + "&single=true&output=csv"},
   {date:"2027-06-06", label:"05-06 JUIN", csv:""},
   {date:"2027-06-13", label:"12-13 JUIN", csv:""}
 ];
@@ -758,8 +766,7 @@ var HOME_VENUES = ["st-georges","st-hilaire","montaigu"];
 
 var state = {
   currentIndex:-1,
-  loadToken:0,
-  cache:new Map()
+  loadToken:0
 };
 
 /* =========================================================
@@ -1068,7 +1075,11 @@ function parseCsv(text){
 }
 
 /* =========================================================
-   CHARGEMENT CSV (direct Google Sheets + cache mémoire de session)
+   CHARGEMENT CSV — SANS AUCUN CACHE.
+   Chaque ouverture d un week-end retélécharge le CSV
+   depuis Google Sheets avec un paramètre anti-cache (_=),
+   donc toute modification de la feuille apparaît
+   immédiatement.
    ========================================================= */
 
 function fetchCsv(csvUrl){
@@ -1094,6 +1105,7 @@ function fetchCsv(csvUrl){
       }
       return response.text();
     }).then(function(text){
+      clearTimeout(timer);
       if(!text || !text.trim()){
         throw new Error("La feuille Google Sheets est vide.");
       }
@@ -1130,37 +1142,6 @@ function fetchCsv(csvUrl){
   });
 }
 
-function getSessionCache(date){
-  try{
-    if(!window.sessionStorage) return null;
-    return sessionStorage.getItem("mvbc-" + date) || null;
-  }catch(e){
-    return null;
-  }
-}
-
-function setSessionCache(date, text){
-  try{
-    if(window.sessionStorage) sessionStorage.setItem("mvbc-" + date, text);
-  }catch(e){
-    /* stockage indisponible (mode prive) : sans consequence */
-  }
-}
-
-/* PRECHARGEMENT : telecharge le CSV sans l afficher.
-   Le clic sur la carte devient quasi instantane. */
-
-function prefetch(weekend){
-  if(!weekend || !weekend.csv) return;
-  if(state.cache.has(weekend.date) || getSessionCache(weekend.date)) return;
-  fetchCsv(weekend.csv).then(function(text){
-    state.cache.set(weekend.date, text);
-    setSessionCache(weekend.date, text);
-  }).catch(function(){
-    /* silencieux : le clic retentera le telechargement */
-  });
-}
-
 function loadWeekend(weekend){
   var token = ++state.loadToken;
 
@@ -1172,21 +1153,14 @@ function loadWeekend(weekend){
     return;
   }
 
-  /* Cache mémoire + sessionStorage : un CSV deja charge n est
-     plus re-telecharge pendant toute la visite. */
-  var cached = state.cache.get(weekend.date) || getSessionCache(weekend.date);
-  if(cached){
-    state.cache.set(weekend.date, cached);
-    renderWeekend(cached, token);
-    return;
-  }
+  /* AUCUN CACHE : le CSV est retélécharge a chaque ouverture,
+     donc les modifications du Google Sheet sont visibles
+     immediatement. */
 
   setStatus("Chargement du programme…");
 
   fetchCsv(weekend.csv).then(function(csvText){
     if(token !== state.loadToken) return;
-    state.cache.set(weekend.date, csvText);
-    setSessionCache(weekend.date, csvText);
     renderWeekend(csvText, token);
   }).catch(function(error){
     console.error(error);
@@ -1231,8 +1205,6 @@ function renderWeekend(csvText, token){
   var counted = countMatches(matches);
   summaryHome.textContent = counted.home + "/" + counted.total;
 
-  /* Plus d encadre "programme charge" : la zone de statut
-     n affiche que les chargements en cours et les erreurs. */
   loadStatus.hidden = true;
   loadStatus.className = "status";
 
@@ -1620,19 +1592,6 @@ weekendGrid.addEventListener("keydown",function(event){
   handleWeekendCard(event);
 });
 
-/* PRECHARGEMENT AU SURVOL : la carte touchee/pointee lance
-   discretement le telechargement de son CSV avant meme le clic. */
-
-weekendGrid.addEventListener("pointerenter",function(event){
-  var card = event.target.closest ? event.target.closest(".weekend[data-date]") : null;
-  if(!card) return;
-  var d = card.getAttribute("data-date");
-  var i;
-  for(i = 0; i < WEEKENDS.length; i++){
-    if(WEEKENDS[i].date === d){ prefetch(WEEKENDS[i]); break; }
-  }
-}, true);
-
 /* =========================================================
    INITIALISATION : marquage du week-end courant et passes
    ========================================================= */
@@ -1660,21 +1619,6 @@ var dbgEnd = document.getElementById("loadStatus");
 if(dbgEnd){
   dbgEnd.hidden = true;
 }
-
-/* PRECHARGEMENT INITIAL : le week-end a venir (le plus
-   probablement consulte) est telecharge des l arrivee
-   sur la page, en tache de fond. */
-
-(function(){
-  var today = todayISO();
-  var i;
-  for(i = 0; i < WEEKENDS.length; i++){
-    if(WEEKENDS[i].date >= today && WEEKENDS[i].csv){
-      prefetch(WEEKENDS[i]);
-      break;
-    }
-  }
-})();
 
 })();
 </script>
