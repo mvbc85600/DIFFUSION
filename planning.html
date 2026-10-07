@@ -116,6 +116,24 @@ button{cursor:pointer}
   background:#fff2a8;
 }
 
+/* Etat du planning : a jour (vert) / a completer (orange) */
+
+.weekend-status.ok{
+  background:#d8f0d8;
+  color:#1b5e20;
+}
+
+.weekend-status.todo{
+  background:#fdeacb;
+  color:#8a5300;
+}
+
+.weekend.past .weekend-status.ok,
+.weekend.past .weekend-status.todo{
+  background:#d2d3d5;
+  color:inherit;
+}
+
 .weekend.past .weekend-status{
   background:#d2d3d5;
 }
@@ -205,7 +223,7 @@ button{cursor:pointer}
 }
 
 /* =========================================================
-   CARTE MATCHS A DOMICILE (seule carte résumé conservée)
+   CARTE MATCHS A DOMICILE + badge de mise a jour
    ========================================================= */
 
 .summary{
@@ -235,12 +253,60 @@ button{cursor:pointer}
   font-size:11px;
 }
 
-.search-box{
+/* =========================================================
+   BARRE DE FILTRES (domicile / exterieur / salles)
+   ========================================================= */
+
+.filter-bar{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:5px;
+  margin:10px 0;
   position:sticky;
   top:0;
   z-index:20;
   background:rgba(243,244,246,.96);
   padding:6px 0;
+}
+
+.chip{
+  border:1px solid var(--border);
+  border-radius:999px;
+  background:#fff;
+  padding:5px 12px;
+  font-size:11px;
+  font-weight:600;
+  color:#333;
+  transition:.15s ease;
+}
+
+.chip:hover{border-color:#2196f3}
+
+.chip.active{
+  background:#111;
+  color:#fff;
+  border-color:#111;
+}
+
+.chip .dot{
+  display:inline-block;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  margin-right:5px;
+  vertical-align:middle;
+}
+
+.chip .dot.st-georges{background:var(--yellow)}
+.chip .dot.st-hilaire{background:var(--red)}
+.chip .dot.montaigu{background:var(--blue)}
+.chip .dot.all{background:#111}
+.chip .dot.home{background:var(--white)}
+.chip .dot.away{background:#b9bec6}
+
+.search-box{
+  padding:2px 0;
 }
 
 .search-input{
@@ -258,16 +324,15 @@ button{cursor:pointer}
   box-shadow:0 0 0 3px rgba(33,150,243,.12);
 }
 
-.search-help{
-  display:block;
-  margin:5px 8px 0;
-  font-size:11px;
-  color:var(--muted);
-}
-
 .section-title{
   margin:18px 0 8px;
   font-size:17px;
+}
+
+.section-title small{
+  font-weight:400;
+  color:var(--muted);
+  font-size:12px;
 }
 
 .table-scroll{
@@ -284,9 +349,7 @@ table{
 }
 
 /* =========================================================
-   TABLEAU PERMANENCES — style compact hérité de l'ancien
-   widget : police fluide en clamp(), mise en page
-   automatique, tout tient à l'écran sans défilement.
+   TABLEAU PERMANENCES — lignes legerement aerees
    ========================================================= */
 
 .permanences-table{
@@ -295,15 +358,15 @@ table{
   table-layout:auto;
   border-collapse:collapse;
   background:#fff;
-  font-size:clamp(7px,0.65vw,10px);
+  font-size:clamp(8px,0.7vw,11px);
 }
 
 .permanences-table th,
 .permanences-table td{
   border:0.5px solid #ccc;
-  padding:3px 3px;
+  padding:5px 5px;
   vertical-align:middle;
-  line-height:1.1;
+  line-height:1.35;
   white-space:normal;
   overflow-wrap:break-word;
   color:#000!important;
@@ -314,11 +377,11 @@ table{
   color:#fff;
   text-align:center;
   font-weight:600;
-  padding:4px 2px;
+  padding:6px 3px;
 }
 
 .permanence-main-row td{
-  height:27px;
+  height:36px;
 }
 
 .permanences-table td:empty{border-color:transparent}
@@ -343,7 +406,7 @@ table{
 }
 
 /* =========================================================
-   TABLEAU MATCHS — même style compact que les permanences
+   TABLEAU MATCHS — meme aeration
    ========================================================= */
 
 .matches-table{
@@ -352,18 +415,18 @@ table{
   table-layout:auto;
   border-collapse:collapse;
   background:#fff;
-  font-size:clamp(7px,0.65vw,10px);
+  font-size:clamp(8px,0.7vw,11px);
 }
 
 .matches-table th,
 .matches-table td{
-  padding:3px 3px;
+  padding:5px 5px;
   text-align:left;
   vertical-align:middle;
   border-bottom:1px solid #ddd;
   white-space:normal;
   overflow-wrap:break-word;
-  line-height:1.1;
+  line-height:1.35;
 }
 
 .matches-table thead th{
@@ -389,9 +452,8 @@ table{
 }
 
 /* =========================================================
-   REGLES DE COULEURS (identiques à l'original)
-   St-Georges = jaune, St-Hilaire = rouge, Montaigu = bleu,
-   table = gris, extérieur = gris très clair
+   REGLES DE COULEURS
+   St-Georges = jaune, St-Hilaire = rouge, Montaigu = bleu
    ========================================================= */
 
 .row-st-georges td,
@@ -408,8 +470,6 @@ table{
 
 .row-exterieur td,
 .matches-table tr.exterieur td{background:#f9f9f9!important;color:#111!important}
-
-/* Lignes ENTRÉES du tableau permanences : fond jaune */
 
 .row-entrees td{background:var(--yellow)!important;color:#111!important}
 
@@ -431,8 +491,8 @@ table{
 
 .bar-line{
   display:block;
-  padding:2px 0;
-  line-height:1.35;
+  padding:3px 0;
+  line-height:1.45;
 }
 
 .status{
@@ -489,6 +549,15 @@ table{
   gap:8px;
 }
 
+/* Impression : vue detail propre, sans boutons */
+
+@media print{
+  .detail-top,.filter-bar,.search-box,.detail-nav-bottom,.status,.scroll-hint,.update-badge{display:none!important}
+  #permanences-widget-view{display:block!important}
+  body{background:#fff}
+  .table-scroll{box-shadow:none;overflow:visible}
+}
+
 @media(max-width:1100px){
   .weekend-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
@@ -497,30 +566,23 @@ table{
   .weekend-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 
-/* Smartphones : largeur reelle OU appareil tactile.
-   Dans une iframe integree dans un site dont la page mere
-   n a pas de balise viewport, la largeur CSS reste ~980px
-   meme sur telephone : on cible donc aussi les ecrans
-   tactiles sans survol pour forcer la mise en page mobile. */
 @media(max-width:520px),(hover:none) and (pointer:coarse){
   #weekends-list-view,#permanences-widget{padding:12px}
   .weekend-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
   .weekend{min-height:72px;padding:11px}
   .weekend-date{font-size:15px}
 
-  /* Encore plus compact sur tres petit ecran :
-     les tableaux passent a 7px comme l ancien widget. */
-  .permanences-table,.matches-table{font-size:7px}
+  .permanences-table,.matches-table{font-size:7.5px}
   .permanences-table th,.permanences-table td,
-  .matches-table th,.matches-table td{padding:2px 1px}
-  .permanence-main-row td{height:21px}
+  .matches-table th,.matches-table td{padding:3px 2px}
+  .permanence-main-row td{height:27px}
   .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
   .scroll-hint{display:block}
-  .search-box{position:relative;top:auto}
   .detail-nav-bottom{padding:0 12px}
   .detail-actions{gap:6px}
   .action-button,.nav-button{padding:12px 15px}
   .summary-card strong{font-size:19px}
+  .chip{padding:4px 9px}
 }
 </style>
 </head>
@@ -528,91 +590,87 @@ table{
 <main><!-- ============================================================
      VUE 1 : LISTE DES WEEK-ENDS
      ============================================================ -->
-<section id="weekends-list-view"><!-- ============================================================
-       GRILLE DES WEEK-ENDS EN HTML STATIQUE
-       Un petit script en bas de page ajoute uniquement les
-       états "en cours" / "passé" selon la date du jour.
-       ============================================================ -->
+<section id="weekends-list-view">
 <div class="weekend-grid" id="weekendGrid">
 <div class="weekend-section-title">Week-ends 2026-2027</div>
 
-<div class="weekend" data-date="2026-09-06" role="button" tabindex="0"><span class="weekend-date">05-06 SEPT</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2026-09-06" role="button" tabindex="0"><span class="weekend-date">05-06 SEPT</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2026-09-13" role="button" tabindex="0"><span class="weekend-date">12-13 SEPT</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2026-09-13" role="button" tabindex="0"><span class="weekend-date">12-13 SEPT</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2026-09-20" role="button" tabindex="0"><span class="weekend-date">19-20 SEPT</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2026-09-20" role="button" tabindex="0"><span class="weekend-date">19-20 SEPT</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2026-09-27" role="button" tabindex="0"><span class="weekend-date">26-27 SEPT</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2026-09-27" role="button" tabindex="0"><span class="weekend-date">26-27 SEPT</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2026-10-04" role="button" tabindex="0"><span class="weekend-date">03-04 OCT</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2026-10-04" role="button" tabindex="0"><span class="weekend-date">03-04 OCT</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2026-10-11" role="button" tabindex="0"><span class="weekend-date">10-11 OCT</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2026-10-11" role="button" tabindex="0"><span class="weekend-date">10-11 OCT</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2026-10-18" role="button" tabindex="0"><span class="weekend-date">17-18 OCT</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2026-10-18" role="button" tabindex="0"><span class="weekend-date">17-18 OCT</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2026-10-25" role="button" tabindex="0"><span class="weekend-date">24-25 OCT</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2026-10-25" role="button" tabindex="0"><span class="weekend-date">24-25 OCT</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2026-11-01" role="button" tabindex="0"><span class="weekend-date">31 OCT - 01 NOV</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2026-11-01" role="button" tabindex="0"><span class="weekend-date">31 OCT - 01 NOV</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2026-11-08" role="button" tabindex="0"><span class="weekend-date">07-08 NOV</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2026-11-08" role="button" tabindex="0"><span class="weekend-date">07-08 NOV</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2026-11-15" role="button" tabindex="0"><span class="weekend-date">14-15 NOV</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2026-11-15" role="button" tabindex="0"><span class="weekend-date">14-15 NOV</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2026-11-22" role="button" tabindex="0"><span class="weekend-date">21-22 NOV</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2026-11-22" role="button" tabindex="0"><span class="weekend-date">21-22 NOV</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2026-11-29" role="button" tabindex="0"><span class="weekend-date">28-29 NOV</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2026-11-29" role="button" tabindex="0"><span class="weekend-date">28-29 NOV</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2026-12-06" role="button" tabindex="0"><span class="weekend-date">05-06 DEC</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2026-12-06" role="button" tabindex="0"><span class="weekend-date">05-06 DEC</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2026-12-13" role="button" tabindex="0"><span class="weekend-date">12-13 DEC</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2026-12-13" role="button" tabindex="0"><span class="weekend-date">12-13 DEC</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2026-12-20" role="button" tabindex="0"><span class="weekend-date">19-20 DEC</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2026-12-20" role="button" tabindex="0"><span class="weekend-date">19-20 DEC</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2026-12-27" role="button" tabindex="0"><span class="weekend-date">26-27 DEC</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2026-12-27" role="button" tabindex="0"><span class="weekend-date">26-27 DEC</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2027-01-03" role="button" tabindex="0"><span class="weekend-date">02-03 JANV</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2027-01-03" role="button" tabindex="0"><span class="weekend-date">02-03 JANV</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2027-01-10" role="button" tabindex="0"><span class="weekend-date">09-10 JANV</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2027-01-10" role="button" tabindex="0"><span class="weekend-date">09-10 JANV</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2027-01-17" role="button" tabindex="0"><span class="weekend-date">16-17 JANV</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2027-01-17" role="button" tabindex="0"><span class="weekend-date">16-17 JANV</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2027-01-24" role="button" tabindex="0"><span class="weekend-date">23-24 JANV</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2027-01-24" role="button" tabindex="0"><span class="weekend-date">23-24 JANV</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2027-01-31" role="button" tabindex="0"><span class="weekend-date">30-31 JANV</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2027-01-31" role="button" tabindex="0"><span class="weekend-date">30-31 JANV</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2027-02-07" role="button" tabindex="0"><span class="weekend-date">06-07 FEV</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2027-02-07" role="button" tabindex="0"><span class="weekend-date">06-07 FEV</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2027-02-14" role="button" tabindex="0"><span class="weekend-date">13-14 FEV</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2027-02-14" role="button" tabindex="0"><span class="weekend-date">13-14 FEV</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2027-02-21" role="button" tabindex="0"><span class="weekend-date">20-21 FEV</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2027-02-21" role="button" tabindex="0"><span class="weekend-date">20-21 FEV</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2027-02-28" role="button" tabindex="0"><span class="weekend-date">27-28 FEV</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2027-02-28" role="button" tabindex="0"><span class="weekend-date">27-28 FEV</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2027-03-07" role="button" tabindex="0"><span class="weekend-date">06-07 MARS</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2027-03-07" role="button" tabindex="0"><span class="weekend-date">06-07 MARS</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2027-03-14" role="button" tabindex="0"><span class="weekend-date">13-14 MARS</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2027-03-14" role="button" tabindex="0"><span class="weekend-date">13-14 MARS</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2027-03-21" role="button" tabindex="0"><span class="weekend-date">20-21 MARS</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2027-03-21" role="button" tabindex="0"><span class="weekend-date">20-21 MARS</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2027-03-28" role="button" tabindex="0"><span class="weekend-date">27-28 MARS</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2027-03-28" role="button" tabindex="0"><span class="weekend-date">27-28 MARS</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2027-04-04" role="button" tabindex="0"><span class="weekend-date">03-04 AVRIL</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2027-04-04" role="button" tabindex="0"><span class="weekend-date">03-04 AVRIL</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2027-04-11" role="button" tabindex="0"><span class="weekend-date">10-11 AVRIL</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2027-04-11" role="button" tabindex="0"><span class="weekend-date">10-11 AVRIL</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2027-04-18" role="button" tabindex="0"><span class="weekend-date">17-18 AVRIL</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2027-04-18" role="button" tabindex="0"><span class="weekend-date">17-18 AVRIL</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2027-04-25" role="button" tabindex="0"><span class="weekend-date">24-25 AVRIL</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2027-04-25" role="button" tabindex="0"><span class="weekend-date">24-25 AVRIL</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2027-05-02" role="button" tabindex="0"><span class="weekend-date">01-02 MAI</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2027-05-02" role="button" tabindex="0"><span class="weekend-date">01-02 MAI</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2027-05-09" role="button" tabindex="0"><span class="weekend-date">08-09 MAI</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2027-05-09" role="button" tabindex="0"><span class="weekend-date">08-09 MAI</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2027-05-16" role="button" tabindex="0"><span class="weekend-date">15-16 MAI</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2027-05-16" role="button" tabindex="0"><span class="weekend-date">15-16 MAI</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2027-05-23" role="button" tabindex="0"><span class="weekend-date">22-23 MAI</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2027-05-23" role="button" tabindex="0"><span class="weekend-date">22-23 MAI</span><span class="weekend-status todo">Planning à compléter</span></div>
 
-<div class="weekend" data-date="2027-05-30" role="button" tabindex="0"><span class="weekend-date">29-30 MAI</span><span class="weekend-status">Programme</span></div>
+<div class="weekend" data-date="2027-05-30" role="button" tabindex="0"><span class="weekend-date">29-30 MAI</span><span class="weekend-status todo">Planning à compléter</span></div>
 
 <div class="weekend" data-date="2027-06-06" role="button" tabindex="0"><span class="weekend-date">05-06 JUIN</span><span class="weekend-status">&Agrave; compl&eacute;ter</span></div>
 
@@ -635,16 +693,30 @@ table{
 </div>
 </div>
 
-<div id="permanences-widget"><!-- Carte résumé : X/Y matchs à domicile -->
+<div id="permanences-widget">
 <div class="summary">
 <div class="summary-card"><strong id="summaryHome">&mdash;</strong> <span>matchs &agrave; domicile</span></div>
 </div>
 
-<div class="search-box"><input autocomplete="off" class="search-input" id="searchInput" placeholder="Rechercher une équipe, un licencié, une salle, un horaire..." type="search" />
+
+<!-- ============================================================
+     BARRE DE FILTRES : Tous / Domicile / Extérieur / salles
+     Se combine avec la recherche.
+     ============================================================ -->
+<div class="filter-bar" id="filterBar">
+<button class="chip active" data-filter="all" type="button"><span class="dot all"></span>Tous</button>
+<button class="chip" data-filter="home" type="button"><span class="dot home"></span>Domicile</button>
+<button class="chip" data-filter="away" type="button"><span class="dot away"></span>Ext&eacute;rieur</button>
+<button class="chip" data-filter="st-georges" type="button"><span class="dot st-georges"></span>St-Georges</button>
+<button class="chip" data-filter="st-hilaire" type="button"><span class="dot st-hilaire"></span>St-Hilaire</button>
+<button class="chip" data-filter="montaigu" type="button"><span class="dot montaigu"></span>Montaigu</button>
+</div>
+
+<div class="search-box"><input autocomplete="off" class="search-input" id="searchInput" placeholder="Rechercher une équipe, un licencié, une salle, un horaire..." type="search" /> </div>
 
 <div aria-live="polite" class="status loading" id="loadStatus">S&eacute;lectionnez un week-end.</div>
 
-<h3 class="section-title">Permanences du week-end</h3>
+<h3 class="section-title">Permanences du week-end <small id="permCount"></small></h3>
 
 <div class="table-scroll">
 <table class="permanences-table" id="permanencesTable">
@@ -654,7 +726,7 @@ table{
 </div>
 <span class="scroll-hint">&#8592; Faites glisser le tableau horizontalement pour tout voir &#8594;</span>
 
-<h3 class="section-title">Matchs du week-end</h3>
+<h3 class="section-title">Matchs du week-end <small id="matchCount"></small></h3>
 
 <div class="table-scroll" id="matchesContainer">&nbsp;</div>
 
@@ -667,9 +739,6 @@ table{
 <script>
 (function(){
 "use strict";
-
-/* Affiche toute erreur JavaScript directement dans la page,
-   dans la zone de statut : plus besoin de la console. */
 
 window.addEventListener("error",function(e){
   var box = document.getElementById("loadStatus");
@@ -685,14 +754,8 @@ if(dbg){ dbg.textContent = "Initialisation du planning…"; }
 
 /* =========================================================
    CONFIGURATION
-   Pour chaque week-end, renseigne csv avec l URL
-   Publié sur le Web > CSV de la feuille Google Sheets.
-   IMPORTANT : utilise uniquement le format  pub?gid=...
-   (les URL gviz/tq ne fonctionnent pas avec un lien
-   "publié sur le web" et renvoient une page d erreur).
-   Pour les 6 premiers week-ends, remplace GID_XXXXXXX
-   par le gid de la feuille correspondante (visible dans
-   l URL de l onglet : ...edit#gid=123456).
+   Format d URL UNIQUEMENT pub?gid=... (les gviz/tq
+   renvoient une page d erreur avec un lien publie).
    ========================================================= */
 
 var SHEET_BASE = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS77kpDGlM3GQqnURQeKJB2iqe0qIHxdL3wAGsjpzaGl3qawDYq2EjXghqfPKb5rJK75ItMEUIEWhgl/pub?gid=";
@@ -741,6 +804,13 @@ var WEEKENDS = [
   {date:"2027-06-13", label:"12-13 JUIN", csv:""}
 ];
 
+/* Rafraichissement automatique (en ms) tant que la vue
+   detail est ouverte : 60 s. 0 = desactive. */
+
+var AUTO_REFRESH_MS = 60000;
+
+var VENUE_COLORS = ["st-georges","st-hilaire","montaigu"];
+
 var COLOR_CLASSES = {
   "st-georges":[
     "st-georges","samedi-st-georges","dimanche-st-georges",
@@ -760,14 +830,23 @@ var COLOR_CLASSES = {
   ]
 };
 
-/* Salles du club : utilisees pour determiner a domicile */
-
 var HOME_VENUES = ["st-georges","st-hilaire","montaigu"];
 
 var state = {
   currentIndex:-1,
-  loadToken:0
+  loadToken:0,
+  filter:"all",
+  autoTimer:null,
+  lastLoadedAt:null,
+  statusCache:{},   /* date -> {ok:boolean, at:timestamp} */
+  statusBusy:false,
+  statusLastRun:0
 };
+
+/* Delai (ms) entre deux recalculs automatiques des statuts
+   de la page d accueil. 0 = desactive. */
+
+var STATUS_REFRESH_MS = 60000;
 
 /* =========================================================
    DOM
@@ -787,6 +866,9 @@ var nextButton = document.getElementById("nextButton");
 var prevButtonBottom = document.getElementById("prevButtonBottom");
 var nextButtonBottom = document.getElementById("nextButtonBottom");
 var summaryHome = document.getElementById("summaryHome");
+var filterBar = document.getElementById("filterBar");
+var permCount = document.getElementById("permCount");
+var matchCount = document.getElementById("matchCount");
 
 /* =========================================================
    UTILITAIRES
@@ -857,9 +939,18 @@ function isSubheader(row){
   return normalize(row[1] || "").indexOf("date") !== -1;
 }
 
-/* =========================================================
-   COULEURS
-   ========================================================= */
+function rowVenue(row){
+  /* Renvoie st-georges / st-hilaire / montaigu ou "" */
+  var salle = slugify(row[5] || "");
+  var c, j;
+  for(c = 0; c < VENUE_COLORS.length; c++){
+    var classes = COLOR_CLASSES[VENUE_COLORS[c]];
+    for(j = 0; j < classes.length; j++){
+      if(salle.indexOf(classes[j]) !== -1) return VENUE_COLORS[c];
+    }
+  }
+  return "";
+}
 
 function colorForRow(cells){
   var content = cells.map(function(cell){ return slugify(cell); }).join(" ");
@@ -926,12 +1017,7 @@ function isCountedMatch(row){
 }
 
 function isHomeMatch(row){
-  var salle = slugify(row[5] || "");
-  var i;
-  for(i = 0; i < HOME_VENUES.length; i++){
-    if(salle.indexOf(HOME_VENUES[i]) !== -1) return true;
-  }
-  return false;
+  return rowVenue(row) !== "";
 }
 
 function countMatches(rows){
@@ -941,17 +1027,128 @@ function countMatches(rows){
 }
 
 /* =========================================================
-   NAVIGATION
+   ETAT DU PLANNING SUR LA PAGE D ACCUEIL
+   "Planning à jour" si au moins 90 % des matchs à
+   domicile ont leurs cellules ARBITRES et TABLES
+   complétées. Sinon "Planning à compléter".
+   ========================================================= */
+
+var NON_NAME_VALUES = {"-":"", "—":"", "–":"", "x":"", "x x":"", "?":"", ".":"", "":"", "non":"", "n r":"", "nr":"", "a voir":"", "a completer":"", "tbd":"", "n a":"", "na":""};
+
+function isNamedPerson(value){
+  var text = cleanCellValue(value);
+  if(!text) return false;
+  if(NON_NAME_VALUES[normalize(text)]) return false;
+  /* au moins une lettre pour qu on considere cela comme un nom */
+  return /[a-z\u00e0-\u00ff]/i.test(normalize(text));
+}
+
+function isCoveredHomeMatch(row){
+  /* les DEUX cellules doivent etre completes (arbitres ET tables) */
+  return isHomeMatch(row) && isNamedPerson(row[6]) && isNamedPerson(row[7]);
+}
+
+function splitCsvRows(csvText){
+  var rows = parseCsv(csvText);
+  if(rows.length > 0){
+    rows = rows.slice(1);
+  }
+  var i;
+  for(i = 0; i < rows.length; i++){
+    if(isCategoryTitle(rows[i])){
+      return {permanences:rows.slice(0,i), matches:rows.slice(i)};
+    }
+  }
+  return {permanences:rows, matches:[]};
+}
+
+function weekendIsUpToDate(csvText){
+  var parts = splitCsvRows(csvText);
+  var homeMatches = parts.matches.filter(function(row){
+    return isCountedMatch(row) && isHomeMatch(row);
+  });
+  if(!homeMatches.length) return false;
+  var covered = homeMatches.filter(isCoveredHomeMatch).length;
+  return (covered / homeMatches.length) >= 0.9;
+}
+
+function setWeekendStatus(date, ok){
+  var el = document.querySelector(".weekend[data-date=\"" + date + "\"]");
+  if(!el || el.classList.contains("past")) return;
+  var pill = el.querySelector(".weekend-status");
+  if(!pill) return;
+  pill.classList.toggle("ok", ok);
+  pill.classList.toggle("todo", !ok);
+  pill.textContent = ok ? "Planning à jour" : "Planning à compléter";
+}
+
+function computeAndSaveStatus(date, csvText){
+  var ok = weekendIsUpToDate(csvText);
+  state.statusCache[date] = {ok:ok, at:Date.now()};
+  setWeekendStatus(date, ok);
+}
+
+function refreshWeekendStatuses(force){
+  if(state.statusBusy) return;
+  if(!force && STATUS_REFRESH_MS && (Date.now() - state.statusLastRun) < STATUS_REFRESH_MS) return;
+
+  var pending = WEEKENDS.filter(function(w){
+    if(!w.csv) return false;
+    var cached = state.statusCache[w.date];
+    if(cached && !force && (Date.now() - cached.at) < STATUS_REFRESH_MS) return false;
+    var el = document.querySelector(".weekend[data-date=\"" + w.date + "\"]");
+    return !el || !el.classList.contains("past");
+  });
+
+  if(!pending.length){
+    state.statusLastRun = Date.now();
+    return;
+  }
+
+  state.statusBusy = true;
+  state.statusLastRun = Date.now();
+
+  /* petits paquets successifs pour ne pas saturer */
+
+  var index = 0;
+
+  function runBatch(){
+    if(index >= pending.length){
+      state.statusBusy = false;
+      return;
+    }
+    var batch = pending.slice(index, index + 4);
+    index += 4;
+    Promise.all(batch.map(function(w){
+      return fetchCsv(w.csv).then(function(csvText){
+        computeAndSaveStatus(w.date, csvText);
+      }).catch(function(){
+        /* echec : on garde le statut affiche actuel */
+      });
+    })).then(runBatch);
+  }
+
+  runBatch();
+}
+
+/* =========================================================
+   NAVIGATION (avec liens directs via l URL #date)
    ========================================================= */
 
 function showList(){
+  stopAutoRefresh();
+  state.currentIndex = -1;
   detailView.style.display = "none";
   listView.style.display = "";
   document.title = "Week-ends MVBC85";
+  if(history.replaceState){
+    history.replaceState(null,"",location.pathname + location.search);
+  }
   window.scrollTo({top:0,behavior:"smooth"});
+  refreshWeekendStatuses(false);
 }
 
-function openWeekend(index){
+function openWeekend(index, fromHash){
   if(index < 0 || index >= WEEKENDS.length) return;
 
   state.currentIndex = index;
@@ -962,11 +1159,27 @@ function openWeekend(index){
   weekendTitle.textContent = "Week-end du " + weekend.label;
   document.title = "Week-end du " + weekend.label + " — MVBC85";
 
+  if(!fromHash && history.pushState){
+    history.pushState({weekend:weekend.date},"","#weekend-" + weekend.date);
+  }
+
   updateNavigation();
   resetDetail();
   loadWeekend(weekend);
+  startAutoRefresh(weekend);
 
   window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function indexFromHash(){
+  var hash = location.hash || "";
+  if(hash.indexOf("#weekend-") !== 0) return -1;
+  var date = hash.substring(10);
+  var i;
+  for(i = 0; i < WEEKENDS.length; i++){
+    if(WEEKENDS[i].date === date) return i;
+  }
+  return -1;
 }
 
 function updateNavigation(){
@@ -1008,6 +1221,9 @@ function updateNavigation(){
   nextButton.onclick = next ? function(){ openWeekend(next.i); } : null;
   prevButtonBottom.onclick = prev ? function(){ openWeekend(prev.i); } : null;
   nextButtonBottom.onclick = next ? function(){ openWeekend(next.i); } : null;
+
+  state.prevIndex = prev ? prev.i : -1;
+  state.nextIndex = next ? next.i : -1;
 }
 
 function resetDetail(){
@@ -1016,6 +1232,8 @@ function resetDetail(){
   noResult.hidden = true;
   searchInput.value = "";
   summaryHome.textContent = "—";
+  permCount.textContent = "";
+  matchCount.textContent = "";
   setStatus("Chargement du programme…");
 }
 
@@ -1075,11 +1293,7 @@ function parseCsv(text){
 }
 
 /* =========================================================
-   CHARGEMENT CSV — SANS AUCUN CACHE.
-   Chaque ouverture d un week-end retélécharge le CSV
-   depuis Google Sheets avec un paramètre anti-cache (_=),
-   donc toute modification de la feuille apparaît
-   immédiatement.
+   CHARGEMENT CSV — SANS AUCUN CACHE
    ========================================================= */
 
 function fetchCsv(csvUrl){
@@ -1142,7 +1356,7 @@ function fetchCsv(csvUrl){
   });
 }
 
-function loadWeekend(weekend){
+function loadWeekend(weekend, silent){
   var token = ++state.loadToken;
 
   if(!weekend.csv){
@@ -1153,18 +1367,18 @@ function loadWeekend(weekend){
     return;
   }
 
-  /* AUCUN CACHE : le CSV est retélécharge a chaque ouverture,
-     donc les modifications du Google Sheet sont visibles
-     immediatement. */
-
-  setStatus("Chargement du programme…");
+  if(!silent){
+    setStatus("Chargement du programme…");
+  }
 
   fetchCsv(weekend.csv).then(function(csvText){
     if(token !== state.loadToken) return;
+    state.lastLoadedAt = new Date();
     renderWeekend(csvText, token);
   }).catch(function(error){
     console.error(error);
     if(token !== state.loadToken) return;
+    if(silent) return; /* echec du rafraichissement silencieux : on garde l affichage */
     setStatus(
       "Impossible de charger le programme. Vérifie que la feuille Google Sheets est bien publiée en CSV et accessible publiquement.",
       "error"
@@ -1175,13 +1389,39 @@ function loadWeekend(weekend){
   });
 }
 
+/* =========================================================
+   RAFRAICHISSEMENT AUTOMATIQUE
+   Tant que la vue detail est ouverte, le CSV est
+   retelecharge toutes les AUTO_REFRESH_MS. Une modif
+   du Google Sheet apparait donc au bout de 1 minute
+   maximum, sans recharger la page.
+   ========================================================= */
+
+function startAutoRefresh(weekend){
+  stopAutoRefresh();
+  if(!AUTO_REFRESH_MS || !weekend.csv) return;
+  state.autoTimer = setInterval(function(){
+    if(state.currentIndex < 0) return;
+    loadWeekend(WEEKENDS[state.currentIndex], true);
+  }, AUTO_REFRESH_MS);
+}
+
+function stopAutoRefresh(){
+  if(state.autoTimer){
+    clearInterval(state.autoTimer);
+    state.autoTimer = null;
+  }
+}
+
 function renderWeekend(csvText, token){
   if(token !== state.loadToken) return;
 
-  var rows = parseCsv(csvText);
+  /* mise a jour immediate du statut de ce week-end sur l accueil */
+  if(state.currentIndex >= 0){
+    computeAndSaveStatus(WEEKENDS[state.currentIndex].date, csvText);
+  }
 
-  /* La premiere ligne du CSV est la ligne de titre
-     de la feuille Google Sheets : on la supprime. */
+  var rows = parseCsv(csvText);
 
   if(rows.length > 0){
     rows = rows.slice(1);
@@ -1204,6 +1444,8 @@ function renderWeekend(csvText, token){
 
   var counted = countMatches(matches);
   summaryHome.textContent = counted.home + "/" + counted.total;
+
+  if(state.lastLoadedAt){/* heure conservee pour le rafraichissement automatique */}
 
   loadStatus.hidden = true;
   loadStatus.className = "status";
@@ -1303,7 +1545,7 @@ function createPermanenceRow(rowData){
     return tr;
   }
 
-  /* ENTREES : fond jaune */
+  /* ENTREES */
 
   if(mission.indexOf("entree") !== -1){
     tr.classList.add("row-entrees");
@@ -1446,20 +1688,13 @@ function renderMatches(rows){
 
     var tr = document.createElement("tr");
 
-    var salle = slugify(row[5]);
-    var colors = Object.keys(COLOR_CLASSES);
-    var c, j3;
-    for(c = 0; c < colors.length; c++){
-      var classes = COLOR_CLASSES[colors[c]];
-      var matched = false;
-      for(j3 = 0; j3 < classes.length; j3++){
-        if(salle.indexOf(classes[j3]) !== -1){
-          tr.classList.add(colors[c]);
-          matched = true;
-          break;
-        }
-      }
-      if(matched) break;
+    /* Classe salle, ou exterieur si aucune salle du club */
+
+    var venue = rowVenue(row);
+    if(venue){
+      tr.classList.add(venue);
+    }else{
+      tr.classList.add("exterieur");
     }
 
     var j4;
@@ -1478,24 +1713,59 @@ function renderMatches(rows){
 }
 
 /* =========================================================
-   RECHERCHE
+   FILTRES + RECHERCHE (combinés)
    ========================================================= */
+
+function rowPassesFilter(row, isPermanence){
+  var f = state.filter;
+  if(f === "all") return true;
+
+  /* Permanences speciales :
+     - ligne "entree" visible avec Domicile et St-Georges
+     - ligne "conducteurs" visible avec Exterieur */
+
+  if(isPermanence){
+    var permText = normalize(row.textContent);
+    if(permText.indexOf("entree") !== -1){
+      return f === "home" || f === "st-georges";
+    }
+    if(permText.indexOf("conducteur") !== -1){
+      return f === "away";
+    }
+  }
+
+  var hasVenue = false;
+  var i;
+  for(i = 0; i < VENUE_COLORS.length; i++){
+    if(row.classList.contains(VENUE_COLORS[i]) ||
+       (isPermanence && row.classList.contains("row-" + VENUE_COLORS[i]))){
+      hasVenue = true;
+      break;
+    }
+  }
+
+  if(f === "home") return hasVenue;
+  if(f === "away") return !hasVenue;
+  return row.classList.contains(f) || (isPermanence && row.classList.contains("row-" + f));
+}
 
 function applyFilter(){
   var keyword = normalize(searchInput.value);
-  var visibleCount = 0;
+  var visiblePerm = 0, visibleMatch = 0, totalMatch = 0;
 
   var permRows = permanencesContainer.querySelectorAll("tr");
   var pr, i;
   for(i = 0; i < permRows.length; i++){
     pr = permRows[i];
-    if(pr.children.length === 1) continue;
+    if(pr.children.length === 1) continue; /* ligne placeholder */
 
-    var match = !keyword || normalize(pr.textContent).indexOf(keyword) !== -1;
-    pr.classList.toggle("hidden-row",!match);
-    pr.classList.toggle("highlight",Boolean(keyword && match));
+    var okP = rowPassesFilter(pr, true) &&
+              (!keyword || normalize(pr.textContent).indexOf(keyword) !== -1);
 
-    if(match) visibleCount++;
+    pr.classList.toggle("hidden-row",!okP);
+    pr.classList.toggle("highlight",Boolean(keyword && okP));
+
+    if(okP) visiblePerm++;
   }
 
   var matchRows = Array.prototype.slice.call(matchesContainer.querySelectorAll("tbody tr"));
@@ -1509,14 +1779,21 @@ function applyFilter(){
 
     if(isHeader) continue;
 
-    var match2 = !keyword || normalize(row.textContent).indexOf(keyword) !== -1;
-    row.classList.toggle("hidden-row",!match2);
-    row.classList.toggle("highlight",Boolean(keyword && match2));
+    totalMatch++;
 
-    if(match2) visibleCount++;
+    var okM = rowPassesFilter(row, false) &&
+              (!keyword || normalize(row.textContent).indexOf(keyword) !== -1);
+
+    row.classList.toggle("hidden-row",!okM);
+    row.classList.toggle("highlight",Boolean(keyword && okM));
+
+    if(okM) visibleMatch++;
   }
 
-  var r2, g;
+  /* Les titres de categorie ne restent affiches que si
+     au moins un de leurs matchs est visible. */
+
+  var g;
   for(g = 0; g < matchRows.length; g++){
     row = matchRows[g];
     var isHeader2 =
@@ -1525,7 +1802,7 @@ function applyFilter(){
 
     if(!isHeader2) continue;
 
-    if(!keyword){
+    if(!keyword && state.filter === "all"){
       row.classList.remove("hidden-row");
       continue;
     }
@@ -1551,9 +1828,14 @@ function applyFilter(){
     row.classList.toggle("hidden-row",!hasVisible);
   }
 
-  if(keyword && visibleCount === 0){
+  /* Compteurs */
+
+  permCount.textContent = visiblePerm ? "(" + visiblePerm + " ligne" + (visiblePerm > 1 ? "s" : "") + ")" : "";
+  matchCount.textContent = totalMatch ? "(" + visibleMatch + "/" + totalMatch + " affichés)" : "";
+
+  if((keyword || state.filter !== "all") && visiblePerm + visibleMatch === 0){
     noResult.hidden = false;
-    noResult.textContent = "Aucun résultat pour « " + searchInput.value + " ».";
+    noResult.textContent = "Aucun résultat avec ces filtres.";
   }else{
     noResult.hidden = true;
   }
@@ -1566,6 +1848,18 @@ function applyFilter(){
 document.getElementById("detailHomeButton").addEventListener("click",function(){ showList(); });
 
 searchInput.addEventListener("input",applyFilter);
+
+filterBar.addEventListener("click",function(event){
+  var chip = event.target.closest ? event.target.closest(".chip") : null;
+  if(!chip) return;
+  state.filter = chip.getAttribute("data-filter") || "all";
+  var chips = filterBar.querySelectorAll(".chip");
+  var i;
+  for(i = 0; i < chips.length; i++){
+    chips[i].classList.toggle("active", chips[i] === chip);
+  }
+  applyFilter();
+});
 
 function handleWeekendCard(event){
   var card = event.target.closest ? event.target.closest(".weekend[data-date]") : null;
@@ -1592,8 +1886,38 @@ weekendGrid.addEventListener("keydown",function(event){
   handleWeekendCard(event);
 });
 
+/* Fleches gauche/droite : naviguer entre les week-ends
+   quand la vue detail est ouverte. */
+
+document.addEventListener("keydown",function(event){
+  if(state.currentIndex < 0) return;
+  var tag = (event.target && event.target.tagName || "").toLowerCase();
+  if(tag === "input" || tag === "textarea") return;
+  if(event.key === "ArrowLeft" && state.prevIndex >= 0){
+    openWeekend(state.prevIndex);
+  }else if(event.key === "ArrowRight" && state.nextIndex >= 0){
+    openWeekend(state.nextIndex);
+  }
+});
+
+/* Boutons precedent/retour du navigateur */
+
+window.addEventListener("popstate",function(){
+  var idx = indexFromHash();
+  if(idx >= 0){
+    openWeekend(idx, true);
+  }else if(state.currentIndex >= 0){
+    state.currentIndex = -1;
+    stopAutoRefresh();
+    detailView.style.display = "none";
+    listView.style.display = "";
+    document.title = "Week-ends MVBC85";
+    refreshWeekendStatuses(false);
+  }
+});
+
 /* =========================================================
-   INITIALISATION : marquage du week-end courant et passes
+   INITIALISATION
    ========================================================= */
 
 (function(){
@@ -1613,6 +1937,20 @@ weekendGrid.addEventListener("keydown",function(event){
       el.classList.add("current");
     }
   });
+
+  /* calcul automatique des statuts si l accueil est affiche */
+
+  if(listView && listView.style.display !== "none"){
+    refreshWeekendStatuses(true);
+  }
+})();
+
+/* Ouverture directe si l URL contient #weekend-2026-10-18
+   (lien partageable vers un week-end precis). */
+
+(function(){
+  var idx = indexFromHash();
+  if(idx >= 0) openWeekend(idx, true);
 })();
 
 var dbgEnd = document.getElementById("loadStatus");
