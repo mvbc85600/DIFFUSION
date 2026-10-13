@@ -3,942 +3,1185 @@
 <html lang="fr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5 Majeur - MVBC</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>5 Majeur - MVBC</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@500;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 
-    /* =====================================================
-       RESET
-    ===================================================== */
+/* =====================================================
+   RESET
+===================================================== */
 
-    *
-    {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-    html,
-    body
-    {
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        background: #000;
-        color: #fff;
-        font-family: Arial, Helvetica, sans-serif;
-    }
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
 
-    /* =====================================================
-       VARIABLES
-    ===================================================== */
 
-    :root
-    {
-        --white: #f7f7f5;
-        --black: #050608;
-        --red: #ed174c;
-        --blue: #1769ff;
-        --yellow: #ffd400;
+/* =====================================================
+   VARIABLES
+===================================================== */
 
-        --court-line: rgba(255, 255, 255, 0.75);
-    }
+:root {
 
-    /* =====================================================
-       FOND
-    ===================================================== */
+    --white: #f7f7f5;
+    --black: #050608;
 
-    body
-    {
-        position: relative;
+    --red: #ed174c;
+    --blue: #1769ff;
+    --yellow: #ffd400;
 
-        background:
-            radial-gradient(
-                circle at center 55% 55%,
-                #252000 0%,
-                #100e00 35%,
-                #050500 65%,
-                #000 100%
-            );
-    }
+    --court-line: rgba(255, 255, 255, 0.75);
+}
 
-    body::before
-    {
-        content: "";
 
-        position: fixed;
+/* =====================================================
+   FOND
+===================================================== */
 
-        width: 990px;
-        height: 990px;
+body {
 
-        left: 50%;
-        top: 55%;
+    position: relative;
 
-        transform: translate(-50%, -50%);
+    background:
+        radial-gradient(
+            circle at center 55% 55%,
+            #252000 0%,
+            #100e00 35%,
+            #050500 65%,
+            #000 100%
+        );
+}
 
-        background:
-            radial-gradient(
-                circle,
-                rgba(255, 204, 0, 0.20) 0%,
-                rgba(255, 204, 0, 0.08) 25%,
-                rgba(255, 204, 0, 0.02) 50%,
-                transparent 70%
-            );
 
-        pointer-events: none;
+body::before {
 
-        animation: halo 4s ease-in-out infinite;
-    }
+    content: "";
 
-    @keyframes halo
-    {
-        0%
-        {
-            transform: translate(-50%, -50%) scale(0.90);
-            opacity: 0.65;
-        }
+    position: fixed;
 
-        50%
-        {
-            transform: translate(-50%, -50%) scale(1.10);
-            opacity: 1;
-        }
+    width: 900px;
+    height: 900px;
 
-        100%
-        {
-            transform: translate(-50%, -50%) scale(0.90);
-            opacity: 0.65;
-        }
-    }
+    left: 50%;
+    top: 55%;
 
-    /* =====================================================
-       TITRE
-    ===================================================== */
+    transform:
+        translate(-50%, -50%);
 
-    .title-container
-    {
-        position: relative;
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 204, 0, 0.20) 0%,
+            rgba(255, 204, 0, 0.08) 25%,
+            rgba(255, 204, 0, 0.02) 50%,
+            transparent 70%
+        );
 
-        width: 100%;
-        height: 115px;
+    pointer-events: none;
 
-        margin-top: 12px;
+    animation:
+        halo 4s ease-in-out infinite;
+}
 
-        z-index: 100;
 
-        text-align: center;
-    }
+@keyframes halo {
 
-    .partner-title
-    {
-        position: relative;
-
-        font-family: "Barlow Condensed", sans-serif;
-
-        font-size: clamp(46px, 6.6vw, 99px);
-
-        font-weight: 900;
-
-        line-height: 0.9;
-
-        letter-spacing: -0.04em;
-
-        color: var(--white);
-
-        text-align: center;
-
-        white-space: nowrap;
-
-        text-shadow:
-            4px 4px 0 var(--black),
-            7px 7px 0 var(--yellow),
-            11px 11px 0 rgba(237, 23, 76, .9),
-            15px 15px 0 rgba(23, 105, 255, .5);
-    }
-
-    .slash
-    {
-        position: absolute;
-
-        left: 50%;
-        top: 50%;
+    0% {
 
         transform:
             translate(-50%, -50%)
-            rotate(-7deg);
+            scale(0.90);
 
-        width: min(70.4vw, 935px);
-        height: 20px;
-
-        background:
-            linear-gradient(
-                90deg,
-                transparent,
-                var(--blue) 12%,
-                var(--yellow) 35%,
-                var(--white) 50%,
-                var(--yellow) 65%,
-                var(--red) 88%,
-                transparent
-            );
-
-        box-shadow:
-            0 0 40px rgba(23, 105, 255, .45);
-
-        z-index: -1;
+        opacity: 0.65;
     }
 
-    /* =====================================================
-       ZONE DU TERRAIN
-    ===================================================== */
+    50% {
 
-    .players-container
-    {
-        position: relative;
+        transform:
+            translate(-50%, -50%)
+            scale(1.10);
 
-        width: 100%;
-        height: calc(100vh - 165px);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding-top: 0;
+        opacity: 1;
     }
 
-    /* =====================================================
-       DEMI-TERRAIN
-    ===================================================== */
+    100% {
 
-    .court
-    {
-        position: relative;
+        transform:
+            translate(-50%, -50%)
+            scale(0.90);
 
-        width: min(72.6vw, 990px);
-        height: min(71.5vh, 715px);
-        aspect-ratio: 15 / 14;
-
-        background:
-            linear-gradient(
-                180deg,
-                rgba(255, 212, 0, .018),
-                rgba(255, 212, 0, .006)
-            );
-
-        overflow: visible;
+        opacity: 0.65;
     }
+}
 
-    /* =====================================================
-       LIGNE CENTRALE DISCRÈTE
-    ===================================================== */
 
-    .court::after
-    {
-        content: "";
+/* =====================================================
+   TITRE
+===================================================== */
 
-        position: absolute;
+.title-container {
 
-        left: 50%;
-        top: 0;
+    position: relative;
 
-        width: 1px;
-        height: 100%;
+    width: 100%;
+    height: 88px;
 
-        transform: translateX(-50%);
+    margin-top: 6px;
 
-        background:
-            rgba(255,255,255,.025);
+    z-index: 100;
 
-        pointer-events: none;
-    }
+    text-align: center;
+}
 
-    /* =====================================================
-       RAQUETTE
-    ===================================================== */
 
-    .paint
-    {
-        position: absolute;
+.partner-title {
 
-        width: 32.7%;
-        height: 41%;
+    position: relative;
 
-        left: 50%;
-        bottom: 0;
+    font-family:
+        "Barlow Condensed",
+        sans-serif;
 
-        transform: translateX(-50%);
+    font-size:
+        clamp(38px, 5.5vw, 78px);
 
-        border-left:
-            3px solid var(--court-line);
+    font-weight: 900;
 
-        border-right:
-            3px solid var(--court-line);
+    line-height: 0.9;
 
-        border-top:
-            3px solid var(--court-line);
+    letter-spacing: -0.04em;
 
-        background:
-            linear-gradient(
-                180deg,
-                rgba(255,255,255,.035),
-                rgba(255,212,0,.012)
-            );
+    color:
+        var(--white);
 
-        box-shadow:
-            inset 0 0 30px rgba(255,212,0,.025);
-    }
+    text-align: center;
 
-    /* =====================================================
-       LIGNE DES LANCERS FRANCS
-    ===================================================== */
+    white-space: nowrap;
 
-    .free-throw-line
-    {
-        position: absolute;
+    text-shadow:
+        4px 4px 0 var(--black),
+        7px 7px 0 var(--yellow),
+        11px 11px 0 rgba(237, 23, 76, .9),
+        15px 15px 0 rgba(23, 105, 255, .5);
+}
 
-        left: 50%;
-        bottom: 41%;
-        width: 32.7%;
-        height: 3px;
 
-        transform: translateX(-50%);
+.slash {
 
-        background:
-            var(--court-line);
+    position: absolute;
 
-        box-shadow:
-            0 0 8px rgba(255,255,255,.12);
-    }
+    left: 50%;
+    top: 50%;
 
-    /* =====================================================
-       PETIT DEMI-ARC DES LANCERS
-    ===================================================== */
+    transform:
+        translate(-50%, -50%)
+        rotate(-7deg);
 
-    .free-throw-circle
-    {
-        position: absolute;
+    width:
+        min(64vw, 850px);
 
-        width: 25%;
-        height: 12.5%;
+    height: 18px;
 
-        left: 50%;
-        bottom: 41%;
-        transform: translateX(-50%);
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--blue) 12%,
+            var(--yellow) 35%,
+            var(--white) 50%,
+            var(--yellow) 65%,
+            var(--red) 88%,
+            transparent
+        );
 
-        border:
-            3px solid var(--court-line);
+    box-shadow:
+        0 0 40px rgba(23, 105, 255, .45);
 
-        border-bottom: none;
+    z-index: -1;
+}
 
-        border-radius:
-            100% 100% 0 0;
 
-        pointer-events: none;
-    }
+/* =====================================================
+   ZONE TERRAIN
+   — occupe tout l'espace restant sous le titre
+===================================================== */
 
-    /* =====================================================
-       PETIT DEMI-CERCLE SOUS LE PANIER
-    ===================================================== */
+.players-container {
 
-    .restricted-area
-    {
-        position: absolute;
+    position: relative;
 
-        width: 13%;
-        height: 6.5%;
+    width: 100%;
 
-        left: 50%;
-        bottom: 0;
+    height:
+        calc(100vh - 96px);
 
-        transform: translateX(-50%);
+    display: flex;
 
-        border:
-            3px solid var(--court-line);
+    justify-content: center;
 
-        border-bottom: none;
+    align-items: center;
 
-        border-radius:
-            100px 100px 0 0;
+    padding-top: 0;
+}
 
-        pointer-events: none;
-    }
 
-    /* =====================================================
-       PANIER
-    ===================================================== */
+/* =====================================================
+   DEMI-TERRAIN
+   — agrandi au maximum
+===================================================== */
 
-    .basket
-    {
-        position: absolute;
+.court {
 
-        left: 50%;
-        bottom: -4px;
+    position: relative;
 
-        transform: translateX(-50%);
+    width:
+        min(86vw, 1250px);
 
-        width: 8%;
-        height: 8px;
+    height:
+        calc(100vh - 120px);
 
-        background:
-            var(--red);
+    max-height: 950px;
 
-        border-radius: 10px;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 212, 0, .018),
+            rgba(255, 212, 0, .006)
+        );
+
+    overflow: visible;
+}
+
+
+.court::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    top: 0;
+
+    width: 1px;
+    height: 100%;
+
+    transform:
+        translateX(-50%);
+
+    background:
+        rgba(255,255,255,.025);
+
+    pointer-events: none;
+}
+
+
+/* =====================================================
+   RAQUETTE
+===================================================== */
+
+.paint {
+
+    position: absolute;
+
+    width: 32.7%;
+    height: 41%;
+
+    left: 50%;
+    bottom: 0;
+
+    transform:
+        translateX(-50%);
+
+    border-left:
+        3px solid var(--court-line);
+
+    border-right:
+        3px solid var(--court-line);
+
+    border-top:
+        3px solid var(--court-line);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.035),
+            rgba(255,212,0,.012)
+        );
+
+    box-shadow:
+        inset 0 0 30px rgba(255,212,0,.025);
+}
+
+
+/* =====================================================
+   LIGNE LANCERS FRANCS
+===================================================== */
+
+.free-throw-line {
+
+    position: absolute;
+
+    left: 50%;
+    bottom: 41%;
+
+    width: 32.7%;
+    height: 3px;
+
+    transform:
+        translateX(-50%);
+
+    background:
+        var(--court-line);
+
+    box-shadow:
+        0 0 8px rgba(255,255,255,.12);
+}
+
+
+/* =====================================================
+   DEMI-ARC
+===================================================== */
+
+.free-throw-circle {
+
+    position: absolute;
+
+    width: 25%;
+    height: 12.5%;
+
+    left: 50%;
+    bottom: 41%;
+
+    transform:
+        translateX(-50%);
+
+    border:
+        3px solid var(--court-line);
+
+    border-bottom:
+        none;
+
+    border-radius:
+        100% 100% 0 0;
+
+    pointer-events: none;
+}
+
+
+/* =====================================================
+   ZONE RESTRICTIVE
+===================================================== */
+
+.restricted-area {
+
+    position: absolute;
+
+    width: 13%;
+    height: 6.5%;
+
+    left: 50%;
+    bottom: 0;
+
+    transform:
+        translateX(-50%);
+
+    border:
+        3px solid var(--court-line);
+
+    border-bottom:
+        none;
+
+    border-radius:
+        100px 100px 0 0;
+
+    pointer-events: none;
+}
+
+
+/* =====================================================
+   PANIER
+===================================================== */
+
+.basket {
+
+    position: absolute;
+
+    left: 50%;
+    bottom: -4px;
+
+    transform:
+        translateX(-50%);
+
+    width: 8%;
+    height: 7px;
+
+    background:
+        var(--red);
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 0 8px var(--red),
+        0 0 20px rgba(237,23,76,.7),
+        0 0 35px rgba(237,23,76,.25);
+
+    animation:
+        basketPulse 2.4s ease-in-out infinite;
+}
+
+
+@keyframes basketPulse {
+
+    0%,
+    100% {
 
         box-shadow:
             0 0 8px var(--red),
-            0 0 22px rgba(237,23,76,.7),
-            0 0 38px rgba(237,23,76,.25);
-
-        animation:
-            basketPulse 2.4s ease-in-out infinite;
+            0 0 20px rgba(237,23,76,.7);
     }
 
-    @keyframes basketPulse
-    {
-
-        0%,
-        100%
-        {
-            box-shadow:
-                0 0 8px var(--red),
-                0 0 22px rgba(237,23,76,.7);
-        }
-
-        50%
-        {
-            box-shadow:
-                0 0 13px var(--red),
-                0 0 33px rgba(237,23,76,.9),
-                0 0 49px rgba(237,23,76,.3);
-        }
-    }
-
-    /* =====================================================
-       PANNEAU
-    ===================================================== */
-
-    .backboard
-    {
-        position: absolute;
-
-        left: 50%;
-        bottom: 20px;
-
-        transform: translateX(-50%);
-
-        width: 13%;
-        height: 6px;
-
-        background:
-            var(--white);
-
-        border-radius: 3px;
+    50% {
 
         box-shadow:
-            0 0 9px rgba(255,255,255,.5),
-            0 0 20px rgba(255,255,255,.15);
+            0 0 12px var(--red),
+            0 0 30px rgba(237,23,76,.9),
+            0 0 45px rgba(237,23,76,.3);
+    }
+}
+
+
+/* =====================================================
+   PANNEAU
+===================================================== */
+
+.backboard {
+
+    position: absolute;
+
+    left: 50%;
+    bottom: 18px;
+
+    transform:
+        translateX(-50%);
+
+    width: 13%;
+    height: 5px;
+
+    background:
+        var(--white);
+
+    border-radius: 3px;
+
+    box-shadow:
+        0 0 8px rgba(255,255,255,.5),
+        0 0 18px rgba(255,255,255,.15);
+}
+
+
+/* =====================================================
+   LIGNE 3 POINTS
+===================================================== */
+
+.three-point {
+
+    position: absolute;
+
+    width: 94%;
+    height: 72%;
+
+    left: 50%;
+    bottom: 0;
+
+    transform:
+        translateX(-50%);
+
+    border:
+        3px solid var(--court-line);
+
+    border-bottom:
+        none;
+
+    border-radius:
+        50% 50% 0 0;
+
+    pointer-events: none;
+
+    filter:
+        drop-shadow(
+            0 0 5px
+            rgba(255,255,255,.10)
+        );
+}
+
+
+.three-point::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    bottom: -5px;
+
+    width: 18%;
+    height: 9px;
+
+    transform:
+        translateX(-50%);
+
+    background:
+        #100e00;
+}
+
+
+/* =====================================================
+   LISTE JOUEURS
+===================================================== */
+
+.players-list {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 10;
+
+    overflow: visible;
+}
+
+
+/* =====================================================
+   JOUEUR
+   — encadré et nom agrandis
+===================================================== */
+
+.player {
+
+    position: absolute;
+
+    width:
+        clamp(160px, 17vw, 280px);
+
+    padding:
+        16px 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(35,35,35,.98),
+            rgba(5,5,5,.98)
+        );
+
+    border:
+        2px solid rgba(255,255,255,.75);
+
+    border-radius:
+        14px;
+
+    font-family:
+        "Inter",
+        sans-serif;
+
+    font-size:
+        clamp(20px, 2vw, 34px);
+
+    font-weight:
+        800;
+
+    color:
+        #fff;
+
+    text-align:
+        center;
+
+    box-shadow:
+        0 0 12px rgba(255,255,255,.35),
+        0 0 30px rgba(0,0,0,.65);
+
+    transform:
+        translate(-50%, -50%);
+
+    z-index:
+        20;
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+
+    /* IMPORTANT :
+       laisse de la place visuelle
+       pour la photo au-dessus */
+    margin-top:
+        0;
+}
+
+
+/* =====================================================
+   PHOTO DU JOUEUR
+===================================================== */
+
+.player-photo {
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 100%;
+
+    transform:
+        translateX(-50%);
+
+    width:
+        clamp(150px, 16vw, 260px);
+
+    height:
+        clamp(165px, 18.5vw, 290px);
+
+    object-fit:
+        contain;
+
+    object-position:
+        center bottom;
+
+    display:
+        block;
+
+    z-index:
+        30;
+
+    pointer-events:
+        none;
+
+    /*
+     * Le contour lumineux rappelle
+     * le style de ton visuel Jonas.
+     */
+    filter:
+        drop-shadow(0 0 3px #168cff)
+        drop-shadow(0 0 8px rgba(22,140,255,.85))
+        drop-shadow(0 0 18px rgba(255,212,0,.30));
+
+    animation:
+        playerPhotoIn .8s cubic-bezier(.22,1,.36,1) both;
+}
+
+
+/* =====================================================
+   ANIMATION PHOTO
+===================================================== */
+
+@keyframes playerPhotoIn {
+
+    0% {
+
+        opacity: 0;
+
+        transform:
+            translateX(-50%)
+            translateY(25px)
+            scale(.85);
     }
 
-    /* =====================================================
-       LIGNE À 3 POINTS
-    ===================================================== */
+    100% {
 
-    .three-point
-    {
-        position: absolute;
+        opacity: 1;
 
-        width: 94%;
-        height: 72%;
+        transform:
+            translateX(-50%)
+            translateY(0)
+            scale(1);
+    }
+}
 
-        left: 50%;
-        bottom: 0;
 
-        transform: translateX(-50%);
+/* =====================================================
+   EFFET HOVER
+===================================================== */
 
-        border:
-            3px solid var(--court-line);
+.player:hover {
 
-        border-bottom: none;
+    transform:
+        translate(-50%, -50%)
+        scale(1.08);
 
-        border-radius:
-            50% 50% 0 0;
+    box-shadow:
+        0 0 20px rgba(255,212,0,.8),
+        0 0 45px rgba(255,212,0,.45);
+}
 
-        pointer-events: none;
 
-        filter:
-            drop-shadow(
-                0 0 5px
-                rgba(255,255,255,.10)
+.player:hover .player-photo {
+
+    filter:
+        drop-shadow(0 0 4px #ffd400)
+        drop-shadow(0 0 12px rgba(255,212,0,.95))
+        drop-shadow(0 0 25px rgba(255,212,0,.40));
+}
+
+
+/* =====================================================
+   JOUEUR 1
+===================================================== */
+
+.player.position-1 {
+
+    left: 50%;
+    top: 15%;
+}
+
+
+/* =====================================================
+   JOUEUR 2
+===================================================== */
+
+.player.position-2 {
+
+    left: 8%;
+    top: 35%;
+}
+
+
+/* =====================================================
+   JOUEUR 3
+===================================================== */
+
+.player.position-3 {
+
+    left: 90%;
+    top: 35%;
+}
+
+
+/* =====================================================
+   JOUEUR 4
+===================================================== */
+
+.player.position-4 {
+
+    left: 37%;
+    top: 80%;
+}
+
+
+/* =====================================================
+   JOUEUR 5
+===================================================== */
+
+.player.position-5 {
+
+    left: 63%;
+    top: 80%;
+}
+
+
+/* =====================================================
+   NUMÉRO
+===================================================== */
+
+.player-number {
+
+    display: inline-block;
+
+    margin-right: 8px;
+
+    color:
+        var(--yellow);
+
+    font-weight:
+        900;
+
+    text-shadow:
+        0 0 5px rgba(255,212,0,.7),
+        0 0 12px rgba(255,212,0,.4);
+}
+
+
+/* =====================================================
+   POINT DE LOCALISATION
+===================================================== */
+
+.player::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    bottom: -16px;
+
+    width: 9px;
+    height: 9px;
+
+    transform:
+        translateX(-50%);
+
+    background:
+        var(--yellow);
+
+    border-radius:
+        50%;
+
+    box-shadow:
+        0 0 8px var(--yellow),
+        0 0 18px var(--yellow);
+
+    animation:
+        playerDot 2s ease-in-out infinite;
+}
+
+
+@keyframes playerDot {
+
+    0%,
+    100% {
+
+        opacity: .7;
+
+        transform:
+            translateX(-50%)
+            scale(.8);
+    }
+
+    50% {
+
+        opacity: 1;
+
+        transform:
+            translateX(-50%)
+            scale(1.2);
+    }
+}
+
+
+/* =====================================================
+   BARRE LUMINEUSE
+===================================================== */
+
+.light-line {
+
+    position: fixed;
+
+    left: 50%;
+    bottom: 0;
+
+    transform:
+        translateX(-50%);
+
+    width: 65%;
+    height: 3px;
+
+    background:
+        var(--yellow);
+
+    box-shadow:
+        0 0 10px var(--yellow),
+        0 0 25px var(--yellow),
+        0 0 50px var(--yellow);
+
+    z-index: 90;
+}
+
+
+/* =====================================================
+   GRAND ÉCRAN
+===================================================== */
+
+@media (min-width: 1200px) {
+
+    .court {
+
+        width:
+            min(86vw, 1250px);
+
+        height:
+            calc(100vh - 120px);
+    }
+
+    .player {
+
+        width:
+            clamp(
+                175px,
+                16.5vw,
+                285px
             );
     }
 
-    .three-point::after
-    {
-        content: "";
+    .player-photo {
 
-        position: absolute;
+        width:
+            clamp(
+                180px,
+                17vw,
+                270px
+            );
 
-        left: 50%;
-        bottom: -6px;
+        height:
+            clamp(
+                195px,
+                19.5vw,
+                300px
+            );
+    }
+}
 
-        width: 19.8%;
-        height: 10px;
 
-        transform: translateX(-50%);
+/* =====================================================
+   TABLETTE
+===================================================== */
 
-        background:
-            #100e00;
+@media (max-width: 900px) {
+
+    .court {
+
+        width: 92vw;
+
+        height:
+            calc(100vh - 115px);
     }
 
-    /* =====================================================
-       JOUEURS
-    ===================================================== */
+    .player {
 
-    .players-list
-    {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 10;
+        width:
+            clamp(
+                130px,
+                21vw,
+                195px
+            );
+
+        padding:
+            12px 10px;
+
+        font-size:
+            clamp(
+                16px,
+                3vw,
+                24px
+            );
     }
 
-    .player
-    {
-        position: absolute;
-        width: clamp(192px, 17.6vw, 264px);
-        height: clamp(190px, 14.5vw, 230px);
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        background: linear-gradient(135deg, rgba(28,30,34,.96), rgba(7,8,10,.98));
-        border: 1px solid rgba(255,255,255,.22);
-        border-radius: 18px;
-        font-family: "Inter", sans-serif;
-        color: #fff;
-        box-shadow: 0 10px 28px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.10);
-        transform: translate(-50%, -50%);
-        z-index: 20;
-        overflow: visible;
-        transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    .player-photo {
+
+        width:
+            clamp(
+                130px,
+                20vw,
+                195px
+            );
+
+        height:
+            clamp(
+                140px,
+                23vw,
+                225px
+            );
     }
 
-    /* Image du joueur : 65% de la hauteur pour laisser plus de place au texte */
-    .player-photo
-    {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 65%;
-        object-fit: cover;
-        object-position: center top;
-        border-radius: 18px 18px 0 0;
-        opacity: .98;
-        pointer-events: none;
+    .player.position-1 {
+
+        top: 7%;
     }
 
-    .player-photo + .player-info
-    {
-        position: relative;
-        z-index: 2;
-        margin-top: 0;
-        padding-top: 10%;
-    }
+    .player.position-2 {
 
-    /* Fondu de l'image vers le nom. */
-    .player::after
-    {
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 10%;
-        bottom: 0;
-        background: linear-gradient(180deg, transparent 0%, rgba(5,6,8,.18) 20%, rgba(5,6,8,.84) 60%, rgba(5,6,8,1) 100%);
-        pointer-events: none;
-        z-index: 1;
-    }
-
-    /* Liseré lumineux. */
-    .player::before
-    {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 12px;
-        bottom: 12px;
-        width: 3px;
-        background: linear-gradient(180deg, var(--yellow), var(--red));
-        border-radius: 0 4px 4px 0;
-        box-shadow: 0 0 10px rgba(255,212,0,.45);
-        pointer-events: none;
-        z-index: 4;
-    }
-
-    .player-info
-    {
-        position: relative;
-        z-index: 3;
-        width: 100%;
-        min-height: 35%;
-        padding: 0 12px 8px 50px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .player:hover
-    {
-        transform: translate(-50%, -50%) scale(1.045);
-        border-color: rgba(255,212,0,.65);
-        box-shadow: 0 14px 35px rgba(0,0,0,.55), 0 0 24px rgba(255,212,0,.28), inset 0 1px 0 rgba(255,255,255,.14);
-    }
-
-    /* Style pour le prénom et le nom */
-    .player-name-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        text-align: center;
-    }
-
-    .player-firstname {
-        display: block;
-        width: 100%;
-        color: var(--white);
-        font-size: clamp(10px, 1.0vw, 15px);
-        font-weight: 800;
-        line-height: 1.0;
-        letter-spacing: -.025em;
-        text-shadow: 0 1px 8px rgba(0,0,0,.65);
-        white-space: nowrap;
-        overflow: visible;
-    }
-
-    .player-lastname {
-        display: block;
-        width: 100%;
-        color: var(--white);
-        font-size: clamp(10px, 1.0vw, 15px);
-        font-weight: 800;
-        line-height: 1.0;
-        letter-spacing: -.025em;
-        text-shadow: 0 1px 8px rgba(0,0,0,.65);
-        white-space: nowrap;
-        overflow: visible;
-    }
-
-    /* =====================================================
-       POSITIONS DES JOUEURS
-    ===================================================== */
-
-    .player.position-1
-    {
-        left: 50%;
-        top: 15%;
-    }
-
-    .player.position-2
-    {
-        left: 8%;
+        left: 10%;
         top: 35%;
     }
 
-    .player.position-3
-    {
+    .player.position-3 {
+
         left: 90%;
         top: 35%;
     }
 
-    .player.position-4
-    {
+    .player.position-4 {
+
         left: 37%;
         top: 80%;
     }
 
-    .player.position-5
-    {
+    .player.position-5 {
+
         left: 63%;
         top: 80%;
     }
+}
 
-    /* =====================================================
-       NUMÉRO DE POSITION
-    ===================================================== */
 
-    .player-number
-    {
-        position: absolute;
-        left: 10px;
-        top: 50%;
-        width: 34px;
-        height: 34px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transform: translateY(-50%);
-        margin: 0;
-        background: linear-gradient(145deg, var(--yellow), #ff9f00);
-        border: 2px solid rgba(255,255,255,.85);
-        border-radius: 10px;
-        color: var(--black);
-        font-size: .72em;
-        font-weight: 900;
-        letter-spacing: -.03em;
-        text-shadow: none;
-        box-shadow: 0 4px 12px rgba(0,0,0,.35), 0 0 14px rgba(255,212,0,.25);
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .title-container {
+
+        height: 70px;
+
+        margin-top: 6px;
     }
 
-    /* =====================================================
-       BARRE LUMINEUSE
-    ===================================================== */
+    .partner-title {
 
-    .light-line
-    {
-        position: fixed;
-
-        left: 50%;
-        bottom: 0;
-
-        transform:
-            translateX(-50%);
-
-        width: 65%;
-        height: 3px;
-
-        background:
-            var(--yellow);
-
-        box-shadow:
-            0 0 10px var(--yellow),
-            0 0 25px var(--yellow),
-            0 0 50px var(--yellow);
-
-        z-index: 90;
+        font-size:
+            clamp(
+                30px,
+                9vw,
+                48px
+            );
     }
 
-    /* =====================================================
-       GRAND ÉCRAN 16:9
-    ===================================================== */
+    .slash {
 
-    @media (min-width: 1200px)
-    {
-        .players-container
-        {
-            padding-top: 0;
-        }
-
-        .court
-        {
-            width: min(66vw, 900px);
-            height: min(calc(100vh - 145px), 700px);
-        }
-
-        .player
-        {
-            width: clamp(175px, 16vw, 240px);
-        }
+        height: 10px;
     }
 
-    /* =====================================================
-       TABLETTE
-    ===================================================== */
+    .players-container {
 
-    @media (max-width: 900px)
-    {
-        .court
-        {
-            width: 82vw;
-            height: min(calc(100vh - 120px), 620px);
-        }
+        height:
+            calc(100vh - 78px);
 
-        .player
-        {
-            width: clamp(140px, 19vw, 180px);
-            height: clamp(150px, 18vw, 190px);
-            padding: 8px 10px 8px 45px;
-            min-height: 55px;
-        }
-
-        .player.position-1
-        {
-            top: 7%;
-        }
-
-        .player.position-2
-        {
-            left: 10%;
-            top: 35%;
-        }
-
-        .player.position-3
-        {
-            left: 90%;
-            top: 35%;
-        }
-
-        .player.position-4
-        {
-            left: 37%;
-            top: 80%;
-        }
-
-        .player.position-5
-        {
-            left: 63%;
-            top: 80%;
-        }
+        padding-top: 0;
     }
 
-    /* =====================================================
-       MOBILE
-    ===================================================== */
+    .court {
 
-    @media (max-width: 600px)
-    {
-        .player
-        {
-            width: clamp(125px, 25vw, 150px);
-            height: clamp(135px, 25vw, 155px);
-            border-radius: 12px;
-        }
+        width: 96vw;
 
-        .player-info
-        {
-            padding: 5px 6px 6px 40px;
-            min-height: 35%;
-        }
-
-        .player-number
-        {
-            left: 7px;
-            width: 27px;
-            height: 27px;
-            border-radius: 8px;
-        }
-
-        .player-firstname, .player-lastname {
-            font-size: clamp(9px, 2.3vw, 13px);
-        }
-
-        .title-container
-        {
-            height: 75px;
-            margin-top: 8px;
-        }
-
-        .partner-title
-        {
-            font-size: clamp(30px, 9vw, 48px);
-        }
-
-        .slash
-        {
-            height: 10px;
-        }
-
-        .players-container
-        {
-            height: calc(100vh - 90px);
-            padding-top: 5px;
-        }
-
-        .court
-        {
-            width: 94vw;
-            height: min(calc(100vh - 100px), 560px);
-        }
-
-        .player
-        {
-            width: clamp(125px, 25vw, 150px);
-            padding: 6px 6px 6px 42px;
-            min-height: 50px;
-        }
-
-        .player.position-1
-        {
-            top: 7%;
-        }
-
-        .player.position-2
-        {
-            left: 9%;
-            top: 35%;
-        }
-
-        .player.position-3
-        {
-            left: 91%;
-            top: 35%;
-        }
-
-        .player.position-4
-        {
-            left: 36%;
-            top: 80%;
-        }
-
-        .player.position-5
-        {
-            left: 64%;
-            top: 80%;
-        }
+        height:
+            calc(100vh - 85px);
     }
 
-    /* =====================================================
-       TRÈS PETITS ÉCRANS
-    ===================================================== */
+    .player {
 
-    @media (max-width: 400px)
-    {
-        .player
-        {
-            width: 110px;
-            height: 120px;
-        }
+        width:
+            clamp(
+                110px,
+                27vw,
+                155px
+            );
 
-        .player-info
-        {
-            padding: 4px 4px 5px 35px;
-            min-height: 35%;
-        }
+        padding:
+            9px 6px;
 
-        .player-number
-        {
-            left: 6px;
-            width: 24px;
-            height: 24px;
-            border-radius: 7px;
-        }
+        font-size:
+            clamp(
+                14px,
+                3.8vw,
+                20px
+            );
 
-        .player-firstname, .player-lastname {
-            font-size: 9px;
-        }
-
-        .court
-        {
-            width: 95vw;
-            height: calc(100vh - 100px);
-        }
-
-        .player
-        {
-            width: 110px;
-            padding: 5px 4px 5px 38px;
-            min-height: 45px;
-        }
+        border-radius:
+            10px;
     }
+
+    .player-photo {
+
+        width:
+            clamp(
+                108px,
+                26vw,
+                155px
+            );
+
+        height:
+            clamp(
+                120px,
+                29vw,
+                175px
+            );
+    }
+
+    .player.position-1 {
+
+        top: 7%;
+    }
+
+    .player.position-2 {
+
+        left: 9%;
+        top: 35%;
+    }
+
+    .player.position-3 {
+
+        left: 91%;
+        top: 35%;
+    }
+
+    .player.position-4 {
+
+        left: 36%;
+        top: 80%;
+    }
+
+    .player.position-5 {
+
+        left: 64%;
+        top: 80%;
+    }
+}
+
+
+/* =====================================================
+   TRÈS PETITS ÉCRANS
+===================================================== */
+
+@media (max-width: 400px) {
+
+    .court {
+
+        width: 97vw;
+
+        height:
+            calc(100vh - 85px);
+    }
+
+    .player {
+
+        width: 105px;
+
+        font-size: 14px;
+
+        padding:
+            8px 4px;
+    }
+
+    .player-photo {
+
+        width: 105px;
+
+        height: 125px;
+    }
+}
 
 </style>
+
 </head>
 
+
 <body>
+
 
 <!-- =====================================================
      TITRE
@@ -951,9 +1194,12 @@
     <h1 class="partner-title">
         LE 5
     </h1>
-<br>
+
     <br>
+    <br>
+
 </div>
+
 
 <!-- =====================================================
      DEMI-TERRAIN
@@ -972,7 +1218,7 @@
         <!-- Ligne des lancers francs -->
         <div class="free-throw-line"></div>
 
-        <!-- Petit demi-arc des lancers francs -->
+        <!-- Petit demi-arc -->
         <div class="free-throw-circle"></div>
 
         <!-- Zone restrictive -->
@@ -994,11 +1240,13 @@
 
 </div>
 
+
 <!-- =====================================================
      BARRE LUMINEUSE
 ===================================================== -->
 
 <div class="light-line"></div>
+
 
 <!-- =====================================================
      FIREBASE
@@ -1006,176 +1254,337 @@
 
 <script type="module">
 
-    import {
-        initializeApp
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-    import {
-        getDatabase,
-        ref,
-        onValue
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import {
+    getDatabase,
+    ref,
+    onValue
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-    const firebaseConfig = {
 
-        apiKey:
-            "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+/* =====================================================
+   FIREBASE
+===================================================== */
 
-        authDomain:
-            "diffusion-b9afa.firebaseapp.com",
+const firebaseConfig = {
 
-        databaseURL:
-            "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
+    apiKey:
+        "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
 
-        projectId:
-            "diffusion-b9afa",
+    authDomain:
+        "diffusion-b9afa.firebaseapp.com",
 
-        storageBucket:
-            "diffusion-b9afa.firebasestorage.app",
+    databaseURL:
+        "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
 
-        messagingSenderId:
-            "674799570797",
+    projectId:
+        "diffusion-b9afa",
 
-        appId:
-            "1:674799570797:web:0d8b7a2a892f604eb7d464"
-    };
+    storageBucket:
+        "diffusion-b9afa.firebasestorage.app",
 
-    const app =
-        initializeApp(firebaseConfig);
+    messagingSenderId:
+        "674799570797",
 
-    const db =
-        getDatabase(app);
+    appId:
+        "1:674799570797:web:0d8b7a2a892f604eb7d464"
+};
 
-    const cinqMajeurRef =
-        ref(
-            db,
-            "cinqmajeur"
+
+const app =
+    initializeApp(firebaseConfig);
+
+
+const db =
+    getDatabase(app);
+
+
+const cinqMajeurRef =
+    ref(
+        db,
+        "cinqmajeur"
+    );
+
+
+/* =====================================================
+   DOSSIER DES PHOTOS
+===================================================== */
+
+const PHOTO_FOLDER =
+    "joueursnm2/";
+
+
+/* =====================================================
+   CORRESPONDANCE JOUEURS → PHOTOS
+=====================================================
+
+   On utilise le prénom pour éviter d'avoir
+   besoin de connaître tous les noms de famille.
+
+===================================================== */
+
+const playerPhotos = {
+
+    "jonas":
+        "jonas.png",
+
+    "julien":
+        "julien.png",
+
+    "theo":
+        "theo.png",
+
+    "théo":
+        "theo.png",
+
+    "valentin":
+        "valentin.png",
+
+    "junior":
+        "junior.png",
+
+    "romain":
+        "Romain.png",
+
+    "robin":
+        "robin.png"
+};
+
+
+/* =====================================================
+   NORMALISATION DU TEXTE
+===================================================== */
+
+function normalizeName(name) {
+
+    return String(name)
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim();
+}
+
+
+/* =====================================================
+   TROUVER LA PHOTO DU JOUEUR
+===================================================== */
+
+function getPlayerPhoto(playerName) {
+
+    const normalized =
+        normalizeName(playerName);
+
+
+    /*
+     * On récupère le premier mot.
+     *
+     * Exemple :
+     * "Jonas MARIE FRANCOISE"
+     * devient :
+     * "jonas"
+     */
+
+    const firstName =
+        normalized
+            .split(/\s+/)[0];
+
+    const photo =
+        playerPhotos[firstName];
+
+    if (!photo) {
+
+        console.warn(
+            "Aucune photo configurée pour :",
+            playerName
         );
 
-    onValue(
-        cinqMajeurRef,
-        (snapshot) => {
+        return null;
+    }
 
-            const data =
-                snapshot.val() || {};
 
-            const players =
-                data.players || [];
+    return PHOTO_FOLDER + photo;
+}
 
-            const playerNumbers =
-                data.playerNumbers || {};
 
-            const playersList =
-                document.getElementById(
-                    "playersList"
-                );
+/* =====================================================
+   CHARGEMENT DES JOUEURS
+===================================================== */
 
-            playersList.innerHTML = "";
+onValue(
 
-            players
-                .slice(0, 5)
-                .forEach(
-                    (player, index) => {
+    cinqMajeurRef,
 
-                        const playerDiv =
+    (snapshot) => {
+
+        const data =
+            snapshot.val() || {};
+
+
+        const players =
+            data.players || [];
+
+
+        const playerNumbers =
+            data.playerNumbers || {};
+
+
+        const playersList =
+            document.getElementById(
+                "playersList"
+            );
+
+
+        playersList.innerHTML = "";
+
+        /*
+         * On affiche uniquement les
+         * 5 joueurs sélectionnés.
+         */
+
+        players
+            .slice(0, 5)
+            .forEach(
+                (player, index) => {
+
+
+                    /* =================================================
+                       CARTE JOUEUR
+                    ================================================= */
+
+                    const playerDiv =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    playerDiv.className =
+                        `player position-${index + 1}`;
+
+
+                    /* =================================================
+                       PHOTO
+                    ================================================= */
+
+                    const photoUrl =
+                        getPlayerPhoto(player);
+
+
+                    if (photoUrl) {
+
+                        const playerPhoto =
                             document.createElement(
-                                "div"
+                                "img"
                             );
 
-                        playerDiv.className =
-                            `player position-${index + 1}`;
 
-                        // Extraire le premier prénom pour le fichier image (ex: "Robin LE STER" -> "robin")
-                        const firstNameForImage = player.trim().split(/\s+/)[0].toLowerCase();
-
-                        // Séparer prénom et nom pour l'affichage
-                        const nameParts = player.trim().split(/\s+/);
-                        const firstName = nameParts.slice(0, -1).join(' ');
-                        const lastName = nameParts[nameParts.length - 1];
-
-                        const playerImage =
-                            document.createElement("img");
-
-                        playerImage.className =
+                        playerPhoto.className =
                             "player-photo";
 
-                        // Utiliser uniquement le premier prénom pour le fichier (ex: robin.png)
-                        playerImage.src =
-                            `joueursnm2/${firstNameForImage}.png`;
 
-                        playerImage.alt =
+                        playerPhoto.src =
+                            photoUrl;
+
+
+                        playerPhoto.alt =
                             player;
 
-                        playerImage.loading =
-                            "eager";
 
-                        playerImage.onerror = () => {
-                            playerImage.style.display = "none";
-                        };
+                        /*
+                         * Si la photo n'existe pas,
+                         * on la retire proprement.
+                         */
 
-                        playerDiv.appendChild(
-                            playerImage
-                        );
+                        playerPhoto.onerror =
+                            () => {
 
-                        const playerInfo =
-                            document.createElement("div");
+                                console.warn(
+                                    "Photo introuvable :",
+                                    photoUrl
+                                );
 
-                        playerInfo.className =
-                            "player-info";
+                                playerPhoto.remove();
+                            };
 
-                        const playerNumber =
-                            playerNumbers[player];
-
-                        if (
-                            playerNumber !== undefined
-                        ) {
-
-                            const numberSpan =
-                                document.createElement("span");
-
-                            numberSpan.className =
-                                "player-number";
-
-                            numberSpan.textContent =
-                                `#${playerNumber}`;
-
-                            playerInfo.appendChild(
-                                numberSpan
-                            );
-                        }
-
-                        // Conteneur pour le prénom et le nom
-                        const nameContainer = document.createElement("div");
-                        nameContainer.className = "player-name-container";
-
-                        // Prénom
-                        if (firstName) {
-                            const firstNameSpan = document.createElement("span");
-                            firstNameSpan.className = "player-firstname";
-                            firstNameSpan.textContent = firstName;
-                            nameContainer.appendChild(firstNameSpan);
-                        }
-
-                        // Nom
-                        const lastNameSpan = document.createElement("span");
-                        lastNameSpan.className = "player-lastname";
-                        lastNameSpan.textContent = lastName;
-                        nameContainer.appendChild(lastNameSpan);
-
-                        playerInfo.appendChild(nameContainer);
 
                         playerDiv.appendChild(
-                            playerInfo
+                            playerPhoto
                         );
-
-                        playersList.appendChild(
-                            playerDiv
-                        );
-
                     }
-                );
-        }
-    );
+
+
+                    /* =================================================
+                       NUMÉRO
+                    ================================================= */
+
+                    const playerNumber =
+                        playerNumbers[player];
+
+                    if (
+                        playerNumber !== undefined &&
+                        playerNumber !== null &&
+                        playerNumber !== ""
+                    ) {
+
+                        const numberSpan =
+                            document.createElement(
+                                "span"
+                            );
+
+
+                        numberSpan.className =
+                            "player-number";
+
+
+                        numberSpan.textContent =
+                            `#${playerNumber}`;
+
+
+                        playerDiv.appendChild(
+                            numberSpan
+                        );
+                    }
+
+
+                    /* =================================================
+                       NOM
+                    ================================================= */
+
+                    const nameSpan =
+                        document.createElement(
+                            "span"
+                        );
+
+
+                    nameSpan.textContent =
+                        player;
+
+
+                    nameSpan.style.color =
+                        "#fff";
+
+
+                    playerDiv.appendChild(
+                        nameSpan
+                    );
+
+
+                    /* =================================================
+                       AJOUT À L'ÉCRAN
+                    ================================================= */
+
+                    playersList.appendChild(
+                        playerDiv
+                    );
+
+                }
+            );
+
+    }
+
+);
 
 </script>
 
