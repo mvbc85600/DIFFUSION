@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Octobre Rose</title>
+
+    <!-- Importation de la police Barlow Condensed -->
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@500;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* =====================================================
+           RESET
+        ===================================================== */
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden !important;
+            background: #000;
+            color: #fff;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* =====================================================
+           FOND
+        ===================================================== */
+        body {
+            position: relative;
+            background:
+                radial-gradient(
+                    circle at center,
+                    #2a0018 0%,
+                    #140010 35%,
+                    #050005 65%,
+                    #000 100%
+                );
+        }
+
+        /* =====================================================
+           HALO CENTRAL DU FOND
+        ===================================================== */
+        body::before {
+            content: "";
+            position: fixed;
+            width: 900px;
+            height: 900px;
+            left: 50%;
+            top: 52%;
+            transform: translate(-50%, -50%);
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(255,110,180,0.20) 0%,
+                    rgba(255,110,180,0.08) 25%,
+                    rgba(255,110,180,0.02) 50%,
+                    transparent 70%
+                );
+            pointer-events: none;
+            animation: halo 4s ease-in-out infinite;
+        }
+
+        @keyframes halo {
+            0% {
+                transform: translate(-50%, -50%) scale(0.90);
+                opacity: 0.65;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.10);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(0.90);
+                opacity: 0.65;
+            }
+        }
+
+        /* =====================================================
+           COULEURS "OCTOBRE ROSE"
+        ===================================================== */
+        :root {
+            --white: #f7f7f5;
+            --black: #050608;
+            --pink: #ff69b4;        /* rose vif */
+            --pink-deep: #e0218a;   /* magenta/rose profond */
+            --pink-soft: #ffb3d1;   /* rose pâle */
+        }
+
+        /* Conteneur pour le titre */
+        .title-container {
+            position: relative;
+            width: 100%;
+            height: auto;
+            margin-top: 20px;
+            z-index: 100;
+            text-align: center;
+        }
+
+        /* Titre principal */
+        .partner-title {
+            font-family: "Barlow Condensed", sans-serif;
+            font-size: clamp(40px, 6vw, 100px);
+            font-weight: 900;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            color: var(--white);
+            text-align: center;
+            white-space: nowrap;
+            text-shadow:
+                4px 4px 0 var(--black),
+                7px 7px 0 var(--pink-soft),
+                11px 11px 0 rgba(255,105,180,.9),
+                15px 15px 0 rgba(224,33,138,.55);
+        }
+
+        /* Barre rose derrière le titre */
+        .slash {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-7deg);
+            width: min(64vw, 850px);
+            height: 18px;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                var(--pink-deep) 12%,
+                var(--pink) 35%,
+                var(--white) 50%,
+                var(--pink) 65%,
+                var(--pink-soft) 88%,
+                transparent
+            );
+            box-shadow: 0 0 40px rgba(255,105,180,.45);
+            z-index: -1;
+        }
+
+        /* =====================================================
+           CARROUSEL
+        ===================================================== */
+        .carousel {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 150px);
+            min-height: 500px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1800px;
+            perspective-origin: center center;
+        }
+
+        /* =====================================================
+           IMAGES
+        ===================================================== */
+        .carousel img {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform-origin: center center;
+            width: auto;
+            height: auto;
+            max-width: 740px;
+            max-height: 495px;
+            padding: 22px;
+            object-fit: contain;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(35,10,25,0.98),
+                    rgba(5,5,5,0.98)
+                );
+            border: 4px solid;
+            border-radius: 24px;
+            transition:
+                transform 0.9s cubic-bezier(.22,.61,.36,1),
+                opacity 0.9s ease,
+                filter 0.9s ease,
+                box-shadow 0.9s ease,
+                border-color 0.9s ease;
+            will-change: transform, opacity;
+        }
+
+        /* =====================================================
+           VARIATIONS DE ROSE DES IMAGES
+        ===================================================== */
+        .color-pink-1 { border-color: #ff69b4 !important; }
+        .color-pink-2 { border-color: #e0218a !important; }
+        .color-pink-3 { border-color: #ffb3d1 !important; }
+
+        /* =====================================================
+           POSITIONS DES IMAGES
+        ===================================================== */
+        .center {
+            transform: translate(-50%, -50%) translateZ(300px) scale(1.10);
+            z-index: 20;
+            opacity: 1;
+            filter: brightness(1.15) contrast(1.08);
+        }
+
+        .left1 {
+            transform: translate(-50%, -50%) translateX(-540px) translateZ(40px) scale(0.62);
+            z-index: 12;
+            opacity: 0.75;
+            filter: brightness(0.75) contrast(0.95);
+        }
+
+        .right1 {
+            transform: translate(-50%, -50%) translateX(540px) translateZ(40px) scale(0.62);
+            z-index: 12;
+            opacity: 0.75;
+            filter: brightness(0.75) contrast(0.95);
+        }
+
+        .left2 {
+            transform: translate(-50%, -50%) translateX(-860px) translateZ(-250px) scale(0.41);
+            z-index: 8;
+            opacity: 0.38;
+            filter: brightness(0.55) blur(0.3px);
+        }
+
+        .right2 {
+            transform: translate(-50%, -50%) translateX(860px) translateZ(-250px) scale(0.41);
+            z-index: 8;
+            opacity: 0.38;
+            filter: brightness(0.55) blur(0.3px);
+        }
+
+        .hidden {
+            transform: translate(-50%, -50%) translateZ(-700px) scale(0.15);
+            opacity: 0;
+            filter: blur(5px);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* =====================================================
+           BARRE LUMINEUSE
+        ===================================================== */
+        .light-line {
+            position: fixed;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 65%;
+            height: 3px;
+            background: #ff69b4;
+            box-shadow:
+                0 0 10px #ff69b4,
+                0 0 25px #ff69b4,
+                0 0 50px #ff69b4;
+            z-index: 90;
+            transition:
+                background 0.9s ease,
+                box-shadow 0.9s ease;
+        }
+
+        /* =====================================================
+           ÉCRANS 1600PX ET MOINS
+        ===================================================== */
+        @media (max-width: 1600px) {
+            .carousel img {
+                max-width: 680px;
+                max-height: 460px;
+            }
+            .center {
+                transform: translate(-50%, -50%) translateZ(250px) scale(1.02);
+            }
+            .left1 {
+                transform: translate(-50%, -50%) translateX(-450px) translateZ(30px) scale(0.55);
+            }
+            .right1 {
+                transform: translate(-50%, -50%) translateX(450px) translateZ(30px) scale(0.55);
+            }
+            .left2 {
+                transform: translate(-50%, -50%) translateX(-700px) translateZ(-200px) scale(0.36);
+            }
+            .right2 {
+                transform: translate(-50%, -50%) translateX(700px) translateZ(-200px) scale(0.36);
+            }
+        }
+
+        /* =====================================================
+           ÉCRANS 1200PX ET MOINS
+        ===================================================== */
+        @media (max-width: 1200px) {
+            .partner-title {
+                font-size: clamp(30px, 5vw, 80px);
+            }
+            .carousel {
+                min-height: 500px;
+            }
+            .carousel img {
+                max-width: 570px;
+                max-height: 387px;
+            }
+            .center {
+                transform: translate(-50%, -50%) translateZ(180px) scale(0.98);
+            }
+            .left1 {
+                transform: translate(-50%, -50%) translateX(-330px) translateZ(20px) scale(0.48);
+            }
+            .right1 {
+                transform: translate(-50%, -50%) translateX(330px) translateZ(20px) scale(0.48);
+            }
+            .left2, .right2 {
+                opacity: 0;
+            }
+        }
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+        @media (max-width: 700px) {
+            .partner-title {
+                font-size: clamp(24px, 6vw, 50px);
+                letter-spacing: -0.02em;
+            }
+            .slash {
+                height: 12px;
+            }
+            .carousel {
+                height: calc(100vh - 120px);
+                min-height: 400px;
+            }
+            .carousel img {
+                max-width: 85vw;
+                max-height: 360px;
+                padding: 15px;
+            }
+            .center {
+                transform: translate(-50%, -50%) scale(0.92);
+            }
+            .left1 {
+                transform: translate(-50%, -50%) translateX(-190px) scale(0.40);
+            }
+            .right1 {
+                transform: translate(-50%, -50%) translateX(190px) scale(0.40);
+            }
+            .left2, .right2 {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Titre avec effet statique -->
+    <div class="title-container">
+        <div class="slash"></div>
+        <h1 class="partner-title">OCTOBRE ROSE</h1>
+    </div>
+
+    <!-- Carrousel -->
+    <div class="carousel" id="carousel"></div>
+
+    <!-- Barre lumineuse -->
+    <div class="light-line"></div>
+
+    <script>
+        /* =====================================================
+           CONFIGURATION : TES 3 IMAGES
+           Remplace simplement les 3 URL ci-dessous par
+           les tiennes (lien direct vers chaque image).
+        ===================================================== */
+        const IMAGES = [
+            { url: "https://exemple.com/image-1.jpg", alt: "Octobre Rose 1" },
+            { url: "https://exemple.com/image-2.jpg", alt: "Octobre Rose 2" },
+            { url: "https://exemple.com/image-3.jpg", alt: "Octobre Rose 3" }
+        ];
+
+        /* =====================================================
+           PARAMÈTRES
+        ===================================================== */
+        const DURATION = 10000; // 10 secondes par image
+
+        let logos = [];
+        let index = 0;
+        let interval = null;
+
+        /* =====================================================
+           COULEURS (variations de rose)
+        ===================================================== */
+        const colors = ["color-pink-1", "color-pink-2", "color-pink-3"];
+        const colorHexes = ["#ff69b4", "#e0218a", "#ffb3d1"];
+
+        function getColor(i) {
+            return colors[i % colors.length];
+        }
+
+        function getColorHex(i) {
+            return colorHexes[i % colorHexes.length];
+        }
+
+        /* =====================================================
+           CRÉATION DES IMAGES
+        ===================================================== */
+        function createAllLogos() {
+            const carousel = document.getElementById("carousel");
+            IMAGES.forEach(function (image, i) {
+                const img = document.createElement("img");
+                img.alt = image.alt;
+                img.decoding = "async";
+                img.className = "hidden " + getColor(i);
+                img.src = image.url;
+                img.onerror = function () {
+                    console.warn("Impossible de charger :", image.url);
+                };
+                carousel.appendChild(img);
+                logos.push(img);
+            });
+        }
+
+        /* =====================================================
+           MISE À JOUR DE LA BARRE LUMINEUSE
+        ===================================================== */
+        function updateLightLine() {
+            const lightLine = document.querySelector(".light-line");
+            if (!lightLine) return;
+
+            const color = getColorHex(index);
+            lightLine.style.background = color;
+            lightLine.style.boxShadow = "0 0 10px " + color + ", 0 0 25px " + color + ", 0 0 50px " + color;
+        }
+
+        /* =====================================================
+           MISE À JOUR DU CARROUSEL
+        ===================================================== */
+        function updateCarousel() {
+            const total = logos.length;
+            if (total === 0) return;
+
+            for (let i = 0; i < total; i++) {
+                logos[i].className = "hidden " + getColor(i);
+            }
+
+            const center = index % total;
+            const left1 = (index - 1 + total) % total;
+            const right1 = (index + 1) % total;
+
+            logos[center].className = "center " + getColor(center);
+            logos[left1].className = "left1 " + getColor(left1);
+            logos[right1].className = "right1 " + getColor(right1);
+
+            updateLightLine();
+        }
+
+        /* =====================================================
+           ROTATION DU CARROUSEL
+        ===================================================== */
+        function rotateCarousel() {
+            if (logos.length === 0) return;
+            index = (index + 1) % logos.length;
+            updateCarousel();
+        }
+
+        /* =====================================================
+           DÉMARRAGE DU CARROUSEL
+        ===================================================== */
+        function startCarousel() {
+            if (interval) {
+                clearTimeout(interval);
+                interval = null;
+            }
+            if (logos.length === 0) return;
+
+            interval = setTimeout(function () {
+                rotateCarousel();
+                startCarousel();
+            }, DURATION);
+        }
+
+        /* =====================================================
+           INITIALISATION
+        ===================================================== */
+        function init() {
+            createAllLogos();
+            updateCarousel();
+            startCarousel();
+        }
+
+        /* =====================================================
+           LANCEMENT
+        ===================================================== */
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", init);
+        } else {
+            init();
+        }
+    </script>
+</body>
+</html>
