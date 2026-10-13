@@ -262,6 +262,14 @@ body {
     color: white;
 }
 
+    /* CORRECTION : .pink doit battre les nth-child en spécificité
+   pour que le bouton ÉCRAN NOIR reste vraiment noir */
+.scene-button.pink {
+    background: pink !important;
+    border: 1px solid #444;
+    color: white;
+}
+
 /* =========================
    MATCH DU SOIR
 ========================= */
@@ -1366,6 +1374,11 @@ body {
             <!-- Bouton QUART-TEMPS (Jaune) -->
             <button class="scene-button" onclick="diffuser('quartstemps')">
                 ⏱<br>QUART-TEMPS
+            </button>
+
+            <!-- Bouton Octobre Rose (rose) -->
+            <button class="scene-button.pink" onclick="diffuser('octobrerose')">
+                🎗️<br>Octobre rose
             </button>
         </div>
     </div>
