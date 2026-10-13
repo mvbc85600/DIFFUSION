@@ -19,11 +19,7 @@
 
 * { box-sizing: border-box; }
 
-html, body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-}
+html, body { width: 100%; height: 100%; margin: 0; }
 
 body {
     background:
@@ -36,7 +32,6 @@ body {
     overflow: hidden;
 }
 
-/* Atmosphère arène */
 body::before {
     content: "";
     position: fixed;
@@ -49,7 +44,6 @@ body::before {
     transform-origin: center bottom;
 }
 
-/* Vignette broadcast */
 body::after {
     content: "";
     position: fixed;
@@ -134,11 +128,8 @@ body::after {
 }
 
 .cl-head > div:first-child,
-.cl-head > div:nth-child(2) {
-    text-align: left;
-}
+.cl-head > div:nth-child(2) { text-align: left; }
 
-/* Zone des lignes : chaque équipe occupe une part égale de la hauteur */
 .cl-rows {
     flex: 1 1 auto;
     min-height: 0;
@@ -155,7 +146,6 @@ body::after {
 .cl-rows::-webkit-scrollbar-track { background: rgba(20,20,20,.5); border-radius: 10px; }
 .cl-rows::-webkit-scrollbar-thumb { background: rgba(255,212,0,.7); border-radius: 10px; }
 
-/* Carte ligne d'équipe — hauteur liée à la police (unités em) */
 .cl-row {
     position: relative;
     flex: 1 1 0;
@@ -174,7 +164,6 @@ body::after {
     animation-delay: var(--d, 0s);
 }
 
-/* Barre latérale selon la position */
 .cl-row::before {
     content: "";
     position: absolute;
@@ -234,7 +223,6 @@ body::after {
     text-shadow: 2px 2px 0 rgba(0,0,0,.6);
 }
 
-/* Cellule "points" : pastille jaune broadcast */
 .cl-row .cell.pts {
     color: var(--black);
     background: rgba(255,212,0,.9);
@@ -244,7 +232,6 @@ body::after {
     box-shadow: 0 0 18px rgba(255,212,0,.3);
 }
 
-/* Équipe MVBC : ligne dorée */
 .cl-row.mvbc {
     background: linear-gradient(90deg, rgba(255,212,0,.18), rgba(8,9,12,.74) 55%);
     border-color: rgba(255,212,0,.55);
@@ -252,13 +239,10 @@ body::after {
     --halo: rgba(255,212,0,.55);
 }
 
-.cl-row.mvbc .rang {
-    color: var(--yellow);
-}
+.cl-row.mvbc .rang { color: var(--yellow); }
 
-/* Message vide */
 .vide-msg {
-    flex: 1 1 auto;
+    grid-column: 1 / -1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -274,9 +258,6 @@ body::after {
     border-radius: 22px;
 }
 
-/* =====================================================
-   DÉFILEMENT DES LOGOS PARTENAIRES
-   ===================================================== */
 .partners-bar {
     position: relative;
     z-index: 12;
@@ -317,19 +298,14 @@ body::after {
     100% { opacity: 1; transform: none; filter: blur(0); }
 }
 
-/* Écrans étroits : on repasse sur une seule colonne */
 @media (max-width: 900px) {
     .cl-columns { grid-template-columns: 1fr; }
     .cl-column:last-child { display: none; }
     .cl-row { flex: 0 0 auto; }
 }
 
-/* Petits écrans */
 @media (max-width: 600px) {
-    .title {
-        font-size: clamp(22px, 6.4vw, 40px);
-        white-space: normal;
-    }
+    .title { font-size: clamp(22px, 6.4vw, 40px); white-space: normal; }
     .cl-head { display: none; }
     .partners-bar { height: 84px; margin-top: 18px; }
     .partners-scroll img { margin: 0 14px; }
@@ -357,35 +333,21 @@ body::after {
         </section>
     </div>
 
-    <!-- Défilement des logos partenaires -->
     <div class="partners-bar" id="partnersBar">
         <div class="partners-scroll" id="partnersScroll"></div>
     </div>
 </div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
-    authDomain: "diffusion-b9afa.firebaseapp.com",
-    databaseURL: "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "diffusion-b9afa",
-    storageBucket: "diffusion-b9afa.firebasestorage.app",
-    messagingSenderId: "674799570797",
-    appId: "1:674799570797:web:0d8b7a2a892f604eb7d464"
-};
-
-const appFirebase = initializeApp(firebaseConfig);
-const db = getDatabase(appFirebase);
-
+<script>
 /* =====================================================
-   SOURCE : GOOGLE SHEET (même feuille que l'ancienne page)
+   SCRIPT PRINCIPAL (classique, pas "module") :
+   le classement s'affiche même si Firebase est indisponible.
    ===================================================== */
 const SHEET_ID = "1vidVkLiiLMnmrO9HTmzM9Ns8bC28ONU1dVL41SVepOU";
 const GID_CLASSEMENT = "1966074571";
-const REFRESH_MS = 60000; /* rafraîchissement toutes les 60 s */
+const REFRESH_MS = 60000;
+const GITHUB_LOGO_API = "https://api.github.com/repos/mvbc85600/DIFFUSION/contents/logo";
+const GITHUB_LOGO_RAW = "https://raw.githubusercontent.com/mvbc85600/DIFFUSION/main/logo/";
 
 function escapeHtml(str) {
     const div = document.createElement("div");
@@ -394,20 +356,17 @@ function escapeHtml(str) {
 }
 
 function normaliser(nom) {
-    return (nom || "")
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-z0-9]/g, "");
+    return (nom || "").toLowerCase().normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "");
 }
 
-/* =====================================================
-   LOGOS DES CLUBS — depuis la base Firebase (admin.html)
-   ===================================================== */
+/* Logos de secours si Firebase ne répond pas */
 const LOGOS_FALLBACK = {
     "mvbc": "logos/mvbc.png",
     "nantesbh": "logos/nantesbh.png",
+    "nantes": "logos/nantesbh.png",
     "bbmarmande": "logos/bbm.png",
+    "bbm": "logos/bbm.png",
     "dax": "logos/dax.png",
     "adourdax": "logos/dax.png",
     "esms": "logos/esms.png",
@@ -415,6 +374,7 @@ const LOGOS_FALLBACK = {
     "garonne": "logos/garonne.png",
     "niort": "logos/niort.png",
     "reze": "logos/reze.png",
+    "reze44": "logos/reze.png",
     "brissac": "logos/brissac.png",
     "toulouse": "logos/toulouse.png",
     "pornic": "logos/pornic.png",
@@ -424,24 +384,7 @@ const LOGOS_FALLBACK = {
     "asch": "logos/asch.png"
 };
 
-let logosClubs = {};       /* nom normalisé -> URL du logo */
-let dernierRenduLogos = "";
-
-function majLogosDepuisFirebase(data) {
-    const data_ = data || {};
-    const matchs = Array.isArray(data_.matchs) ? data_.matchs : [];
-    const map = {};
-    matchs.forEach(m => {
-        m = m || {};
-        if (m.eq1 && m.logo1) map[normaliser(m.eq1)] = m.logo1;
-        if (m.eq2 && m.logo2) map[normaliser(m.eq2)] = m.logo2;
-    });
-    const signature = JSON.stringify(map);
-    if (signature === dernierRenduLogos) return;
-    logosClubs = map;
-    dernierRenduLogos = signature;
-    console.log("Logos clubs mis à jour depuis Firebase :", Object.keys(map).length);
-}
+let logosClubs = {};
 
 function logoPourEquipe(nom) {
     const n = normaliser(nom);
@@ -457,14 +400,9 @@ function logoPourEquipe(nom) {
     return null;
 }
 
-/* Écoute en temps réel du nœud "poule" (même source que poule.html) */
-onValue(ref(db, "poule"), (snapshot) => {
-    majLogosDepuisFirebase(snapshot.val());
-    /* si des logos arrivent alors que le classement est déjà affiché, on relance le rendu */
-    if (document.getElementById("clRows1").children.length) chargerClassement();
-});
-
-/* Parse un CSV complet (avec guillemets) en tableau de tableaux */
+/* =====================================================
+   GOOGLE SHEET — export CSV
+   ===================================================== */
 function parseCsv(texte) {
     const lignes = [];
     let ligne = [], cellule = "", dansGuillemets = false;
@@ -491,93 +429,86 @@ function parseCsv(texte) {
 }
 
 async function chargerClassement() {
-    const url =
-        "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
-        "/export?format=csv&gid=" + GID_CLASSEMENT +
-        "&cache=" + Date.now();
-
+    const url = "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
+        "/export?format=csv&gid=" + GID_CLASSEMENT + "&cache=" + Date.now();
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, { cache: "no-store" });
         if (!response.ok) throw new Error("HTTP " + response.status);
-        const texte = await response.text();
-        const lignes = parseCsv(texte).filter(l => l.some(c => c.trim() !== ""));
+        const lignes = parseCsv(await response.text()).filter(l => l.some(c => c.trim() !== ""));
         if (lignes.length < 2) throw new Error("Feuille vide");
         rendreClassement(lignes[0], lignes.slice(1));
     } catch (error) {
         console.error("Erreur chargement classement :", error);
+        afficherErreur("Classement indisponible<br>" + escapeHtml(error.message));
     }
 }
 
-/* Construit le HTML d'une ligne d'équipe (identique aux deux colonnes) */
-function htmlLigne(cells, rang, i) {
-    const nomEquipe = (cells[1] || "").trim();
-
-    let html = "<div class='rang'>" + escapeHtml(rang) + "</div>";
-
-    cells.forEach((v, k) => {
-        if (k === 0) return; /* rang déjà affiché */
-        if (k === 1) {
-            const logo = logoPourEquipe(nomEquipe);
-            html += "<div class='equipe'>" +
-                (logo ? "<img class='logo' src='" + escapeHtml(logo) + "' alt='' onerror='this.style.display=\"none\"'>" : "") +
-                "<span class='equipe-nom'>" + escapeHtml(nomEquipe) + "</span>" +
-                "</div>";
-        } else {
-            /* colonne juste après l'équipe = points → pastille jaune */
-            const cls = k === 2 ? "cell pts" : "cell";
-            html += "<div class='" + cls + "'>" + escapeHtml(v) + "</div>";
-        }
-    });
-
-    return { html, nomEquipe };
+function afficherErreur(messageHtml) {
+    if (!document.getElementById("clRows1").children.length) {
+        document.getElementById("clColumns").innerHTML =
+            '<div class="vide-msg">' + messageHtml + '</div>';
+    }
 }
 
 function rendreClassement(entetes, donnees) {
-    /* La 1re colonne de la feuille contient le rang (1, 2, 3…) */
+    /* La 1re colonne de la feuille contient-elle le rang ? (ex : "1", "2", "3") */
     const premiereColNum = donnees.length > 0 && /^\d+$/.test((donnees[0][0] || "").trim());
 
-    /* Colonnes affichées, identiques pour l'en-tête et les lignes */
-    const colsTemplate =
-        "5% minmax(90px, 1fr) repeat(" + Math.max(entetes.length - 2, 1) + ", minmax(40px, 1fr))";
+    /* index de l'équipe et des stats selon la structure de la feuille */
+    const colEquipe = premiereColNum ? 1 : 0;
+    const nbStats = Math.max(entetes.length - colEquipe - 1, 1);
+    const colsTemplate = "6% minmax(90px, 1fr) repeat(" + nbStats + ", minmax(40px, 1fr))";
 
     const headHtml =
-        "<div>" + escapeHtml(entetes[0] || "Classement") + "</div>" +
+        "<div>" + escapeHtml(entetes[0] || "#") + "</div>" +
         "<div>Équipe</div>" +
-        entetes.slice(2).map(h => "<div>" + escapeHtml(h) + "</div>").join("");
+        entetes.slice(colEquipe + 1).map(h => "<div>" + escapeHtml(h) + "</div>").join("");
 
-    /* On ignore la ligne d'en-tête si la feuille la répète */
-    const lignesValid = donnees.filter((cells, i) =>
-        premiereColNum || !(i === 0 && isNaN(parseInt(cells[0], 10))
-    ));
+    /* Lignes valides : on saute une éventuelle ligne d'en-tête répétée */
+    const lignesValid = donnees.filter((cells, i) => {
+        if (!premiereColNum && i === 0 && isNaN(parseInt(cells[0], 10))) return false;
+        return cells.some(v => String(v || "").trim() !== "");
+    });
 
-    /* Répartition équilibrée : moitié haute / moitié basse */
+    /* Répartition équilibrée : moitié gauche / moitié droite */
     const milieu = Math.ceil(lignesValid.length / 2);
     const moities = [lignesValid.slice(0, milieu), lignesValid.slice(milieu)];
 
-    moites.forEach((moitie, index) => {
+    moities.forEach((moitie, index) => {
         const head = document.getElementById("clHead" + (index + 1));
         const rows = document.getElementById("clRows" + (index + 1));
-
         head.style.display = "";
         head.style.setProperty("--cols", colsTemplate);
         head.innerHTML = headHtml;
         rows.innerHTML = "";
 
         moitie.forEach((cells, i) => {
-            const rang = premiereColNum ? cells[0] : String(index * milieu + i + 1);
+            const rang = premiereColNum ? String(cells[0]).trim() : String(index * milieu + i + 1);
+            const nomEquipe = (cells[colEquipe] || "").trim();
 
             const ligne = document.createElement("div");
             ligne.className = "cl-row";
             ligne.style.setProperty("--d", (0.1 + (index * milieu + i) * 0.06).toFixed(2) + "s");
             ligne.style.setProperty("--cols", colsTemplate);
 
-            const { html, nomEquipe } = htmlLigne(cells, rang, i);
+            let html = "<div class='rang'>" + escapeHtml(rang) + "</div>";
+
+            /* Équipe + logo */
+            const logo = logoPourEquipe(nomEquipe);
+            html += "<div class='equipe'>" +
+                (logo ? "<img class='logo' src='" + escapeHtml(logo) + "' alt='' onerror='this.remove()'>" : "") +
+                "<span class='equipe-nom'>" + escapeHtml(nomEquipe) + "</span>" +
+                "</div>";
+
+            /* Colonnes de stats (points = pastille jaune) */
+            cells.slice(colEquipe + 1).forEach((v, k) => {
+                const cls = k === 0 ? "cell pts" : "cell";
+                html += "<div class='" + cls + "'>" + escapeHtml(v) + "</div>";
+            });
+
             ligne.innerHTML = html;
 
-            /* Seul le MVBC est mis en avant (jaune broadcast) */
-            if (normaliser(nomEquipe).includes("mvbc")) {
-                ligne.classList.add("mvbc");
-            }
+            if (normaliser(nomEquipe).includes("mvbc")) ligne.classList.add("mvbc");
 
             rows.appendChild(ligne);
 
@@ -602,11 +533,50 @@ chargerClassement();
 setInterval(chargerClassement, REFRESH_MS);
 
 /* =====================================================
-   LOGOS PARTENAIRES (GitHub — même source que poule.html)
+   LOGOS DES CLUBS — Firebase en optionnel :
+   si l'import échoue (réseau, CSP…), le classement reste affiché
+   avec les logos de secours.
    ===================================================== */
-const GITHUB_LOGO_API = "https://api.github.com/repos/mvbc85600/DIFFUSION/contents/logo";
-const GITHUB_LOGO_RAW = "https://raw.githubusercontent.com/mvbc85600/DIFFUSION/main/logo/";
+(async function chargerLogosFirebase() {
+    try {
+        const [{ initializeApp }, { getDatabase, ref, onValue }] = await Promise.all([
+            import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"),
+            import("https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js")
+        ]);
 
+        const firebaseConfig = {
+            apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+            authDomain: "diffusion-b9afa.firebaseapp.com",
+            databaseURL: "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "diffusion-b9afa",
+            storageBucket: "diffusion-b9afa.firebasestorage.app",
+            messagingSenderId: "674799570797",
+            appId: "1:674799570797:web:0d8b7a2a892f604eb7d464"
+        };
+
+        const db = getDatabase(initializeApp(firebaseConfig));
+
+        onValue(ref(db, "poule"), (snapshot) => {
+            const data = snapshot.val() || {};
+            const matchs = Array.isArray(data.matchs) ? data.matchs : [];
+            const map = {};
+            matchs.forEach(m => {
+                m = m || {};
+                if (m.eq1 && m.logo1) map[normaliser(m.eq1)] = m.logo1;
+                if (m.eq2 && m.logo2) map[normaliser(m.eq2)] = m.logo2;
+            });
+            logosClubs = map;
+            /* logos arrivés après le rendu → on relance pour les appliquer */
+            if (document.getElementById("clRows1").children.length) chargerClassement();
+        });
+    } catch (error) {
+        console.warn("Logos Firebase indisponibles, utilisation des logos de secours :", error);
+    }
+})();
+
+/* =====================================================
+   LOGOS PARTENAIRES (GitHub)
+   ===================================================== */
 async function chargerLogosPartenaires() {
     try {
         const response = await fetch(GITHUB_LOGO_API, {
@@ -620,15 +590,17 @@ async function chargerLogosPartenaires() {
         const logos = fichiers
             .filter(f => f.type === "file" && /\.(png|jpe?g|webp|gif|svg)$/i.test(f.name))
             .map(f => GITHUB_LOGO_RAW + encodeURIComponent(f.name));
+        if (!logos.length) { document.getElementById("partnersBar").style.display = "none"; return; }
         [...logos, ...logos].forEach(src => {
             const img = document.createElement("img");
             img.src = src;
             img.alt = "Partenaire";
-            img.onerror = function () { this.style.display = "none"; };
+            img.onerror = function () { this.remove(); };
             scroll.appendChild(img);
         });
     } catch (error) {
         console.error("Erreur chargement logos partenaires :", error);
+        document.getElementById("partnersBar").style.display = "none";
     }
 }
 chargerLogosPartenaires();
