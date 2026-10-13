@@ -63,7 +63,7 @@ body::after {
     position: relative;
     z-index: 10;
     width: 100%;
-    max-width: 1560px;
+    max-width: 1860px;
     height: 100%;
     margin: 0 auto;
     display: flex;
@@ -71,6 +71,7 @@ body::after {
 }
 
 .title {
+    flex: 0 0 auto;
     margin: 0 0 clamp(6px, 1.4vh, 18px);
     text-align: center;
     font-family: "Barlow Condensed", sans-serif;
@@ -90,8 +91,24 @@ body::after {
 }
 
 /* =====================================================
-   TABLEAU CLASSEMENT
+   DEUX TABLEAUX CÔTE À CÔTE
    ===================================================== */
+.cl-columns {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(10px, 1.2vw, 26px);
+}
+
+.cl-column {
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(6px, 1vh, 12px);
+}
+
 .cl-head, .cl-row {
     display: grid;
     grid-template-columns: var(--cols, 6% 1fr 8% 8% 8% 8% 9% 9%);
@@ -100,6 +117,7 @@ body::after {
 }
 
 .cl-head {
+    flex: 0 0 auto;
     padding: 0 clamp(12px, 1.6vw, 26px);
     font-size: clamp(9px, 1vw, 13px);
     font-weight: 800;
@@ -120,10 +138,30 @@ body::after {
     text-align: left;
 }
 
+/* Zone des lignes : chaque équipe occupe une part égale de la hauteur */
+.cl-rows {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(6px, 1vh, 12px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,212,0,.7) rgba(20,20,20,.5);
+    padding-right: 4px;
+}
+
+.cl-rows::-webkit-scrollbar { width: 5px; }
+.cl-rows::-webkit-scrollbar-track { background: rgba(20,20,20,.5); border-radius: 10px; }
+.cl-rows::-webkit-scrollbar-thumb { background: rgba(255,212,0,.7); border-radius: 10px; }
+
 /* Carte ligne d'équipe — hauteur liée à la police (unités em) */
 .cl-row {
     position: relative;
-    font-size: clamp(20px, 2.6vh, 34px);
+    flex: 1 1 0;
+    min-height: 0;
+    display: grid;
+    font-size: clamp(16px, 2.1vh, 30px);
     padding: .32em clamp(12px, 1.6vw, 26px);
     background: rgba(8,9,12,.74);
     border: 1px solid rgba(255,255,255,.08);
@@ -218,29 +256,16 @@ body::after {
     color: var(--yellow);
 }
 
-/* Zone scrollable si beaucoup d'équipes */
-.classement-scroll {
-    flex: 1 1 auto;
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
-    gap: clamp(6px, 1vh, 12px);
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255,212,0,.7) rgba(20,20,20,.5);
-    padding-right: 4px;
-}
-
-.classement-scroll::-webkit-scrollbar { width: 5px; }
-.classement-scroll::-webkit-scrollbar-track { background: rgba(20,20,20,.5); border-radius: 10px; }
-.classement-scroll::-webkit-scrollbar-thumb { background: rgba(255,212,0,.7); border-radius: 10px; }
-
 /* Message vide */
 .vide-msg {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    padding: 60px 20px;
+    padding: 30px 20px;
     font-family: "Barlow Condensed", sans-serif;
-    font-size: clamp(22px, 3vw, 40px);
+    font-size: clamp(18px, 2.2vw, 34px);
     font-weight: 800;
     text-transform: uppercase;
     color: rgba(255,255,255,.35);
@@ -292,6 +317,13 @@ body::after {
     100% { opacity: 1; transform: none; filter: blur(0); }
 }
 
+/* Écrans étroits : on repasse sur une seule colonne */
+@media (max-width: 900px) {
+    .cl-columns { grid-template-columns: 1fr; }
+    .cl-column:last-child { display: none; }
+    .cl-row { flex: 0 0 auto; }
+}
+
 /* Petits écrans */
 @media (max-width: 600px) {
     .title {
@@ -314,8 +346,16 @@ body::after {
 <div class="layout">
     <h1 class="title">Classement</h1>
 
-    <div class="cl-head" id="clHead" style="display:none"></div>
-    <div class="classement-scroll" id="clRows"></div>
+    <div class="cl-columns" id="clColumns">
+        <section class="cl-column">
+            <div class="cl-head" id="clHead1" style="display:none"></div>
+            <div class="cl-rows" id="clRows1"></div>
+        </section>
+        <section class="cl-column">
+            <div class="cl-head" id="clHead2" style="display:none"></div>
+            <div class="cl-rows" id="clRows2"></div>
+        </section>
+    </div>
 
     <!-- Défilement des logos partenaires -->
     <div class="partners-bar" id="partnersBar">
@@ -363,8 +403,6 @@ function normaliser(nom) {
 
 /* =====================================================
    LOGOS DES CLUBS — depuis la base Firebase (admin.html)
-   Le nœud "poule" contient les matchs avec eq1/logo1, eq2/logo2 :
-   on en déduit automatiquement nom d'équipe -> logo.
    ===================================================== */
 const LOGOS_FALLBACK = {
     "mvbc": "logos/mvbc.png",
@@ -408,7 +446,6 @@ function majLogosDepuisFirebase(data) {
 function logoPourEquipe(nom) {
     const n = normaliser(nom);
     if (!n) return null;
-    /* correspondance exacte, puis partielle (ex : "reze44" -> "reze") */
     if (logosClubs[n]) return logosClubs[n];
     for (const cle in logosClubs) {
         if (n.startsWith(cle) || cle.startsWith(n)) return logosClubs[cle];
@@ -424,7 +461,7 @@ function logoPourEquipe(nom) {
 onValue(ref(db, "poule"), (snapshot) => {
     majLogosDepuisFirebase(snapshot.val());
     /* si des logos arrivent alors que le classement est déjà affiché, on relance le rendu */
-    if (document.getElementById("clRows").children.length) chargerClassement();
+    if (document.getElementById("clRows1").children.length) chargerClassement();
 });
 
 /* Parse un CSV complet (avec guillemets) en tableau de tableaux */
@@ -454,11 +491,10 @@ function parseCsv(texte) {
 }
 
 async function chargerClassement() {
-    /* export CSV : plus fiable que le gviz JSON pour cette feuille */
     const url =
         "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
         "/export?format=csv&gid=" + GID_CLASSEMENT +
-        "&cache=" + Date.now(); /* évite le cache navigateur */
+        "&cache=" + Date.now();
 
     try {
         const response = await fetch(url);
@@ -472,72 +508,92 @@ async function chargerClassement() {
     }
 }
 
-function rendreClassement(entetes, donnees) {
-    const head = document.getElementById("clHead");
+/* Construit le HTML d'une ligne d'équipe (identique aux deux colonnes) */
+function htmlLigne(cells, rang, i) {
+    const nomEquipe = (cells[1] || "").trim();
 
-    /* La 1re colonne de la feuille contient le rang (1, 2, 3…) :
-       les lignes affichent [rang, équipe, Pts, J, G, P, p., c.]. */
+    let html = "<div class='rang'>" + escapeHtml(rang) + "</div>";
+
+    cells.forEach((v, k) => {
+        if (k === 0) return; /* rang déjà affiché */
+        if (k === 1) {
+            const logo = logoPourEquipe(nomEquipe);
+            html += "<div class='equipe'>" +
+                (logo ? "<img class='logo' src='" + escapeHtml(logo) + "' alt='' onerror='this.style.display=\"none\"'>" : "") +
+                "<span class='equipe-nom'>" + escapeHtml(nomEquipe) + "</span>" +
+                "</div>";
+        } else {
+            /* colonne juste après l'équipe = points → pastille jaune */
+            const cls = k === 2 ? "cell pts" : "cell";
+            html += "<div class='" + cls + "'>" + escapeHtml(v) + "</div>";
+        }
+    });
+
+    return { html, nomEquipe };
+}
+
+function rendreClassement(entetes, donnees) {
+    /* La 1re colonne de la feuille contient le rang (1, 2, 3…) */
     const premiereColNum = donnees.length > 0 && /^\d+$/.test((donnees[0][0] || "").trim());
 
     /* Colonnes affichées, identiques pour l'en-tête et les lignes */
     const colsTemplate =
-        "5% minmax(120px, 1fr) repeat(" + Math.max(entetes.length - 2, 1) + ", minmax(52px, 1fr))";
+        "5% minmax(90px, 1fr) repeat(" + Math.max(entetes.length - 2, 1) + ", minmax(40px, 1fr))";
 
-    head.style.display = "";
-    head.style.setProperty("--cols", colsTemplate);
-    head.innerHTML =
+    const headHtml =
         "<div>" + escapeHtml(entetes[0] || "Classement") + "</div>" +
         "<div>Équipe</div>" +
         entetes.slice(2).map(h => "<div>" + escapeHtml(h) + "</div>").join("");
 
-    const rows = document.getElementById("clRows");
-    rows.innerHTML = "";
+    /* On ignore la ligne d'en-tête si la feuille la répète */
+    const lignesValid = donnees.filter((cells, i) =>
+        premiereColNum || !(i === 0 && isNaN(parseInt(cells[0], 10))
+    ));
 
-    donnees.forEach((cells, i) => {
-        /* Ignore la ligne d'en-tête si la feuille la répète */
-        if (!premiereColNum && i === 0 && isNaN(parseInt(cells[0], 10))) return;
+    /* Répartition équilibrée : moitié haute / moitié basse */
+    const milieu = Math.ceil(lignesValid.length / 2);
+    const moities = [lignesValid.slice(0, milieu), lignesValid.slice(milieu)];
 
-        const ligne = document.createElement("div");
-        ligne.className = "cl-row";
-        ligne.style.setProperty("--d", (0.1 + i * 0.06).toFixed(2) + "s");
-        ligne.style.setProperty("--cols", colsTemplate);
+    moites.forEach((moitie, index) => {
+        const head = document.getElementById("clHead" + (index + 1));
+        const rows = document.getElementById("clRows" + (index + 1));
 
-        const nomEquipe = (cells[1] || "").trim();
+        head.style.display = "";
+        head.style.setProperty("--cols", colsTemplate);
+        head.innerHTML = headHtml;
+        rows.innerHTML = "";
 
-        /* Seul le MVBC est mis en avant (jaune broadcast) */
-        if (normaliser(nomEquipe).includes("mvbc")) {
-            ligne.classList.add("mvbc");
-        }
+        moitie.forEach((cells, i) => {
+            const rang = premiereColNum ? cells[0] : String(index * milieu + i + 1);
 
-        let html = premiereColNum
-            ? "<div class='rang'>" + escapeHtml(cells[0]) + "</div>"
-            : "<div class='rang'>" + (i + 1) + "</div>";
+            const ligne = document.createElement("div");
+            ligne.className = "cl-row";
+            ligne.style.setProperty("--d", (0.1 + (index * milieu + i) * 0.06).toFixed(2) + "s");
+            ligne.style.setProperty("--cols", colsTemplate);
 
-        cells.forEach((v, k) => {
-            if (premiereColNum && k === 0) return; /* rang déjà affiché */
-            if (k === 1) {
-                const logo = logoPourEquipe(nomEquipe);
-                html += "<div class='equipe'>" +
-                    (logo ? "<img class='logo' src='" + escapeHtml(logo) + "' alt='' onerror='this.style.display=\"none\"'>" : "") +
-                    "<span class='equipe-nom'>" + escapeHtml(nomEquipe) + "</span>" +
-                    "</div>";
-            } else {
-                /* 3e colonne = points → pastille jaune */
-                const cls = k === 2 ? "cell pts" : "cell";
-                html += "<div class='" + cls + "'>" + escapeHtml(v) + "</div>";
+            const { html, nomEquipe } = htmlLigne(cells, rang, i);
+            ligne.innerHTML = html;
+
+            /* Seul le MVBC est mis en avant (jaune broadcast) */
+            if (normaliser(nomEquipe).includes("mvbc")) {
+                ligne.classList.add("mvbc");
+            }
+
+            rows.appendChild(ligne);
+
+            /* Nom sur une seule ligne : réduction auto de la police */
+            const eq = ligne.querySelector(".equipe-nom");
+            let taille = parseFloat(getComputedStyle(eq.parentElement).fontSize);
+            eq.style.fontSize = taille + "px";
+            let securite = 20;
+            while (securite-- > 0 && eq.scrollWidth > eq.clientWidth + 1 && taille > 10) {
+                taille -= 1;
+                eq.style.fontSize = taille + "px";
             }
         });
-        ligne.innerHTML = html;
-        rows.appendChild(ligne);
 
-        /* Nom sur une seule ligne : réduction auto de la police */
-        const eq = ligne.querySelector(".equipe-nom");
-        let taille = parseFloat(getComputedStyle(eq.parentElement).fontSize);
-        eq.style.fontSize = taille + "px";
-        let securite = 20;
-        while (securite-- > 0 && eq.scrollWidth > eq.clientWidth + 1 && taille > 12) {
-            taille -= 1;
-            eq.style.fontSize = taille + "px";
+        if (!moitie.length) {
+            rows.innerHTML = '<div class="vide-msg">—</div>';
         }
     });
 }
