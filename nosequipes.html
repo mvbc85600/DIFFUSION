@@ -39,7 +39,7 @@ html,body {
     height:100vh;
     display:grid;
     place-items:start center;
-    padding:3vh 2.5vw calc(22vh + 8px);
+    padding:2vh 2vw calc(22vh + 8px);
     overflow:hidden;
 }
 
@@ -50,17 +50,17 @@ html,body {
 .card {
     position:absolute;
 
-    top:4vh;
+    top:2.5vh;
 
-    width:min(1550px,100%);
-    height:min(72vh,900px);
+    width:min(1400px,96%);
+    height:min(62vh,780px);
 
     grid-template-columns:1fr 1.15fr;
     grid-template-rows:auto minmax(0,1fr) auto;
 
     overflow:hidden;
 
-    border-radius:26px;
+    border-radius:20px;
 
     background:#141519;
 
@@ -161,10 +161,10 @@ html,body {
     align-items:center;
     justify-content:space-between;
 
-    padding:2.2vh 3vw;
+    padding:1.4vh 2.2vw;
 
     font-family:"Arial Narrow","Segoe UI",Arial,sans-serif;
-    font-size:clamp(38px,6.5vw,86px);
+    font-size:clamp(34px,5.2vw,70px);
     font-weight:950;
 
     letter-spacing:2px;
@@ -212,9 +212,9 @@ html,body {
 
     position:relative;
 
-    margin:2.5vh 0 2.5vh 2.5vw;
+    margin:1.8vh 0 1.8vh 1.8vw;
 
-    border-radius:20px;
+    border-radius:14px;
 
     overflow:hidden;
 
@@ -267,15 +267,15 @@ html,body {
     min-width:0;
     min-height:0;
 
-    padding:2.5vh 2.5vw;
+    padding:1.8vh 1.8vw;
 
     overflow:hidden;
 }
 
 .coach-line {
-    margin:0 0 2vh;
+    margin:0 0 1.2vh;
 
-    font-size:clamp(16px,2.2vw,32px);
+    font-size:clamp(15px,1.8vw,26px);
 
     font-weight:800;
 
@@ -303,7 +303,7 @@ html,body {
 
     gap:10px;
 
-    margin:0 0 10px;
+    margin:0 0 8px;
 
     color:#8f929a;
 
@@ -335,9 +335,9 @@ html,body {
 
     grid-template-columns:repeat(2,minmax(0,1fr));
 
-    grid-auto-rows:minmax(42px,auto);
+    grid-auto-rows:minmax(34px,auto);
 
-    gap:8px 10px;
+    gap:6px 8px;
 
     align-content:start;
 
@@ -351,13 +351,13 @@ html,body {
 */
 .player-chip {
     min-width:0;
-    min-height:42px;
+    min-height:34px;
 
-    padding:8px 12px;
+    padding:5px 9px;
 
     border:1px solid rgba(255,255,255,.07);
 
-    border-radius:14px;
+    border-radius:10px;
 
     background:linear-gradient(
         145deg,
@@ -367,7 +367,7 @@ html,body {
 
     color:#f2f3f5;
 
-    font-size:clamp(13px,1.25vw,19px);
+    font-size:clamp(12px,1.1vw,17px);
 
     line-height:1.12;
 
@@ -442,11 +442,11 @@ html,body {
 
     gap:2vw;
 
-    margin:0 2.5vw 2.5vh;
+    margin:0 1.8vw 1.8vh;
 
-    padding:2vh 2.2vw;
+    padding:1.2vh 1.6vw;
 
-    border-radius:18px;
+    border-radius:14px;
 
     background:#f0f1f3;
 
@@ -482,7 +482,7 @@ html,body {
 }
 
 .card-footer .score {
-    font-size:clamp(22px,3.2vw,48px);
+    font-size:clamp(20px,2.6vw,38px);
 
     font-weight:950;
 
@@ -490,7 +490,7 @@ html,body {
 }
 
 .card-footer .state {
-    font-size:clamp(14px,1.9vw,30px);
+    font-size:clamp(13px,1.6vw,24px);
 
     font-weight:900;
 
@@ -613,17 +613,17 @@ html,body {
 @media (max-width:1100px) {
 
     .players {
-        gap:6px;
+        gap:5px;
     }
 
     .player-chip {
-        min-height:36px;
+        min-height:32px;
 
-        padding:6px 8px;
+        padding:4px 8px;
 
         font-size:clamp(11px,1.45vw,16px);
 
-        border-radius:11px;
+        border-radius:9px;
     }
 }
 
@@ -646,7 +646,7 @@ html,body {
     .card-header {
         grid-column:1;
 
-        padding:1.6vh 4vw;
+        padding:1.2vh 4vw;
 
         font-size:clamp(30px,9vw,52px);
     }
@@ -660,25 +660,25 @@ html,body {
 
         grid-row:2;
 
-        padding:2vh 4vw 1vh;
+        padding:1.5vh 4vw 1vh;
     }
 
     .players {
         grid-template-columns:1fr 1fr;
 
-        grid-auto-rows:minmax(34px,auto);
+        grid-auto-rows:minmax(32px,auto);
 
         gap:5px;
     }
 
     .player-chip {
-        min-height:34px;
+        min-height:32px;
 
         padding:4px 6px;
 
         font-size:clamp(9px,2.7vw,14px);
 
-        border-radius:10px;
+        border-radius:9px;
     }
 
     .card-footer {
@@ -686,9 +686,9 @@ html,body {
 
         grid-row:3;
 
-        margin:0 3vw 2vh;
+        margin:0 3vw 1.5vh;
 
-        padding:1.5vh 3vw;
+        padding:1.2vh 3vw;
     }
 }
 
@@ -773,7 +773,7 @@ var PHOTOS = {
     "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/0a8f9489-6df8-462a-bb95-a3e9bcb80f5b.jpg",
 
     "DF2":
-    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/7CE200DF-F1A2-49E5-893C-9F7E52543287.jpg",
+    "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/7CE200DF-F1A2-49E5-89C3-9F7E52543287.jpg",
 
     "DF3A":
     "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/DF3a.png",
@@ -1270,7 +1270,7 @@ function cardHTML(team, index) {
           "</p>"
 
         : "";
-
+;
 
     var playerNames =
         team.players
@@ -1311,7 +1311,7 @@ function cardHTML(team, index) {
             : r.state === "loss"
             ? "Défaite"
             : "Égalité";
-
+;
 
         footerHTML =
             '<div class="card-footer ' +
@@ -1510,7 +1510,6 @@ function showCard(index, animate) {
     var newCard =
         cards[index];
 
-
     if (!newCard) {
         return;
     }
@@ -1540,7 +1539,6 @@ function showCard(index, animate) {
         goingForward
         ? "slide-in-right"
         : "slide-in-left";
-
 
     var outClass =
         goingForward
