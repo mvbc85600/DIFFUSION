@@ -846,7 +846,8 @@ import {
 import {
     getDatabase,
     ref,
-    onValue
+    onValue,
+    set
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
@@ -1390,104 +1391,141 @@ function afficherScene(scene) {
                 "nosequipes.html"
             );
             break;
-          
-case "trois":
+
+        case "trois":
             afficherPage(
                 "trois.html"
             );
             break;
 
-          case "dunk":
+        case "dunk":
             afficherPage(
                 "dunk.html"
             );
             break;
 
-          case "defense":
+        case "defense":
             afficherPage(
                 "defense.html"
             );
             break;
 
-          case "gogogo":
+        case "gogogo":
             afficherPage(
                 "gogogomvbc.html"
             );
             break;
 
-            case "cinqmajeur":
+        case "cinqmajeur":
             afficherPage(
                 "5majeur.html"
             );
             break;
 
-            case "poule":
+        case "poule":
             afficherPage(
                 "poule.html"
             );
             break;
 
-
-          case "boutique":
+        case "boutique":
             afficherPage(
                 "boutique.html"
             );
             break;
 
-           case "programmeweekend":
+        case "programmeweekend":
             afficherPage(
                 "programmeweekend.html"
             );
             break;
 
-           case "devenezpartenaires":
+        case "devenezpartenaires":
             afficherPage(
                 "devenezpartenaires.html"
             );
             break;
-          
-        case "partenairedumatch": 
+
+        case "partenairedumatch":
             afficherPage(
                 "partenairedumatch.html"
             );
             break;
 
-          case "cinqmajeur":
-            afficherPage(
-                "5majeur.html"
-            );
-            break;
-
-           case "victoire":
+        case "victoire":
             afficherPage(
                 "victoire.html"
             );
             break;
 
-             case "octobrerose":
+        case "octobrerose":
             afficherPage(
                 "octobrerose.html"
             );
             break;
-          
- case "quartstemps":
+
+        case "quartstemps":
             afficherPage(
                 "quartstemps.html"
             );
             break;
+
         case "page2":
             afficherMessage(
                 "PAGE 2"
             );
             break;
 
-       case "message":
+        case "message":
             afficherPage(
                 "message.html"
             );
             break;
     }
 }
+
+/* =====================================================
+   FIN DE "NOSEQUIPES"
+   → RETOUR AUTOMATIQUE AUX PARTENAIRES
+===================================================== */
+
+window.addEventListener(
+    "message",
+    (event) => {
+
+        if (
+            event.data &&
+            event.data.type ===
+                "nosequipes-fini"
+        ) {
+
+            console.log(
+                "Scène nosequipes terminée → retour aux partenaires"
+            );
+
+            /* Mettre à jour la scène dans Firebase
+               pour rester synchronisé avec l'admin */
+            set(
+                ref(db, "diffusion/scene"),
+                "partenaires"
+            ).catch(
+                e => console.error(
+                    "Erreur mise à jour scène:",
+                    e
+                )
+            );
+
+            /* Afficher la scène partenaires
+               immédiatement sur l'écran */
+            currentScene =
+                "partenaires";
+
+            afficherScene(
+                "partenaires"
+            );
+        }
+    }
+);
 
 /* =====================================================
    AFFICHER VIDÉO
@@ -1864,7 +1902,7 @@ document.addEventListener(
 ===================================================== */
 
 activerWakeLock();
-   
+
 </script>
 
 </body>
