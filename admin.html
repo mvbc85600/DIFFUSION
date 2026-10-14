@@ -953,34 +953,34 @@ body {
 }
 
 /* =========================
-   POULE (NOUVEAU)
+   POULE (condensé, optimisé mobile)
 ========================= */
 .poule-info-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 0 18px;
-    margin-bottom: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 10px;
+    margin-bottom: 8px;
 }
 
 .poule-match-card {
     background: #181818;
     border: 1px solid #333;
-    border-left: 6px solid #9aa0a6;
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 16px;
+    border-left: 5px solid #9aa0a6;
+    border-radius: 10px;
+    padding: 8px;
+    margin-bottom: 8px;
 }
 
 .poule-match-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 12px;
+    gap: 8px;
+    margin-bottom: 8px;
 }
 
 .poule-match-num {
-    font-size: 18px;
+    font-size: 13px;
     font-weight: bold;
     color: #ffd400;
     text-transform: uppercase;
@@ -991,9 +991,9 @@ body {
     border: 1px solid rgba(237,23,76,.5);
     color: #f87171;
     font-weight: bold;
-    font-size: 12px;
-    border-radius: 8px;
-    padding: 7px 12px;
+    font-size: 13px;
+    border-radius: 6px;
+    padding: 3px 8px;
     cursor: pointer;
 }
 
@@ -1001,48 +1001,57 @@ body {
     background: rgba(237,23,76,.15);
 }
 
+/* 2 équipes côte à côte, même sur mobile */
 .poule-eq-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 14px;
+    gap: 8px;
 }
 
-.poule-eq-grid label {
-    display: block;
-    margin: 8px 0 4px;
-    font-size: 12px;
-    font-weight: bold;
-    color: #aaa;
+.poule-eq {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
 }
 
-.poule-eq-grid input,
-.poule-eq-grid select {
+.poule-eq input,
+.poule-eq select {
     width: 100%;
-    padding: 10px;
+    padding: 7px;
     background: #333;
     color: white;
     border: none;
-    border-radius: 8px;
-    font-size: 15px;
+    border-radius: 7px;
+    font-size: 14px;
 }
 
+.poule-eq input[data-champ^="eq"] {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Score : − [champ] + sur une ligne */
 .poule-score-row {
     display: flex;
-    gap: 8px;
-    margin-top: 4px;
+    gap: 5px;
+    align-items: center;
 }
 
 .poule-score-row input {
     flex: 1;
+    min-width: 0;
     text-align: center;
-    font-size: 20px !important;
+    font-size: 18px;
     font-weight: bold;
+    padding: 7px 3px;
 }
 
 .poule-score-row button {
-    flex: 0 0 46px;
+    flex: 0 0 40px;
+    height: 40px;
     border: none;
-    border-radius: 8px;
+    border-radius: 7px;
     background: #168cff;
     color: white;
     font-size: 18px;
@@ -1054,58 +1063,39 @@ body {
     background: #2f9bff;
 }
 
+/* Statut : liste déroulante + champ perso côte à côte */
 .poule-statut-zone {
-    margin-top: 14px;
+    margin-top: 8px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
 }
 
-.poule-statut-zone select {
+.poule-statut-zone select,
+.poule-statut-zone input {
     width: 100%;
-    padding: 12px;
+    padding: 8px;
     background: #333;
     color: white;
     border: none;
-    border-radius: 8px;
-    font-size: 15px;
+    border-radius: 7px;
+    font-size: 12px;
     font-weight: bold;
-}
-
-.poule-raccourcis {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 8px;
-}
-
-.poule-raccourcis button {
-    border: 1px solid #555;
-    background: #333;
-    color: #ccc;
-    font-size: 11px;
-    font-weight: bold;
-    padding: 6px 10px;
-    border-radius: 999px;
-    cursor: pointer;
-    text-transform: uppercase;
-}
-
-.poule-raccourcis button.actif {
-    background: #ed174c;
-    border-color: transparent;
-    color: white;
 }
 
 .poule-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 20px;
+    gap: 8px;
+    margin-top: 12px;
 }
 
 .poule-actions button {
-    padding: 13px 20px;
+    flex: 1 1 140px;
+    padding: 11px 12px;
     border: none;
     border-radius: 10px;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: bold;
     cursor: pointer;
 }
@@ -1151,6 +1141,14 @@ body {
     filter: brightness(1.15);
 }
 
+/* Très petits écrans : on réduit juste les paddings,
+   les 2 équipes restent côte à côte */
+@media(max-width:480px) {
+    .poule-match-card { padding: 10px; }
+    .poule-eq-grid { gap: 8px; }
+    .poule-info-grid { grid-template-columns: 1fr; gap: 0; }
+}
+
 /* =========================
    MOBILE
 ========================= */
@@ -1192,10 +1190,6 @@ body {
 
     .pp-lieu {
         display: none;
-    }
-
-    .poule-eq-grid {
-        grid-template-columns: 1fr;
     }
 }
 
@@ -1379,6 +1373,11 @@ body {
             <!-- Bouton Octobre Rose (rose) -->
             <button class="scene-button pink" onclick="diffuser('octobrerose')">
                 🎗️<br>Octobre rose
+            </button>
+
+                <!-- Bouton devenez partenaires (Rouge) -->
+            <button class="scene-button" onclick="diffuser('devenezpartenaires')">
+                ✌️<br>DEVENEZ PARTENAIRES
             </button>
         </div>
     </div>
@@ -3488,20 +3487,6 @@ const POULE_COULEURS_STATUT = {
     "FIN DU MATCH": "#22c55e"
 };
 
-/* Raccourcis rapides affichés sur chaque carte */
-const POULE_RACCOURCIS = [
-    "NC",
-    "EN COURS 1ER QT",
-    "FIN 1ER QT",
-    "EN COURS 2EME QT",
-    "MI-TEMPS",
-    "EN COURS 3EME QT",
-    "FIN 3EME QT",
-    "EN COURS 4EME QT",
-    "PROLONGATION",
-    "FIN DU MATCH",
-];
-
 /* Même liste de logos que le match du soir */
 const POULE_LOGOS_EQUIPES = [
     ["logos/mvbc.png", "MVBC"],
@@ -3518,17 +3503,6 @@ const POULE_LOGOS_EQUIPES = [
     ["logos/challans.png", "CTC Challans"],
     ["logos/st medard.png", "St Médard"],
     ["logos/asch.png", "Horsarrieu"]
-];
-
-const POULE_HALOS = [
-    ["yellow", "🟡 Jaune"],
-    ["black", "⚫ Noir"],
-    ["blue", "🔵 Bleu"],
-    ["orange", "🟠 Orange"],
-    ["red", "🔴 Rouge"],
-    ["pink", "🩷 Rose"],
-    ["green", "🟢 Vert"],
-    ["white", "⚪ Blanc"]
 ];
 
 /* État local (miroir de la BDD) */
@@ -3574,14 +3548,6 @@ function pouleOptionsLogos(selection) {
     return html;
 }
 
-function pouleOptionsHalos(selection) {
-    let html = "";
-    POULE_HALOS.forEach(([valeur, nom]) => {
-        html += `<option value="${valeur}" ${valeur === selection ? "selected" : ""}>${nom}</option>`;
-    });
-    return html;
-}
-
 function pouleOptionsStatuts(selection) {
     let html = "";
     POULE_STATUTS.forEach(s => {
@@ -3596,7 +3562,7 @@ function pouleEchapper(texte) {
     return div.innerHTML;
 }
 
-/* --- Rendu des cartes de match --- */
+/* --- Rendu des cartes de match (version compacte mobile) --- */
 function pouleRendreListe() {
     pouleMatchsList.innerHTML = "";
 
@@ -3618,53 +3584,33 @@ function pouleRendreListe() {
         carte.innerHTML = `
             <div class="poule-match-head">
                 <span class="poule-match-num">Match ${i + 1}</span>
-                <button type="button" class="poule-match-suppr" data-action="supprimer">Supprimer</button>
+                <button type="button" class="poule-match-suppr" data-action="supprimer">🗑️</button>
             </div>
             <div class="poule-eq-grid">
-                <div>
-                    <label>🔵 Équipe 1</label>
-                    <input type="text" data-champ="eq1" value="${pouleEchapper(m.eq1)}" placeholder="Nom équipe 1">
-                    <label>🖼️ Logo équipe 1</label>
-                    <select data-champ="logo1">${pouleOptionsLogos(m.logo1)}</select>
-                    <label>✨ Halo équipe 1</label>
-                    <select data-champ="haloCouleur1">${pouleOptionsHalos(m.haloCouleur1 || "yellow")}</select>
-                    <label>Points équipe 1</label>
+                <div class="poule-eq">
+                    <input type="text" data-champ="eq1" value="${pouleEchapper(m.eq1)}" placeholder="Équipe 1">
                     <div class="poule-score-row">
                         <button type="button" data-action="moins1">−</button>
-                        <input type="number" min="0" data-champ="score1" value="${m.score1 ?? ""}" placeholder="—">
+                        <input type="number" min="0" inputmode="numeric" data-champ="score1" value="${m.score1 ?? ""}" placeholder="—">
                         <button type="button" data-action="plus1">+</button>
                     </div>
+                    <select data-champ="logo1">${pouleOptionsLogos(m.logo1)}</select>
                 </div>
-                <div>
-                    <label>🟠 Équipe 2</label>
-                    <input type="text" data-champ="eq2" value="${pouleEchapper(m.eq2)}" placeholder="Nom équipe 2">
-                    <label>🖼️ Logo équipe 2</label>
-                    <select data-champ="logo2">${pouleOptionsLogos(m.logo2)}</select>
-                    <label>✨ Halo équipe 2</label>
-                    <select data-champ="haloCouleur2">${pouleOptionsHalos(m.haloCouleur2 || "orange")}</select>
-                    <label>Points équipe 2</label>
+                <div class="poule-eq">
+                    <input type="text" data-champ="eq2" value="${pouleEchapper(m.eq2)}" placeholder="Équipe 2">
                     <div class="poule-score-row">
                         <button type="button" data-action="moins2">−</button>
-                        <input type="number" min="0" data-champ="score2" value="${m.score2 ?? ""}" placeholder="—">
+                        <input type="number" min="0" inputmode="numeric" data-champ="score2" value="${m.score2 ?? ""}" placeholder="—">
                         <button type="button" data-action="plus2">+</button>
                     </div>
+                    <select data-champ="logo2">${pouleOptionsLogos(m.logo2)}</select>
                 </div>
             </div>
             <div class="poule-statut-zone">
-                <label>📍 Statut du match (pré-enregistré)</label>
                 <select data-champ="statutPreset">${pouleOptionsStatuts(m.statut)}</select>
-                <label>⏱ Ou statut personnalisé (temps de jeu, ex : 33')</label>
-                <input
-                    type="text"
-                    data-champ="statutCustom"
+                <input type="text" data-champ="statutCustom"
                     value="${POULE_STATUTS.includes(m.statut) ? "" : pouleEchapper(m.statut)}"
-                    placeholder="Ex : 33' — laisse vide pour utiliser le statut pré-enregistré"
-                >
-                <div class="poule-raccourcis">
-                    ${POULE_RACCOURCIS.map(s =>
-                        `<button type="button" data-action="raccourci" data-statut="${s}" class="${m.statut === s ? "actif" : ""}">${s}</button>`
-                    ).join("")}
-                </div>
+                    placeholder="Perso (ex : 33')">
             </div>
         `;
 
@@ -3703,9 +3649,6 @@ function pouleLireCarte(carte) {
 
 function pouleMajVisuelStatut(carte, statut) {
     carte.style.borderLeftColor = POULE_COULEURS_STATUT[statut] || pouleCouleurStatutLibre(statut);
-    carte.querySelectorAll(".poule-raccourcis button").forEach(b => {
-        b.classList.toggle("actif", b.dataset.statut === statut);
-    });
 }
 
 /*
@@ -3787,14 +3730,6 @@ pouleMatchsList.addEventListener("click", e => {
     } else if (action === "plus2" || action === "moins2") {
         m.score2 = Math.max(0, (m.score2 ?? 0) + (action === "plus2" ? 1 : -1));
         carte.querySelector('[data-champ="score2"]').value = m.score2;
-        pouleSauvegarder();
-    } else if (action === "raccourci") {
-        const statut = e.target.dataset.statut;
-        m.statut = statut;
-        carte.querySelector('[data-champ="statutPreset"]').value = statut;
-        const customInput = carte.querySelector('[data-champ="statutCustom"]');
-        if (customInput) customInput.value = "";
-        pouleMajVisuelStatut(carte, statut);
         pouleSauvegarder();
     }
 });
