@@ -507,7 +507,7 @@ html,body {
     left:0;
     right:0;
 
-    bottom:1.2vh;
+    bottom:clamp(70px, 9vh, 106px);
 
     display:flex;
 
@@ -549,6 +549,59 @@ html,body {
     letter-spacing:1px;
 
     text-transform:uppercase;
+}
+
+/* =========================================================
+   BANDEAU PARTENAIRES
+========================================================= */
+
+.partners-bar {
+    position:fixed;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    width:100%;
+    height:clamp(60px, 8vh, 96px);
+
+    background:rgba(0, 0, 0, 0.6);
+
+    border-top:1px solid rgba(255,255,255,.18);
+
+    overflow:hidden;
+
+    z-index:50;
+}
+
+.partners-scroll {
+    display:flex;
+
+    align-items:center;
+
+    width:max-content;
+    height:100%;
+
+    white-space:nowrap;
+
+    animation:scrollPartners 60s linear infinite;
+}
+
+.partners-scroll img {
+    height:78%;
+    max-height:90px;
+    max-width:200px;
+
+    margin:0 clamp(10px, 1.4vw, 22px);
+
+    object-fit:contain;
+
+    filter:drop-shadow(0 2px 6px rgba(0,0,0,.5));
+}
+
+@keyframes scrollPartners {
+    0%   { transform:translateX(0); }
+    100% { transform:translateX(-50%); }
 }
 
 /* =========================================================
@@ -650,6 +703,11 @@ html,body {
 
         transition:none !important;
     }
+
+    .partners-scroll {
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+    }
 }
 
 </style>
@@ -660,6 +718,10 @@ html,body {
 <div class="screen" id="screen"></div>
 
 <div class="dots" id="dots"></div>
+
+<div class="partners-bar" id="partnersBar">
+    <div class="partners-scroll" id="partnersScroll"></div>
+</div>
 
 <script>
 
@@ -801,9 +863,6 @@ var PHOTOS = {
 
     "U11M4":
     "https://www.mvbc85.fr/media/uploaded/sites/20376/kcupload/images/U11M4.png"
-
-    
-    
 };
 
 function photoFor(teamName) {
@@ -1201,7 +1260,6 @@ function cardHTML(team, index) {
 
         : "";
 
-
     var coachHTML =
         team.coach
 
@@ -1360,7 +1418,6 @@ function renderAll() {
     var dots =
         document.getElementById("dots");
 
-
     screen.innerHTML =
         TEAMS_AFFICHEES
         .map(cardHTML)
@@ -1399,7 +1456,6 @@ function showCard(index, animate) {
 
     var dots =
         document.querySelectorAll(".dot");
-
 
     if (!cards.length) {
         return;
@@ -1571,15 +1627,38 @@ function showCard(index, animate) {
 
 /* =========================================================
    ROTATION AUTOMATIQUE
+   Défile toutes les équipes UNE SEULE FOIS, puis prévient
+   la page de diffusion (retour scene "partenaires")
 ========================================================= */
+
+var rotationTimer = null;
 
 function startRotation() {
 
-    setInterval(function() {
+    rotationTimer = setInterval(function() {
+
+        /*
+           On est sur la dernière équipe :
+           on a tout diffusé → on prévient le parent
+           et on arrête la rotation.
+        */
+
+        if (currentIndex === TEAMS_AFFICHEES.length - 1) {
+
+            clearInterval(rotationTimer);
+            rotationTimer = null;
+
+            window.parent.postMessage(
+                { type: "nosequipes-fini" },
+                "*"
+            );
+
+            return;
+        }
+
 
         var nextIndex =
-            (currentIndex + 1) %
-            TEAMS_AFFICHEES.length;
+            currentIndex + 1;
 
 
         showCard(
@@ -1630,8 +1709,7 @@ document.addEventListener(
 
             var previous =
                 (
-                    currentIndex -
-                    1 +
+                    currentIndex - 1 +
                     TEAMS_AFFICHEES.length
                 ) %
                 TEAMS_AFFICHEES.length;
@@ -1652,6 +1730,84 @@ document.addEventListener(
 
 
 /* =========================================================
+   LOGOS PARTENAIRES (GitHub)
+========================================================= */
+
+var GITHUB_LOGO_API =
+"https://api.github.com/repos/mvbc85600/DIFFUSION/contents/logo";
+
+var GITHUB_LOGO_RAW =
+"https://raw.githubusercontent.com/mvbc85600/DIFFUSION/main/logo/";
+
+
+function chargerLogosPartenaires() {
+
+    fetch(GITHUB_LOGO_API)
+
+        .then(function(r) {
+
+            if (!r.ok) {
+                throw new Error("GitHub a répondu " + r.status);
+            }
+
+            return r.json();
+        })
+
+        .then(function(fichiers) {
+
+            var scroll =
+                document.getElementById("partnersScroll");
+
+            scroll.innerHTML = "";
+
+            var logos =
+                fichiers
+                .filter(function(f) {
+                    return f.type === "file" &&
+                           /\.(png|jpe?g|webp|gif|svg)$/i.test(f.name);
+                })
+                .map(function(f) {
+                    return GITHUB_LOGO_RAW +
+                           encodeURIComponent(f.name);
+                });
+
+            if (!logos.length) {
+                document.getElementById("partnersBar").style.display =
+                    "none";
+                return;
+            }
+
+            /* Double liste pour un défilement sans coupure */
+            logos.concat(logos).forEach(function(src) {
+
+                var img =
+                    document.createElement("img");
+
+                img.src = src;
+                img.alt = "Partenaire";
+
+                img.onerror = function() {
+                    this.remove();
+                };
+
+                scroll.appendChild(img);
+            });
+        })
+
+        .catch(function(e) {
+
+            console.error(
+                "Erreur chargement logos partenaires :",
+                e
+            );
+
+            document.getElementById("partnersBar").style.display =
+                "none";
+        });
+}
+
+
+/* =========================================================
    DÉMARRAGE
 ========================================================= */
 
@@ -1665,6 +1821,8 @@ setInterval(
     loadResults,
     60000
 );
+
+chargerLogosPartenaires();
 
 </script>
 
