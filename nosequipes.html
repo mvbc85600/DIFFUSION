@@ -1096,6 +1096,43 @@ function jourNum(j) {
 
 
 /* =========================================================
+   JOURNÉE OU DATE
+   - "J3", "J12"...          -> affiché tel quel : "Dernier match (J3)"
+   - "10/10", "10/10/2026"... -> affiché "Dernier match · 10 Oct"
+   Saison Sept -> Juin : JANVIER (05/01) est APRÈS OCTOBRE (10/10).
+   Les dates priment sur les journées pour l'ordre chronologique.
+========================================================= */
+
+var MONTHS_FR = ["", "Jan", "Fév", "Mar", "Avr", "Mai", "Juin",
+                 "Juil", "Août", "Sep", "Oct", "Nov", "Déc"];
+
+function parseWhen(raw) {
+
+    var s = String(raw || "").trim();
+
+    var mj = s.match(/^J(\d+)$/i);
+    if (mj) {
+        return { type:"jour", journey:s.toUpperCase(), sort:jourNum(s) };
+    }
+
+    var md = s.match(/^(\d{1,2})\s*\/\s*(\d{1,2})(?:\s*\/\s*(\d{2,4}))?$/);
+    if (md) {
+        var day = parseInt(md[1], 10);
+        var month = parseInt(md[2], 10);
+        if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+        var seasonMonth = month >= 8 ? month : month + 12;
+        return {
+            type:"date",
+            label: day + " " + MONTHS_FR[month],
+            sort: seasonMonth * 100 + day
+        };
+    }
+
+    return null;
+}
+
+
+/* =========================================================
    RÉSULTATS
 ========================================================= */
 
@@ -1107,9 +1144,9 @@ function buildResults(csvText) {
 
     SHEET_TEAMS.forEach(function(teamName, blockIndex) {
 
-        var colJ = blockIndex * 3;
-        var colS = blockIndex * 3 + 1;
-        var colD = blockIndex * 3 + 2;
+        var colW = blockIndex * 3;        // Journée OU Date
+        var colS = blockIndex * 3 + 1;    // Score
+        var colD = blockIndex * 3 + 2;    // Dom/Ext
 
         var best = null;
 
@@ -1118,8 +1155,7 @@ function buildResults(csvText) {
 
         rows.forEach(function(cols) {
 
-            var journey =
-                (cols[colJ] || "").trim();
+            var when = parseWhen(cols[colW] || "");
 
             var score =
                 (cols[colS] || "").trim();
@@ -1127,7 +1163,7 @@ function buildResults(csvText) {
             var lieu =
                 normalize(cols[colD] || "");
 
-            if (!/^J\d+$/i.test(journey)) return;
+            if (!when) return;
 
             if (!/^\d+\s*-\s*\d+$/.test(score)) return;
 
@@ -1157,16 +1193,26 @@ function buildResults(csvText) {
                 losses++;
             }
 
+            // Ordre chronologique : les dates passent après les
+            // journées ; à type égal, le "sort" le plus grand gagne.
+            var typeRank =
+                when.type === "date"
+                ? 1000000
+                : 0;
+
+            var sortValue =
+                typeRank + when.sort;
+
             if (
                 !best ||
-                jourNum(journey) > best.journeyNum
+                sortValue > best.sortValue
             ) {
 
                 best = {
-                    journeyNum:jourNum(journey),
-                    journey:journey.toUpperCase(),
-                    mvbc:s,
-                    opp:o
+                    sortValue: sortValue,
+                    when: when,
+                    mvbc: s,
+                    opp: o
                 };
             }
         });
@@ -1175,7 +1221,7 @@ function buildResults(csvText) {
 
             byTeam[normalize(teamName)] = {
 
-                journey:best.journey,
+                when: best.when,
 
                 score:
                     best.mvbc +
@@ -1270,7 +1316,7 @@ function cardHTML(team, index) {
           "</p>"
 
         : "";
-;
+
 
     var playerNames =
         team.players
@@ -1311,7 +1357,15 @@ function cardHTML(team, index) {
             : r.state === "loss"
             ? "Défaite"
             : "Égalité";
-;
+
+        /*
+           "Dernier match · 10 Oct" si la cellule contient une date,
+           "Dernier match (J3)" si elle contient une journée.
+        */
+        var whenLabel =
+            r.when && r.when.type === "date"
+            ? "Dernier match · " + r.when.label
+            : "Dernier match (" + (r.when ? r.when.journey : "") + ")";
 
         footerHTML =
             '<div class="card-footer ' +
@@ -1319,9 +1373,7 @@ function cardHTML(team, index) {
             '">' +
 
                 '<span class="label">' +
-                    'Dernier match (' +
-                    r.journey +
-                    ')' +
+                    whenLabel +
                 '</span>' +
 
                 '<span class="score">' +
@@ -1395,7 +1447,7 @@ function cardHTML(team, index) {
 
                 '<div class="players">' +
                     chips +
-                "</div>" +
+                '</div>' +
 
             "</div>" +
 
