@@ -1,0 +1,659 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MVBC 85 — Partenaires</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Roboto+Condensed:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --black: #050505;
+  --yellow: #ffd20a;
+  --red: #e91f2b;
+  --blue: #3264d4;
+  --white: #fffdf6;
+  --gray: #d0d0d0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  background: var(--black);
+}
+
+body {
+  color: var(--white);
+  font-family: "Roboto Condensed", Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+.stage {
+  min-height: 100vh;
+  min-height: 100svh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(22px, 3.5vh, 55px) 4vw;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 15% 50%, #ffd20a0a, transparent 40%),
+    radial-gradient(ellipse at 85% 40%, #3264d414, transparent 40%),
+    var(--black);
+}
+
+.content {
+  width: 100%;
+  max-width: 1800px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(35px, 5vw, 100px);
+  position: relative;
+  z-index: 2;
+}
+
+/* ANIMATIONS GÉNÉRALES */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(35px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeRight {
+  from { opacity: 0; transform: translateX(50px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes glow {
+  0%, 100% { text-shadow: 0 0 15px #ffd20a12; }
+  50%      { text-shadow: 0 0 40px #ffd20a55, 0 0 80px #ffd20a18; }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.07); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50%      { transform: translateY(-20px) rotate(8deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(var(--orbit)) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(var(--orbit)) rotate(-360deg); }
+}
+
+@keyframes borderGlow {
+  0%, 100% { border-color: #ffffff18; }
+  50%      { border-color: #ffd20a65; }
+}
+
+@keyframes heartbeat {
+  0%, 90%, 100% { transform: scale(1); }
+  94% { transform: scale(1.04); }
+  97% { transform: scale(.98); }
+}
+
+/* COLONNE GAUCHE */
+
+.left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 0;
+}
+
+.club-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: clamp(20px, 3vh, 40px);
+  animation: fadeUp 1s both;
+}
+
+.logo {
+  width: clamp(80px, 8vw, 145px);
+  height: clamp(80px, 8vw, 145px);
+  border-radius: 50%;
+  border: 3px solid var(--yellow);
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: clamp(22px, 2.2vw, 40px);
+  line-height: .9;
+  font-weight: 900;
+  color: var(--yellow);
+  box-shadow: 0 0 30px #ffd20a25;
+  animation: pulse 4s ease-in-out infinite;
+}
+
+.club-title {
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-weight: 900;
+  font-size: clamp(38px, 4vw, 70px);
+  line-height: 1;
+  color: var(--yellow);
+  letter-spacing: 2px;
+}
+
+.club-subtitle {
+  font-size: clamp(11px, 1.25vw, 22px);
+  font-weight: 800;
+  letter-spacing: .16em;
+  margin-top: 8px;
+}
+
+.audience {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: clamp(18px, 3vh, 38px);
+  font-size: clamp(13px, 1.45vw, 25px);
+  font-weight: 800;
+  letter-spacing: .16em;
+  line-height: 1.5;
+  animation: fadeUp .9s .2s both;
+}
+
+.stripes {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.stripes span {
+  width: clamp(24px, 2.7vw, 48px);
+  height: 7px;
+  border-radius: 20px;
+}
+
+.stripes span:nth-child(1) { background: var(--red); }
+.stripes span:nth-child(2) { background: var(--yellow); }
+.stripes span:nth-child(3) { background: var(--blue); }
+
+h1 {
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: clamp(65px, 8.2vw, 148px);
+  font-weight: 900;
+  letter-spacing: -.035em;
+  line-height: .82;
+  text-align: center;
+  animation: fadeUp 1.1s .35s both, glow 4s 1.5s ease-in-out infinite;
+}
+
+h1 span {
+  display: inline-block;
+  color: var(--yellow);
+  background: linear-gradient(
+    90deg,
+    #e8b900,
+    #fff06a,
+    var(--yellow),
+    #ffe86b,
+    #e8b900
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+
+.intro {
+  max-width: 620px;
+  margin-top: clamp(20px, 3vh, 36px);
+  color: var(--gray);
+  font-size: clamp(17px, 1.7vw, 30px);
+  line-height: 1.5;
+  animation: fadeUp 1s .6s both;
+}
+
+/* COLONNE DROITE */
+
+.right {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: clamp(13px, 1.7vh, 25px);
+  min-width: 0;
+}
+
+.benefit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 12px;
+  padding: clamp(18px, 2.5vh, 32px) 24px;
+  background: linear-gradient(145deg, #191919, #101010);
+  border: 1px solid #ffffff18;
+  border-radius: 24px;
+  animation: fadeRight .9s both, borderGlow 5s ease-in-out infinite;
+  transition: transform .3s ease, background .3s ease;
+}
+
+.benefit:nth-child(1) { animation-delay: .25s, 0s; }
+.benefit:nth-child(2) { animation-delay: .45s, 1s; }
+.benefit:nth-child(3) { animation-delay: .65s, 2s; }
+
+.benefit:hover {
+  transform: scale(1.035);
+  background: #202020;
+}
+
+.icon-circle {
+  width: clamp(54px, 5vw, 85px);
+  height: clamp(54px, 5vw, 85px);
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  font-size: clamp(28px, 3vw, 46px);
+  font-weight: bold;
+}
+
+.icon-red {
+  background: var(--red);
+  color: white;
+  box-shadow: 0 0 25px #e91f2b30;
+}
+
+.icon-yellow {
+  background: var(--yellow);
+  color: #050505;
+  box-shadow: 0 0 25px #ffd20a25;
+}
+
+.icon-blue {
+  background: var(--blue);
+  color: white;
+  box-shadow: 0 0 25px #3264d430;
+}
+
+.benefit h2 {
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: clamp(27px, 2.8vw, 48px);
+  line-height: 1;
+  font-weight: 900;
+}
+
+.benefit p {
+  color: var(--gray);
+  font-size: clamp(15px, 1.5vw, 26px);
+  line-height: 1.3;
+  max-width: 520px;
+}
+
+/* CONTACT */
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  text-align: center;
+  padding: clamp(20px, 2.7vh, 35px) 24px;
+  margin-top: 5px;
+  border-radius: 25px;
+  background: var(--yellow);
+  color: #050505;
+  text-decoration: none;
+  animation: fadeUp 1s .9s both, heartbeat 7s 3s ease-in-out infinite;
+  box-shadow: 0 0 35px #ffd20a16;
+  transition: box-shadow .3s ease;
+}
+
+.contact:hover {
+  box-shadow: 0 0 55px #ffd20a40;
+}
+
+.contact h2 {
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-weight: 900;
+  font-size: clamp(30px, 3.2vw, 55px);
+  line-height: 1;
+}
+
+.contact p {
+  margin-top: 8px;
+  font-size: clamp(16px, 1.5vw, 25px);
+  font-weight: 700;
+}
+
+.email {
+  display: block;
+  margin-top: 10px;
+  font-size: clamp(17px, 1.65vw, 28px);
+  font-weight: 900;
+  overflow-wrap: anywhere;
+}
+
+.qr {
+  width: clamp(75px, 8vw, 125px);
+  height: clamp(75px, 8vw, 125px);
+  object-fit: contain;
+  background: white;
+  border: 6px solid white;
+  border-radius: 12px;
+  transition: transform .3s ease;
+}
+
+.contact:hover .qr {
+  transform: scale(1.06);
+}
+
+/* PARTICULES ANIMÉES */
+
+.particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  opacity: .85;
+  animation: float 6s ease-in-out infinite;
+}
+
+.particle:nth-child(1) {
+  width: 15px; height: 15px;
+  top: 10%; left: 5%;
+  background: var(--blue);
+}
+
+.particle:nth-child(2) {
+  width: 35px; height: 35px;
+  top: 15%; right: 6%;
+  background: var(--red);
+  animation-delay: -2s;
+}
+
+.particle:nth-child(3) {
+  width: 18px; height: 18px;
+  top: 65%; left: 2%;
+  background: var(--yellow);
+  animation-delay: -3s;
+}
+
+.particle:nth-child(4) {
+  width: 75px; height: 75px;
+  bottom: -20px; left: 10%;
+  background: var(--blue);
+  opacity: .5;
+  animation-delay: -1s;
+}
+
+.particle:nth-child(5) {
+  width: 55px; height: 55px;
+  bottom: 4%; right: 4%;
+  background: var(--yellow);
+  opacity: .65;
+  animation-delay: -4s;
+}
+
+.particle:nth-child(6) {
+  width: 12px; height: 12px;
+  bottom: 15%; right: 12%;
+  background: var(--red);
+  animation-delay: -2.5s;
+}
+
+.particle:nth-child(7) {
+  width: 22px; height: 22px;
+  top: 5%; left: 35%;
+  background: var(--yellow);
+  animation-delay: -3.5s;
+}
+
+/* GRAND ÉCRAN */
+
+@media (min-width: 1600px) {
+  .content {
+    max-width: 1800px;
+    gap: 90px;
+  }
+
+  .benefit {
+    padding: 30px;
+    gap: 14px;
+  }
+}
+
+/* PETITS ÉCRANS */
+
+@media (max-width: 850px) {
+  .stage {
+    padding: 35px 20px;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+    gap: 35px;
+    max-width: 650px;
+  }
+
+  .logo {
+  display: block;
+  width: clamp(80px, 8vw, 145px);
+  height: clamp(80px, 8vw, 145px);
+  object-fit: contain;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: 0 0 30px #ffd20a25;
+  animation: pulse 4s ease-in-out infinite;
+}
+
+  .club-title {
+    font-size: 42px;
+  }
+
+  .club-subtitle {
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  h1 {
+    font-size: clamp(64px, 13vw, 100px);
+  }
+
+  .benefit {
+    padding: 20px;
+  }
+
+  .benefit h2 {
+    font-size: 32px;
+  }
+
+  .benefit p {
+    font-size: 17px;
+  }
+
+  .contact h2 {
+    font-size: 34px;
+  }
+
+  .intro {
+    font-size: 19px;
+  }
+}
+
+/* ACCESSIBILITÉ : LIMITE LES ANIMATIONS SI DEMANDÉ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<main class="stage">
+
+  <div class="particles" aria-hidden="true">
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+  </div>
+
+  <div class="content">
+
+    <!-- PARTIE GAUCHE -->
+    <section class="left">
+
+      <header class="club-header">
+        <img
+  src="logos/mvbc.png"
+  alt="Logo officiel du MVBC 85"
+  class="logo"
+>
+
+        <div>
+          <div class="club-title">MVBC 85</div>
+          <div class="club-subtitle">
+            MONTAIGU VENDÉE BASKET CLUB
+          </div>
+        </div>
+      </header>
+
+      <div class="audience">
+        <div class="stripes">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <p>
+          ENTREPRISES, COMMERÇANTS,<br>
+          ARTISANS
+        </p>
+      </div>
+
+      <h1>
+        DEVENEZ<br>
+        PARTENAIRE<br>
+        <span>DU CLUB</span>
+      </h1>
+
+      <p class="intro">
+        Associez votre image à un club local,
+        ses équipes et ses jeunes.
+      </p>
+
+    </section>
+
+    <!-- PARTIE DROITE -->
+    <section class="right">
+
+      <article class="benefit">
+        <div class="icon-circle icon-red">◎</div>
+        <h2>VISIBILITÉ</h2>
+        <p>Diffusion en salle, maillots, réseaux sociaux</p>
+      </article>
+
+      <article class="benefit">
+        <div class="icon-circle icon-yellow">♧</div>
+        <h2>RÉSEAU</h2>
+        <p>Rencontrez les acteurs économiques locaux</p>
+      </article>
+
+      <article class="benefit">
+        <div class="icon-circle icon-blue">♡</div>
+        <h2>ENGAGEMENT</h2>
+        <p>Soutenez la formation des jeunes</p>
+      </article>
+
+      <a class="contact"
+         href="mailto:partenaires@mvbc85.fr">
+
+        <div>
+          <h2>CONTACTEZ-NOUS</h2>
+          <p>Scannez pour nous écrire</p>
+          <span class="email">partenaires@mvbc85.fr</span>
+        </div>
+
+        <img
+          class="qr"
+          alt="QR code pour contacter le club"
+          src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=mailto%3Apartenaires%40mvbc85.fr"
+        >
+
+      </a>
+
+    </section>
+
+  </div>
+
+</main>
+
+<script>
+/* Animation subtile des particules avec la souris,
+   uniquement sur les appareils avec un pointeur précis. */
+
+const particles = document.querySelectorAll(".particle");
+
+if (window.matchMedia("(pointer: fine)").matches) {
+  document.addEventListener("pointermove", (event) => {
+    const x = event.clientX / window.innerWidth - 0.5;
+    const y = event.clientY / window.innerHeight - 0.5;
+
+    particles.forEach((particle, index) => {
+      const factor = (index + 1) * 5;
+
+      particle.style.marginLeft = `${x * factor}px`;
+      particle.style.marginTop = `${y * factor}px`;
+    });
+  });
+}
+
+/* Le bloc de contact ouvre le logiciel de messagerie.
+   Aucun clic n'est nécessaire pour lancer les animations. */
+</script>
+
+</body>
+</html>
