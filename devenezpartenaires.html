@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -318,12 +319,12 @@ h1 span {
 
 .contact {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  gap: 15px;
-  text-align: center;
-  padding: clamp(20px, 2.7vh, 35px) 24px;
+  justify-content: space-between;
+  gap: clamp(18px, 2.5vw, 38px);
+  text-align: left;
+  padding: clamp(20px, 2.7vh, 35px) clamp(20px, 2.5vw, 38px);
   margin-top: 5px;
   border-radius: 25px;
   background: var(--yellow);
@@ -360,13 +361,32 @@ h1 span {
 }
 
 .qr {
-  width: clamp(75px, 8vw, 125px);
-  height: clamp(75px, 8vw, 125px);
+  width: clamp(150px, 13vw, 220px);
+  height: clamp(150px, 13vw, 220px);
+  flex: 0 0 auto;
   object-fit: contain;
   background: white;
-  border: 6px solid white;
+  border: 7px solid white;
   border-radius: 12px;
   transition: transform .3s ease;
+}
+
+.contact > div {
+  min-width: 0;
+}
+
+.contact p {
+  margin-top: 8px;
+  font-size: clamp(16px, 1.5vw, 25px);
+  font-weight: 700;
+}
+
+.email {
+  display: block;
+  margin-top: 10px;
+  font-size: clamp(17px, 1.65vw, 28px);
+  font-weight: 900;
+  overflow-wrap: anywhere;
 }
 
 .contact:hover .qr {
@@ -505,12 +525,52 @@ h1 span {
     font-size: 17px;
   }
 
+  .contact {
+    gap: 18px;
+    padding: 20px;
+    text-align: left;
+  }
+
   .contact h2 {
-    font-size: 34px;
+    font-size: clamp(25px, 5vw, 34px);
+  }
+
+  .contact p {
+    font-size: 16px;
+  }
+
+  .email {
+    font-size: clamp(14px, 3.5vw, 18px);
+  }
+
+  .qr {
+    width: clamp(110px, 28vw, 170px);
+    height: clamp(110px, 28vw, 170px);
   }
 
   .intro {
     font-size: 19px;
+  }
+}
+
+@media (max-width: 420px) {
+  .contact {
+    gap: 12px;
+    padding: 18px 14px;
+  }
+
+  .qr {
+    width: 100px;
+    height: 100px;
+    border-width: 5px;
+  }
+
+  .contact h2 {
+    font-size: 25px;
+  }
+
+  .email {
+    font-size: 14px;
   }
 }
 
