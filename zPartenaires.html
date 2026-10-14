@@ -64,61 +64,56 @@
   <body>
     <header>
       <h1>Nos partenaires</h1>
-      <p>Les logos affichés proviennent automatiquement du dossier diffusion/logo</p>
+      <p>Logos chargés automatiquement depuis le dossier logo/ du dépôt GitHub</p>
     </header>
     <main class="grid" id="grid"></main>
-    <p id="msg" hidden>Aucun logo trouvé dans le dossier logo/.</p>
+    <p id="msg" hidden></p>
 
     <script>
-      const DOSSIER = "logo/"; // dossier relatif contenant les images
+      // ⬇️ Seuls ces paramètres sont à adapter si besoin
+      const COMPTE  = "mvbc85600";  // compte GitHub
+      const DEPOT   = "DIFFUSION";  // nom du dépôt
+      const BRANCHE = "main";       // branche
+      const DOSSIER = "logo";       // dossier contenant les logos
+
+      const API =
+        "https://api.github.com/repos/" + COMPTE + "/" + DEPOT +
+        "/contents/" + DOSSIER + "?ref=" + BRANCHE;
       const EXTENSIONS = [".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg", ".bmp"];
 
-      // Nom affiché : nom du fichier, sans extension ni "(2)"
-      function nomAffiche(fichier) {
-        return decodeURIComponent(fichier)
-          .replace(/\.[^.]+$/, "")   // enlève l'extension
-          .replace(/\s*\(\d+\)$/, "") // enlève " (2)", " (3)"...
-          .trim();
+      function estUneImage(nom) {
+        return EXTENSIONS.some((ext) => nom.toLowerCase().endsWith(ext));
       }
 
-      function estUneImage(fichier) {
-        return EXTENSIONS.some((ext) => fichier.toLowerCase().endsWith(ext));
-      }
-
-      // Extrait les liens d'une page d'index de répertoire (Apache, Nginx...)
-      function extraireFichiers(html) {
-        const doc = new DOMParser().parseFromString(html, "text/html");
-        const fichiers = [];
-        doc.querySelectorAll("a[href]").forEach((a) => {
-          const href = a.getAttribute("href").split(/[?#]/)[0];
-          const nom = decodeURIComponent(href.replace(/^.*\//, ""));
-          if (nom && estUneImage(nom) && !fichiers.includes(nom)) {
-            fichiers.push(nom);
-          }
-        });
-        return fichiers;
+      // Nom affiché : nom du fichier sans extension ni "(2)"
+      function nomAffiche(nom) {
+        return nom.replace(/\.[^.]+$/, "").replace(/\s*\(\d+\)$/, "").trim();
       }
 
       async function chargerLogos() {
         const grid = document.getElementById("grid");
+        const msg = document.getElementById("msg");
         try {
-          const reponse = await fetch(DOSSIER, { headers: { "Accept": "text/html" } });
-          if (!reponse.ok) throw new Error("Index du dossier indisponible (" + reponse.status + ")");
-          const fichiers = extraireFichiers(await reponse.text());
-
-          fichiers.sort((a, b) =>
-            nomAffiche(a).localeCompare(nomAffiche(b), "fr", { sensitivity: "base" })
-          );
+          const reponse = await fetch(API);
+          if (!reponse.ok) throw new Error("API GitHub : " + reponse.status);
+          const fichiers = (await reponse.json())
+            .map((f) => f.name)
+            .filter(estUneImage)
+            .sort((a, b) =>
+              nomAffiche(a).localeCompare(nomAffiche(b), "fr", { sensitivity: "base" })
+            );
 
           if (fichiers.length === 0) {
-            document.getElementById("msg").hidden = false;
+            msg.hidden = false;
+            msg.textContent = "Aucun logo trouvé dans le dossier " + DOSSIER + "/.";
             return;
           }
 
           for (const fichier of fichiers) {
             const figure = document.createElement("figure");
             const img = document.createElement("img");
-            img.src = DOSSIER + encodeURIComponent(fichier);
+            img.src = "https://raw.githubusercontent.com/" + COMPTE + "/" + DEPOT +
+                       "/" + BRANCHE + "/" + DOSSIER + "/" + encodeURIComponent(fichier);
             img.alt = nomAffiche(fichier);
             img.loading = "lazy";
             const caption = document.createElement("figcaption");
@@ -127,11 +122,10 @@
             grid.append(figure);
           }
         } catch (e) {
-          document.getElementById("msg").hidden = false;
-          document.getElementById("msg").textContent =
-            "Impossible de lire automatiquement le dossier « logo/ ». " +
-            "Vérifiez que l'index du répertoire est activé sur le serveur " +
-            "(voir la note d'installation).";
+          msg.hidden = false;
+          msg.textContent =
+            "Impossible de charger la liste des logos depuis GitHub. " +
+            "Vérifiez votre connexion internet ou réessayez dans quelques minutes.";
         }
       }
 
