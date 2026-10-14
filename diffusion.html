@@ -1043,40 +1043,12 @@ function getPartnerColor(index) {
 ===================================================== */
 
 function updateLightLine() {
-    const currentColor =
-        getPartnerColor(
-            partnerCarouselIndex
-        );
-    if (
-        currentColor ===
-        "color-yellow"
-    ) {
-        partnersLightLine.style.background =
-            "#ffcc00";
-        partnersLightLine.style.boxShadow =
-            "0 0 10px #ffcc00," +
-            "0 0 25px #ffcc00," +
-            "0 0 50px #ffcc00";
-    }
-    else if (
-        currentColor ===
-        "color-red"
-    ) {
-        partnersLightLine.style.background =
-            "#ff2020";
-        partnersLightLine.style.boxShadow =
-            "0 0 10px #ff2020," +
-            "0 0 25px #ff2020," +
-            "0 0 50px #ff2020";
-    }
-    else {
-        partnersLightLine.style.background =
-            "#168cff";
-        partnersLightLine.style.boxShadow =
-            "0 0 10px #168cff," +
-            "0 0 25px #168cff," +
-            "0 0 50px #168cff";
-    }
+    partnersLightLine.style.background =
+        "#ffcc00";
+    partnersLightLine.style.boxShadow =
+        "0 0 10px #ffcc00," +
+        "0 0 25px #ffcc00," +
+        "0 0 50px #ffcc00";
 }
 
 /* =====================================================
