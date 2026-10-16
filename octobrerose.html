@@ -159,6 +159,8 @@
 
         /* =====================================================
            IMAGES
+           Tailles réduites d'environ 15 %
+           (888px -> 755px ; 594px -> 505px)
         ===================================================== */
         .carousel img {
             position: absolute;
@@ -167,8 +169,8 @@
             transform-origin: center center;
             width: auto;
             height: auto;
-            max-width: 888px;
-            max-height: 594px;
+            max-width: 755px;
+            max-height: 505px;
             padding: 22px;
             object-fit: contain;
             background:
@@ -197,6 +199,8 @@
 
         /* =====================================================
            POSITIONS DES IMAGES
+           Décalages latéraux réduits d'environ 15 %
+           pour conserver l'espacement visuel
         ===================================================== */
         .center {
             transform: translate(-50%, -50%) translateZ(300px) scale(1.10);
@@ -206,28 +210,28 @@
         }
 
         .left1 {
-            transform: translate(-50%, -50%) translateX(-540px) translateZ(40px) scale(0.62);
+            transform: translate(-50%, -50%) translateX(-459px) translateZ(40px) scale(0.62);
             z-index: 12;
             opacity: 0.75;
             filter: brightness(0.75) contrast(0.95);
         }
 
         .right1 {
-            transform: translate(-50%, -50%) translateX(540px) translateZ(40px) scale(0.62);
+            transform: translate(-50%, -50%) translateX(459px) translateZ(40px) scale(0.62);
             z-index: 12;
             opacity: 0.75;
             filter: brightness(0.75) contrast(0.95);
         }
 
         .left2 {
-            transform: translate(-50%, -50%) translateX(-860px) translateZ(-250px) scale(0.41);
+            transform: translate(-50%, -50%) translateX(-731px) translateZ(-250px) scale(0.41);
             z-index: 8;
             opacity: 0.38;
             filter: brightness(0.55) blur(0.3px);
         }
 
         .right2 {
-            transform: translate(-50%, -50%) translateX(860px) translateZ(-250px) scale(0.41);
+            transform: translate(-50%, -50%) translateX(731px) translateZ(-250px) scale(0.41);
             z-index: 8;
             opacity: 0.38;
             filter: brightness(0.55) blur(0.3px);
@@ -264,31 +268,33 @@
 
         /* =====================================================
            ÉCRANS 1600PX ET MOINS
+           (816px -> 694px ; 552px -> 469px)
         ===================================================== */
         @media (max-width: 1600px) {
             .carousel img {
-                max-width: 816px;
-                max-height: 552px;
+                max-width: 694px;
+                max-height: 469px;
             }
             .center {
                 transform: translate(-50%, -50%) translateZ(250px) scale(1.02);
             }
             .left1 {
-                transform: translate(-50%, -50%) translateX(-450px) translateZ(30px) scale(0.55);
+                transform: translate(-50%, -50%) translateX(-383px) translateZ(30px) scale(0.55);
             }
             .right1 {
-                transform: translate(-50%, -50%) translateX(450px) translateZ(30px) scale(0.55);
+                transform: translate(-50%, -50%) translateX(383px) translateZ(30px) scale(0.55);
             }
             .left2 {
-                transform: translate(-50%, -50%) translateX(-700px) translateZ(-200px) scale(0.36);
+                transform: translate(-50%, -50%) translateX(-595px) translateZ(-200px) scale(0.36);
             }
             .right2 {
-                transform: translate(-50%, -50%) translateX(700px) translateZ(-200px) scale(0.36);
+                transform: translate(-50%, -50%) translateX(595px) translateZ(-200px) scale(0.36);
             }
         }
 
         /* =====================================================
            ÉCRANS 1200PX ET MOINS
+           (684px -> 581px ; 464px -> 394px)
         ===================================================== */
         @media (max-width: 1200px) {
             .partner-title {
@@ -298,17 +304,17 @@
                 min-height: 500px;
             }
             .carousel img {
-                max-width: 684px;
-                max-height: 464px;
+                max-width: 581px;
+                max-height: 394px;
             }
             .center {
                 transform: translate(-50%, -50%) translateZ(180px) scale(0.98);
             }
             .left1 {
-                transform: translate(-50%, -50%) translateX(-330px) translateZ(20px) scale(0.48);
+                transform: translate(-50%, -50%) translateX(-281px) translateZ(20px) scale(0.48);
             }
             .right1 {
-                transform: translate(-50%, -50%) translateX(330px) translateZ(20px) scale(0.48);
+                transform: translate(-50%, -50%) translateX(281px) translateZ(20px) scale(0.48);
             }
             .left2, .right2 {
                 opacity: 0;
@@ -317,6 +323,7 @@
 
         /* =====================================================
            MOBILE
+           (432px -> 367px)
         ===================================================== */
         @media (max-width: 700px) {
             .partner-title {
@@ -332,17 +339,17 @@
             }
             .carousel img {
                 max-width: 92vw;
-                max-height: 432px;
+                max-height: 367px;
                 padding: 15px;
             }
             .center {
                 transform: translate(-50%, -50%) scale(0.92);
             }
             .left1 {
-                transform: translate(-50%, -50%) translateX(-190px) scale(0.40);
+                transform: translate(-50%, -50%) translateX(-162px) scale(0.40);
             }
             .right1 {
-                transform: translate(-50%, -50%) translateX(190px) scale(0.40);
+                transform: translate(-50%, -50%) translateX(162px) scale(0.40);
             }
             .left2, .right2 {
                 display: none;
@@ -370,7 +377,11 @@
            Remplace simplement les 3 URL ci-dessous par
            les tiennes (lien direct vers chaque image).
         ===================================================== */
-        const IMAGES = [             { url: "https://github.com/mvbc85600/DIFFUSION/blob/main/Kocoon.jpg?raw=true", alt: "Octobre Rose 1" },             { url: "https://github.com/mvbc85600/DIFFUSION/blob/main/affiche%20Oct%20rose%20emploi%20des%20dons-1.jpg?raw=true", alt: "Octobre Rose 2" },             { url: "https://github.com/mvbc85600/DIFFUSION/blob/main/flyer%20Kocoon%202025.png?raw=true", alt: "Octobre Rose 3" }         ];
+        const IMAGES = [
+            { url: "https://github.com/mvbc85600/DIFFUSION/blob/main/Kocoon.jpg?raw=true", alt: "Octobre Rose 1" },
+            { url: "https://github.com/mvbc85600/DIFFUSION/blob/main/affiche%20Oct%20rose%20emploi%20des%20dons-1.jpg?raw=true", alt: "Octobre Rose 2" },
+            { url: "https://github.com/mvbc85600/DIFFUSION/blob/main/flyer%20Kocoon%202025.png?raw=true", alt: "Octobre Rose 3" }
+        ];
 
         /* =====================================================
            PARAMÈTRES
