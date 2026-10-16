@@ -86,6 +86,7 @@ body::after {
 
 /* =====================================================
    DEUX TABLEAUX CÔTE À CÔTE
+   (rang / équipe / points uniquement)
    ===================================================== */
 .cl-columns {
     flex: 1 1 auto;
@@ -103,32 +104,12 @@ body::after {
     gap: clamp(4px, .55vh, 8px);
 }
 
-.cl-head, .cl-row {
+.cl-row {
     display: grid;
-    grid-template-columns: var(--cols, 6% 1fr 8% 8% 8% 8% 9% 9%);
+    grid-template-columns: 9% 1fr 15% 15% 15%;
     align-items: center;
     gap: clamp(4px, .45vw, 9px);
 }
-
-.cl-head {
-    flex: 0 0 auto;
-    padding: 0 clamp(8px, .9vw, 16px);
-    font-size: clamp(13px, 1.1vw, 19px);
-    font-weight: 800;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,.5);
-}
-
-.cl-head > div {
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.cl-head > div:first-child,
-.cl-head > div:nth-child(2) { text-align: left; }
 
 .cl-rows {
     flex: 1 1 auto;
@@ -149,8 +130,8 @@ body::after {
     flex: 1 1 0;
     min-height: 0;
     display: grid;
-    font-size: clamp(23px, 3.4vh, 46px);
-    padding: .08em clamp(7px, .8vw, 14px);
+    font-size: clamp(30px, 4.6vh, 62px);
+    padding: .05em clamp(7px, .8vw, 14px);
     background: rgba(8,9,12,.74);
     border: 1px solid rgba(255,255,255,.08);
     border-radius: 12px;
@@ -215,7 +196,7 @@ body::after {
     text-align: center;
     font-family: "Barlow Condensed", sans-serif;
     font-weight: 800;
-    font-size: 1.08em;
+    font-size: 1.15em;
     line-height: 1.05;
     color: rgba(255,255,255,.85);
     text-shadow: 2px 2px 0 rgba(0,0,0,.6);
@@ -226,7 +207,7 @@ body::after {
     background: rgba(255,212,0,.9);
     text-shadow: none;
     border-radius: .3em;
-    padding: .12em 0;
+    padding: .1em 0;
     box-shadow: 0 0 18px rgba(255,212,0,.3);
 }
 
@@ -256,42 +237,6 @@ body::after {
     border-radius: 22px;
 }
 
-.partners-bar {
-    position: relative;
-    z-index: 12;
-    flex: 0 0 auto;
-    width: 100%;
-    height: clamp(72px, 10vh, 112px);
-    margin-top: clamp(10px, 1.5vh, 20px);
-    background: rgba(0, 0, 0, 0.55);
-    border: 1px solid rgba(255,255,255,.18);
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-.partners-scroll {
-    display: flex;
-    align-items: center;
-    width: max-content;
-    height: 100%;
-    white-space: nowrap;
-    animation: scrollPartners 60s linear infinite;
-}
-
-.partners-scroll img {
-    height: 84%;
-    max-height: 100px;
-    max-width: 220px;
-    margin: 0 clamp(12px, 1.5vw, 24px);
-    object-fit: contain;
-    filter: drop-shadow(0 2px 6px rgba(0,0,0,.5));
-}
-
-@keyframes scrollPartners {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-
 @keyframes popIn {
     0% { opacity: 0; transform: translateY(26px) scale(.9); filter: blur(4px); }
     100% { opacity: 1; transform: none; filter: blur(0); }
@@ -307,17 +252,13 @@ body::after {
     .title { font-size: clamp(22px, 6.4vw, 40px); white-space: normal; }
     .cl-columns { gap: 6px; }
     .cl-column { gap: 4px; }
-    .cl-head { display: none; }
-    .cl-row { font-size: clamp(13px, 2.9vw, 19px); padding: .12em 4px; border-radius: 7px; }
-    .cl-head, .cl-row { gap: 3px; }
+    .cl-row { font-size: clamp(16px, 3.8vw, 26px); padding: .1em 4px; border-radius: 7px; gap: 3px; }
     .cl-row .logo { width: 1em; height: 1em; }
-    .cl-row .cell { font-size: .96em; }
-    .partners-bar { height: 60px; margin-top: 8px; }
-    .partners-scroll img { margin: 0 10px; }
+    .cl-row .cell { font-size: 1.05em; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .partners-scroll, .cl-row { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    .cl-row { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
 }
 </style>
 </head>
@@ -329,17 +270,11 @@ body::after {
 
     <div class="cl-columns" id="clColumns">
         <section class="cl-column">
-            <div class="cl-head" id="clHead1" style="display:none"></div>
             <div class="cl-rows" id="clRows1"></div>
         </section>
         <section class="cl-column">
-            <div class="cl-head" id="clHead2" style="display:none"></div>
             <div class="cl-rows" id="clRows2"></div>
         </section>
-    </div>
-
-    <div class="partners-bar" id="partnersBar">
-        <div class="partners-scroll" id="partnersScroll"></div>
     </div>
 </div>
 
@@ -351,8 +286,6 @@ body::after {
 const SHEET_ID = "1vidVkLiiLMnmrO9HTmzM9Ns8bC28ONU1dVL41SVepOU";
 const GID_CLASSEMENT = "1966074571";
 const REFRESH_MS = 60000;
-const GITHUB_LOGO_API = "https://api.github.com/repos/mvbc85600/DIFFUSION/contents/logo";
-const GITHUB_LOGO_RAW = "https://raw.githubusercontent.com/mvbc85600/DIFFUSION/main/logo/";
 
 function escapeHtml(str) {
     const div = document.createElement("div");
@@ -459,15 +392,8 @@ function rendreClassement(entetes, donnees) {
     /* La 1re colonne de la feuille contient-elle le rang ? (ex : "1", "2", "3") */
     const premiereColNum = donnees.length > 0 && /^\d+$/.test((donnees[0][0] || "").trim());
 
-    /* index de l'équipe et des stats selon la structure de la feuille */
+    /* index de l'équipe selon la structure de la feuille */
     const colEquipe = premiereColNum ? 1 : 0;
-    const nbStats = Math.max(entetes.length - colEquipe - 1, 1);
-    const colsTemplate = "7% minmax(110px, 1.7fr) repeat(" + nbStats + ", minmax(42px, .8fr))";
-
-    const headHtml =
-        "<div>" + escapeHtml(entetes[0] || "#") + "</div>" +
-        "<div>Équipe</div>" +
-        entetes.slice(colEquipe + 1).map(h => "<div>" + escapeHtml(h) + "</div>").join("");
 
     /* Lignes valides : on saute une éventuelle ligne d'en-tête répétée */
     const lignesValid = donnees.filter((cells, i) => {
@@ -480,11 +406,7 @@ function rendreClassement(entetes, donnees) {
     const moities = [lignesValid.slice(0, milieu), lignesValid.slice(milieu)];
 
     moities.forEach((moitie, index) => {
-        const head = document.getElementById("clHead" + (index + 1));
         const rows = document.getElementById("clRows" + (index + 1));
-        head.style.display = "";
-        head.style.setProperty("--cols", colsTemplate);
-        head.innerHTML = headHtml;
         rows.innerHTML = "";
 
         moitie.forEach((cells, i) => {
@@ -494,7 +416,6 @@ function rendreClassement(entetes, donnees) {
             const ligne = document.createElement("div");
             ligne.className = "cl-row";
             ligne.style.setProperty("--d", (0.1 + (index * milieu + i) * 0.06).toFixed(2) + "s");
-            ligne.style.setProperty("--cols", colsTemplate);
 
             let html = "<div class='rang'>" + escapeHtml(rang) + "</div>";
 
@@ -505,11 +426,12 @@ function rendreClassement(entetes, donnees) {
                 "<span class='equipe-nom'>" + escapeHtml(nomEquipe) + "</span>" +
                 "</div>";
 
-            /* Colonnes de stats (points = pastille jaune) */
-            cells.slice(colEquipe + 1).forEach((v, k) => {
-                const cls = k === 0 ? "cell pts" : "cell";
-                html += "<div class='" + cls + "'>" + escapeHtml(v) + "</div>";
-            });
+            /* Points, Gagnés, Perdus */
+            const stats = cells.slice(colEquipe + 1);
+            html +=
+                "<div class='cell pts'>" + escapeHtml(stats[0] ?? "–") + "</div>" +
+                "<div class='cell'>" + escapeHtml(stats[2] ?? "–") + "</div>" +
+                "<div class='cell'>" + escapeHtml(stats[3] ?? "–") + "</div>";
 
             ligne.innerHTML = html;
 
@@ -578,37 +500,6 @@ setInterval(chargerClassement, REFRESH_MS);
         console.warn("Logos Firebase indisponibles, utilisation des logos de secours :", error);
     }
 })();
-
-/* =====================================================
-   LOGOS PARTENAIRES (GitHub)
-   ===================================================== */
-async function chargerLogosPartenaires() {
-    try {
-        const response = await fetch(GITHUB_LOGO_API, {
-            headers: { "Accept": "application/vnd.github+json" },
-            cache: "no-store"
-        });
-        if (!response.ok) throw new Error("GitHub a répondu " + response.status);
-        const fichiers = await response.json();
-        const scroll = document.getElementById("partnersScroll");
-        scroll.innerHTML = "";
-        const logos = fichiers
-            .filter(f => f.type === "file" && /\.(png|jpe?g|webp|gif|svg)$/i.test(f.name))
-            .map(f => GITHUB_LOGO_RAW + encodeURIComponent(f.name));
-        if (!logos.length) { document.getElementById("partnersBar").style.display = "none"; return; }
-        [...logos, ...logos].forEach(src => {
-            const img = document.createElement("img");
-            img.src = src;
-            img.alt = "Partenaire";
-            img.onerror = function () { this.remove(); };
-            scroll.appendChild(img);
-        });
-    } catch (error) {
-        console.error("Erreur chargement logos partenaires :", error);
-        document.getElementById("partnersBar").style.display = "none";
-    }
-}
-chargerLogosPartenaires();
 </script>
 
 </body>
