@@ -20,14 +20,9 @@
     </style>
   </head>
   <body>
-    <!--
-      Remplace l'URL ci-dessous par le lien "raw" de ta vidéo sur GitHub :
-      https://raw.githubusercontent.com/TON-USER/TON-REPO/main/ma-video.mp4
-      (ou l'URL GitHub Pages : https://ton-user.github.io/ton-repo/ma-video.mp4)
-    -->
     <video
       id="player"
-      src="https://raw.githubusercontent.com/mvbc85600/DIFFUSION/main/DRAPEAU%20Seb.mov"
+      src="https://raw.githubusercontent.com/mvbc85600/DIFFUSION/main/DRAPEAU%20Seb.mp4"
       autoplay
       muted
       loop
@@ -38,12 +33,11 @@
       const video = document.getElementById("player");
       // Lecture en boucle garantie même si "loop" est ignoré par le navigateur
       video.addEventListener("ended", () => video.play());
-      // Relance la lecture si elle est interrompue (autoplay bloqué, onglet inactif, etc.)
+      // Relance la lecture si elle est interrompue
       document.addEventListener("visibilitychange", () => {
         if (!document.hidden) video.play().catch(() => {});
       });
       video.play().catch(() => {
-        // Certains navigateurs exigent une interaction avant l'autoplay avec son
         document.addEventListener("click", () => video.play(), { once: true });
       });
     </script>
