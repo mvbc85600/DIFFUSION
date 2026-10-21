@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ProStats FFBB — Analyseur Ultra Complet (v2, import ZIP/PDF robuste)</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#0b1220;--card:#131c30;--deep:#0a0f1d;--border:#263450;--text:#f1f5fb;--muted:#8ba0bd;--primary:#4f8ef7;--green:#22c55e;--orange:#f97316;--red:#ef4444;--gold:#fbbf24}
+*{box-sizing:border-box}body{margin:0;font:14px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text)}
+header{background:linear-gradient(120deg,#0d1a33 0%,#1a3a6b 100%);padding:26px max(20px,calc((100% - 1280px)/2));border-bottom:1px solid var(--border)}
+header h1{margin:0 0 4px;font-size:clamp(22px,3.5vw,30px);font-weight:800}header p{margin:0;color:var(--muted)}
+main{max-width:1280px;margin:22px auto;padding:0 16px 70px}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px}
+.drop{border:2px dashed var(--border);border-radius:12px;text-align:center;padding:34px 20px;background:var(--deep);cursor:pointer;transition:.2s}
+.drop:hover,.drop.drag{border-color:var(--primary);background:#101c38}
+.drop strong{display:block;font-size:17px}.drop small{display:block;color:var(--muted);margin-top:6px}
+button{border:0;border-radius:99px;background:var(--primary);color:#fff;padding:10px 16px;font-weight:650;cursor:pointer;transition:.15s}
+button:hover{filter:brightness(1.1)}button:disabled{opacity:.4;cursor:not-allowed}
+.secondary{background:#22304d;color:var(--text)}.danger{background:var(--red)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.status{color:var(--muted);font-size:13px;margin-top:8px}
+.progress{height:6px;background:var(--border);border-radius:99px;overflow:hidden;margin-top:10px}.progress span{display:block;height:100%;width:0;background:var(--primary);transition:width .2s}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.metric{background:var(--deep);border:1px solid var(--border);border-radius:10px;padding:14px}
+.metric .label{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.metric .value{font-size:22px;font-weight:750;margin-top:4px;overflow-wrap:anywhere}
+h2{font-size:18px;margin:0 0 14px}h3{font-size:15px;margin:18px 0 8px}
+.notice{padding:10px 14px;border-radius:9px;font-size:13px;margin-bottom:12px}
+.notice.ok{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.4);color:#5ee6a0}
+.notice.warn{background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.4);color:var(--gold)}
+.notice.bad{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.4);color:#f87171}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:10px}
+.tabs button{background:transparent;color:var(--muted);border-radius:7px;padding:8px 14px}
+.tabs button.active{background:var(--primary);color:#fff}
+.tab{display:none}.tab.active{display:block}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:middle}
+th{background:var(--deep);color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.04em;font-weight:650;position:sticky;top:0;z-index:2}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}tr:hover td{background:#182742}
+tr.clickable{cursor:pointer}
+.tablewrap{overflow:auto;border:1px solid var(--border);border-radius:10px;max-height:560px}
+.teamA td:first-child{border-left:3px solid var(--green)}.teamB td:first-child{border-left:3px solid var(--primary)}
+.tag{display:inline-block;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600}
+.tag.ok{background:rgba(34,197,94,.18);color:#5ee6a0}.tag.warn{background:rgba(251,191,36,.15);color:var(--gold)}.tag.bad{background:rgba(239,68,68,.15);color:#f87171}
+.shotgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+.shotcard{background:var(--deep);border:1px solid var(--border);border-radius:10px;padding:12px}
+.shotcard h4{margin:0 0 8px;font-size:13px;display:flex;justify-content:space-between;gap:8px}
+.shotcard img{width:100%;border-radius:7px;border:1px solid var(--border)}
+pre{background:var(--deep);padding:12px;border-radius:9px;border:1px solid var(--border);max-height:380px;overflow:auto;font:11px/1.5 ui-monospace,monospace}
+input[type=search],select{padding:9px 12px;background:var(--deep);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px}
+canvas{max-height:320px}
+.chart2{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:800px){.chart2{grid-template-columns:1fr}}
+.scorehero{display:flex;align-items:center;justify-content:center;gap:26px;padding:18px;flex-wrap:wrap}
+.scorehero .teamname{font-size:19px;font-weight:800;max-width:360px;text-align:center}
+.scorehero .bigscore{font-size:44px;font-weight:850;font-variant-numeric:tabular-nums;letter-spacing:2px}
+.scorehero .winner{color:var(--gold)}
+#modalBg{position:fixed;inset:0;background:rgba(3,8,18,.72);display:none;align-items:flex-start;justify-content:center;padding:30px 12px;z-index:50;overflow:auto}
+#modalBg.open{display:flex}
+#playerModal{background:var(--card);border:1px solid var(--border);border-radius:14px;max-width:760px;width:100%;padding:20px}
+#playerModal h2{display:flex;justify-content:space-between;gap:10px;align-items:center}
+#playerModal .close{background:transparent;color:var(--muted);font-size:20px;padding:2px 10px}
+.ficheGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.filechip{display:inline-flex;gap:6px;align-items:center}
+.filechip .kind{font-size:10px;color:var(--muted);text-transform:uppercase}
+</style>
+</head>
+<body>
+<header>
+  <h1>🏀 ProStats FFBB — Analyseur Ultra Complet</h1>
+  <p>Déposez le ZIP du match : équipes, joueurs, temps de jeu, points, tirs, fautes, licences, chronologie, quarts-temps et cartes de tirs. Cliquez sur un joueur pour ouvrir sa fiche.</p>
+</header>
+<main>
+<section class="panel">
+  <h2>1 · Importation</h2>
+  <div id="drop" class="drop" tabindex="0" role="button">
+    <strong>Glissez le .ZIP (ou les PDF) du match ici</strong>
+    <small>feuillematch_*.pdf · resume_*.pdf · positiontir_*.pdf — ZIP imbriqués acceptés · traitement 100 % local</small>
+  </div>
+  <input id="fileInput" type="file" accept=".zip,.pdf,application/pdf,application/zip" multiple hidden>
+  <div class="row" style="margin-top:14px">
+    <button id="analyzeBtn" disabled>Analyser le match</button>
+    <button id="resetBtn" class="secondary">Réinitialiser</button>
+    <button id="clearDbBtn" class="secondary danger">Purger la base saison</button>
+    <span id="filename" style="color:var(--muted)"></span>
+  </div>
+  <div class="progress"><span id="progress"></span></div>
+  <div id="status" class="status">En attente de documents…</div>
+  <div id="files" class="row" style="margin-top:10px"></div>
+  <div class="notice ok" style="margin-top:12px">Chaque joueur détecté est <b>enregistré automatiquement</b> dans la base de saison (navigateur). Rechargez d'autres matchs pour consolider les cumuls.</div>
+</section>
+<div id="results" hidden>
+<section class="panel">
+  <h2>2 · Match</h2>
+  <div class="scorehero" id="scoreHero"></div>
+  <div id="matchNotice" class="notice ok"></div>
+  <div class="cards" id="metrics"></div>
+</section>
+<section class="panel">
+  <div class="tabs" role="tablist">
+    <button class="active" data-tab="players">⛹️ Joueurs & Stats</button>
+    <button data-tab="teams">⚖️ Équipes</button>
+    <button data-tab="chrono">⏱ Chronologie</button>
+    <button data-tab="shots">🎯 Tirs</button>
+    <button data-tab="db">🗂 Base saison</button>
+    <button data-tab="ocr">📄 Texte extrait</button>
+  </div>
+  <div id="tab-players" class="tab active">
+    <div class="row" style="margin-bottom:12px">
+      <select id="teamFilter"><option value="">Toutes les équipes</option></select>
+      <input id="playerSearch" type="search" placeholder="Rechercher un joueur, une licence…">
+      <select id="sortBy">
+        <option value="num">N° maillot</option><option value="points">Points</option>
+        <option value="minutes">Temps de jeu</option><option value="ptsmin">Pts/min</option>
+        <option value="fouls">Fautes</option>
+      </select>
+      <button id="exportPlayers" class="secondary">CSV match</button>
+    </div>
+    <div id="listingNotice" class="notice ok"></div>
+    <div class="tablewrap"><table id="playerTable">
+      <thead><tr><th>Équipe</th><th class="num">N°</th><th>Joueur</th><th>Licence</th><th>5d</th>
+      <th class="num">Min</th><th class="num">Pts</th><th class="num">Pts/min</th><th class="num">Tirs</th>
+      <th class="num">3P</th><th class="num">2int</th><th class="num">2ext</th><th class="num">LF</th>
+      <th class="num">Fts</th><th class="num">% pts équipe</th><th>Fiabilité</th></tr></thead>
+      <tbody></tbody></table></div>
+    <div class="chart2" style="margin-top:16px">
+      <div><h3>Minutes vs Points</h3><canvas id="scatterChart"></canvas></div>
+      <div><h3>Origine des points</h3><canvas id="originChart"></canvas></div>
+    </div>
+  </div>
+  <div id="tab-teams" class="tab">
+    <h3>Points par quart-temps</h3><canvas id="quarterChart"></canvas>
+    <div class="tablewrap" style="margin-top:12px"><table id="quarterTable">
+      <thead><tr><th></th><th class="num">QT1</th><th class="num">QT2</th><th class="num">QT3</th><th class="num">QT4</th><th class="num">Total</th></tr></thead>
+      <tbody></tbody></table></div>
+    <div class="cards" id="teamCompare" style="margin-top:14px"></div>
+  </div>
+  <div id="tab-chrono" class="tab">
+    <div id="chronoNotice" class="notice ok"></div>
+    <div class="cards" id="chronoCards"></div>
+    <h3>Évolution du score (chaque panier)</h3><canvas id="progressChart"></canvas>
+    <h3>Qui marque quand — points par joueur et par quart-temps</h3>
+    <div class="tablewrap"><table id="qpTable">
+      <thead><tr><th>Équipe</th><th class="num">N°</th><th>Joueur</th><th class="num">QT1</th><th class="num">QT2</th><th class="num">QT3</th><th class="num">QT4</th><th class="num">Total</th></tr></thead>
+      <tbody></tbody></table></div>
+    <h3>Séquence des paniers</h3>
+    <div class="tablewrap" style="max-height:420px"><table id="pbpTable">
+      <thead><tr><th class="num">#</th><th>Équipe</th><th class="num">N°</th><th>Joueur</th><th class="num">Pts</th><th class="num">Score A–B</th><th>Série</th></tr></thead>
+      <tbody></tbody></table></div>
+  </div>
+  <div id="tab-shots" class="tab">
+    <p style="color:var(--muted)">Plans officiels « positions de tirs réussis » — un demi-terrain par joueur et par période.</p>
+    <div id="shotGallery" class="shotgrid"></div>
+  </div>
+  <div id="tab-db" class="tab">
+    <p id="dbInfo" style="color:var(--muted)"></p>
+    <div class="row" style="margin-bottom:12px">
+      <input id="dbSearch" type="search" placeholder="Rechercher…">
+      <button id="exportDb" class="secondary">CSV saison</button>
+      <button id="exportDbJson" class="secondary">JSON</button>
+    </div>
+    <div class="tablewrap"><table id="dbTable">
+      <thead><tr><th>Joueur</th><th>Licence</th><th>Équipe</th><th class="num">Matchs</th><th class="num">5d</th>
+      <th class="num">Min moy.</th><th class="num">Min tot.</th><th class="num">Pts</th><th class="num">Pts/m</th>
+      <th class="num">Pts/min</th><th class="num">Tirs</th><th class="num">3P</th><th class="num">LF</th><th class="num">Fts moy.</th></tr></thead>
+      <tbody></tbody></table></div>
+  </div>
+  <div id="tab-ocr" class="tab"><h3>Texte extrait des PDF (contrôle qualité)</h3><div id="docInspector"></div></div>
+</section>
+</div>
+</main>
+
+<div id="modalBg">
+  <div id="playerModal">
+    <h2><span id="ficheTitle"></span><button class="close" id="ficheClose">✕</button></h2>
+    <div id="ficheNotice"></div>
+    <div class="ficheGrid" id="ficheMetrics"></div>
+    <div class="chart2">
+      <div><h3>Points par quart-temps (ce match)</h3><canvas id="ficheQtChart"></canvas></div>
+      <div><h3>Historique saison — points par match</h3><canvas id="ficheSeasonChart"></canvas></div>
+    </div>
+    <div id="ficheTableWrap" class="tablewrap" style="margin-top:12px"></div>
+  </div>
+</div>
+
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+const $ = id => document.getElementById(id);
+const DB_KEY = 'ffbb_prostats_v7';
+let inputFiles = [], docs = [], players = [], db = loadDb();
+const charts = {};
+
+function loadDb() { try { return JSON.parse(localStorage.getItem(DB_KEY)) || {}; } catch(e) { return {}; } }
+function saveDb() { try { localStorage.setItem(DB_KEY, JSON.stringify(db)); } catch(e) { console.warn('localStorage indisponible', e); } }
+function setStatus(t, p) { $('status').textContent = t; if(p != null)$('progress').style.width = Math.max(0, Math.min(100, p)) + '%'; }
+function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function norm(s) { return (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[’']/g, "'").replace(/\s+/g, ' ').trim().toUpperCase(); }
+function toSec(mmss) { const m = /^(\d{1,3}):(\d{2})$/.exec((mmss || '').trim()); return m ? +m[1] * 60 + +m[2] : 0; }
+function fmtMin(s) { return `${Math.floor(s/60)}:${String(Math.max(0, s%60)).padStart(2, '0')}`; }
+function findDoc(re) { return docs.find(d => re.test(d.name) || re.test(d.kind || '')) || null; }
+function downloadBlob(name, content, type) {
+  const a = document.createElement('a'); const u = URL.createObjectURL(new Blob([content], {type}));
+  a.href = u; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(u), 1000);
+}
+function downloadCsv(name, rows) {
+  downloadBlob(name, '\ufeff' + rows.map(r => r.map(v => '"' + String(v ?? '').replace(/"/g, '""') + '"').join(';')).join('\r\n'), 'text/csv;charset=utf-8');
+}
+function chartOn(id, cfg) {
+  if(charts[id]) { charts[id].destroy(); delete charts[id]; }
+  const el = $(id); if(!el) return;
+  charts[id] = new Chart(el, cfg);
+}
+
+document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('.tabs button').forEach(x => x.classList.toggle('active', x === b));
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.id === 'tab-' + b.dataset.tab));
+});
+
+const drop = $('drop'), fileInput =$('fileInput');
+drop.onclick = () => fileInput.click();
+drop.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); } });
+drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('drag'); });
+drop.addEventListener('dragleave', () => drop.classList.remove('drag'));
+drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('drag'); acceptFiles([...e.dataTransfer.files]); });
+fileInput.addEventListener('change', e => { acceptFiles([...e.target.files]); e.target.value = ''; });
+
+function acceptFiles(fs) {
+  if(!fs.length) return;
+  inputFiles = fs.filter(f => f.size > 0);
+  if(!inputFiles.length) { setStatus('Aucun fichier exploitable.'); return; }
+  $('filename').textContent = inputFiles.map(f => f.name).join(', ');
+  $('analyzeBtn').disabled = false; $('results').hidden = true;
+  setStatus(`${inputFiles.length} fichier(s) prêt(s).`, 0);
+}
+$('resetBtn').onclick = () => {
+  inputFiles = []; docs = []; players = []; fileInput.value = '';
+  $('analyzeBtn').disabled = true; $('filename').textContent = ''; $('files').innerHTML = '';$('results').hidden = true; setStatus('Réinitialisé.'); $('progress').style.width = '0'; };$('clearDbBtn').onclick = () => {
+  if(confirm('Purger toute la base de saison ?')) {
+    db = {}; saveDb(); if(window.matchData) renderDbTab(); setStatus('Base purgée.');
+  }
+};
+$('analyzeBtn').onclick = analyze;
+
+function sniffFormat(u8) {
+  if(!u8 || u8.length < 4) return 'unknown';
+  if(u8[0] === 0x25 && u8[1] === 0x50 && u8[2] === 0x44 && u8[3] === 0x46) return 'pdf';
+  if(u8[0] === 0x50 && u8[1] === 0x4B) return 'zip';
+  return 'unknown';
+}
+function classifyDoc(name) {
+  const n = (name || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  if(/feuille/.test(n) && /match/.test(n)) return 'sheet';
+  if(/position/.test(n) && /tir/.test(n)) return 'shots';
+  if(/resum/.test(n)) return 'resume';
+  return 'other';
+}
+async function collectPdfEntries(file, out, depth = 0) {
+  const name = file.name || 'sans-nom';
+  if(depth >= 3) { out.push({name, data: null, error: 'ZIP imbriqué trop profond'}); return; }
+  let u8;
+  try { u8 = file instanceof Uint8Array ? file : new Uint8Array(await file.arrayBuffer()); }
+  catch(e) { out.push({name, data: null, error: 'Lecture impossible : ' + (e.message || e)}); return; }
+  const kind = sniffFormat(u8);
+  if(kind === 'pdf') {
+    out.push({name, data: u8});
+  } else if(kind === 'zip') {
+    try {
+      const zip = await JSZip.loadAsync(u8);
+      for(const ent of Object.values(zip.files)) {
+        if(ent.dir) continue;
+        const base = ent.name.split('/').pop();
+        if(!base || base.startsWith('.') || /__MACOSX/i.test(ent.name)) continue;
+        let inner;
+        try { inner = await ent.async('uint8array'); }
+        catch(e) { out.push({name: base, data: null, error: 'Entrée corrompue : ' + (e.message || e)}); continue; }
+        await collectPdfEntries({name: base, arrayBuffer: async () => inner}, out, depth + 1);
+      }
+    } catch(e) { out.push({name, data: null, error: 'ZIP illisible : ' + (e.message || e)}); }
+  } else { out.push({name, data: null, error: 'Ni PDF ni ZIP'}); }
+}
+function itemsToLines(items) {
+  const rows = [];
+  for(const it of items) {
+    if(!it.str || !it.str.trim()) continue;
+    const y = Math.round(it.transform[5]);
+    let row = rows.find(r => Math.abs(r.y - y) <= 3);
+    if(!row) { row = {y, cells: []}; rows.push(row); }
+    row.cells.push({x: it.transform[4], str: it.str});
+  }
+  rows.sort((a, b) => b.y - a.y);
+  return rows.map(r => r.cells.sort((a, b) => a.x - b.x).map(c => c.str).join(' ')).join('\n');
+}
+
+async function analyze() {
+  if(!inputFiles.length) return;
+  $('analyzeBtn').disabled = true; $('results').hidden = true; docs = []; players = [];
+  try {
+    setStatus('Déballage des fichiers…', 2);
+    const entries = [];
+    for(const f of inputFiles) await collectPdfEntries(f, entries);
+    const pdfEntries = entries.filter(e => e.data);
+    const badEntries = entries.filter(e => e.error);
+    if(!pdfEntries.length) throw new Error('Aucun PDF valide trouvé.');
+    docs = pdfEntries.map(p => ({ name: p.name, kind: classifyDoc(p.name), data: p.data, text: '', pages: 0, images: [] }));
+
+    const renderCanvas = document.createElement('canvas');
+    const renderCtx = renderCanvas.getContext('2d', {alpha: false});
+    for(let i = 0; i < docs.length; i++) {
+      const d = docs[i];
+      let pdf = null;
+      try {
+        pdf = await pdfjsLib.getDocument({data: d.data}).promise;
+        d.pages = pdf.numPages;
+        let full = '';
+        for(let pi = 1; pi <= pdf.numPages; pi++) {
+          setStatus(`Lecture ${i + 1}/${docs.length} : ${d.name} — page ${pi}/${d.pages}`, 5 + Math.round(72 * ((i + (pi - 1) / d.pages)) / docs.length));
+          const page = await pdf.getPage(pi);
+          const tc = await page.getTextContent();
+          const pageText = itemsToLines(tc.items);
+          full += `\n--- PAGE ${pi} ---\n` + pageText;
+          if(d.kind === 'shots' || (d.kind === 'resume' && /PROGRESSION/i.test(pageText))) {
+            const viewport = page.getViewport({scale: 1.5});
+            renderCanvas.width = viewport.width; renderCanvas.height = viewport.height;
+            await page.render({canvasContext: renderCtx, viewport}).promise;
+            const img = renderCanvas.toDataURL('image/jpeg', 0.85);
+            if(d.kind === 'shots') d.images.push({img});
+            else d.progressImg = img;
+          }
+          page.cleanup();
+        }
+        d.text = full; d.status = 'ok';
+      } catch(e) { d.status = 'bad'; d.error = e.message; }
+      finally { if(pdf) try { pdf.destroy(); } catch(e) {} }
+    }
+    parseMatch();
+    saveToDb();
+    renderAll();
+    $('results').hidden = false;
+    setStatus(`✔ Terminé : ${players.length} joueur(s) détectés.`, 100);
+  } catch(e) { setStatus('Erreur : ' + e.message); }
+  finally { $('analyzeBtn').disabled = false; }
+}
+
+function parseMatch() {
+  const sheet = findDoc(/feuille/i) || docs[0];
+  const summary = findDoc(/resume/i) || docs[1] || sheet;
+  const all = docs.map(d => d.text).join('\n');
+  const teamA = teamNameFrom(all, 'A') || 'Équipe A';
+  const teamB = teamNameFrom(all, 'B') || 'Équipe B';
+  
+  let scoreA = 0, scoreB = 0;
+  const sm = all.match(/Équipe\s*A\s*(\d{1,3})[\s\S]{0,80}?Équipe\s*B\s*(\d{1,3})/i);
+  if(sm) { scoreA = +sm[1]; scoreB = +sm[2]; }
+
+  const licenses = parseLicenses(all);
+  let statsA = parseResumeSection(summary?.text || all, ['LOCAUX', 'EQUIPE A', teamA]);
+  let statsB = parseResumeSection(summary?.text || all, ['VISITEURS', 'EQUIPE B', teamB]);
+
+  players = merge(licenses, statsA, 'A', teamA).concat(merge(licenses, statsB, 'B', teamB));
+  window.matchData = { teamA, teamB, scoreA, scoreB, players, date: new Date().toLocaleDateString('fr-FR') };
+}
+
+function teamNameFrom(all, letter) {
+  const m = new RegExp('(?:Équipe|EQUIPE)\\s*' + letter + '\\s+([^\\n]{3,40})', 'i').exec(all);
+  return m ? m[1].trim() : '';
+}
+
+function parseLicenses(text) {
+  const found = []; const re = /\b([A-Z]{2}\s?\d{5,7})\s+([A-Z\s'-]{3,30})\s+(\d{1,2})\b/g; let m;
+  while((m = re.exec(text))) {
+    found.push({license: m[1].replace(/\s/g,''), name: m[2].trim(), num: +m[3], side: 'A'});
+  }
+  return found;
+}
+
+function parseResumeSection(text, keywords) {
+  const rows = [];
+  const lines = text.split('\n');
+  for(const l of lines) {
+    const m = l.match(/^\s*(\d{1,2})\s+([A-Z\s'-]{3,25})\s+(×|x)?\s*(\d{1,2}:\d{2})?\s+([\d\s]+)/i);
+    if(m) {
+      const nums = m[5].trim().split(/\s+/).map(Number);
+      rows.push({
+        num: +m[1], name: m[2].trim(), starter: !!m[3], minutes: m[4] || '0:00', seconds: toSec(m[4]),
+        points: nums[0]||0, shots: nums[1]||0, three: nums[2]||0, twoInt: nums[3]||0, twoExt: nums[4]||0, ft: nums[5]||0, fouls: nums[6]||0
+      });
+    }
+  }
+  return rows;
+}
+
+function merge(licenses, stats, side, team) {
+  const out = [];
+  for(const s of stats) {
+    const l = licenses.find(lic => lic.num === s.num) || {};
+    out.push({ ...s, side, team, license: l.license || '—', confidence: 'OK' });
+  }
+  // Ajoute les licenciés qui n'auraient pas de stats enregistrées
+  for(const l of licenses.filter(lic => lic.side === side)) {
+    if(!out.some(p => p.num === l.num)) {
+      out.push({ side, team, num: l.num, name: l.name, license: l.license, starter: false, minutes: '0:00', seconds: 0, points: 0, shots: 0, three: 0, twoInt: 0, twoExt: 0, ft: 0, fouls: 0, confidence: 'Licence seule' });
+    }
+  }
+  return out;
+}
+
+function saveToDb() {
+  const m = window.matchData; if(!m) return;
+  for(const p of players) {
+    const id = p.license !== '—' ? p.license : (p.team + '_' + p.num);
+    if(!db[id]) db[id] = { name: p.name, license: p.license, team: p.team, matches: [] };
+    db[id].matches.push({ date: m.date, pts: p.points||0, min: p.seconds||0, fouls: p.fouls||0, three: p.three||0, ft: p.ft||0 });
+  }
+  saveDb();
+}
+
+function renderAll() {
+  const m = window.matchData;
+  $('scoreHero').innerHTML = `<div class="teamname">${esc(m.teamA)}</div><div class="bigscore">${m.scoreA} - ${m.scoreB}</div><div class="teamname">${esc(m.teamB)}</div>`;
+  renderPlayersTable();
+  renderDbTab();
+  renderCharts();
+}
+
+function renderPlayersTable() {
+  const tbody = $('playerTable').querySelector('tbody');
+  tbody.innerHTML = players.map(p => `
+    <tr class="clickable ${p.side === 'A' ? 'teamA' : 'teamB'}" onclick="openFiche('${p.license !== '—' ? p.license : p.team+'_'+p.num}')">
+      <td>${esc(p.team)}</td><td class="num">${p.num}</td><td><b>${esc(p.name)}</b></td><td>${p.license}</td>
+      <td>${p.starter ? '✓' : ''}</td><td class="num">${p.minutes}</td><td class="num"><b>${p.points}</b></td>
+      <td class="num">${p.seconds ? (p.points / (p.seconds/60)).toFixed(2) : 0}</td><td class="num">${p.shots}</td>
+      <td class="num">${p.three}</td><td class="num">${p.twoInt}</td><td class="num">${p.twoExt}</td>
+      <td class="num">${p.ft}</td><td class="num">${p.fouls}</td><td class="num">-</td>
+      <td><span class="tag ok">${p.confidence}</span></td>
+    </tr>
+  `).join('');
+}
+
+function renderCharts() {
+  chartOn('scatterChart', {
+    type: 'scatter',
+    data: { datasets: [{ label: 'Joueurs', data: players.map(p => ({ x: p.seconds/60, y: p.points, label: p.name })), backgroundColor: '#4f8ef7' }] }
+  });
+}
+
+function renderDbTab() {
+  const tbody = $('dbTable').querySelector('tbody');
+  tbody.innerHTML = Object.values(db).map(p => {
+    const totPts = p.matches.reduce((a,b) => a + b.pts, 0);
+    const totMin = p.matches.reduce((a,b) => a + b.min, 0);
+    return `<tr>
+      <td><b>${esc(p.name)}</b></td><td>${p.license}</td><td>${esc(p.team)}</td>
+      <td class="num">${p.matches.length}</td><td class="num">-</td>
+      <td class="num">${fmtMin(totMin / p.matches.length)}</td><td class="num">${fmtMin(totMin)}</td>
+      <td class="num"><b>${totPts}</b></td><td class="num">${(totPts/p.matches.length).toFixed(1)}</td>
+      <td class="num">${totMin ? (totPts / (totMin/60)).toFixed(2) : 0}</td>
+      <td class="num">-</td><td class="num">-</td><td class="num">-</td><td class="num">-</td>
+    </tr>`;
+  }).join('');
+}
+
+function openFiche(id) {
+  const p = db[id]; if(!p) return;
+  $('ficheTitle').textContent = p.name + ' (' + p.team + ')';$('modalBg').classList.add('open');
+}
+$('ficheClose').onclick = () =>$('modalBg').classList.remove('open');
+</script>
+</body>
+</html>
