@@ -82,6 +82,8 @@ body {
     max-width: 1200px;
     margin: auto;
     padding: 20px;
+    /* marge basse pour ne pas être masqué par les boutons flottants */
+    padding-bottom: 110px;
 }
 
 /* =========================
@@ -137,6 +139,53 @@ body {
     color: #4ade80;
     font-weight: bold;
 }
+
+/* =========================
+   BOUTONS FLOTTANTS (raccourcis diffusion)
+   Visibles uniquement hors onglet "Régie".
+   Optimisés smartphone : barre fixe en bas,
+   gros boutons tactiles, respect de la zone
+   de geste iOS (safe-area).
+========================= */
+#quickDock {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+    gap: 8px;
+    z-index: 999;
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+    background: rgba(0, 0, 0, 0.85);
+    border-top: 1px solid #444;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+#quickDock button {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 58px;
+    padding: 8px 4px;
+    border: none;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 1.3;
+    cursor: pointer;
+    touch-action: manipulation;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+    transition: transform 0.1s;
+}
+
+#quickDock button:active {
+    transform: scale(0.94);
+}
+
+#quickDock .q-partenaires { background: #ffd400; color: #000; }
+#quickDock .q-trois      { background: #ff2020; color: #fff; }
+#quickDock .q-dunk       { background: #168cff; color: #fff; }
+#quickDock .q-defense    { background: #168cff; color: #fff; }
 
 /* =========================
    BOUTONS DE DIFFUSION
@@ -1155,6 +1204,7 @@ body {
 @media(max-width:600px) {
     #admin {
         padding: 12px;
+        padding-bottom: 110px;
     }
 
     .scene-grid {
@@ -1268,6 +1318,17 @@ body {
     <div class="status">
         Scène actuelle :
         <span id="currentScene">Aucune</span>
+    </div>
+
+    <!-- =================================================
+         BOUTONS FLOTTANTS (raccourcis diffusion)
+         Affichés uniquement hors onglet "Régie".
+    ================================================== -->
+    <div id="quickDock">
+        <button type="button" class="q-partenaires" onclick="diffuser('partenaires')">🤝<br>PARTENAIRES</button>
+        <button type="button" class="q-trois" onclick="diffuser('trois')">🎯<br>+3</button>
+        <button type="button" class="q-dunk" onclick="diffuser('dunk')">🎯<br>DUNK</button>
+        <button type="button" class="q-defense" onclick="diffuser('defense')">🎯<br>DEFENSE</button>
     </div>
 
     <!-- =================================================
@@ -4427,8 +4488,11 @@ saveProgrammeButton.addEventListener("click", async () => {
 
 /* =====================================================
    SELECTION DES ONGLETS
+   + GESTION DES BOUTONS FLOTTANTS
 ===================================================== */
 const tabButtons = document.querySelectorAll('.tab-button');
+const quickDock = document.getElementById('quickDock');
+
 tabButtons.forEach(button => {
     button.addEventListener('click', () => {
         // Désactiver tous les boutons d'onglets
@@ -4444,6 +4508,9 @@ tabButtons.forEach(button => {
         // Afficher le contenu de l'onglet correspondant
         const tabId = button.getAttribute('data-tab');
         document.getElementById(tabId).classList.add('active');
+
+        // Afficher les boutons flottants uniquement hors onglet "Régie"
+        quickDock.style.display = (tabId === 'regie') ? 'none' : 'flex';
     });
 });
 
