@@ -2,287 +2,372 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 <title>POULE — MVBC Score Animation</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@500;700;800;900&display=swap');
+/* ============================================================
+   POLICES
+   ============================================================ */
+@import url(
+  'https://fonts.googleapis.com/css2'
+  '?family=Barlow+Condensed:wght@700;800;900'
+  '&family=Inter:wght@500;700;800;900'
+  '&display=swap'
+);
 
+/* ============================================================
+   VARIABLES
+   ============================================================ */
 :root {
-    --white: #f7f7f5;
-    --black: #050608;
-    --red: #ed174c;
-    --blue: #1769ff;
-    --yellow: #ffd400;
-    --green: #22c55e;
+  --white:  #f7f7f5;
+  --black:  #050608;
+  --red:    #ed174c;
+  --blue:   #1769ff;
+  --yellow: #ffd400;
+  --green:  #22c55e;
 }
 
 * { box-sizing: border-box; }
 
+/* ============================================================
+   FOND DE PAGE
+   ============================================================ */
 html, body {
-    width: 100%;
-    min-height: 100%;
-    margin: 0;
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
 }
 
 body {
-    background:
-        radial-gradient(circle at 50% 40%, rgba(23,105,255,.13), transparent 30%),
-        radial-gradient(circle at 50% 100%, rgba(237,23,76,.09), transparent 40%),
-        #050608;
-    font-family: Inter, sans-serif;
-    color: var(--white);
-    padding: 2.5vh 3vw;
-    overflow-x: auto;
+  background:
+    radial-gradient(
+      circle at 50% 40%,
+      rgba(23, 105, 255, .13),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(237, 23, 76, .09),
+      transparent 40%
+    ),
+    #050608;
+  font-family: Inter, sans-serif;
+  color: var(--white);
+  padding: 2.5vh 3vw;
+  overflow-x: auto;
 }
 
 /* Atmosphère arène */
 body::before {
-    content: "";
-    position: fixed;
-    inset: -20%;
-    z-index: -3;
-    background:
-        repeating-linear-gradient(90deg, transparent 0 90px, rgba(255,255,255,.012) 91px 92px),
-        radial-gradient(ellipse at 50% 45%, rgba(255,255,255,.06), transparent 48%);
-    transform: perspective(800px) rotateX(58deg) scale(1.35);
-    transform-origin: center bottom;
+  content: "";
+  position: fixed;
+  inset: -20%;
+  z-index: -3;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 90px,
+      rgba(255, 255, 255, .012) 91px 92px
+    ),
+    radial-gradient(
+      ellipse at 50% 45%,
+      rgba(255, 255, 255, .06),
+      transparent 48%
+    );
+  transform:
+    perspective(800px) rotateX(58deg) scale(1.35);
+  transform-origin: center bottom;
 }
 
 /* Vignette broadcast */
 body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 20;
-    pointer-events: none;
-    background: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,.48) 100%);
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 35%,
+    rgba(0, 0, 0, .48) 100%
+  );
 }
 
+/* ============================================================
+   STRUCTURE
+   ============================================================ */
 .stage {
-    position: relative;
-    z-index: 10;
-    width: 100%;
-    max-width: 1560px;
-    margin: 0 auto;
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1560px;
+  margin: 0 auto;
 }
 
+/* ============================================================
+   TITRE
+   ============================================================ */
 .title {
-    margin: 0 0 clamp(4px, 1vh, 14px);
-    text-align: center;
-    font-family: "Barlow Condensed", sans-serif;
-    font-size: clamp(39px, 5.4vw, 84px);
-    font-weight: 900;
-    line-height: 1;
-    letter-spacing: -.02em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    color: var(--white);
-    transform: skewX(-5deg);
-    text-shadow:
-        4px 4px 0 var(--black),
-        10px 10px 0 var(--yellow),
-        16px 16px 0 rgba(237,23,76,.75),
-        22px 22px 0 rgba(23,105,255,.4);
+  margin: 0 0 clamp(4px, 1vh, 14px);
+  text-align: center;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: clamp(39px, 5.4vw, 84px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--white);
+  transform: skewX(-5deg);
+  text-shadow:
+    4px 4px  0 var(--black),
+    10px 10px 0 var(--yellow),
+    16px 16px 0 rgba(237, 23, 76, .75),
+    22px 22px 0 rgba(23, 105, 255, .4);
 }
 
+/* Bandeau championnat / date / heure */
 .champ {
-    margin: 0 0 clamp(24px, 3.9vh, 54px);
-    text-align: center;
-    font-size: clamp(13px, 1.5vw, 21px);
-    font-weight: 800;
-    letter-spacing: .32em;
-    text-indent: .32em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,.55);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  margin: 0 0 clamp(24px, 3.9vh, 54px);
+  text-align: center;
+  font-size: clamp(13px, 1.5vw, 21px);
+  font-weight: 800;
+  letter-spacing: .32em;
+  text-indent: .32em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .55);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* =====================================================
+/* ============================================================
    GRILLE DES MATCHS
    7 cartes sur 2 lignes : 4 + 3
    (adapté à un petit écran d'ordinateur)
-   ===================================================== */
+   ============================================================ */
 .grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: clamp(15px, 1.8vw, 30px);
-    align-content: start;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(15px, 1.8vw, 30px);
+  align-content: start;
 }
 
 /* Centrer la 2e ligne (3 cartes) */
-.grid > .match:nth-child(5) { grid-column: 2; }
+.grid > .match:nth-child(5) {
+  grid-column: 2;
+}
 
+/* ============================================================
+   CARTE MATCH
+   ============================================================ */
 .match {
-    position: relative;
-    background: rgba(8,9,12,.74);
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 27px;
-    padding: clamp(15px, 1.95vw, 30px) clamp(15px, 1.95vw, 30px) clamp(18px, 2.25vw, 36px);
-    box-shadow:
-        0 20px 50px rgba(0,0,0,.55),
-        inset 0 1px 0 rgba(255,255,255,.06);
-    overflow: hidden;
-    animation: popIn .55s cubic-bezier(.16,.9,.25,1) both;
-    animation-delay: var(--d, 0s);
-    min-width: 0;
+  position: relative;
+  background: rgba(8, 9, 12, .74);
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 27px;
+  padding:
+    clamp(15px, 1.95vw, 30px)
+    clamp(15px, 1.95vw, 30px)
+    clamp(18px, 2.25vw, 36px);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, .55),
+    inset 0 1px 0 rgba(255, 255, 255, .06);
+  overflow: hidden;
+  animation: popIn .55s cubic-bezier(.16, .9, .25, 1) both;
+  animation-delay: var(--d, 0s);
+  min-width: 0;
 }
 
 /* Barre de statut en haut de chaque carte */
 .match::before {
-    content: "";
-    position: absolute;
-    inset: 0 0 auto 0;
-    height: 7px;
-    background: var(--statut-couleur, rgba(255,255,255,.2));
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 7px;
+  background: var(--statut-couleur,
+    rgba(255, 255, 255, .2));
 }
 
+/* ============================================================
+   PASTILLE STATUT
+   ============================================================ */
 .statut {
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    margin-bottom: clamp(9px, 1.8vh, 21px);
-    padding: 6px 18px;
-    border-radius: 999px;
-    font-size: clamp(13px, 1.3vw, 18px);
-    font-weight: 800;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--black);
-    background: var(--statut-couleur, rgba(255,255,255,.2));
-    white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: clamp(9px, 1.8vh, 21px);
+  padding: 6px 18px;
+  border-radius: 999px;
+  font-size: clamp(13px, 1.3vw, 18px);
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--black);
+  background: var(--statut-couleur,
+    rgba(255, 255, 255, .2));
+  white-space: nowrap;
 }
 
+/* Point clignotant du LIVE */
 .statut.live::after {
-    content: "";
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--black);
-    animation: pulse 1.1s ease-in-out infinite;
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--black);
+  animation: pulse 1.1s ease-in-out infinite;
 }
 
 @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: .35; transform: scale(.7); }
+  0%, 100% { opacity: 1;  transform: scale(1);  }
+  50%      { opacity: .35; transform: scale(.7); }
 }
 
-/* Ligne équipe */
+/* ============================================================
+   LIGNE ÉQUIPE
+   ============================================================ */
 .row {
-    display: flex;
-    align-items: center;
-    gap: clamp(9px, 1.35vw, 21px);
-    padding: clamp(4px, 1vh, 12px) 0;
+  display: flex;
+  align-items: center;
+  gap: clamp(9px, 1.35vw, 21px);
+  padding: clamp(4px, 1vh, 12px) 0;
 }
 
 .row .logo {
-    flex: 0 0 auto;
-    width: clamp(42px, 5.1vw, 78px);
-    height: clamp(42px, 5.1vw, 78px);
-    object-fit: contain;
-    filter: drop-shadow(0 0 12px var(--halo, rgba(255,255,255,.35)));
+  flex: 0 0 auto;
+  width: clamp(42px, 5.1vw, 78px);
+  height: clamp(42px, 5.1vw, 78px);
+  object-fit: contain;
+  filter: drop-shadow(0 0 12px var(--halo,
+    rgba(255, 255, 255, .35)));
 }
 
 .row .nom {
-    flex: 1 1 auto;
-    min-width: 0;
-    overflow: hidden;
-    font-family: "Barlow Condensed", sans-serif;
-    font-weight: 900;
-    font-size: clamp(21px, 2.55vw, 45px);
-    line-height: 1;
-    text-transform: uppercase;
-    text-shadow:
-        0 0 16px var(--halo, rgba(255,255,255,.25)),
-        2px 2px 0 rgba(0,0,0,.8);
-    white-space: nowrap;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 900;
+  font-size: clamp(21px, 2.55vw, 45px);
+  line-height: 1;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 16px var(--halo, rgba(255, 255, 255, .25)),
+    2px 2px 0 rgba(0, 0, 0, .8);
+  white-space: nowrap;
 }
 
-/* Score */
+/* ============================================================
+   SCORE
+   ============================================================ */
 .row .pts {
-    flex: 0 0 auto;
-    min-width: clamp(60px, 6.3vw, 105px);
-    text-align: center;
-    font-family: "Barlow Condensed", sans-serif;
-    font-weight: 900;
-    font-size: clamp(33px, 3.75vw, 66px);
-    line-height: 1;
-    color: var(--white);
-    text-shadow: 2px 2px 0 rgba(0,0,0,.75);
-    padding: clamp(4px, .9vh, 12px) 0;
-    border-radius: 15px;
+  flex: 0 0 auto;
+  min-width: clamp(60px, 6.3vw, 105px);
+  text-align: center;
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 900;
+  font-size: clamp(33px, 3.75vw, 66px);
+  line-height: 1;
+  color: var(--white);
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, .75);
+  padding: clamp(4px, .9vh, 12px) 0;
+  border-radius: 15px;
 }
 
 /* Équipe qui mène : pastille jaune broadcast */
 .row .pts.win {
-    color: var(--black);
-    background: var(--yellow);
-    text-shadow: none;
-    box-shadow: 0 0 22px rgba(255,212,0,.35);
+  color: var(--black);
+  background: var(--yellow);
+  text-shadow: none;
+  box-shadow: 0 0 22px rgba(255, 212, 0, .35);
 }
 
+/* Séparateur entre les 2 équipes */
 .sep {
-    height: 1px;
-    background: rgba(255,255,255,.1);
-    margin: clamp(6px, 1.2vh, 15px) 0;
+  height: 1px;
+  background: rgba(255, 255, 255, .1);
+  margin: clamp(6px, 1.2vh, 15px) 0;
 }
 
-/* Message vide */
+/* ============================================================
+   MESSAGE "AUCUN MATCH"
+   ============================================================ */
 .vide-msg {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 60px 20px;
-    font-family: "Barlow Condensed", sans-serif;
-    font-size: clamp(30px, 3.9vw, 54px);
-    font-weight: 800;
-    text-transform: uppercase;
-    color: rgba(255,255,255,.35);
-    background: rgba(8,9,12,.74);
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 18px;
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: clamp(30px, 3.9vw, 54px);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .35);
+  background: rgba(8, 9, 12, .74);
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 18px;
 }
 
+/* Apparition des cartes */
 @keyframes popIn {
-    0% { opacity: 0; transform: translateY(26px) scale(.9); filter: blur(4px); }
-    100% { opacity: 1; transform: none; filter: blur(0); }
+  0% {
+    opacity: 0;
+    transform: translateY(26px) scale(.9);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
 }
 
-/* =====================================================
+/* ============================================================
    ADAPTATION PETIT ÉCRAN D'ORDINATEUR
-   7 cartes sur 2 lignes, 4 + 3
-   ===================================================== */
+   ============================================================ */
+
+/* Écran étroit : 4 colonnes déjà ok jusqu'à 1100px */
 @media (max-width: 1100px) {
-    .grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
-/* Écran étroit : 3 + 2 + 2 devient trop chargé,
-   on garde 2 lignes avec des colonnes resserrées */
+/* On passe à 3 colonnes, la 2e ligne
+   n'est plus décalée */
 @media (max-width: 900px) {
-    .grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    .grid > .match:nth-child(5) { grid-column: auto; }
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .grid > .match:nth-child(5) {
+    grid-column: auto;
+  }
 }
 
-/* Petits écrans */
+/* Petits écrans : 2 colonnes */
 @media (max-width: 600px) {
-    .title {
-        font-size: clamp(30px, 8.4vw, 51px);
-        white-space: normal;
-    }
-    .grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    .grid > .match:nth-child(5) { grid-column: auto; }
+  .title {
+    font-size: clamp(30px, 8.4vw, 51px);
+    white-space: normal;
+  }
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .grid > .match:nth-child(5) {
+    grid-column: auto;
+  }
 }
 
+/* Accessibilité : réduire les animations */
 @media (prefers-reduced-motion: reduce) {
-    .match { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
-    .statut.live::after { animation: none !important; }
+  .match {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+  .statut.live::after {
+    animation: none !important;
+  }
 }
 </style>
 </head>
@@ -290,155 +375,247 @@ body::after {
 <body>
 
 <div class="stage">
-    <h1 class="title" id="titrePoule">Matchs de la poule</h1>
-    <div class="champ" id="champPoule">&nbsp;</div>
 
-    <div class="grid" id="grid"></div>
+  <h1 class="title" id="titrePoule">
+    Matchs de la poule
+  </h1>
+
+  <div class="champ" id="champPoule">&nbsp;</div>
+
+  <div class="grid" id="grid"></div>
+
 </div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+/* ============================================================
+   FIREBASE
+   ============================================================ */
+import { initializeApp } from
+  "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, onValue } from
+  "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
-    authDomain: "diffusion-b9afa.firebaseapp.com",
-    databaseURL: "https://diffusion-b9afa-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "diffusion-b9afa",
-    storageBucket: "diffusion-b9afa.firebasestorage.app",
-    messagingSenderId: "674799570797",
-    appId: "1:674799570797:web:0d8b7a2a892f604eb7d464"
+  apiKey: "AIzaSyAnwzIOCEgOMmuAHII9lujvq73Y81Fla00",
+  authDomain: "diffusion-b9afa.firebaseapp.com",
+  databaseURL:
+    "https://diffusion-b9afa-default-rtdb"
+    + ".europe-west1.firebasedatabase.app",
+  projectId: "diffusion-b9afa",
+  storageBucket: "diffusion-b9afa.firebasestorage.app",
+  messagingSenderId: "674799570797",
+  appId: "1:674799570797:web:0d8b7a2a892f604eb7d464"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const pouleRef = ref(db, "poule");
 
-/* =====================================================
-   COULEURS DES STATUTS (même clé que regie-poule.html)
-   ===================================================== */
+/* ============================================================
+   STATUTS
+   (mêmes clés que regie-poule.html)
+   ============================================================ */
 const STATUTS = {
-    "NC":                  { label: "NC",                  couleur: "#9aa0a6", live: false },
-    "A VENIR":             { label: "À venir",              couleur: "#9aa0a6", live: false },
-    "EN COURS 1ER QT":     { label: "En cours 1er QT",      couleur: "#ed174c", live: true  },
-    "FIN 1ER QT":          { label: "Fin 1er QT",           couleur: "#ff6500", live: false },
-    "EN COURS 2EME QT":    { label: "En cours 2e QT",        couleur: "#ed174c", live: true  },
-    "MI-TEMPS":            { label: "Mi-temps",             couleur: "#ff6500", live: false },
-    "EN COURS 3EME QT":    { label: "En cours 3e QT",       couleur: "#ed174c", live: true  },
-    "FIN 3EME QT":         { label: "Fin 3e QT",            couleur: "#ff6500", live: false },
-    "EN COURS 4EME QT":    { label: "En cours 4e QT",       couleur: "#ed174c", live: true  },
-    "PROLONGATION":        { label: "Prolongation",         couleur: "#ed174c", live: true  },
-    "FIN DU MATCH":        { label: "Fin du match",         couleur: "#22c55e", live: false },
-    "REPORT":              { label: "Reporté",               couleur: "#9aa0a6", live: false }
+  "NC":               { label: "NC",             couleur: "#9aa0a6", live: false },
+  "A VENIR":          { label: "À venir",        couleur: "#9aa0a6", live: false },
+  "EN COURS 1ER QT":  { label: "En cours 1er QT", couleur: "#ed174c", live: true  },
+  "FIN 1ER QT":       { label: "Fin 1er QT",     couleur: "#ff6500", live: false },
+  "EN COURS 2EME QT": { label: "En cours 2e QT", couleur: "#ed174c", live: true  },
+  "MI-TEMPS":         { label: "Mi-temps",       couleur: "#ff6500", live: false },
+  "EN COURS 3EME QT": { label: "En cours 3e QT", couleur: "#ed174c", live: true  },
+  "FIN 3EME QT":      { label: "Fin 3e QT",      couleur: "#ff6500", live: false },
+  "EN COURS 4EME QT": { label: "En cours 4e QT", couleur: "#ed174c", live: true  },
+  "PROLONGATION":     { label: "Prolongation",   couleur: "#ed174c", live: true  },
+  "FIN DU MATCH":     { label: "Fin du match",   couleur: "#22c55e", live: false },
+  "REPORT":           { label: "Reporté",        couleur: "#9aa0a6", live: false }
 };
 
+/* Couleurs de halo des logos */
 const COULEURS_HALO = {
-    yellow: "#ffd400", black: "#000000", blue: "#008cff", orange: "#ff6500",
-    red: "#ff3030", pink: "#ff4fa3", green: "#22c55e", white: "#ffffff"
+  yellow: "#ffd400",
+  black:  "#000000",
+  blue:   "#008cff",
+  orange: "#ff6500",
+  red:    "#ff3030",
+  pink:   "#ff4fa3",
+  green:  "#22c55e",
+  white:  "#ffffff"
 };
 
+/* ============================================================
+   RÉFÉRENCES DOM
+   ============================================================ */
 const grid = document.getElementById("grid");
 const titrePoule = document.getElementById("titrePoule");
 const champPoule = document.getElementById("champPoule");
 
+/* Signature du dernier rendu
+   (évite de redessiner si rien n'a changé) */
 let dernierRendu = "";
 
-/* =====================================================
-   RENDU
-   ===================================================== */
+/* ============================================================
+   OUTILS
+   ============================================================ */
+
+/* Convertit une valeur en entier, ou null */
 function lireNombre(v) {
-    const n = parseInt(String(v ?? "").trim(), 10);
-    return Number.isNaN(n) ? null : n;
+  const n = parseInt(String(v ?? "").trim(), 10);
+  return Number.isNaN(n) ? null : n;
 }
 
-/*
- * Statut personnalisé (ex : "33'", "45'", "temps mort") :
- * un temps de jeu est affiché en rouge clignotant comme "en cours".
- */
+/* Statut personnalisé (ex : "33'", "temps mort").
+   Un temps de jeu s'affiche en rouge clignotant,
+   comme "en cours". */
 function statutLibre(raw) {
-    const s = raw.toUpperCase();
-    if (/\d/.test(s) || /EN\s+COURS|LIVE|QT/i.test(s)) {
-        return { label: raw, couleur: "#ed174c", live: true };
-    }
-    if (/FIN/i.test(s)) return { label: raw, couleur: "#22c55e", live: false };
-    if (/MI[\s-]?TEMPS|PAUSE/i.test(s)) return { label: raw, couleur: "#ff6500", live: false };
-    return { label: raw, couleur: "#9aa0a6", live: false };
+  const s = raw.toUpperCase();
+
+  if (/\d/.test(s) || /EN\s+COURS|LIVE|QT/i.test(s)) {
+    return { label: raw, couleur: "#ed174c", live: true };
+  }
+  if (/FIN/i.test(s)) {
+    return { label: raw, couleur: "#22c55e", live: false };
+  }
+  if (/MI[\s-]?TEMPS|PAUSE/i.test(s)) {
+    return { label: raw, couleur: "#ff6500", live: false };
+  }
+  return { label: raw, couleur: "#9aa0a6", live: false };
 }
 
+/* ============================================================
+   RENDU
+   ============================================================ */
+
+/* Construit la ligne d'une équipe
+   (logo + nom + score) */
+function ligneEquipe(nom, logo, halo, sc, win) {
+  const img = logo
+    ? `<img class="logo" src="${logo}"
+           alt="Logo ${nom}"
+           onerror="this.style.display='none'">`
+    : "";
+
+  return `
+    <div class="row" style="--halo:${halo}">
+      ${img}
+      <span class="nom">${nom}</span>
+      <span class="pts${win ? " win" : ""}">
+        ${sc === null ? "–" : sc}
+      </span>
+    </div>`;
+}
+
+/* Affiche le message "aucun match" */
+function rendreVide() {
+  const vide = document.createElement("div");
+  vide.className = "vide-msg";
+  vide.textContent = "Aucun match programmé";
+  grid.appendChild(vide);
+}
+
+/* Réduit la police du nom tant qu'il dépasse
+   sa largeur disponible (une seule ligne, sans
+   chevauchement) */
+function ajusterTailleNom(nom) {
+  let taille = parseFloat(getComputedStyle(nom).fontSize);
+  let securite = 12; /* évite une boucle infinie */
+
+  while (securite-- > 0
+      && nom.scrollWidth > nom.clientWidth + 1
+      && taille > 12) {
+    taille -= 1;
+    nom.style.fontSize = taille + "px";
+  }
+}
+
+/* Construit une carte match complète */
+function rendreCarte(m, i) {
+  const eq1 = (m.eq1 || "ÉQUIPE 1").toUpperCase();
+  const eq2 = (m.eq2 || "ÉQUIPE 2").toUpperCase();
+
+  const sc1 = lireNombre(m.score1);
+  const sc2 = lireNombre(m.score2);
+
+  const statutRaw = (m.statut || "NC").toUpperCase();
+  const statut =
+    STATUTS[statutRaw] || statutLibre(statutRaw);
+
+  const halo1 =
+    COULEURS_HALO[m.haloCouleur1]
+    || "rgba(255, 255, 255, .3)";
+  const halo2 =
+    COULEURS_HALO[m.haloCouleur2]
+    || "rgba(255, 255, 255, .3)";
+
+  const s1 = sc1 ?? 0;
+  const s2 = sc2 ?? 0;
+  const eq1Mene = sc1 !== null && s1 > s2;
+  const eq2Mene = sc2 !== null && s2 > s1;
+
+  /* Carte */
+  const card = document.createElement("div");
+  card.className = "match";
+  card.style.setProperty(
+    "--d", (0.15 + i * 0.1).toFixed(2) + "s"
+  );
+  card.style.setProperty(
+    "--statut-couleur", statut.couleur
+  );
+
+  /* Contenu de la carte */
+  card.innerHTML =
+    `<div class="statut${statut.live ? " live" : ""}">
+       ${statut.label}
+     </div>`
+    + ligneEquipe(eq1, m.logo1, halo1, sc1, eq1Mene)
+    + `<div class="sep"></div>`
+    + ligneEquipe(eq2, m.logo2, halo2, sc2, eq2Mene);
+
+  return card;
+}
+
+/* Redessine toute la page à partir des données */
 function rendre(data) {
-    data = data || {};
-    const matchs = Array.isArray(data.matchs) ? data.matchs : [];
+  data = data || {};
+  const matchs =
+    Array.isArray(data.matchs) ? data.matchs : [];
 
-    titrePoule.textContent = (data.nom || "Matchs de la poule").toUpperCase();
-    const infos = [data.championnat, data.date, data.heure].filter(Boolean).join("  •  ");
-    champPoule.textContent = infos || "\u00a0";
+  /* Titre + championnat / date / heure */
+  titrePoule.textContent =
+    (data.nom || "Matchs de la poule").toUpperCase();
 
-    grid.innerHTML = "";
+  const infos =
+    [data.championnat, data.date, data.heure]
+      .filter(Boolean)
+      .join("  •  ");
+  champPoule.textContent = infos || "\u00a0";
 
-    if (matchs.length === 0) {
-        const vide = document.createElement("div");
-        vide.className = "vide-msg";
-        vide.textContent = "Aucun match programmé";
-        grid.appendChild(vide);
-        return;
-    }
+  grid.innerHTML = "";
 
-    matchs.forEach((m, i) => {
-        m = m || {};
-        const eq1 = (m.eq1 || "ÉQUIPE 1").toUpperCase();
-        const eq2 = (m.eq2 || "ÉQUIPE 2").toUpperCase();
-        const sc1 = lireNombre(m.score1);
-        const sc2 = lireNombre(m.score2);
-        const statutRaw = (m.statut || "NC").toUpperCase();
-        const statutConnu = STATUTS[statutRaw];
-        const statut = statutConnu || statutLibre(statutRaw);
+  if (matchs.length === 0) {
+    rendreVide();
+    return;
+  }
 
-        const card = document.createElement("div");
-        card.className = "match";
-        card.style.setProperty("--d", (0.15 + i * 0.1).toFixed(2) + "s");
-        card.style.setProperty("--statut-couleur", statut.couleur);
+  matchs.forEach((m, i) => {
+    const card = rendreCarte(m || {}, i);
+    grid.appendChild(card);
 
-        const statutHtml = `<div class="statut${statut.live ? " live" : ""}">${statut.label}</div>`;
-
-        const rowEq = (nom, logo, halo, sc, win) => `
-            <div class="row" style="--halo:${halo}">
-                ${logo ? `<img class="logo" src="${logo}" alt="Logo ${nom}" onerror="this.style.display='none'">` : ""}
-                <span class="nom">${nom}</span>
-                <span class="pts${win ? " win" : ""}">${sc === null ? "–" : sc}</span>
-            </div>`;
-
-        const s1 = sc1 ?? 0, s2 = sc2 ?? 0;
-        card.innerHTML =
-            statutHtml +
-            rowEq(eq1, m.logo1, COULEURS_HALO[m.haloCouleur1] || "rgba(255,255,255,.3)", sc1, sc1 !== null && s1 > s2) +
-            `<div class="sep"></div>` +
-            rowEq(eq2, m.logo2, COULEURS_HALO[m.haloCouleur2] || "rgba(255,255,255,.3)", sc2, sc2 !== null && s2 > s1);
-
-        grid.appendChild(card);
-
-        /*
-         * Nom sur une seule ligne, sans chevauchement :
-         * le nom est large au maximum que le flex autorise,
-         * on réduit la police tant que le texte dépasse cette largeur.
-         */
-        card.querySelectorAll(".nom").forEach(nom => {
-            let taille = parseFloat(getComputedStyle(nom).fontSize);
-            let securite = 12; /* évite une boucle infinie */
-            while (securite-- > 0 && nom.scrollWidth > nom.clientWidth + 1 && taille > 12) {
-                taille -= 1;
-                nom.style.fontSize = taille + "px";
-            }
-        });
-    });
+    card.querySelectorAll(".nom")
+      .forEach(ajusterTailleNom);
+  });
 }
 
+/* ============================================================
+   ÉCOUTE FIREBASE
+   ============================================================ */
 onValue(pouleRef, (snapshot) => {
-    const data = snapshot.val();
-    const signature = JSON.stringify(data);
-    if (signature !== dernierRendu) {
-        dernierRendu = signature;
-        rendre(data);
-    }
+  const data = snapshot.val();
+  const signature = JSON.stringify(data);
+
+  if (signature !== dernierRendu) {
+    dernierRendu = signature;
+    rendre(data);
+  }
 });
 </script>
 
