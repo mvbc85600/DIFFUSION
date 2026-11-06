@@ -773,6 +773,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const partnerDurationsRef = ref(db, "partnerDurations");
+const partnerFocusRef = ref(db, "partenaireFocus");
 
 /* =====================================================
    CONFIGURATION GITHUB
@@ -1382,6 +1383,142 @@ function startCarousel() {
 }
 
 /* =====================================================
+   PARTENAIRE EN AVANT (TEMPS RÉEL)
+   Écoute le nœud Firebase "partenaireFocus".
+   Quand actif : le carrousel se met en pause et
+   le logo du partenaire s'affiche au centre,
+   avec exactement le même style (cadre + halo jaune).
+   Quand inactif : le carrousel reprend là où il
+   s'était arrêté.
+===================================================== */
+
+let focusActif = false;
+let focusImg = null;
+let focusDataEnAttente = null; // si l'ordre arrive avant le chargement des logos
+
+function cacherTousLesLogos() {
+    logos.forEach((img, i) => {
+        img.className = "hidden " + getColor(i);
+    });
+}
+
+function mettreBarreEnJaune() {
+    const lightLine = document.querySelector(".light-line");
+    if (!lightLine) return;
+    lightLine.style.background = "#ffcc00";
+    lightLine.style.boxShadow =
+        "0 0 10px #ffcc00," +
+        "0 0 25px #ffcc00," +
+        "0 0 50px #ffcc00";
+}
+
+function afficherPartenaireEnAvant(data) {
+
+    const carousel =
+        document.getElementById("carousel");
+
+    if (!carousel) return;
+
+    /*
+       1. On arrête le minuteur de rotation
+    */
+    if (interval) {
+        clearTimeout(interval);
+        interval = null;
+    }
+
+    /*
+       2. On cache tous les logos du carrousel
+    */
+    cacherTousLesLogos();
+
+    /*
+       3. On crée (ou met à jour) le logo du partenaire
+          au centre, avec le même style que le carrousel.
+    */
+    if (!focusImg) {
+        focusImg = document.createElement("img");
+        focusImg.alt = "Partenaire en avant";
+        focusImg.decoding = "async";
+        carousel.appendChild(focusImg);
+    }
+
+    focusImg.className = "hidden color-yellow";
+    focusImg.src = data.logo || "";
+
+    /*
+       Petit délai pour laisser la transition CSS
+       jouer proprement (apparition au centre).
+    */
+    requestAnimationFrame(() => {
+        if (focusImg) {
+            focusImg.className = "center color-yellow";
+        }
+    });
+
+    /*
+       4. Barre lumineuse en jaune
+    */
+    mettreBarreEnJaune();
+
+    focusActif = true;
+}
+
+function retirerPartenaireEnAvant() {
+
+    /*
+       1. On retire le logo du partenaire
+    */
+    if (focusImg) {
+        focusImg.remove();
+        focusImg = null;
+    }
+
+    focusActif = false;
+
+    /*
+       2. On relance le carrousel là où il s'était arrêté
+    */
+    if (carouselStarted && logos.length > 0) {
+        updateCarousel();
+        startCarousel();
+    }
+}
+
+onValue(
+    partnerFocusRef,
+    snapshot => {
+
+        const data =
+            snapshot.val() || {};
+
+        const demandeFocus =
+            !!(data && data.actif && data.logo);
+
+        /*
+           Si les logos ne sont pas encore chargés,
+           on mémorise la demande : elle sera
+           appliquée à la fin de init().
+        */
+        if (!carouselStarted) {
+            focusDataEnAttente = demandeFocus ? data : null;
+            return;
+        }
+
+        if (demandeFocus && !focusActif) {
+            afficherPartenaireEnAvant(data);
+        }
+        else if (!demandeFocus && focusActif) {
+            retirerPartenaireEnAvant();
+        }
+        else if (demandeFocus && focusActif && focusImg) {
+            // Changement de partenaire en cours d'affichage
+            focusImg.src = data.logo || "";
+        }
+    }
+);
+
+/* =====================================================
    DURÉES DES PARTENAIRES - FIREBASE
 ===================================================== */
 
@@ -1409,7 +1546,7 @@ onValue(
            on redémarre immédiatement le minuteur
            avec les nouvelles durées.
         */
-        if (carouselStarted) {
+        if (carouselStarted && !focusActif) {
             startCarousel();
         }
     }
@@ -1512,7 +1649,24 @@ async function init() {
     */
 
     carouselStarted = true;
-    startCarousel();
+
+    /*
+       Si un partenaire était déjà "en avant"
+       avant le chargement de la page,
+       on l'affiche immédiatement.
+    */
+    if (
+        focusDataEnAttente &&
+        focusDataEnAttente.actif &&
+        focusDataEnAttente.logo
+    ) {
+        afficherPartenaireEnAvant(focusDataEnAttente);
+        focusDataEnAttente = null;
+    }
+    else {
+        focusDataEnAttente = null;
+        startCarousel();
+    }
 
 }
 
