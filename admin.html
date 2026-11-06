@@ -585,6 +585,37 @@ body {
     min-height: 120px;
 }
 
+/* Boutons de l'onglet "Partenaire en avant" */
+#afficherFocusButton,
+#stopFocusButton {
+    width: 100%;
+    padding: 17px;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 12px;
+}
+
+#afficherFocusButton {
+    background: #168cff;
+    color: white;
+}
+
+#afficherFocusButton:hover {
+    background: #2f9bff;
+}
+
+#stopFocusButton {
+    background: #666;
+    color: white;
+}
+
+#stopFocusButton:hover {
+    background: #777;
+}
+
 /* =========================
    SAUVEGARDE
 ========================= */
@@ -1302,6 +1333,11 @@ body {
         </button>
         <button class="tab-button" data-tab="dureepartenaires">
             ⏱ Durée Partenaires
+        </button>
+
+        <!-- NOUVEL ONGLET : PARTENAIRE EN AVANT -->
+        <button class="tab-button" data-tab="partenairefocus">
+            🎯 Partenaire en avant
         </button>
 
         <button class="tab-button" data-tab="cinqmajeur">
@@ -2031,6 +2067,40 @@ body {
 
 
     <!-- =================================================
+         ONGLET : PARTENAIRE EN AVANT (NOUVEAU)
+    ================================================== -->
+    <div id="partenairefocus" class="tab-content">
+        <div class="match-editor">
+            <h2>🎯 PARTENAIRE EN AVANT</h2>
+            <div class="description">
+                Affiche instantanément le logo d'un partenaire au centre de <strong>partenaires.html</strong>,
+                avec exactement le même style que le carrousel (cadre, halo lumineux, barre lumineuse).
+                <br><br>
+                La rotation est mise en pause tant que le partenaire est affiché.
+                Clique sur « REPRENDRE LE CARROUSEL » pour relancer le défilement là où il s'était arrêté.
+            </div>
+
+            <!-- SÉLECTEUR DE PARTENAIRE -->
+            <div class="form-group">
+                <label>🏆 Partenaire à afficher</label>
+                <select id="focusPartnerSelect">
+                    <option value="">-- Choisir un partenaire --</option>
+                </select>
+                <img id="focusPartnerPreview" class="logo-preview" src="" alt="Aperçu du partenaire">
+            </div>
+
+            <!-- ACTIONS -->
+            <button id="afficherFocusButton">
+                📤 AFFICHER CE PARTENAIRE
+            </button>
+            <button id="stopFocusButton">
+                🔄 REPRENDRE LE CARROUSEL
+            </button>
+            <div id="focusStatus"></div>
+        </div>
+    </div>
+
+    <!-- =================================================
          ONGLET : 5 MAJEUR
     ================================================== -->
     <div id="cinqmajeur" class="tab-content">
@@ -2399,6 +2469,118 @@ messageContenu.addEventListener("keydown", event => {
          */
         event.preventDefault();
         insererSautDeLigne();
+    }
+});
+
+/* =====================================================
+   ONGLET : PARTENAIRE EN AVANT
+===================================================== */
+const partnerFocusRef = ref(db, "partenaireFocus");
+const focusPartnerSelect = document.getElementById("focusPartnerSelect");
+const focusPartnerPreview = document.getElementById("focusPartnerPreview");
+const afficherFocusButton = document.getElementById("afficherFocusButton");
+const stopFocusButton = document.getElementById("stopFocusButton");
+const focusStatus = document.getElementById("focusStatus");
+
+/* Aperçu du logo sélectionné */
+focusPartnerSelect.addEventListener("change", () => {
+    const nom = focusPartnerSelect.value;
+    focusPartnerPreview.src = (nom && partnerLogos[nom]) ? partnerLogos[nom] : "";
+});
+
+/* Remplissage du sélecteur en même temps que les autres listes */
+function remplirSelectFocus() {
+    if (!focusPartnerSelect) return;
+    const valeurActuelle = focusPartnerSelect.value;
+    focusPartnerSelect.innerHTML = '<option value="">-- Choisir un partenaire --</option>';
+    Object.keys(partnerLogos).forEach(nom => {
+        const option = document.createElement("option");
+        option.value = nom;
+        option.textContent = nom;
+        focusPartnerSelect.appendChild(option);
+    });
+    if (valeurActuelle && partnerLogos[valeurActuelle]) {
+        focusPartnerSelect.value = valeurActuelle;
+    }
+}
+
+/* Afficher le partenaire (diffusion instantanée) */
+afficherFocusButton.addEventListener("click", async () => {
+    try {
+        const nom = focusPartnerSelect.value;
+        if (!nom) {
+            throw new Error("Sélectionne d'abord un partenaire.");
+        }
+
+        afficherFocusButton.disabled = true;
+        afficherFocusButton.textContent = "⏳ DIFFUSION...";
+
+        await set(partnerFocusRef, {
+            nom: nom,
+            logo: partnerLogos[nom] || "",
+            actif: true,
+            timestamp: Date.now()
+        });
+
+        focusStatus.className = "success";
+        focusStatus.textContent = "✅ " + nom + " affiché sur partenaires.html !";
+        afficherFocusButton.textContent = "✅ AFFICHÉ";
+
+        setTimeout(() => {
+            afficherFocusButton.disabled = false;
+            afficherFocusButton.textContent = "📤 AFFICHER CE PARTENAIRE";
+        }, 2000);
+    }
+    catch (error) {
+        console.error(error);
+        focusStatus.className = "error";
+        focusStatus.textContent = "❌ Erreur : " + error.message;
+        afficherFocusButton.disabled = false;
+        afficherFocusButton.textContent = "📤 AFFICHER CE PARTENAIRE";
+    }
+});
+
+/* Reprendre le carrousel */
+stopFocusButton.addEventListener("click", async () => {
+    try {
+        stopFocusButton.disabled = true;
+        stopFocusButton.textContent = "⏳ ARRÊT...";
+
+        await set(partnerFocusRef, {
+            actif: false,
+            timestamp: Date.now()
+        });
+
+        focusStatus.className = "success";
+        focusStatus.textContent = "✅ Le carrousel reprend son défilement normal.";
+        stopFocusButton.textContent = "✅ CARROUSEL RELANCÉ";
+
+        setTimeout(() => {
+            stopFocusButton.disabled = false;
+            stopFocusButton.textContent = "🔄 REPRENDRE LE CARROUSEL";
+        }, 2000);
+    }
+    catch (error) {
+        console.error(error);
+        focusStatus.className = "error";
+        focusStatus.textContent = "❌ Erreur : " + error.message;
+        stopFocusButton.disabled = false;
+        stopFocusButton.textContent = "🔄 REPRENDRE LE CARROUSEL";
+    }
+});
+
+/* Synchronisation si modification depuis un autre appareil */
+onValue(partnerFocusRef, snapshot => {
+    const data = snapshot.val();
+    if (!data) return;
+
+    if (data.actif && data.nom) {
+        focusPartnerSelect.value = data.nom;
+        if (partnerLogos[data.nom]) {
+            focusPartnerPreview.src = partnerLogos[data.nom];
+        } else if (data.logo) {
+            focusPartnerPreview.src = data.logo;
+        }
     }
 });
 
@@ -3175,6 +3357,7 @@ async function chargerPartenairesDepuisGithub() {
 
         chargerApercuLogosPartenaires();
         renderPartnerDurationList();
+        remplirSelectFocus();
 
         if (partnerDataEnregistree && partnerDataEnregistree.nom) {
             partnerSelect.value = partnerDataEnregistree.nom;
