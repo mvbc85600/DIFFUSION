@@ -320,6 +320,50 @@ body {
 }
 
 /* =========================
+   DIRECT LIVE (nouvel onglet)
+========================= */
+#lancerDirectButton {
+    width: 100%;
+    padding: 17px;
+    border: none;
+    border-radius: 10px;
+    background: #ffd400;
+    color: #000;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 12px;
+}
+
+#lancerDirectButton:hover {
+    background: #ffe14d;
+}
+
+#arreterDirectButton {
+    width: 100%;
+    padding: 17px;
+    border: none;
+    border-radius: 10px;
+    background: #ff2020;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 12px;
+}
+
+#arreterDirectButton:hover {
+    background: #ff4d4d;
+}
+
+#directStatus {
+    margin-top: 15px;
+    text-align: center;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+/* =========================
    MATCH DU SOIR
 ========================= */
 .match-editor {
@@ -1314,6 +1358,10 @@ body {
         <button class="tab-button active" data-tab="regie">
             🎬 Régie
         </button>
+        <!-- NOUVEL ONGLET : DIRECT LIVE -->
+        <button class="tab-button" data-tab="direct">
+            📺 Direct Live
+        </button>
         <button class="tab-button" data-tab="matchdusoir">
             🏀 Match du Soir
         </button>
@@ -1383,9 +1431,9 @@ body {
             </button>
 
    <!-- Bouton VIDÉOS MVBC (Bleu) -->
-          <!--   <button class="scene-button" onclick="diffuser('videomvbc')">
+            <button class="scene-button" onclick="diffuser('videomvbc')">
                 🎥<br>VIDÉOS MVBC
-            </button> -->
+            </button>
 
             <!-- Bouton MATCH DU SOIR (Jaune) -->
             <button class="scene-button" onclick="diffuser('matchdusoir')">
@@ -1481,6 +1529,66 @@ body {
             <button class="scene-button" onclick="diffuser('devenezpartenaires')">
                 ✌️<br>DEVENEZ PARTENAIRES
             </button>
+        </div>
+    </div>
+
+    <!-- =================================================
+         ONGLET : DIRECT LIVE (NOUVEAU)
+    ================================================== -->
+    <div id="direct" class="tab-content">
+        <div class="match-editor">
+            <h2>📺 DIRECT LIVE</h2>
+            <div class="description">
+                Colle ici le lien YouTube du direct : il sera diffusé automatiquement
+                sur <strong>direct.html</strong>, sur tous les écrans connectés.
+                <br><br>
+                ⚡ <strong>Le lancement est instantané</strong> : la page de diffusion
+                se met à jour en temps réel, sans rien recharger.
+                <br><br>
+                ⬛ Le bouton « ARRÊTER LE DIRECT » remet la page de diffusion
+                en attente (écran d'accueil MVBC).
+            </div>
+
+            <!-- LIEN YOUTUBE -->
+            <div class="form-group">
+                <label>🔗 Lien YouTube du direct</label>
+                <input
+                    type="text"
+                    id="directUrl"
+                    placeholder="Ex : https://www.youtube.com/watch?v=... ou https://youtu.be/..."
+                >
+                <div class="duration-help">
+                    Les liens youtu.be, youtube.com/watch, /live/ et /shorts/ sont reconnus.
+                </div>
+            </div>
+
+            <!-- LANCER -->
+            <button id="lancerDirectButton">
+                ▶ LANCER LE DIRECT
+            </button>
+
+            <!-- ARRÊTER -->
+            <button id="arreterDirectButton">
+                ⬛ ARRÊTER LE DIRECT
+            </button>
+
+            <!-- COMMANDES DU LECTEUR -->
+            <div class="form-group" style="margin-top:25px;">
+                <label>🎛️ Commandes du lecteur (sur direct.html)</label>
+                <div class="duration-help">
+                    Fonctionne sur un direct YouTube avec « replay » activé (DVR).
+                </div>
+            </div>
+
+            <button id="reculDirectButton">
+                ⏪ RETOUR -10 SECONDES
+            </button>
+
+            <button id="retourDirectButton">
+                🔴 RETOUR AU DIRECT
+            </button>
+
+            <div id="directStatus"></div>
         </div>
     </div>
 
@@ -2234,6 +2342,12 @@ const loginError = document.getElementById("loginError");
 const logoutButton = document.getElementById("logoutButton");
 const currentScene = document.getElementById("currentScene");
 
+/* DIRECT LIVE */
+const directUrl = document.getElementById("directUrl");
+const lancerDirectButton = document.getElementById("lancerDirectButton");
+const arreterDirectButton = document.getElementById("arreterDirectButton");
+const directStatus = document.getElementById("directStatus");
+
 /* MATCH */
 const matchChampionnat = document.getElementById("matchChampionnat");
 const titreMatch = document.getElementById("titreMatch");
@@ -2281,6 +2395,171 @@ const evenementCouleur = document.getElementById("evenementCouleur");
 const evenementHaloPreview = document.getElementById("evenementHaloPreview");
 const saveEvenementButton = document.getElementById("saveEvenementButton");
 const evenementStatus = document.getElementById("evenementStatus");
+
+/* =====================================================
+   ONGLET : DIRECT LIVE
+   Le lien est stocké dans le nœud "direct" :
+   { videoId, url, actif, timestamp }
+===================================================== */
+
+const directRef = ref(db, "direct");
+
+/*
+ * Extraction de l'ID YouTube (même logique que direct.html) :
+ * youtu.be, /watch?v=, /live/, /embed/, /shorts/
+ */
+function extractYoutubeId(url) {
+
+    try {
+        const parsed = new URL(url.trim());
+
+        let id = "";
+
+        if (parsed.hostname === "youtu.be" ||
+            parsed.hostname === "www.youtu.be") {
+            id = parsed.pathname.split("/")[1];
+        }
+
+        else if (
+            parsed.hostname.includes("youtube.com") ||
+            parsed.hostname.includes("youtube-nocookie.com")
+        ) {
+            if (parsed.pathname === "/watch") {
+                id = parsed.searchParams.get("v");
+            } else {
+                const match = parsed.pathname.match(
+                    /^\/(?:live|embed|shorts)\/([^/?]+)/
+                );
+                if (match) id = match[1];
+            }
+        }
+
+        if (id && /^[a-zA-Z0-9_-]{11}$/.test(id)) {
+            return id;
+        }
+
+    } catch (error) {
+        return null;
+    }
+
+    return null;
+}
+
+/* Lancer le direct : enregistre le lien + diffuse instantanément */
+lancerDirectButton.addEventListener("click", async () => {
+    try {
+        const url = directUrl.value.trim();
+        const videoId = extractYoutubeId(url);
+
+        if (!videoId) {
+            throw new Error("Lien YouTube invalide. Vérifie l'URL collée.");
+        }
+
+        lancerDirectButton.disabled = true;
+        lancerDirectButton.textContent = "⏳ LANCEMENT...";
+
+        await set(directRef, {
+            videoId: videoId,
+            url: url,
+            actif: true,
+            timestamp: Date.now()
+        });
+
+        directStatus.className = "success";
+        directStatus.textContent = "✅ Direct lancé ! Il est visible sur direct.html.";
+        lancerDirectButton.textContent = "✅ DIRECT LANCÉ";
+
+        setTimeout(() => {
+            lancerDirectButton.disabled = false;
+            lancerDirectButton.textContent = "▶ LANCER LE DIRECT";
+        }, 2000);
+
+    } catch (error) {
+        console.error(error);
+        directStatus.className = "error";
+        directStatus.textContent = "❌ Erreur : " + error.message;
+        lancerDirectButton.disabled = false;
+        lancerDirectButton.textContent = "▶ LANCER LE DIRECT";
+    }
+});
+
+/* Arrêter le direct : la page de diffusion revient en attente */
+arreterDirectButton.addEventListener("click", async () => {
+    try {
+        arreterDirectButton.disabled = true;
+        arreterDirectButton.textContent = "⏳ ARRÊT...";
+
+        await set(directRef, {
+            actif: false,
+            timestamp: Date.now()
+        });
+
+        directStatus.className = "success";
+        directStatus.textContent = "✅ Direct arrêté. direct.html est en attente.";
+        arreterDirectButton.textContent = "✅ DIRECT ARRÊTÉ";
+
+        setTimeout(() => {
+            arreterDirectButton.disabled = false;
+            arreterDirectButton.textContent = "⬛ ARRÊTER LE DIRECT";
+        }, 2000);
+
+    } catch (error) {
+        console.error(error);
+        directStatus.className = "error";
+        directStatus.textContent = "❌ Erreur : " + error.message;
+        arreterDirectButton.disabled = false;
+        arreterDirectButton.textContent = "⬛ ARRÊTER LE DIRECT";
+    }
+});
+
+/* Synchronisation : recharge le lien enregistré (ex : autre appareil) */
+onValue(directRef, (snapshot) => {
+    const data = snapshot.val();
+    if (!data) return;
+
+    if (data.url) {
+        directUrl.value = data.url;
+    }
+});
+
+/* Commandes du lecteur : -10s et retour au direct.
+   Les ordres sont écrits dans le nœud "directCommande"
+   et exécutés par direct.html via l'API YouTube IFrame. */
+const directCommandeRef = ref(db, "directCommande");
+const reculDirectButton = document.getElementById("reculDirectButton");
+const retourDirectButton = document.getElementById("retourDirectButton");
+
+function envoyerCommandeDirect(action, bouton, texteInitial) {
+    bouton.disabled = true;
+    bouton.textContent = "⏳ ENVOI...";
+
+    set(directCommandeRef, {
+        action: action,
+        timestamp: Date.now()
+    })
+    .then(() => {
+        bouton.textContent = "✅ ENVOYÉ";
+        setTimeout(() => {
+            bouton.disabled = false;
+            bouton.textContent = texteInitial;
+        }, 1500);
+    })
+    .catch((error) => {
+        console.error(error);
+        directStatus.className = "error";
+        directStatus.textContent = "❌ Erreur : " + error.message;
+        bouton.disabled = false;
+        bouton.textContent = texteInitial;
+    });
+}
+
+reculDirectButton.addEventListener("click", () => {
+    envoyerCommandeDirect("rewind10", reculDirectButton, "⏪ RETOUR -10 SECONDES");
+});
+
+retourDirectButton.addEventListener("click", () => {
+    envoyerCommandeDirect("live", retourDirectButton, "🔴 RETOUR AU DIRECT");
+});
 
 /* =====================================================
    ÉDITEUR DE TEXTE RICHE
