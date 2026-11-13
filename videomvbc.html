@@ -220,47 +220,70 @@ const db = getDatabase(app);
 ===================================================== */
 
 window.ytPlayer = null;
-let ytApiPrete = false;
 let videoEnAttente = null;
 
-/* Appelée automatiquement par l'API YouTube */
+/* Appelée automatiquement par l'API YouTube
+   (si le script module n'est pas encore exécuté,
+   le polling ci-dessous prend le relais) */
 window.onYouTubeIframeAPIReady = function () {
-    ytApiPrete = true;
+    traiterVideoEnAttente();
+};
 
-    /* Si un direct a été demandé avant que l'API
-       soit prête, on le lance maintenant */
+/* L'API est-elle disponible ? */
+function apiYtDisponible() {
+    return !!(window.YT && window.YT.Player);
+}
+
+/* Attendre l'API quel que soit l'ordre de chargement
+   (indispensable quand la page est dans une iframe) */
+function attendreApiYt(callback) {
+    if (apiYtDisponible()) {
+        callback();
+        return;
+    }
+    setTimeout(() => attendreApiYt(callback), 100);
+}
+
+function traiterVideoEnAttente() {
     if (videoEnAttente) {
         const id = videoEnAttente;
         videoEnAttente = null;
         creerOuChargerPlayer(id);
     }
-};
+}
 
 function creerOuChargerPlayer(videoId) {
 
-    if (window.ytPlayer) {
-        /* Le lecteur existe déjà : on change juste de vidéo
-           sans le recréer (évite de couper inutilement) */
-        window.ytPlayer.loadVideoById(videoId);
-        return;
-    }
+    attendreApiYt(() => {
 
-    window.ytPlayer = new YT.Player("youtubePlayer", {
-        videoId: videoId,
-        playerVars: {
-            autoplay: 1,
-            mute: 1,
-            controls: 0,
-            rel: 0,
-            playsinline: 1,
-            modestbranding: 1
-        },
-        events: {
-            onReady: (event) => {
-                event.target.playVideo();
-                document.getElementById("youtubePlayer").style.display = "block";
-            }
+        if (window.ytPlayer) {
+            /* Le lecteur existe déjà : on change juste de vidéo
+               sans le recréer (évite de couper inutilement) */
+            window.ytPlayer.loadVideoById(videoId);
+            return;
         }
+
+        /* Rendre le conteneur visible AVANT de créer
+           le lecteur (sinon taille nulle au démarrage) */
+        document.getElementById("youtubePlayer").style.display = "block";
+
+        window.ytPlayer = new YT.Player("youtubePlayer", {
+            videoId: videoId,
+            playerVars: {
+                autoplay: 1,
+                mute: 1,
+                controls: 0,
+                rel: 0,
+                playsinline: 1,
+                modestbranding: 1
+            },
+            events: {
+                onReady: (event) => {
+                    event.target.playVideo();
+                }
+            }
+        });
+
     });
 }
 
