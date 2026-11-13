@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- diffusion.html - MVBC - version avec relais des commandes direct vers l'iframe -->
 <html lang="fr">
 
 <head>
@@ -813,12 +814,13 @@ body
 
     <!-- =================================================
          PAGES HTML
+         allow élargi pour le lecteur YouTube du direct
     ================================================= -->
 
     <iframe
         id="pageFrame"
         src=""
-        allow="autoplay">
+        allow="autoplay; encrypted-media; picture-in-picture; fullscreen">
     </iframe>
 
     <!-- =================================================
@@ -1226,6 +1228,14 @@ const diffusionRef =
         "diffusion"
     );
 
+/* NOUVEAU : nœud des commandes du direct
+   (⏪ -10s / 🔴 retour au direct) */
+const directCommandeRef =
+    ref(
+        db,
+        "directCommande"
+    );
+
 let currentMessageData =
     null;
 
@@ -1265,6 +1275,51 @@ onValue(
                     "none";
                 arreterCarrouselPartenaires();
             }
+        }
+    }
+);
+
+/* =====================================================
+   NOUVEAU : RELAIS DES COMMANDES DIRECT
+   Les boutons ⏪ -10s et 🔴 RETOUR AU DIRECT de la
+   régie écrivent dans le nœud "directCommande".
+   Comme la page du direct (videomvbc.html) est
+   affichée DANS l'iframe pageFrame, on lui transmet
+   la commande via postMessage.
+===================================================== */
+
+onValue(
+    directCommandeRef,
+    (snapshot) => {
+        const commande =
+            snapshot.val();
+
+        if (
+            !commande ||
+            !commande.action
+        ) {
+            return;
+        }
+
+        console.log(
+            "Commande direct reçue:",
+            commande.action
+        );
+
+        /* On ne transmet que si la scène affichée
+           est bien la page du direct */
+        if (
+            currentScene === "videomvbc" &&
+            pageFrame.contentWindow
+        ) {
+            pageFrame.contentWindow.postMessage(
+                {
+                    type: "directCommande",
+                    action: commande.action,
+                    timestamp: commande.timestamp
+                },
+                "*"
+            );
         }
     }
 );
