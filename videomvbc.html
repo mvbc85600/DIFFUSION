@@ -30,7 +30,6 @@ html, body {
 #youtubePlayer {
     width: 100%;
     height: 100%;
-    border: none;
     display: none;
 }
 
@@ -147,11 +146,13 @@ button:hover {
 
 <div id="playerContainer">
 
-    <iframe
-        id="youtubePlayer"
-        allow="autoplay; encrypted-media; picture-in-picture"
-        allowfullscreen>
-    </iframe>
+    <!--
+        Lecteur YouTube via l'API IFrame (div remplacée
+        automatiquement par le lecteur).
+        L'API est indispensable pour les commandes
+        ⏪ -10s et 🔴 retour au direct (seekTo).
+    -->
+    <div id="youtubePlayer"></div>
 
     <button id="changeVideo" onclick="showSetup()">
         CHANGER DE DIRECT
@@ -190,6 +191,12 @@ button:hover {
 
 </div>
 
+<!-- =====================================================
+     API YOUTUBE IFRAME
+===================================================== -->
+
+<script src="https://www.youtube.com/iframe_api"></script>
+
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -207,6 +214,55 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+
+/* =====================================================
+   LECTEUR YOUTUBE (API IFRAME)
+===================================================== */
+
+window.ytPlayer = null;
+let ytApiPrete = false;
+let videoEnAttente = null;
+
+/* Appelée automatiquement par l'API YouTube */
+window.onYouTubeIframeAPIReady = function () {
+    ytApiPrete = true;
+
+    /* Si un direct a été demandé avant que l'API
+       soit prête, on le lance maintenant */
+    if (videoEnAttente) {
+        const id = videoEnAttente;
+        videoEnAttente = null;
+        creerOuChargerPlayer(id);
+    }
+};
+
+function creerOuChargerPlayer(videoId) {
+
+    if (window.ytPlayer) {
+        /* Le lecteur existe déjà : on change juste de vidéo
+           sans le recréer (évite de couper inutilement) */
+        window.ytPlayer.loadVideoById(videoId);
+        return;
+    }
+
+    window.ytPlayer = new YT.Player("youtubePlayer", {
+        videoId: videoId,
+        playerVars: {
+            autoplay: 1,
+            mute: 1,
+            controls: 0,
+            rel: 0,
+            playsinline: 1,
+            modestbranding: 1
+        },
+        events: {
+            onReady: (event) => {
+                event.target.playVideo();
+                document.getElementById("youtubePlayer").style.display = "block";
+            }
+        }
+    });
+}
 
 /* =====================================================
    EXTRACTION DE L'ID YOUTUBE
@@ -256,14 +312,12 @@ function extractYoutubeId(url) {
 let lastVideoId = null;
 
 function afficherDirect(videoId) {
-    const player = document.getElementById("youtubePlayer");
 
-    player.src =
-        "https://www.youtube-nocookie.com/embed/" +
-        videoId +
-        "?autoplay=1&mute=1&controls=0&rel=0&playsinline=1";
-
-    player.style.display = "block";
+    if (ytApiPrete) {
+        creerOuChargerPlayer(videoId);
+    } else {
+        videoEnAttente = videoId;
+    }
 
     document.getElementById("setup").style.display = "none";
     document.getElementById("waiting").style.display = "none";
@@ -271,9 +325,16 @@ function afficherDirect(videoId) {
 }
 
 function masquerDirect(afficherAttente) {
-    const player = document.getElementById("youtubePlayer");
-    player.src = "";
-    player.style.display = "none";
+
+    if (window.ytPlayer) {
+        try {
+            window.ytPlayer.stopVideo();
+        } catch (e) {}
+        window.ytPlayer.destroy();
+        window.ytPlayer = null;
+    }
+
+    videoEnAttente = null;
 
     document.getElementById("changeVideo").style.display = "none";
     document.getElementById("setup").style.display = afficherAttente ? "none" : "flex";
@@ -351,6 +412,83 @@ onValue(directRef, (snapshot) => {
 
 }, (error) => {
     console.error("Firebase direct :", error);
+});
+
+/* =====================================================
+   COMMANDES LECTEUR (Firebase : noeud "directCommande")
+   ⏪ rewind10 → recule de 10 secondes
+   🔴 live     → retour au direct
+===================================================== */
+
+let dernierTimestampCommande = null;
+
+function executerCommandeDirect(action) {
+
+    if (!window.ytPlayer) return;
+
+    try {
+
+        if (action === "rewind10") {
+            const t = window.ytPlayer.getCurrentTime();
+            window.ytPlayer.seekTo(Math.max(0, t - 10), true);
+            window.ytPlayer.playVideo();
+        }
+
+        else if (action === "live") {
+            /* Retour au direct : on va à la fin du flux.
+               Nécessite que le direct/replay YouTube
+               autorise le déplacement (DVR). */
+            const duree = window.ytPlayer.getDuration();
+            if (duree && duree > 0) {
+                window.ytPlayer.seekTo(duree - 1, true);
+                window.ytPlayer.playVideo();
+            }
+        }
+
+    } catch (e) {
+        console.error("Commande direct :", e);
+    }
+}
+
+const directCommandeRef = ref(db, "directCommande");
+
+onValue(directCommandeRef, (snapshot) => {
+
+    const commande = snapshot.val();
+
+    if (!commande || !commande.action) return;
+
+    /* Anti-doublon : si diffusion.html relaie aussi la
+       commande en postMessage, on ne l'exécute qu'une fois
+       (même timestamp) */
+    if (commande.timestamp !== undefined &&
+        commande.timestamp === dernierTimestampCommande) {
+        return;
+    }
+    dernierTimestampCommande = commande.timestamp;
+
+    executerCommandeDirect(commande.action);
+
+}, (error) => {
+    console.error("Firebase directCommande :", error);
+});
+
+/* =====================================================
+   COMMANDES REÇUES DE diffusion.html (postMessage)
+   Quand cette page est affichée dans l'iframe de
+   diffusion.html, celle-ci relaie les commandes.
+===================================================== */
+
+window.addEventListener("message", (event) => {
+
+    if (
+        event.data &&
+        event.data.type === "directCommande" &&
+        event.data.action
+    ) {
+        executerCommandeDirect(event.data.action);
+    }
+
 });
 
 </script>
