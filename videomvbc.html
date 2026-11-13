@@ -336,11 +336,12 @@ let lastVideoId = null;
 
 function afficherDirect(videoId) {
 
-    if (ytApiPrete) {
-        creerOuChargerPlayer(videoId);
-    } else {
-        videoEnAttente = videoId;
-    }
+    /*
+     * CORRECTION : on attend que l'API YouTube soit prête
+     * (la variable inexistante "ytApiPrete" provoquait une
+     * ReferenceError et bloquait l'affichage du direct).
+     */
+    attendreApiYt(() => creerOuChargerPlayer(videoId));
 
     document.getElementById("setup").style.display = "none";
     document.getElementById("waiting").style.display = "none";
