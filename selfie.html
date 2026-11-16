@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SELFIES WIN - Galerie Flottante</title>
+    <!-- Chargement des polices Barlow Condensed et Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* RESET */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            color: #fff;
+            font-family: "Inter", Arial, Helvetica, sans-serif;
+            user-select: none;
+        }
+
+        /* VARIABLES DU THÈME MVBC */
+        :root {
+            --white: #f7f7f5;
+            --black: #050608;
+            --red: #ed174c;
+            --blue: #1769ff;
+            --yellow: #ffd400;
+        }
+
+        /* FOND NOIR & OR AVEC HALO CENTRAL PULSANT */
+        body {
+            position: relative;
+            background: radial-gradient(circle at 55% 55%, #252000 0%, #100e00 35%, #050500 65%, #000 100%);
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            width: 900px;
+            height: 900px;
+            left: 50%;
+            top: 55%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(255, 204, 0, 0.20) 0%, rgba(255, 204, 0, 0.08) 25%, rgba(255, 204, 0, 0.02) 50%, transparent 70%);
+            pointer-events: none;
+            animation: halo 4s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes halo {
+            0%   { transform: translate(-50%, -50%) scale(0.90); opacity: 0.65; }
+            50%  { transform: translate(-50%, -50%) scale(1.10); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(0.90); opacity: 0.65; }
+        }
+
+        /* TITRE "SELFIES WIN" */
+        .title-container {
+            position: fixed;
+            top: 14px;
+            left: 0;
+            width: 100%;
+            height: 88px;
+            z-index: 1000;
+            text-align: center;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .partner-title {
+            position: relative;
+            font-family: "Barlow Condensed", sans-serif;
+            font-size: clamp(42px, 6vw, 82px);
+            font-weight: 900;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
+            color: var(--white);
+            text-align: center;
+            white-space: nowrap;
+            text-shadow:
+                4px 4px 0 var(--black),
+                7px 7px 0 var(--yellow),
+                11px 11px 0 rgba(237, 23, 76, 0.9),
+                15px 15px 0 rgba(23, 105, 255, 0.5);
+        }
+
+        .slash {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-7deg);
+            width: min(68vw, 880px);
+            height: 18px;
+            background: linear-gradient(90deg, transparent, var(--blue) 12%, var(--yellow) 35%, var(--white) 50%, var(--yellow) 65%, var(--red) 88%, transparent);
+            box-shadow: 0 0 40px rgba(23, 105, 255, 0.45);
+            z-index: -1;
+        }
+
+        /* CONTENEUR DE LA GALERIE */
+        #gallery-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        /* STYLE DES CARTES FLOTTANTES (INSPIRÉ DES CARTES JOUEURS) */
+        .floating-card {
+            position: absolute;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0;
+            will-change: transform, left, top, opacity;
+            background: linear-gradient(145deg, rgba(35, 35, 35, 0.96), rgba(5, 5, 5, 0.98));
+            border: 2px solid rgba(255, 255, 255, 0.75);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.22), 0 18px 38px rgba(0, 0, 0, 0.85);
+            transition:
+                opacity 1.2s ease-in-out,
+                transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.4s ease,
+                border-color 0.4s ease;
+        }
+
+        /* Image réelle si chargée depuis GitHub */
+        .floating-card img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            pointer-events: none;
+        }
+
+        /* Effet au survol ou au tap : arrêt, redressement, agrandissement et halo doré */
+        .floating-card:hover,
+        .floating-card.is-active {
+            opacity: 1 !important;
+            transform: scale(1.32) rotate(0deg) !important;
+            z-index: 9999 !important;
+            border-color: var(--yellow);
+            box-shadow: 0 0 24px rgba(255, 212, 0, 0.85), 0 0 55px rgba(255, 212, 0, 0.45);
+        }
+
+        /* Motifs décoratifs pour les fenêtres de démonstration */
+        .card-placeholder {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: radial-gradient(circle at top right, rgba(255, 212, 0, 0.14), transparent 60%);
+        }
+
+        .card-art {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.35;
+            color: var(--yellow);
+        }
+
+        .card-badge {
+            font-family: "Barlow Condensed", sans-serif;
+            font-weight: 800;
+            font-size: 13px;
+            letter-spacing: 0.04em;
+            color: var(--yellow);
+            text-shadow: 0 0 8px rgba(255, 212, 0, 0.6);
+        }
+
+        .card-label {
+            font-family: "Barlow Condensed", sans-serif;
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: 0.02em;
+            color: var(--white);
+            text-transform: uppercase;
+        }
+
+        .card-sub {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* BARRE LUMINEUSE JAUNE EN BAS DE L'ÉCRAN */
+        .light-line {
+            position: fixed;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 65%;
+            height: 3px;
+            background: var(--yellow);
+            box-shadow: 0 0 10px var(--yellow), 0 0 25px var(--yellow), 0 0 50px var(--yellow);
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        /* ADAPTATION MOBILE */
+        @media (max-width: 600px) {
+            .title-container { height: 70px; top: 8px; }
+            .partner-title { font-size: clamp(32px, 9.5vw, 52px); }
+            .slash { height: 11px; width: 82vw; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TITRE STYLE MVBC -->
+    <div class="title-container">
+        <div class="slash"></div>
+        <h1 class="partner-title">SELFIES WIN</h1>
+    </div>
+
+    <!-- CONTENEUR DES CARTES FLOTTANTES (MAX 8 SIMULTANÉES) -->
+    <main id="gallery-container"></main>
+
+    <!-- BARRE LUMINEUSE BASSE -->
+    <div class="light-line"></div>
+
+    <script>
+        /**
+         * =========================================================================
+         * 1. CONFIGURATION GITHUB (OPTIONNEL : LAISSER TEL QUEL POUR LA DÉMO)
+         * =========================================================================
+         * Renseigne ton pseudo, ton dépôt public et ton dossier pour charger tes 50
+         * vraies photos. Si le dépôt n'est pas configuré ou inaccessible, la galerie
+         * bascule automatiquement sur les 50 fenêtres stylisées de démonstration.
+         */
+        const GITHUB_CONFIG = {
+            user: 'mvbc85600',   // Ex: 'octocat'
+            repo: 'logo',    // Ex: 'selfies-mvbc'
+            folder: ''             // Ex: 'photos' (ou '' si à la racine)
+        };
+
+        /**
+         * =========================================================================
+         * 2. PARAMÈTRES DE DIFFUSION (7 À 8 IMAGES MAX SIMULTANÉMENT)
+         * =========================================================================
+         */
+        const POOL_SIZE = 50;             // Taille totale du réservoir d'images
+        const MAX_VISIBLE_CARDS = 8;      // Nombre maximum de fenêtres affichées en même temps
+        const SPAWN_INTERVAL_MS = 1400;   // Cadence d'apparition progressive (ms)
+
+        const container = document.getElementById('gallery-container');
+        let mediaPool = [];               // Réservoir des 50 éléments
+        let activeCards = [];             // Cartes actuellement visibles à l'écran
+        let recentIndices = [];           // Mémoire pour éviter de répéter les mêmes images trop vite
+
+        // Motifs géométriques légers pour la démonstration
+        const abstractPatterns = [
+            `<svg viewBox="0 0 100 100" class="w-full h-full"><circle cx="80" cy="20" r="45" fill="currentColor" fill-opacity="0.16"/><circle cx="20" cy="85" r="28" fill="currentColor" fill-opacity="0.1"/></svg>`,
+            `<svg viewBox="0 0 100 100" class="w-full h-full"><path d="M0 100 L100 0 L100 100 Z" fill="currentColor" fill-opacity="0.12"/></svg>`,
+            `<svg viewBox="0 0 100 100" class="w-full h-full"><rect x="14" y="14" width="72" height="72" rx="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-opacity="0.2"/></svg>`,
+            `<svg viewBox="0 0 100 100" class="w-full h-full"><circle cx="50" cy="50" r="34" stroke="currentColor" stroke-width="7" stroke-dasharray="14 10" fill="none" stroke-opacity="0.16"/></svg>`
+        ];
+
+        /**
+         * Charge les images depuis GitHub ou génère le réservoir de 50 fenêtres de démo
+         */
+        async function buildMediaPool() {
+            const isConfigured = GITHUB_CONFIG.user !== 'ton-pseudo-github' && GITHUB_CONFIG.repo !== 'nom-de-ton-depot';
+
+            if (isConfigured) {
+                try {
+                    const apiUrl = `https://api.github.com/repos/${GITHUB_CONFIG.user}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.folder}`;
+                    const response = await fetch(apiUrl);
+                    if (response.ok) {
+                        const files = await response.json();
+                        const validExt = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+                        const urls = files
+                            .filter(f => f.type === 'file' && validExt.some(ext => f.name.toLowerCase().endsWith(ext)))
+                            .map((f, idx) => ({
+                                id: idx + 1,
+                                type: 'image',
+                                url: f.download_url,
+                                label: f.name
+                            }));
+
+                        if (urls.length > 0) {
+                            mediaPool = urls.slice(0, POOL_SIZE);
+                            return;
+                        }
+                    }
+                } catch (err) {
+                    console.warn("Basculement en mode démonstration :", err);
+                }
+            }
+
+            // Réservoir par défaut : 50 fenêtres stylisées
+            mediaPool = Array.from({ length: POOL_SIZE }, (_, i) => ({
+                id: i + 1,
+                type: 'demo',
+                label: `SELFIE #${String(i + 1).padStart(2, '0')}`,
+                pattern: abstractPatterns[i % abstractPatterns.length]
+            }));
+        }
+
+        /**
+         * Sélectionne un élément aléatoire dans le réservoir sans répétition immédiate
+         */
+        function pickRandomMedia() {
+            const available = mediaPool.filter((_, idx) => !recentIndices.includes(idx));
+            const source = available.length > 0 ? available : mediaPool;
+            const chosenItem = source[Math.floor(Math.random() * source.length)];
+            const chosenIndex = mediaPool.indexOf(chosenItem);
+
+            recentIndices.push(chosenIndex);
+            if (recentIndices.length > 16) {
+                recentIndices.shift();
+            }
+
+            return chosenItem;
+        }
+
+        /**
+         * Crée et fait apparaître une nouvelle carte flottante à l'écran
+         */
+        function spawnCard() {
+            if (activeCards.length >= MAX_VISIBLE_CARDS || mediaPool.length === 0) return;
+
+            const item = pickRandomMedia();
+            const winW = window.innerWidth;
+            const winH = window.innerHeight;
+            const isMobile = winW < 640;
+
+            // Taille variée pour créer un effet de profondeur (parallaxe)
+            const minSize = isMobile ? 115 : 155;
+            const maxVariance = isMobile ? 65 : 115;
+            const width = Math.floor(Math.random() * maxVariance) + minSize;
+            const aspectRatio = [0.8, 0.9, 1, 1.15, 1.25][Math.floor(Math.random() * 5)];
+            const height = Math.floor(width * aspectRatio);
+
+            const cardEl = document.createElement('div');
+            cardEl.className = 'floating-card';
+            cardEl.style.width = `${width}px`;
+            cardEl.style.height = `${height}px`;
+            cardEl.style.zIndex = width; // Les plus grandes cartes passent au premier plan
+
+            if (item.type === 'image') {
+                const img = document.createElement('img');
+                img.src = item.url;
+                img.alt = item.label;
+                cardEl.appendChild(img);
+            } else {
+                const num = String(item.id).padStart(2, '0');
+                cardEl.innerHTML = `
+                    <div class="card-placeholder">
+                        <div class="card-art">${item.pattern}</div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; position:relative; z-index:2;">
+                            <span class="card-badge">#${num}</span>
+                            <span style="width:7px; height:7px; border-radius:50%; background:var(--yellow); box-shadow:0 0 8px var(--yellow);"></span>
+                        </div>
+                        <div style="position:relative; z-index:2;">
+                            <div class="card-label">${item.label}</div>
+                            <div class="card-sub">MVBC • LIVE</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Position initiale aléatoire en évitant le bandeau du titre en haut
+            const topSafeMargin = isMobile ? 85 : 115;
+            const x = Math.random() * Math.max(20, winW - width - 20) + 10;
+            const y = Math.random() * Math.max(20, winH - height - topSafeMargin - 20) + topSafeMargin;
+
+            // Vitesse douce proportionnelle à la taille (parallaxe)
+            const speedFactor = (width / (minSize + maxVariance)) * 0.75 + 0.35;
+            const angle = Math.random() * Math.PI * 2;
+
+            const cardObj = {
+                el: cardEl,
+                x: x,
+                y: y,
+                width: width,
+                height: height,
+                vx: Math.cos(angle) * speedFactor,
+                vy: Math.sin(angle) * speedFactor,
+                rotation: (Math.random() - 0.5) * 24,
+                vRot: (Math.random() - 0.5) * 0.06,
+                isHovered: false,
+                isFadingOut: false,
+                // Durée de vie aléatoire entre 7 et 12 secondes avant disparition en fondu
+                lifeRemaining: (Math.random() * 5 + 7) * 60
+            };
+
+            cardEl.style.left = `${x}px`;
+            cardEl.style.top = `${y}px`;
+            cardEl.style.transform = `rotate(${cardObj.rotation}deg)`;
+
+            // Interactions souris et tactile
+            cardEl.addEventListener('mouseenter', () => {
+                cardObj.isHovered = true;
+            });
+            cardEl.addEventListener('mouseleave', () => {
+                cardObj.isHovered = false;
+            });
+            cardEl.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const wasActive = cardEl.classList.contains('is-active');
+                activeCards.forEach(c => {
+                    c.el.classList.remove('is-active');
+                    c.isHovered = false;
+                });
+                if (!wasActive) {
+                    cardEl.classList.add('is-active');
+                    cardObj.isHovered = true;
+                }
+            });
+
+            container.appendChild(cardEl);
+            activeCards.push(cardObj);
+
+            // Déclenche le fondu d'apparition au prochain cycle de rendu
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    if (!cardObj.isFadingOut) {
+                        cardEl.style.opacity = '1';
+                    }
+                });
+            });
+        }
+
+        /**
+         * Fait disparaître une carte en douceur puis la retire du DOM
+         */
+        function removeCard(cardObj) {
+            if (cardObj.isFadingOut) return;
+            cardObj.isFadingOut = true;
+            cardObj.el.style.opacity = '0';
+
+            setTimeout(() => {
+                if (cardObj.el.parentNode) {
+                    cardObj.el.parentNode.removeChild(cardObj.el);
+                }
+                activeCards = activeCards.filter(c => c !== cardObj);
+            }, 1200);
+        }
+
+        /**
+         * Boucle d'animation continue (60 FPS)
+         */
+        function animate() {
+            const winW = window.innerWidth;
+            const winH = window.innerHeight;
+            const topLimit = winW < 640 ? 75 : 100;
+
+            for (let i = activeCards.length - 1; i >= 0; i--) {
+                const c = activeCards[i];
+
+                if (!c.isHovered) {
+                    c.x += c.vx;
+                    c.y += c.vy;
+                    c.rotation += c.vRot;
+                    c.lifeRemaining--;
+
+                    // Rebond doux sur les bordures de l'écran (et sous le titre)
+                    if (c.x <= 10) {
+                        c.x = 10;
+                        c.vx *= -1;
+                    } else if (c.x + c.width >= winW - 10) {
+                        c.x = winW - 10 - c.width;
+                        c.vx *= -1;
+                    }
+
+                    if (c.y <= topLimit) {
+                        c.y = topLimit;
+                        c.vy *= -1;
+                    } else if (c.y + c.height >= winH - 12) {
+                        c.y = winH - 12 - c.height;
+                        c.vy *= -1;
+                    }
+
+                    c.el.style.left = `${c.x}px`;
+                    c.el.style.top = `${c.y}px`;
+                    c.el.style.transform = `rotate(${c.rotation}deg)`;
+
+                    // Fin de cycle : la carte s'efface pour laisser place à une autre
+                    if (c.lifeRemaining <= 0 && !c.isFadingOut) {
+                        removeCard(c);
+                    }
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // Désélectionner une carte active sur mobile en touchant le fond
+        document.addEventListener('click', () => {
+            activeCards.forEach(c => {
+                c.el.classList.remove('is-active');
+                c.isHovered = false;
+            });
+        });
+
+        // Initialisation au chargement complet de la page
+        window.onload = async function () {
+            await buildMediaPool();
+
+            // Apparition échelonnée des 8 premières cartes pour un démarrage fluide
+            for (let i = 0; i < MAX_VISIBLE_CARDS; i++) {
+                setTimeout(() => spawnCard(), i * 350);
+            }
+
+            // Maintien permanent de 7 à 8 cartes actives à l'écran
+            setInterval(() => {
+                if (activeCards.length < MAX_VISIBLE_CARDS) {
+                    spawnCard();
+                }
+            }, SPAWN_INTERVAL_MS);
+
+            animate();
+        };
+    </script>
+</body>
+</html>
